@@ -138,7 +138,7 @@ class HomeHTML extends HTMLTemplate
 
     protected function addDashboard()
     {
-        $tag = "";
+        $tag = "<p>#Home page article block</p>";
         /*$tag  = "<!-- Main Article-->" . $this->EOF_LINE;
         $tag .= "<div class=\"clear\">" . $this->EOF_LINE;
         $tag .= "    <div id=\"main-article-container\">" . $this->EOF_LINE;
