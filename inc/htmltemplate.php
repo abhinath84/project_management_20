@@ -521,13 +521,13 @@ class SPRTrackingHTML extends HTMLTemplate
                             $Table->td(getGreppyDotTag(), "{$row[0]}-greppy", "hasGrippy", "text-align:center;");
                             $Table->td(getSPRString($row[1], $row[0]), "{$row[0]}-spr-no", null, null, "width=\"12%\"");
                             $Table->td("{$row[1]}", "{$row[0]}-type", null, null, "width=\"10%\"");
-                            $Table->td("{$row[2]}", "{$row[0]}-status", null, "background-color:" . getSPRTrackingStatusColor($row[2]) . ";", "width=\"15%\"");
-                            $Table->td("{$row[3]}", "{$row[0]}-build-version", null, null, "width=\"12%\"");
-                            $Table->td("{$row[4]}", "{$row[0]}-commit-build", null, null, "width=\"12%\"");
-                            $Table->td("{$row[5]}", "{$row[0]}-respond-by", null, null, "width=\"12%\"");
-                            $Table->td(shortDescription($row[6], 25), "{$row[0]}-comment");
+                            $Table->td("{$row[2]}", "{$row[0]}-status", null, "background-color:" . getSPRTrackingStatusColor($row[2]) . ";", "width=\"15%\"", "ondblclick=\"javascript:showSPREditTag('" . $row[0] . "-status', 'select', true)\"");
+                            $Table->td("{$row[3]}", "{$row[0]}-build-version", null, null, "width=\"12%\"", "ondblclick=\"javascript:showSPREditTag('" . $row[0] . "-build-version', 'input', true)\"");
+                            $Table->td("{$row[4]}", "{$row[0]}-commit-build", null, null, "width=\"12%\"", "ondblclick=\"javascript:showSPREditTag('" . $row[0] . "-commit-build', 'input', true)\"");
+                            $Table->td("{$row[5]}", "{$row[0]}-respond-by", null, null, "width=\"12%\""," ondblclick=\"javascript:showSPREditTag('" . $row[0] . "-respond-by', 'input', true)\"");
+                            $Table->td(shortDescription($row[6], 25), "{$row[0]}-comment", null, null, null, "ondblclick=\"javascript:showSPREditTag('" . $row[0] . "-comment', 'textarea', true)\"                                                                               onmouseover=\"javascript:showFullComment('" . $row[0] . "', true)\"                                                                                onblur=\"javascript:showFullComment('" . $row[0] . "', false)\"");
                             $Table->td("{$row[6]}", "{$row[0]}-comment-full", null, "display: none;");
-                            $Table->td("{$row[7]}", "{$row[0]}-session", null, null, "width=\"8%\"");
+                            $Table->td("{$row[7]}", "{$row[0]}-session", null, null, "width=\"8%\"", "ondblclick=\"javascript:showSPREditTag('" . $row[0] . "-session', 'input', true)\"");
                             //$Table->td(getQuickActionBtn("{$row[0]}-edit-btn", "spr-tracking-tbl-td-btn", "spr-tracking-dashboard-table-dropdown"), "{$row[0]}-edit", null, null, "width=\"2%\"");
                     }
 
