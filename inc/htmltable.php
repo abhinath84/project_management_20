@@ -185,9 +185,9 @@
         public function setComponent($comp)    { if($comp != null) $this->_comp = $comp; }
         public function getComponent()         { return($this->_comp); }
 
-        public function addCell($val=null, $id=null, $class=null, $attribute=null, $event=null)
+        public function addCell($val=null, $id=null, $class=null, $style=null, $attribute=null, $event=null)
         {
-            $this->_td[$this->_node_id++] = new TD($val, $id, $class, $attribute, $event);
+            $this->_td[$this->_node_id++] = new TD($val, $id, $class, $style, $attribute, $event);
         }
 
         public function getCell($i) { return ((count($this->_td) > $i) ? $this->_td[$i] : null); }
@@ -248,10 +248,10 @@
 
         public function getRow($i) { return ((count($this->_tr) > $i) ? $this->_tr[$i] : null); }
 
-        public function addCell($val=null, $id=null, $class=null, $attribute=null, $event=null)
+        public function addCell($val=null, $id=null, $class=null, $style=null, $attribute=null, $event=null)
         {
             $i = $this->_row_id -1 ;
-            $this->_tr[$i]->addCell($val, $id, $class, $attribute, $event);
+            $this->_tr[$i]->addCell($val, $id, $class, $style, $attribute, $event);
         }
 
         public function getCell($r, $c) { return((count() > $r) ? $this->_tr[$r]->getCell($c) : null); }
