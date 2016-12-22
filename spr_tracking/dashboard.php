@@ -23,8 +23,9 @@
         <meta charset="utf-8" />
         <title>PTC Project Management</title>
         <link rel="stylesheet" type="text/css" href="../css/retro_style.css">
+        <link rel="stylesheet" type="text/css" href="../css/grippy_table.css">
         <link rel="stylesheet" type="text/css" href="../css/global.css">
-        <link rel="stylesheet" type="text/css" href="../css/product_backlog.css">
+        <link rel="stylesheet" type="text/css" href="../css/spr_tracking_dashboard.css">
         <script type="text/javascript" src="../js/jquery-2.1.3.min.js"></script>
         <script type="text/javascript" src="../js/stupidtable.min.js?dev"></script>
         <script type="text/javascript" src="../js/functions.js"></script>

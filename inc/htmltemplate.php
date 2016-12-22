@@ -498,7 +498,7 @@ class SPRTrackingHTML extends HTMLTemplate
         $rows = $conn->result_fetch_array($qry);
         if(!empty($rows))
         {
-            $Table = new HTMLTable("spr-tracking-dashboard-table", "grippy-table sprint-taskboard-table");
+            $Table = new HTMLTable("spr-tracking-dashboard-table", "grippy-table spr-tracking-dashboard-table");
                 // add table header
                 $Table->thead("spr-tracking-dashboard-thead");
                     $Table->th("&nbsp;", null, null, null, null);
@@ -519,7 +519,7 @@ class SPRTrackingHTML extends HTMLTemplate
                     {
                         $Table->tr(null, null, null, "align=\"center\"");
                             $Table->td(getGreppyDotTag(), "{$row[0]}-greppy", "hasGrippy", "text-align:center;");
-                            $Table->td("<a href=\"#\">" . getSPRString($row[1], $row[0]) . "</a>", "{$row[0]}-spr-no", null, null, "width=\"12%\"");
+                            $Table->td(getSPRString($row[1], $row[0]), "{$row[0]}-spr-no", null, null, "width=\"12%\"");
                             $Table->td("{$row[1]}", "{$row[0]}-type", null, null, "width=\"10%\"");
                             $Table->td("{$row[2]}", "{$row[0]}-status", null, "background-color:" . getSPRTrackingStatusColor($row[2]) . ";", "width=\"15%\"");
                             $Table->td("{$row[3]}", "{$row[0]}-build-version", null, null, "width=\"12%\"");

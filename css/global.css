@@ -195,6 +195,48 @@ body {
     border-right: 1px solid currentColor;
 }
 
+/************ Style for fixed header table **********/
+.fixed{
+  top:0;
+  left: 0;
+  position:fixed;
+  width:auto;
+  display:none;
+  border:none;
+  background-color: white;
+}
+
+.fixed thead tr th {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+
+/************ Style for dropdown option for button with dropdown option **********/
+.dropdown-content {
+    display: none;
+    max-width: 200px;
+    position: absolute;
+    background-color: white;
+    right: 15px;
+    border: 1px solid black;
+}
+
+ .dropdown-content a {
+    color: black;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+    padding-left: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+ .dropdown-content a:hover {
+    background-color: black;
+    color: white;
+}
+
 /*********************************
             Header Block
 **********************************/
@@ -522,12 +564,8 @@ body {
 
 
 
-.article .spr-tracking-dashboard {
-    margin-top: 40px;
-    margin-bottom: 40px;
-}
 
-.session-dropdown {
+/*.session-dropdown {
     display: none;
     max-width: 100px;
     position: absolute;
@@ -551,65 +589,4 @@ body {
     background-color: black;
     color: white;
     cursor: pointer;
-}
-
-.spr-tracking-menu-container {
-    margin-top: 25px;
-    margin-bottom: 35px;
-}
-
-.session-btn {
-    display: inline-block;
-    margin-left: 15px;
-}
-
-button.retro-style.green.add-spr {
-    margin-right: 15px;
-}
-
-.retro-style.session-select {
-    border-color: #00a9e0;
-    padding: 0 10px;
-}
-
-.retro-style.session-select:hover {
-    background-color: #00a9e0;
-    color: white;
-}
-
-.retro-style.session-select:focus {
-    outline: none;
-}
-
-.retro-style.session-select option {
-    background-color:white;
-    color: black;
-}
-
-.spr-tracking-table thead tr th,
-.spr-tracking-table tbody tr td {
-    text-align: center;
-}
-
-.spr-tracking-table-container{
-    margin-top: 20px;
-}
-
-.fixed{
-  top:0;
-  left: 0;
-  position:fixed;
-  width:auto;
-  display:none;
-  border:none;
-  background-color: white;
-}
-
-.fixed thead tr th {
-    padding-top: 10px;
-    padding-bottom: 10px;
-}
-
-.spr-tracking-tbl-td-btn {
-    display: none;
-}
+}*/
