@@ -40,12 +40,12 @@
     */
     function addSelectTag($id, $caption, $options, $event)
     {
-        $tag = '<div class="form-element" id="'.$id.'-form-element">
+        $tag = '<div class="retro-style-form-element" id="'.$id.'-form-element">
                 <label id="'.$id.'-label">
                 <strong id="'.$id.'Label">'.$caption.'</strong>
                 </label>
                 <div id="'.$id.'Holder" >
-                <select id="'.$id.'-select" name="'.$id.'"';
+                <select id="'.$id.'-select" class="retro-style" name="'.$id.'"';
 
         if($event !="")
             $tag .= ' '.$event;
@@ -58,7 +58,7 @@
 
         $tag .= '</select>
                 </div>
-                <div class="errmsg" id="'.$id.'-errmsg"></div>
+                <div class="retro-style-errmsg" id="'.$id.'-errmsg"></div>
                 </div>'."\n";
 
         return($tag);

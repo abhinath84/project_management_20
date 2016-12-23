@@ -1,36 +1,18 @@
+<!--
+	File	: profile.php
+	Author	: Abhishek Nath
+	Date	: 01-Jan-2015
+	Desc	: Page for user profile.
+-->
+
+<!--
+	01-Jan-15   V1-01-00   abhishek   $$1   Created.
+	17-Jul-15   V1-01-00   abhishek   $$2   File header comment added.
+-->
+
 <?php
 	/*ini_set('display_errors', 'On');
 	error_reporting(E_ALL);*/
-	
-	$imagesPath = "../images";
-	
-    $homeURL = "../index.php";
-	
-	$sprTrackingDashboardURL = "../spr_tracking/dashboard.php";
-	$sprTrackingNewSPRURL = "../spr_tracking/entry.php";
-	$sprTrackingSearchURL = "../spr_tracking/search.php";
-	$sprTrackingSubmitStatusURL = "../spr_tracking/submit_status.php";
-	
-	$scrumDashboardURL = "../scrum/dashboard.php";
-    $scrumSearchURL = "../scrum/search.php";
-    $sprintDashboardURL = "../sprint/dashboard.php";
-	$sprintSearchURL = "../sprint/search.php";
-	
-	$workTrackerDashboardURL = "../work_tracker/dashboard.php";
-	
-    $aboutURL = "#";
-    $contactURL = "";
-    $profileURL = "";
-    
-    $logoutURL = "../result.php?action=logout";
-    $loginURL = "user/login.php";
-    $signinURL = "user/signUp.php";
-	$changePasswordURL = "";
-	
-    $copyrightURL = "../about/about_copyright.php";
-    $privacyURL = "../about/about_privacy.php";
-    
-    
 
     require_once ('../inc/functions.inc.php');
     require_once ('../inc/mysql_functions.inc.php');
@@ -58,12 +40,12 @@
 			  scrollTop: 0
 		   }, 2000);
 		 });
-		});	
+		});
 		</script>
     </head>
     <body>
 		<?php
-			echo addHeader_new("Sign Up", false);
+			echo addHeader("Sign Up", false, "user");
 		?>
         <div id="wrapper" class="wrapper">
             <?php
@@ -71,7 +53,7 @@
             ?>
             <div class="clear" style="padding-top:20px">
 				<?php
-					echo addFooter();
+					echo addFooter("user");
 				?>
 			</div>
         </div>

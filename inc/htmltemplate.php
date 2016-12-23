@@ -912,7 +912,7 @@ $tag .='</g>
     }
 }
 
-class UserLoginHTML extends HTMLTemplate
+class LoginHTML extends HTMLTemplate
 {
     public function __construct($curNav = null, $curDir = null, $enableNav = false)
     {
@@ -928,22 +928,79 @@ class UserLoginHTML extends HTMLTemplate
         $tag .= '        <form id="login-form" class="login-form" method="post">' . $this->EOF_LINE;
         $tag .= '            <input type="hidden" name="page" id="page" value="login" class="retro-style">' . $this->EOF_LINE;
         $tag .= '            <input type="hidden" name="redirect" id="redirect" value=' . (isset($_GET['redirect']) ? $_GET['redirect'] : '') . '>' . $this->EOF_LINE;
-        $tag .= addInputTag('input', 'text', 'username', 'Username', '', '') . $this->EOF_LINE;
-        $tag .= addInputTag('input', 'password', 'password', 'Password', '', '') . $this->EOF_LINE;
+        $tag .=              addInputTag('input', 'text', 'username', 'Username', '', '') . $this->EOF_LINE;
+        $tag .=              addInputTag('input', 'password', 'password', 'Password', '', '') . $this->EOF_LINE;
         $tag .= '            <div class="retro-style-form-element">' . $this->EOF_LINE;
-        $tag .= '                <input id="signIn" name="signIn" type="submit" value="Sign in" class="retro-style blue" style="width: 150px; height:35px; margin-top: 20px;">' . $this->EOF_LINE;
+        $tag .= '                <input id="signIn" name="signIn" type="submit" value="Sign in" class="retro-style blue">' . $this->EOF_LINE;
         $tag .= '            </div>' . $this->EOF_LINE;
         $tag .= '        </form>' . $this->EOF_LINE;
         $tag .= '        <span><a id="link-forgot-passwd" href="recovery.php">Can&#39;t access your account?</a></span>' . $this->EOF_LINE;
         $tag .= '    </div>' . $this->EOF_LINE;
-        $tag .= '</div>';
-        $tag .= '<div id="signup-nav display-table-cell">
-            <div id="signup-nav-sub">
-                <h3>Don\'t have an account?</h3>
-                <p><a href="signUp.php">Sign up</a> today.</p>
-            </div>
-        </div>';
-        $tag .='</div>';
+        $tag .= '</div>' . $this->EOF_LINE;
+        $tag .= '<div id="signup-nav display-table-cell">' . $this->EOF_LINE;
+        $tag .= '    <div id="signup-nav-sub">' . $this->EOF_LINE;
+        $tag .= '        <h3>Don\'t have an account?</h3>' . $this->EOF_LINE;
+        $tag .= '        <p><a href="signUp.php">Sign up</a> today.</p>' . $this->EOF_LINE;
+        $tag .= '    </div>' . $this->EOF_LINE;
+        $tag .= '</div>' . $this->EOF_LINE;
+        $tag .='</div>' . $this->EOF_LINE;
+
+        return($tag);
+    }
+}
+
+class SignupHTML extends HTMLTemplate
+{
+    public function __construct($curNav = null, $curDir = null, $enableNav = false)
+    {
+        parent::__construct("Sign Up", "user");
+    }
+
+    protected function addDashboard()
+    {
+        $tag = '';
+        $tag .= '<div id="signup-main" class="signup-main display-table">' . $this->EOF_LINE;
+
+        $tag .= '<div class="signup display-table-cell">' . $this->EOF_LINE;
+        $tag .= '    <h3>Sign Up</h3>' . $this->EOF_LINE;
+        $tag .= '    <form class="createaccount-form" id="createaccount" name="createaccount" method="post">' . $this->EOF_LINE;
+        $tag .= '        <input class="retro-style" type="hidden" name="page" id="page" value="signup">' . $this->EOF_LINE;
+        $tag .= '        <div class="retro-style-form-element multi-field name" id="name-form-element">' . $this->EOF_LINE;
+        $tag .= '            <fieldset>' . $this->EOF_LINE;
+        $tag .= '                <legend><strong>Name</strong></legend>' . $this->EOF_LINE;
+        $tag .= '                <label id="firstname-label" class="firstname">' . $this->EOF_LINE;
+        $tag .= '                    <strong>First name</strong>' . $this->EOF_LINE;
+        $tag .= '                    <input type="text" value="" class="retro-style" name="firstName" id="firstName-input" onblur="javascript:showErrorMsg(\'firstName\', \'input\', \'name\')" placeholder="First" spellcheck="false">' . $this->EOF_LINE;
+        $tag .= '                </label>' . $this->EOF_LINE;
+        $tag .= '                <label id="lastname-label" class="lastname">' . $this->EOF_LINE;
+        $tag .= '                    <strong>Last name</strong>' . $this->EOF_LINE;
+        $tag .= '                    <input type="text" class="retro-style" value="" name="lastName" id="lastName-input" onblur="javascript:showErrorMsg(\'lastName\', \'input\', \'name\')" placeholder="Last" spellcheck="false">' . $this->EOF_LINE;
+        $tag .= '                </label>' . $this->EOF_LINE;
+        $tag .= '            </fieldset>' . $this->EOF_LINE;
+        $tag .= '            <div class="retro-style-errmsg" id="name-errmsg"></div>' . $this->EOF_LINE;
+        $tag .= '        </div>' . $this->EOF_LINE;
+        $tag .= addInputTag('input', 'text', 'username', 'Choose your username', 'onblur="javascript:showErrorMsg(\'username\', \'input\', \'\')"', "");
+        $tag .= addInputTag('input', 'password', 'password', 'Create a password', 'onblur="javascript:showErrorMsg(\'password\', \'input\', \'\')"', "");
+        $tag .= addInputTag('input', 'password', 'confirm-password', 'Confirm your password', 'onblur="javascript:showErrorMsg(\'confirm-password\', \'input\', \'\')"', "");
+        $tag .= addGenderTag('onblur="javascript:showErrorMsg(\'gender\', \'select\', \'\')"');
+        $tag .= addTitleTag('onblur="javascript:showErrorMsg(\'title\', \'select\', \'\')"');
+        $tag .= addDepertmentTag('onblur="javascript:showErrorMsg(\'department\', \'select\', \'\')"');
+        $tag .= addInputTag('input', 'text', 'manager', 'Manager', 'onblur="javascript:showErrorMsg(\'manager\', \'input\', \'\')"', "");
+        $tag .= addInputTag('input', 'text', 'email', 'Your current email address', 'onblur="javascript:showErrorMsg(\'email\', \'input\', \'\')"', "");
+        $tag .= addInputTag('input', 'text', 'altEmail', 'Your alternative email address(optional)', '', "");
+        $tag .= '        <div class="retro-style-form-element">' . $this->EOF_LINE;
+        $tag .= '            <input id="submitbutton" name="submitbutton" type="submit" value="Submit" class="retro-style blue">' . $this->EOF_LINE;
+        $tag .= '        </div>' . $this->EOF_LINE;
+        $tag .= '    </form>' . $this->EOF_LINE;
+        $tag .= '</div>' . $this->EOF_LINE;
+
+        $tag .= '   <div id="login-nav" class="login display-table-cell">' . $this->EOF_LINE;
+        $tag .= '       <div id="login-nav-sub">' . $this->EOF_LINE;
+        $tag .= '           <h3>Have an Account?</h3>' . $this->EOF_LINE;
+        $tag .= '           <p>If you already have a password, please <a href="login.php">Login</a>.</p>' . $this->EOF_LINE;
+        $tag .= '       </div>' . $this->EOF_LINE;
+        $tag .= '   </div>' . $this->EOF_LINE;
+        $tag .= '</div>' . $this->EOF_LINE;
 
         return($tag);
     }
