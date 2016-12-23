@@ -6,6 +6,7 @@
         private $sprTrackingDashboardURL = "dashboard.php";
         private $sprTrackingSubmitStatusURL = "submit_status.php";
         private $sprTrackingReportURL = "report.php";
+        private $sprTrackingImportURL = "spr_import.php";
 
         private $scrumDir = "scrum";
         private $scrumBacklogURL = "product_plan_backlog.php";
@@ -162,106 +163,115 @@
                 $tag .= '        <div class="title display-table-cell">' . EOF_LINE;
                 $tag .= '            <h1>PROJECT MANAGEMENT</h1>' . EOF_LINE;
                 $tag .= '        </div>' . EOF_LINE;
-                $tag .= '        <div class="admin-nav display-table-cell">' . EOF_LINE;
-                $tag .= '            <ul>' . EOF_LINE;
 
-                if((isset($_SESSION['project-managment-username'])) && ($_SESSION['project-managment-username'] != ""))
+                if($enableNav == true)
                 {
-                    $fname = $cipherObj->decrypt(getItemFromTable("first_name", "user", "user_name = '".$_SESSION['project-managment-username']."'"));
-                    $lname = $cipherObj->decrypt(getItemFromTable("last_name", "user", "user_name = '".$_SESSION['project-managment-username']."'"));
+                    $tag .= '        <div class="admin-nav display-table-cell">' . EOF_LINE;
+                    $tag .= '            <ul>' . EOF_LINE;
 
-                    $tag .= '                <li><a href="'. $this->getNavURL($currentDir, $this->userDir, $this->adminURL) .'" target="_top">ADMIN</a></li>' . EOF_LINE;
+                    if((isset($_SESSION['project-managment-username'])) && ($_SESSION['project-managment-username'] != ""))
+                    {
+                        $fname = $cipherObj->decrypt(getItemFromTable("first_name", "user", "user_name = '".$_SESSION['project-managment-username']."'"));
+                        $lname = $cipherObj->decrypt(getItemFromTable("last_name", "user", "user_name = '".$_SESSION['project-managment-username']."'"));
+
+                        $tag .= '                <li><a href="'. $this->getNavURL($currentDir, $this->userDir, $this->adminURL) .'" target="_top">ADMIN</a></li>' . EOF_LINE;
+                        $tag .= '                <li>' . EOF_LINE;
+                        $tag .= '                    <a href="#" target="_top">'.$fname.' '.$lname.' &#9660;</a>' . EOF_LINE;
+                        $tag .= '                    <ul style="text-align: left;">' . EOF_LINE;
+                        $tag .= '                        <li><a href="'. $this->getNavURL($currentDir, $this->userDir, $this->profileURL) .'" target="_top">Profile</a></li>' . EOF_LINE;
+                        $tag .= '                        <li><a href="'. $this->getNavURL($currentDir, $this->userDir, $this->changePasswordURL) .'" target="_top">Change Password</a></li>' . EOF_LINE;
+                        $tag .= '                        <li><a href="'. $this->getNavURL($currentDir, $this->baseDir, $this->logoutURL) .'" target="_top">Logout</a></li>' . EOF_LINE;
+                        $tag .= '                    </ul>' . EOF_LINE;
+                        $tag .= '                </li>' . EOF_LINE;
+                    }
+                    else
+                    {
+                        $tag .= '                <li><a href="'. $this->getNavURL($currentDir, $this->userDir, $this->loginURL) .'" target="_top">Login</a></li>' . EOF_LINE . EOF_LINE;
+                        $tag .= '                <li><a href="'. $this->getNavURL($currentDir, $this->userDir, $this->signinURL) .'" target="_top">Sign Up</a></li>' . EOF_LINE;
+                    }
+
+                    $tag .= '                <li><a href="#" target="_top">HELP</a></li>' . EOF_LINE;
+                    $tag .= '            </ul>' . EOF_LINE;
+                    $tag .= '        </div>' . EOF_LINE;
+                }
+
+                $tag .= '    </div>' . EOF_LINE;
+
+                if($enableNav == true)
+                {
+                    $tag .= '    <div class="nav display-table">' . EOF_LINE;
+                    $tag .= '        <div class="main-nav display-table-row">' . EOF_LINE;
+                    $tag .= '            <ul class ="float-box-nav">' . EOF_LINE;
+                    $tag .= '                <li><a ' . ($selNav == "HOME" ? 'class="selected"' : '') . ' href="'. $this->getNavURL($currentDir, $this->baseDir, $this->homeURL) .'" target="_top">HOME</a></li>' . EOF_LINE;
                     $tag .= '                <li>' . EOF_LINE;
-                    $tag .= '                    <a href="#" target="_top">'.$fname.' '.$lname.' &#9660;</a>' . EOF_LINE;
-                    $tag .= '                    <ul style="text-align: left;">' . EOF_LINE;
-                    $tag .= '                        <li><a href="'. $this->getNavURL($currentDir, $this->userDir, $this->profileURL) .'" target="_top">Profile</a></li>' . EOF_LINE;
-                    $tag .= '                        <li><a href="'. $this->getNavURL($currentDir, $this->userDir, $this->changePasswordURL) .'" target="_top">Change Password</a></li>' . EOF_LINE;
-                    $tag .= '                        <li><a href="'. $this->getNavURL($currentDir, $this->baseDir, $this->logoutURL) .'" target="_top">Logout</a></li>' . EOF_LINE;
+                    $tag .= '                    <a ' . ((($selNav == "SPR Tracking-Dashboard") || ($selNav == "SPR Tracking-Submit Status") || ($selNav == "SPR Tracking-Report")) ? 'class="selected"' : '') . ' href="">SPR Tracking</a>' . EOF_LINE;
+                    $tag .= '                    <ul>' . EOF_LINE;
+                    $tag .= '                        <li><a ' . ($selNav == "SPR Tracking-Dashboard" ? 'class="selected"' : '') . ' href="'. $this->getNavURL($currentDir, $this->sprTrackingDir, $this->sprTrackingDashboardURL) .'" target="_top">Dashboard</a></li>' . EOF_LINE;
+                    $tag .= '                        <li><a ' . ($selNav == "SPR Tracking-Submit Status" ? 'class="selected"' : '') . ' href="'. $this->getNavURL($currentDir, $this->sprTrackingDir, $this->sprTrackingSubmitStatusURL) .'" target="_top">Submit Status</a></li>' . EOF_LINE;
+                    $tag .= '                        <li><a ' . ($selNav == "SPR Tracking-Report" ? 'class="selected"' : '') . ' href="'. $this->getNavURL($currentDir, $this->sprTrackingDir, $this->sprTrackingReportURL) .'" target="_top">Report</a></li>' . EOF_LINE;
                     $tag .= '                    </ul>' . EOF_LINE;
                     $tag .= '                </li>' . EOF_LINE;
-                }
-                else
-                {
-                    $tag .= '                <li><a href="'. $this->getNavURL($currentDir, $this->userDir, $this->loginURL) .'" target="_top">Login</a></li>' . EOF_LINE . EOF_LINE;
-                    $tag .= '                <li><a href="'. $this->getNavURL($currentDir, $this->userDir, $this->signinURL) .'" target="_top">Sign Up</a></li>' . EOF_LINE;
-                }
+                    $tag .= '                <li><a ' . ($selNav == "Work Tracker" ? 'class="selected"' : '') . ' href="'. $this->getNavURL($currentDir, $this->workTrackerDir, $this->workTrackerDashboardURL) .'" target="_top">Work Tracker</a></li>' . EOF_LINE;
+                    $tag .= '                <li>' . EOF_LINE;
+                    $tag .= '                    <a ' . ((($selNav == "Scrum-Product-Planning-Backlog") || ($selNav == "Scrum-Release-Planning") || ($selNav == "Scrum-Sprint-Planning") || ($selNav == "Scrum-Sprint-Tracking-Taskboard") || ($selNav == "Scrum-Sprint-Review")) ? 'class="selected"' : '') . ' href="">Scrum</a>' . EOF_LINE;
+                    $tag .= '                    <ul>' . EOF_LINE;
+                    $tag .= '                        <li><a ' . ($selNav == "Scrum-Product-Planning-Backlog" ? 'class="selected"' : '') . ' href="'. $this->getNavURL($currentDir, $this->scrumDir, $this->scrumBacklogURL) .'" target="_top">Product Planning</a></li>' . EOF_LINE;
+                    $tag .= '                        <li><a ' . ($selNav == "Scrum-Release-Planning" ? 'class="selected"' : '') . ' href="'. $this->getNavURL($currentDir, $this->scrumDir, $this->scrumReleasePlanURL) .'" target="_top">Release Planning</a></li>' . EOF_LINE;
+                    $tag .= '                        <li><a ' . ($selNav == "Scrum-Sprint-Planning" ? 'class="selected"' : '') . ' href="'. $this->getNavURL($currentDir, $this->scrumDir, $this->scrumSprintPlanURL) .'" target="_top">Sprint Planning</a></li>' . EOF_LINE;
+                    $tag .= '                        <li><a ' . ($selNav == "Scrum-Sprint-Tracking-Taskboard" ? 'class="selected"' : '') . ' href="'. $this->getNavURL($currentDir, $this->scrumDir, $this->scrumSprintTrackDetailedURL) .'" target="_top">Sprint Tracking</a></li>' . EOF_LINE;
+                    $tag .= '                        <li><a ' . ($selNav == "Scrum-Sprint-Review" ? 'class="selected"' : '') . ' href="'. $this->getNavURL($currentDir, $this->scrumDir, $this->scrumSprintReviewURL) .'" target="_top">Sprint Review</a></li>' . EOF_LINE;
+                    $tag .= '                    </ul>' . EOF_LINE;
+                    $tag .= '                </li>' . EOF_LINE;
+                    $tag .= '                <li><a href="'. $this->getNavURL($currentDir, $this->baseDir, $this->aboutURL) .'" target="_top">About</a></li>' . EOF_LINE;
+                    $tag .= '                <li><a href="'. $this->getNavURL($currentDir, $this->baseDir, $this->contactURL) .'" target="_top">Contact us</a></li>' . EOF_LINE;
+                    $tag .= '            </ul>' . EOF_LINE;
+                    $tag .= '        </div>' . EOF_LINE;
 
-                $tag .= '                <li><a href="#" target="_top">HELP</a></li>' . EOF_LINE;
-                $tag .= '            </ul>' . EOF_LINE;
-                $tag .= '        </div>' . EOF_LINE;
-                $tag .= '    </div>' . EOF_LINE;
-                $tag .= '    <div class="nav display-table">' . EOF_LINE;
-                $tag .= '        <div class="main-nav display-table-row">' . EOF_LINE;
-                $tag .= '            <ul class ="float-box-nav">' . EOF_LINE;
-                $tag .= '                <li><a ' . ($selNav == "HOME" ? 'class="selected"' : '') . ' href="'. $this->getNavURL($currentDir, $this->baseDir, $this->homeURL) .'" target="_top">HOME</a></li>' . EOF_LINE;
-                $tag .= '                <li>' . EOF_LINE;
-                $tag .= '                    <a ' . ((($selNav == "SPR Tracking-Dashboard") || ($selNav == "SPR Tracking-Submit Status") || ($selNav == "SPR Tracking-Report")) ? 'class="selected"' : '') . ' href="">SPR Tracking</a>' . EOF_LINE;
-                $tag .= '                    <ul>' . EOF_LINE;
-                $tag .= '                        <li><a ' . ($selNav == "SPR Tracking-Dashboard" ? 'class="selected"' : '') . ' href="'. $this->getNavURL($currentDir, $this->sprTrackingDir, $this->sprTrackingDashboardURL) .'" target="_top">Dashboard</a></li>' . EOF_LINE;
-                $tag .= '                        <li><a ' . ($selNav == "SPR Tracking-Submit Status" ? 'class="selected"' : '') . ' href="'. $this->getNavURL($currentDir, $this->sprTrackingDir, $this->sprTrackingSubmitStatusURL) .'" target="_top">Submit Status</a></li>' . EOF_LINE;
-                $tag .= '                        <li><a ' . ($selNav == "SPR Tracking-Report" ? 'class="selected"' : '') . ' href="'. $this->getNavURL($currentDir, $this->sprTrackingDir, $this->sprTrackingReportURL) .'" target="_top">Report</a></li>' . EOF_LINE;
-                $tag .= '                    </ul>' . EOF_LINE;
-                $tag .= '                </li>' . EOF_LINE;
-                $tag .= '                <li><a ' . ($selNav == "Work Tracker" ? 'class="selected"' : '') . ' href="'. $this->getNavURL($currentDir, $this->workTrackerDir, $this->workTrackerDashboardURL) .'" target="_top">Work Tracker</a></li>' . EOF_LINE;
-                $tag .= '                <li>' . EOF_LINE;
-                $tag .= '                    <a ' . ((($selNav == "Scrum-Product-Planning-Backlog") || ($selNav == "Scrum-Release-Planning") || ($selNav == "Scrum-Sprint-Planning") || ($selNav == "Scrum-Sprint-Tracking-Taskboard") || ($selNav == "Scrum-Sprint-Review")) ? 'class="selected"' : '') . ' href="">Scrum</a>' . EOF_LINE;
-                $tag .= '                    <ul>' . EOF_LINE;
-                $tag .= '                        <li><a ' . ($selNav == "Scrum-Product-Planning-Backlog" ? 'class="selected"' : '') . ' href="'. $this->getNavURL($currentDir, $this->scrumDir, $this->scrumBacklogURL) .'" target="_top">Product Planning</a></li>' . EOF_LINE;
-                $tag .= '                        <li><a ' . ($selNav == "Scrum-Release-Planning" ? 'class="selected"' : '') . ' href="'. $this->getNavURL($currentDir, $this->scrumDir, $this->scrumReleasePlanURL) .'" target="_top">Release Planning</a></li>' . EOF_LINE;
-                $tag .= '                        <li><a ' . ($selNav == "Scrum-Sprint-Planning" ? 'class="selected"' : '') . ' href="'. $this->getNavURL($currentDir, $this->scrumDir, $this->scrumSprintPlanURL) .'" target="_top">Sprint Planning</a></li>' . EOF_LINE;
-                $tag .= '                        <li><a ' . ($selNav == "Scrum-Sprint-Tracking-Taskboard" ? 'class="selected"' : '') . ' href="'. $this->getNavURL($currentDir, $this->scrumDir, $this->scrumSprintTrackDetailedURL) .'" target="_top">Sprint Tracking</a></li>' . EOF_LINE;
-                $tag .= '                        <li><a ' . ($selNav == "Scrum-Sprint-Review" ? 'class="selected"' : '') . ' href="'. $this->getNavURL($currentDir, $this->scrumDir, $this->scrumSprintReviewURL) .'" target="_top">Sprint Review</a></li>' . EOF_LINE;
-                $tag .= '                    </ul>' . EOF_LINE;
-                $tag .= '                </li>' . EOF_LINE;
-                $tag .= '                <li><a href="'. $this->getNavURL($currentDir, $this->baseDir, $this->aboutURL) .'" target="_top">About</a></li>' . EOF_LINE;
-                $tag .= '                <li><a href="'. $this->getNavURL($currentDir, $this->baseDir, $this->contactURL) .'" target="_top">Contact us</a></li>' . EOF_LINE;
-                $tag .= '            </ul>' . EOF_LINE;
-                $tag .= '        </div>' . EOF_LINE;
+                    if($currentDir === 'scrum')
+                    {
+                        $tag .= '        <div class="sub-nav-container display-table-row">' . EOF_LINE;
+                        $tag .= '           <ul class ="float-box-nav sub-nav">' . EOF_LINE;
+                        $tag .= '               <li>' . EOF_LINE;
+                        $tag .= '                   <a class="selected-after" href="'. $this->getNavURL($currentDir, $this->scrumDir, $this->scrumBacklogURL) .'" target="_top">' . EOF_LINE;
+                        $tag .= '                       <span>Product Planning</span>' . EOF_LINE;
+                        $tag .= addRightPointAngleQuotationSVG();
+                        $tag .= '                   </a>' . EOF_LINE;
+                        $tag .= '                   <ul>' . EOF_LINE;
+                        $tag .= '                       <li><a href="'. $this->getNavURL($currentDir, $this->scrumDir, $this->scrumBacklogURL) .'" target="_top">Backlog</a></li>' . EOF_LINE;
+                        $tag .= '                       <li><a href="'. $this->getNavURL($currentDir, $this->scrumDir, $this->scrumBacklogImport) .'" target="_top">Import</a></li>' . EOF_LINE;
+                        $tag .= '                   </ul>' . EOF_LINE;
+                        $tag .= '               </li>' . EOF_LINE;
+                        $tag .= '               <li>' . EOF_LINE;
+                        $tag .= '                   <a href="'. $this->getNavURL($currentDir, $this->scrumDir, $this->scrumReleasePlanURL) .'" target="_top">' . EOF_LINE;
+                        $tag .= '                   <span>Release Planning</span>' . EOF_LINE;
+                        $tag .= addRightPointAngleQuotationSVG();
+                        $tag .= '                   </a>' . EOF_LINE;
+                        $tag .= '               </li>' . EOF_LINE;
+                        $tag .= '               <li>' . EOF_LINE;
+                        $tag .= '                   <a href="'. $this->getNavURL($currentDir, $this->scrumDir, $this->scrumSprintPlanURL) .'" target="_top">' . EOF_LINE;
+                        $tag .= '                   <span>Sprint Planning</span>' . EOF_LINE;
+                        $tag .= addRightPointAngleQuotationSVG();
+                        $tag .= '                   </a>' . EOF_LINE;
+                        $tag .= '               </li>' . EOF_LINE;
+                        $tag .= '               <li>' . EOF_LINE;
+                        $tag .= '                   <a href="'. $this->getNavURL($currentDir, $this->scrumDir, $this->scrumSprintTrackDetailedURL) .'" target="_top">' . EOF_LINE;
+                        $tag .= '                   <span>Sprint Tracking</span>' . EOF_LINE;
+                        $tag .= addRightPointAngleQuotationSVG();
+                        $tag .= '                   </a>' . EOF_LINE;
+                        $tag .= '                   <ul>' . EOF_LINE;
+                        $tag .= '                       <li><a href="'. $this->getNavURL($currentDir, $this->scrumDir, $this->scrumSprintTrackDetailedURL) .'" target="_top">Detailed Tracking</a></li>' . EOF_LINE;
+                        $tag .= '                       <li><a href="'. $this->getNavURL($currentDir, $this->scrumDir, $this->scrumSprintTrackStoryboardURL) .'" target="_top">Storyboard</a></li>' . EOF_LINE;
+                        $tag .= '                       <li><a href="'. $this->getNavURL($currentDir, $this->scrumDir, $this->scrumSprintTrackTaskboardURL) .'" target="_top">Taskboard</a></li>' . EOF_LINE;
+                        $tag .= '                       <li><a href="'. $this->getNavURL($currentDir, $this->scrumDir, $this->scrumSprintTrackTestboardURL) .'" target="_top">Testboard</a></li>' . EOF_LINE;
+                        $tag .= '                   </ul>' . EOF_LINE;
+                        $tag .= '               </li>' . EOF_LINE;
+                        $tag .= '               <li><a href="'. $this->getNavURL($currentDir, $this->scrumDir, $this->scrumSprintReviewURL) .'" target="_top">Sprint Review</a></li>' . EOF_LINE;
+                        $tag .= '           </ul>' . EOF_LINE;
+                        $tag .= '       </div>' . EOF_LINE;
+                    }
 
-                if($currentDir === 'scrum')
-                {
-                    $tag .= '        <div class="sub-nav-container display-table-row">' . EOF_LINE;
-                    $tag .= '           <ul class ="float-box-nav sub-nav">' . EOF_LINE;
-                    $tag .= '               <li>' . EOF_LINE;
-                    $tag .= '                   <a class="selected-after" href="'. $this->getNavURL($currentDir, $this->scrumDir, $this->scrumBacklogURL) .'" target="_top">' . EOF_LINE;
-                    $tag .= '                       <span>Product Planning</span>' . EOF_LINE;
-                    $tag .= addRightPointAngleQuotationSVG();
-                    $tag .= '                   </a>' . EOF_LINE;
-                    $tag .= '                   <ul>' . EOF_LINE;
-                    $tag .= '                       <li><a href="'. $this->getNavURL($currentDir, $this->scrumDir, $this->scrumBacklogURL) .'" target="_top">Backlog</a></li>' . EOF_LINE;
-                    $tag .= '                       <li><a href="'. $this->getNavURL($currentDir, $this->scrumDir, $this->scrumBacklogImport) .'" target="_top">Import</a></li>' . EOF_LINE;
-                    $tag .= '                   </ul>' . EOF_LINE;
-                    $tag .= '               </li>' . EOF_LINE;
-                    $tag .= '               <li>' . EOF_LINE;
-                    $tag .= '                   <a href="'. $this->getNavURL($currentDir, $this->scrumDir, $this->scrumReleasePlanURL) .'" target="_top">' . EOF_LINE;
-                    $tag .= '                   <span>Release Planning</span>' . EOF_LINE;
-                    $tag .= addRightPointAngleQuotationSVG();
-                    $tag .= '                   </a>' . EOF_LINE;
-                    $tag .= '               </li>' . EOF_LINE;
-                    $tag .= '               <li>' . EOF_LINE;
-                    $tag .= '                   <a href="'. $this->getNavURL($currentDir, $this->scrumDir, $this->scrumSprintPlanURL) .'" target="_top">' . EOF_LINE;
-                    $tag .= '                   <span>Sprint Planning</span>' . EOF_LINE;
-                    $tag .= addRightPointAngleQuotationSVG();
-                    $tag .= '                   </a>' . EOF_LINE;
-                    $tag .= '               </li>' . EOF_LINE;
-                    $tag .= '               <li>' . EOF_LINE;
-                    $tag .= '                   <a href="'. $this->getNavURL($currentDir, $this->scrumDir, $this->scrumSprintTrackDetailedURL) .'" target="_top">' . EOF_LINE;
-                    $tag .= '                   <span>Sprint Tracking</span>' . EOF_LINE;
-                    $tag .= addRightPointAngleQuotationSVG();
-                    $tag .= '                   </a>' . EOF_LINE;
-                    $tag .= '                   <ul>' . EOF_LINE;
-                    $tag .= '                       <li><a href="'. $this->getNavURL($currentDir, $this->scrumDir, $this->scrumSprintTrackDetailedURL) .'" target="_top">Detailed Tracking</a></li>' . EOF_LINE;
-                    $tag .= '                       <li><a href="'. $this->getNavURL($currentDir, $this->scrumDir, $this->scrumSprintTrackStoryboardURL) .'" target="_top">Storyboard</a></li>' . EOF_LINE;
-                    $tag .= '                       <li><a href="'. $this->getNavURL($currentDir, $this->scrumDir, $this->scrumSprintTrackTaskboardURL) .'" target="_top">Taskboard</a></li>' . EOF_LINE;
-                    $tag .= '                       <li><a href="'. $this->getNavURL($currentDir, $this->scrumDir, $this->scrumSprintTrackTestboardURL) .'" target="_top">Testboard</a></li>' . EOF_LINE;
-                    $tag .= '                   </ul>' . EOF_LINE;
-                    $tag .= '               </li>' . EOF_LINE;
-                    $tag .= '               <li><a href="'. $this->getNavURL($currentDir, $this->scrumDir, $this->scrumSprintReviewURL) .'" target="_top">Sprint Review</a></li>' . EOF_LINE;
-                    $tag .= '           </ul>' . EOF_LINE;
-                    $tag .= '       </div>' . EOF_LINE;
+                    $tag .= '    </div>' . EOF_LINE;
                 }
-
-                $tag .= '    </div>' . EOF_LINE;
                 $tag .= '</div>' . EOF_LINE;
             }
 

@@ -35,8 +35,10 @@
 
         </script>
     </head>
-    <?php
-        $htmlBody = new HomeHTML();
-        echo $htmlBody->generateBody();
-    ?>
+    <body>
+        <?php
+            $htmlBody = new HomeHTML();
+            echo $htmlBody->generateBody();
+        ?>
+    </body>
 </html>
