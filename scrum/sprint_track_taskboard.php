@@ -13,8 +13,8 @@
     session_start();
 
     // if not log in then redirect to login page.
-    //if(!isset($_SESSION['project-managment-username']))
-    //    header("Location: ../user/login.php?redirect=../spr_tracking/dashboard.php");
+    if(!isset($_SESSION['project-managment-username']))
+        header("Location: ../user/login.php?redirect=../scrum/sprint_track_taskboard.php");
 ?>
 
 <!DOCTYPE HTML>
@@ -25,11 +25,12 @@
         <link rel="stylesheet" type="text/css" href="../css/sprint_taskboard.css">
         <script src="../js/addtable.js"></script>
     </head>
-    <?php
-        $htmlBody = new ScrumSTTaskboardHTML();
+    <body>
+        <?php
+            $htmlBody = new SprintTrackTaskboardHTML();
 
-        echo $htmlBody->generateBody();
-    ?>
+            echo $htmlBody->generateBody();
+        ?>
     <!--<body>
         <div class="wrapper display-table">
             <div class="header display-table-row">
@@ -493,4 +494,5 @@
             </div>
         </div>
     </body>-->
+    </body>
 </html>

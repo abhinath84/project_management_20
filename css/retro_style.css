@@ -129,6 +129,60 @@ textarea.retro-style {
     height: auto;
 }
 
+/*************************************/
+/* Design Form Element               */
+/*************************************/
+.retro-style-form-element {
+    position: relative;
+    margin: 0 0 1.5em;
+}
+
+.retro-style-form-element label {
+    display: inline-block;
+    width: 100%;
+    position: relative;
+}
+
+.retro-style-form-element strong {
+    margin: 0 0 .5em;
+    display: inline-block;
+    width: 100%;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+}
+
+.retro-style-form-element.multi-field label strong {
+    display: none;
+}
+
+.retro-style-form-element.nextstep-button {
+    text-align: right;
+    margin: 0;
+}
+
+.retro-style-form-element.name label.firstname {
+    width: 150px;
+    margin-right: 5px;
+    padding-right: 15px;
+}
+
+.retro-style-form-element.name label.lastname {
+    width: 150px;
+}
+
+.retro-style-form-element.name label.firstname input,
+.retro-style-form-element.name label.lastname input {
+    direction: ltr;
+}
+
+.retro-style-errmsg {
+    color: red;
+    line-height: 17px;
+    margin: 0.5em 0 0;
+    display: none;
+}
+
 /* overrides button presets for mozilla clients*/
 @-moz-document url-prefix() {
 	button,
@@ -140,7 +194,8 @@ textarea.retro-style {
 	}
 }
 
-button.retro-style {
+button.retro-style,
+input[type=submit].retro-style {
   margin: 0;
   height: 35px;
   //padding: 9px 14px;
@@ -177,7 +232,11 @@ button.retro-style span {
 button.retro-style:hover,
 button.retro-style:focus,
 button.retro-style:active,
-button.retro-style.active {
+button.retro-style.active,
+input[type=submit].retro-style:hover,
+input[type=submit].retro-style:focus,
+input[type=submit].retro-style:active,
+input[type=submit].retro-style.active {
   color: #FFFFFF;
   text-decoration: none;
   background-color: #222222;
@@ -186,35 +245,73 @@ button.retro-style.active {
   text-shadow: none;
 }
 
-button.retro-style:active, .retro-style.active {
+button.retro-style:active, .retro-style.active,
+input[type=submit].retro-style.active {
   background-color: #222222;
   -webkit-box-shadow: inset 0 1px 8px rgba(0, 0, 0, 0.25);
   -moz-box-shadow: inset 0 1px 8px rgba(0, 0, 0, 0.25);
   box-shadow: inset 0 1px 8px rgba(0, 0, 0, 0.25);
 }
 
-button.retro-style.green {
+button.retro-style.green,
+input[type=submit].retro-style.green {
   border-color: #35aa47;
 }
+
 button.retro-style.green:hover,
 button.retro-style.green:focus,
 button.retro-style.green:active,
 button.retro-style.green.active,
 button.retro-style.green.disabled,
-button.retro-style.green[disabled] {
+button.retro-style.green[disabled],
+input[type=submit].retro-style.green:hover,
+input[type=submit].retro-style.green:focus,
+input[type=submit].retro-style.green:active,
+input[type=submit].retro-style.green.active,
+input[type=submit].retro-style.green.disabled,
+input[type=submit].retro-style.green[disabled] {
   color: #FFFFFF;
   background-color: #35aa47;
 }
 
-button.retro-style.red {
+button.retro-style.red,
+input[type=submit].retro-style.red {
   border-color:#d84a38;
 }
+
 button.retro-style.red:hover,
 button.retro-style.red:focus,
 button.retro-style.red:active,
 button.retro-style.red.active,
 button.retro-style.red.disabled,
-button.retro-style.red[disabled] {
+button.retro-style.red[disabled],
+input[type=submit].retro-style.red:hover,
+input[type=submit].retro-style.red:focus,
+input[type=submit].retro-style.red:active,
+input[type=submit].retro-style.red.active,
+input[type=submit].retro-style.red.disabled,
+input[type=submit].retro-style.red[disabled] {
   color: #FFFFFF;
   background-color: #d84a38;
+}
+
+button.retro-style.blue,
+input[type=submit].retro-style.blue {
+  border-color:#3876D8;
+}
+
+button.retro-style.blue:hover,
+button.retro-style.blue:focus,
+button.retro-style.blue:active,
+button.retro-style.blue.active,
+button.retro-style.blue.disabled,
+button.retro-style.blue[disabled],
+input[type=submit].retro-style.blue:hover,
+input[type=submit].retro-style.blue:focus,
+input[type=submit].retro-style.blue:active,
+input[type=submit].retro-style.blue.active,
+input[type=submit].retro-style.blue.disabled,
+input[type=submit].retro-style.blue[disabled] {
+  color: #FFFFFF;
+  background-color: #3876D8;
 }

@@ -13,8 +13,8 @@
     session_start();
 
     // if not log in then redirect to login page.
-    //if(!isset($_SESSION['project-managment-username']))
-    //    header("Location: ../user/login.php?redirect=../spr_tracking/dashboard.php");
+    if(!isset($_SESSION['project-managment-username']))
+        header("Location: ../user/login.php?redirect=../scrum/product_plan_backlog.php");
 ?>
 
 <!DOCTYPE HTML>
@@ -39,11 +39,12 @@
 
         </script>
     </head>
-    <?php
-        $htmlBody = new ScrumPPBHTML();
+    <body>
+        <?php
+            $htmlBody = new ScrumPPBHTML();
 
-        echo $htmlBody->generateBody();
-    ?>
+            echo $htmlBody->generateBody();
+        ?>
     <!--<body>
         <div class="wrapper display-table">
             <div class="header display-table-row">
@@ -596,4 +597,5 @@
             </div>
         </div>
     </body>-->
+    </body>
 </html>

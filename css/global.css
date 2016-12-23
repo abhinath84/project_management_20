@@ -13,6 +13,18 @@ body {
     background-color: #dde2e9;
 }
 
+h1 {font-size:190%;margin-top:0px;font-weight:normal}
+h2 {font-size:160%;margin-top:10px;margin-bottom:10px;font-weight:normal}
+h3 {font-size:120%;font-weight:normal}
+h4 {font-size:100%;}
+h5 {font-size:90%;}
+h6 {font-size:80%;}
+
+h1,h2,h3,h4,h5,h6 {
+    background-color:transparent;
+    color:#000000;
+}
+
 .wide {
     width: 100px;
 }
@@ -437,6 +449,11 @@ body {
 
 .project-selector:hover .ps-icon .project-selector-icon{
     fill:currentColor
+}
+
+.article .article-container {
+    margin-top: 40px;
+    margin-bottom: 40px;
 }
 
 .main-article {

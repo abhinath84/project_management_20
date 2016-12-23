@@ -83,7 +83,7 @@
     */
     function addInputTag($tagName, $type, $name, $caption, $event, $placeholder)
     {
-        $tagStr = '<div class="form-element" id="'.$name.'-form-element">';
+        $tagStr = '<div class="retro-style-form-element" id="'.$name.'-form-element">';
 
         $tagStr .= '                <label id="'.$name.'-label">
                                 <strong>'.$caption.'</strong>
@@ -91,7 +91,7 @@
 
         if(($tagName <> "") && ($type <> ""))
         {
-            $tagStr .= '                <'.$tagName.' type="'.$type.'"';
+            $tagStr .= '                <'.$tagName.' class="retro-style" type="'.$type.'"';
 
             if(($tagName == "input") && ($placeholder))
                 $tagStr .= '  placeholder="'.$placeholder.'"';
@@ -100,7 +100,7 @@
                 $tagStr .= ' '. $event;
 
             $tagStr .= ' maxlength="75" autocomplete="off" name="'.$name.'" id="'.$name.'-'.$tagName.'" value="" spellcheck="false">
-                            <div class="errmsg" id="'.$name.'-errmsg"></div>';
+                            <div class="retro-style-errmsg" id="'.$name.'-errmsg"></div>';
         }
         $tagStr .= '</div>'."\n";
 
