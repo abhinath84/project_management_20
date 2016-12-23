@@ -1,0 +1,112 @@
+/*--
+    File	: css/sign_up.css
+    Author	: Abhishek Nath
+    Date	: 01-Jan-2015
+    Desc	: style sheet for signup related components.
+--*/
+
+/*--
+    01-Jan-15   V1-01-00   abhishek   $$1   Created.
+    17-Jul-15   V1-01-00   abhishek   $$2   File header comment added.
+--*/
+
+.signup-body {
+    margin: 0px;
+    padding:0px;
+    font-family: "Proxima Nova", "Montserrat Light", monaco, verdana, arial;
+    font-size: 14px;
+    background-color: white;
+}
+
+.signup-main {
+    width:975px;
+    border: 1px solid #e5e5e5;
+}
+
+.signup-main h1 {
+    margin-top: 25px;
+    margin-left: 25px;
+}
+
+.signup-main hr {
+    margin: 0px;
+    margin-right: 25px;
+    margin-left: 25px;
+}
+
+.signup-main * {
+    font-size: 15px;
+    font-weight: normal;
+}
+
+.signup-main h3 {
+    margin-left: 85px;
+    font-weight:normal;
+    font-size:40px;
+    line-height: normal;
+    padding: 0;
+    margin-top: 0;
+    margin-bottom: 25px;
+}
+
+.signup {
+    margin: 0;
+    width: 55%;
+    border-right: 1px solid #d4d4d4;
+}
+
+.createaccount-form {
+    padding: 0;
+    margin: 0;
+    margin-left: 85px;
+}
+
+#name-form-element fieldset {
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+
+.retro-style-form-element.multi-field label strong {
+    display: none;
+}
+
+.retro-style-form-element.multi-field.name label.firstname {
+    width: 150px;
+    margin-right: 5px;
+    padding-right: 15px;
+}
+
+.retro-style-form-element.multi-field.name label.lastname {
+    width: 150px;
+}
+
+.retro-style-form-element.multi-field.name label.firstname input,
+.retro-style-form-element.multi-field.name label.lastname input {
+    direction: ltr;
+}
+
+#submitbutton {
+    width: 100px;
+    margin-top: 20px;
+}
+
+#login-nav-sub {
+    margin-top: 55px;
+    margin-left: 45px;
+}
+
+#login-nav-sub * {
+    margin: 0;
+    padding: 0;
+}
+
+#login-nav-sub h3 {
+    font-weight:normal;
+    font-size:20px;
+    line-height: normal;
+    margin: 0;
+}
+
+#login-nav a:link,#login-nav a:visited {color:#0071E0;text-decoration:none;}
+#login-nav a:hover,#login-nav a:active {color:#ff4800;text-decoration:none;}

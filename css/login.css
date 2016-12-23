@@ -6,13 +6,6 @@
     background-color: white;
 }
 
-.middle-align {
-    max-width: 1020px;
-    min-width: 700px;
-    width: 100%;
-    margin: 0 auto;
-}
-
 .login-main {
     height: 600px;
     margin: 0;
@@ -75,4 +68,9 @@
 #login-sub {
     margin-top: 5px;
     margin-left: 90px;
+}
+
+#signIn {
+    width: 150px;
+    margin-top: 20px;
 }

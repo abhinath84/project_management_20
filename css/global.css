@@ -53,6 +53,13 @@ h1,h2,h3,h4,h5,h6 {
     border-bottom: 1px dashed black;
 }
 
+.middle-align {
+    max-width: 1020px;
+    min-width: 700px;
+    width: 100%;
+    margin: 0 auto;
+}
+
 /*********************************
         float-box-nav
 **********************************/

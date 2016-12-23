@@ -41,7 +41,7 @@
     <body class="login-body">
         <div class="middle-align">
             <?php
-                $htmlBody = new UserLoginHTML();
+                $htmlBody = new LoginHTML();
 
                 echo $htmlBody->generateBody();
             ?>
