@@ -256,6 +256,75 @@ h1,h2,h3,h4,h5,h6 {
     color: white;
 }
 
+/************************/
+/*   For login dialog   */
+/************************/
+/*.login-form .login {
+    margin:6em auto 2em auto;
+    text-transform:lowercase;
+    width:500px;
+}
+.login-form .login .header {
+    -moz-border-radius-topleft:4px;
+    -webkit-border-top-left-radius:4px;
+    border-top-left-radius:4px;
+    -moz-border-radius-topright:4px;
+    -webkit-border-top-right-radius:4px;
+    border-top-right-radius:4px;
+    background:#000;
+    background:-moz-linear-gradient(top, #454545, black) no-repeat scroll 0 0 transparent;
+    background:-webkit-gradient(linear,left top,left bottom,color-stop(0, #454545),color-stop(1, black)) no-repeat scroll 0 0 transparent;
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#454545', endColorstr='black');
+    -ms-filter:"progid:DXImageTransform.Microsoft.gradient(startColorstr='#454545', endColorstr='black')";
+    background:#000 url('../images/menu-dk-bg.png') repeat-x 0 0;
+    border-width:1px;
+    border-color:#a6a6a6;
+    color:#f2f2f2;
+    border-bottom:8px solid #8d0a39;
+    color:#e6e6e6;
+    padding:0.5em;
+    //background-image:url('../shield_close_white.png') ;
+    //background-repeat:no-repeat;
+    //background-position:right;
+    //cursor:pointer;
+}
+
+.login-form .login .fields {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    padding: 1.5em 4.25em 3em 4.25em;
+}
+
+.login-form .login label{vertical-align:middle;}
+.login-form .login input[type=text], .login-form .login input[type=password] {
+    font-size: 1.2em;
+    padding: 0.25em;
+    margin-bottom: 1.5em;
+    margin-top: 0.25em;
+    width: 98%;
+}
+.login-form .login .checkbox-field{float:left;}
+.login-form .login [type=submit]{float:right;margin:0;}
+.login-form .login .links {
+    background-color:#fff;
+    border-width:1px;
+    border-color:#ccc;
+    font-family:'PT_Sans',DroidSans,'Lucida Sans Unicode','Lucida Grande',sans-serif;
+    border-style:solid;
+    border-top:0;
+    font-size:0.9em;
+    padding:0.5em;
+    text-align:right;
+}
+.login-form .login .links>* {
+    display:inline;
+    margin-right:0.75em;
+}
+.login-form .errors {
+    margin: 2em auto;
+    width: 500px;
+}*/
+
 /*********************************
             Header Block
 **********************************/

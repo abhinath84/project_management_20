@@ -198,11 +198,9 @@ button.retro-style,
 input[type=submit].retro-style {
   margin: 0;
   height: 35px;
-  //padding: 9px 14px;
   cursor: pointer;
   outline: none;
   border: 1px solid #222222;
-  background-color: #FFFFFF;
   -webkit-background-clip: padding;
   -moz-background-clip: padding;
   background-clip: padding;
@@ -215,9 +213,10 @@ input[type=submit].retro-style {
   font-size: 14px;
   line-height: 14px;
   color: #333333;
+  background-color: #FFFFFF;
   min-width: 42px;
 
-  text-shadow: #ffffff 0 1px 0;
+  //text-shadow: #ffffff 0 1px 0;
   text-align: center;
   text-decoration: none;
   white-space: nowrap;

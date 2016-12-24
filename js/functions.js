@@ -559,8 +559,7 @@ function showDashboardAccdSession(tagId, func) {
         'session'     : $('#session-select').val()
     };
 
-    document.getElementById(tagId).innerHTML = getServerResponseViaAJAX("../ajax/default.php", "showDashboardAccdSessionCallback", formData,
-                                                "");
+    document.getElementById(tagId).innerHTML = getServerResponseViaAJAX("../ajax/default.php", "showDashboardAccdSessionCallback", formData, "");
 }
 
 function addSPRTrackingDashboard(flag) {

@@ -55,51 +55,6 @@
 
                 echo $htmlBody->generateBody();
             ?>
-            <!--<div id="signup-main" class="signup-main display-table">
-                <div class="signup display-table-cell">
-                    <h3>Sign Up</h3>
-                    <form class="createaccount-form" id="createaccount" name="createaccount" method="post">
-                        <input class="retro-style" type="hidden" name="page" id="page" value="signup">
-                        <div class="retro-style-form-element multi-field name" id="name-form-element">
-                            <fieldset>
-                                <legend><strong>Name</strong></legend>
-                                <label id="firstname-label" class="firstname">
-                                    <strong>First name</strong>
-                                    <input type="text" value="" class="retro-style" name="firstName" id="firstName-input" onblur="javascript:showErrorMsg('firstName', 'input', 'name')"
-                                    placeholder="First" spellcheck="false">
-                                </label>
-                                <label id="lastname-label" class="lastname">
-                                    <strong>Last name</strong>
-                                    <input type="text" class="retro-style" value="" name="lastName" id="lastName-input" onblur="javascript:showErrorMsg('lastName', 'input', 'name')"
-                                    placeholder="Last" spellcheck="false">
-                                </label>
-                            </fieldset>
-                            <div class="retro-style-errmsg" id="name-errmsg"></div>
-                        </div>
-                        <?php
-                            //echo addInputTag('input', 'text', 'username', 'Choose your username', 'onblur="javascript:showErrorMsg(\'username\', \'input\', \'\')"', "");
-                            //echo addInputTag('input', 'password', 'password', 'Create a password', 'onblur="javascript:showErrorMsg(\'password\', \'input\', \'\')"', "");
-                            //echo addInputTag('input', 'password', 'confirm-password', 'Confirm your password', 'onblur="javascript:showErrorMsg(\'confirm-password\', \'input\', \'\')"', "");
-                            //echo addGenderTag('onblur="javascript:showErrorMsg(\'gender\', \'select\', \'\')"');
-                            ////echo addInputTag('input', 'text', 'title', 'Title', 'onblur="javascript:showErrorMsg(\'title\', \'input\', \'\')"');
-                            //echo addTitleTag('onblur="javascript:showErrorMsg(\'title\', \'select\', \'\')"');
-                            //echo addDepertmentTag('onblur="javascript:showErrorMsg(\'department\', \'select\', \'\')"');
-                            //echo addInputTag('input', 'text', 'manager', 'Manager', 'onblur="javascript:showErrorMsg(\'manager\', \'input\', \'\')"', "");
-                            //echo addInputTag('input', 'text', 'email', 'Your current email address', 'onblur="javascript:showErrorMsg(\'email\', \'input\', \'\')"', "");
-                            //echo addInputTag('input', 'text', 'altEmail', 'Your alternative email address(optional)', '', "");
-                        ?>
-                        <div class="form-element">
-                            <input id="submitbutton" name="submitbutton" type="submit" value="Submit" class="retro-style blue">
-                        </div>
-                    </form>
-                </div>
-                <div id="login-nav" class="login display-table-cell">
-                    <div id="login-nav-sub">
-                        <h3>Have an Account?</h3>
-                        <p>If you already have a password, please <a href="login.php">Login</a>.</p>
-                    </div>
-                </div>
-            </div>-->
         </div>
     </body>
 </html>

@@ -45,7 +45,7 @@
     </head>
     <body>
         <?php
-            $htmlBody = new SPRTrackingHTML();
+            $htmlBody = new SPRTrackDashboardHTML();
 
             echo $htmlBody->generateBody();
         ?>
