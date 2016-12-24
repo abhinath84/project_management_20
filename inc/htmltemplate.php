@@ -36,6 +36,8 @@
 /* include header file */
 require_once ('navigator.php');
 require_once ('htmltable.php');
+require_once ('functions.inc.php');
+require_once ('mysql_functions.inc.php');
 
 
 /**
@@ -1006,25 +1008,91 @@ class SignupHTML extends HTMLTemplate
     }
 }
 
-class SPRTrackingHTML extends HTMLTemplate
+class RecoveryHTML extends HTMLTemplate
 {
     public function __construct($curNav = null, $curDir = null, $enableNav = false)
     {
-    parent::__construct("SPR Tracking-Dashboard", "spr_tracking", true);
+        parent::__construct("Login", "user");
+    }
+
+    protected function addDashboard()
+    {
+        $tag = '<div id="recovery-main" class="login-main side-align">' . $this->EOF_LINE;
+        $tag .= '    <h1>Having trouble loging in?</h1>' . $this->EOF_LINE;
+        $tag .= '    <form id="recovery-form" class="login-form" method="post">' . $this->EOF_LINE;
+        $tag .= '        <input type="hidden" name="page" id="page" value="recovery">' . $this->EOF_LINE;
+        $tag .= '        <div class="retro-style-errmsg" id="recovery-errmsg"></div>' . $this->EOF_LINE;
+
+        //<!-- 1. I don't know my password (radio) and hidden input/text to provide username-->
+        $tag .= '        <div id="password-radio-contaioner" class="recovery-radio-container">' . $this->EOF_LINE;
+        $tag .= '            <input type="radio" class="retro-style" name="recovery" value="password" onclick="recoveryOptionSelected(\'password-radio-input-container\')">' . $this->EOF_LINE;
+        $tag .= '            <label id="password-radio-label" for="password">I don\'t know my password</label>' . $this->EOF_LINE;
+        $tag .= '            <div id="password-radio-input-container" class="recovery-radio-input-container">' . $this->EOF_LINE;
+        $tag .= '                <label id="username-radio-input-label">To reset your password, enter the username you use to sign in.</label>' . $this->EOF_LINE;
+        $tag .=                  addInputTag('input', 'text', 'username', 'username', '', '');
+        $tag .= '            </div>' . $this->EOF_LINE;
+        $tag .= '        </div>' . $this->EOF_LINE;
+
+        //<!-- 2. I don't know my username (radio) and hidden input/text to provide email id-->
+        $tag .= '        <div id="username-radio-contaioner" class="recovery-radio-container">' . $this->EOF_LINE;
+        $tag .= '            <input type="radio" class="retro-style" name="recovery" value="username" onclick="recoveryOptionSelected(\'username-radio-input-container\')">' . $this->EOF_LINE;
+        $tag .= '            <label id="username-radio-label" for="username">I don\'t know my username</label>' . $this->EOF_LINE;
+        $tag .= '            <div id="username-radio-input-container" class="recovery-radio-input-container">' . $this->EOF_LINE;
+        $tag .= '                <label id="email-radio-input-label">To know your username, enter the email address associated with your account.</label>' . $this->EOF_LINE;
+        $tag .=                  addInputTag('input', 'text', 'email', 'e-mail', '', '');
+        $tag .= '            </div>' . $this->EOF_LINE;
+        $tag .= '        </div>' . $this->EOF_LINE;
+        
+        $tag .= '        <div style="margin-top:20px">' . $this->EOF_LINE;
+        $tag .= '            <input id="continue" class="retro-style blue" name="continue" type="submit" value="Continue">' . $this->EOF_LINE;
+        $tag .= '        </div>' . $this->EOF_LINE;
+        $tag .= '    </form>' . $this->EOF_LINE;
+        $tag .= '</div>' . $this->EOF_LINE;
+        $tag .= '<div id="recovery-msg-container" class="side-align" style="display:none">' . $this->EOF_LINE;
+        $tag .= '    <p id="recovery-p"></p>' . $this->EOF_LINE;
+        $tag .= '    <p>To log in, please click <a href="login.php">here</a>.</p>' . $this->EOF_LINE;
+        $tag .= '</div>' . $this->EOF_LINE;
+
+        return($tag);
+    }
+}
+
+abstract class SPRTrackHTML extends HTMLTemplate
+{
+    public function __construct($curNav = null, $curDir = null, $enableNav = false)
+    {
+        parent::__construct($curNav, $curDir, $enableNav);
+    }
+
+    protected function getTabMenu($currentTab)
+    {
+        $tag = '<div class="main-article-nav-container display-table-row">' . $this->EOF_LINE;
+        $tag .= '    <ul class="float-box-nav main-article-nav">' . $this->EOF_LINE;
+        $tag .= '        <li><a ' . (($currentTab == "Dashboard") ? 'class="selected-tab"' : '') . 'href="dashboard.php" target="_top">Dashboard</a></li>' . $this->EOF_LINE;
+        $tag .= '        <li><a ' . (($currentTab == "Submission Status") ? 'class="selected-tab"' : '') . 'href="submit_status.php" target="_top">Submission Status</a></li>' . $this->EOF_LINE;
+        $tag .= '        <li><a ' . (($currentTab == "Report") ? 'class="selected-tab"' : '') . 'href="report.php" target="_top">Report</a></li>' . $this->EOF_LINE;
+        $tag .= '        <li><a ' . (($currentTab == "Import") ? 'class="selected-tab"' : '') . 'href="spr_import.php" target="_top">Import</a></li>' . $this->EOF_LINE;
+        $tag .= '    </ul>' . $this->EOF_LINE;
+        $tag .= '</div>' . $this->EOF_LINE;
+
+        return($tag);
+    }
+}
+
+class SPRTrackDashboardHTML extends SPRTrackHTML
+{
+    public function __construct($curNav = null, $curDir = null, $enableNav = false)
+    {
+        parent::__construct("SPR Tracking-Dashboard", "spr_tracking", true);
     }
 
     protected function addDashboard()
     {
         $tag = '';
         $tag .= '<div class="main-article display-table">' . $this->EOF_LINE;
-        $tag .= '<div class="main-article-nav-container display-table-row">' . $this->EOF_LINE;
-        $tag .= '    <ul class="float-box-nav main-article-nav">' . $this->EOF_LINE;
-        $tag .= '        <li><a class="selected-tab" href="#" target="_top">Dashboard</a></li>' . $this->EOF_LINE;
-        $tag .= '        <li><a href="#" target="_top">Submission Status</a></li>' . $this->EOF_LINE;
-        $tag .= '        <li><a href="#" target="_top">Report</a></li>' . $this->EOF_LINE;
-        $tag .= '        <li><a href="#" target="_top">Import</a></li>' . $this->EOF_LINE;
-        $tag .= '    </ul>' . $this->EOF_LINE;
-        $tag .= '</div>' . $this->EOF_LINE;
+
+        $tag .= parent::getTabMenu("Dashboard");
+
         $tag .= '<div class="main-article-tab-container display-table-row">' . $this->EOF_LINE;
         $tag .= '    <div class="main-article-tab-info-container">' . $this->EOF_LINE;
         $tag .= '        <div class="main-article-info-header">' . $this->EOF_LINE;
@@ -1032,8 +1100,7 @@ class SPRTrackingHTML extends HTMLTemplate
         $tag .= '                <h1>SPR Tracking Dashboard</h1>' . $this->EOF_LINE;
         $tag .= '            </div>' . $this->EOF_LINE;
         $tag .= '        </div>' . $this->EOF_LINE;
-        $tag .= '        <div class="article-container">' . $this->EOF_LINE;
-        $tag .= '            <div class="project-backlog-container">' . $this->EOF_LINE;
+        $tag .= '        <div class="project-backlog-container">' . $this->EOF_LINE;
         $tag .= '                <div class="spr-tracking-menu-container">' . $this->EOF_LINE;
         $tag .= '                    <div id="session-btn" class="session-btn">' . $this->EOF_LINE;
         $tag .= '                        <select id="session-select" class="retro-style session-select" onchange="javascript:showDashboardAccdSession(\'spr-tracking-dashboard-tbody\', \'fillSPRTrackingDashboardRow\')">' . $this->EOF_LINE;
@@ -1073,11 +1140,9 @@ class SPRTrackingHTML extends HTMLTemplate
         $tag .= '                </div>' . $this->EOF_LINE;
         $tag .= '                <div class="spr-tracking-table-container">' . $this->EOF_LINE;
 
-        $qry = "SELECT spr_no, type, status, build_version, commit_build, respond_by_date, comment, session  FROM `spr_tracking` WHERE session='2017'";
-        $tag .= $this->createDasboardTable($qry);
+        $tag .= $this->createDasboardTable();
 
-        $tag .= '                </div>' . $this->EOF_LINE;
-        $tag .= '            </div>' . $this->EOF_LINE;
+        $tag .= '           </div>' . $this->EOF_LINE;
         $tag .= '        </div>' . $this->EOF_LINE;
         $tag .= '    </div>' . $this->EOF_LINE;
         $tag .= '</div>' . $this->EOF_LINE;
@@ -1086,69 +1151,210 @@ class SPRTrackingHTML extends HTMLTemplate
         return($tag);
     }
 
-    private function createDasboardTable($qry)
+    private function createDasboardTable()
     {
-    global $conn;
-    $str = "";
+        global $conn;
 
-    /// SELECT spr_no, type, status, build_version, commit_build, respond_by_date, comment, session FROM `spr_tracking`
-    $rows = $conn->result_fetch_array($qry);
-    if(!empty($rows))
-    {
-    $Table = new HTMLTable("spr-tracking-dashboard-table", "grippy-table spr-tracking-dashboard-table");
-    // add table header
-    $Table->thead("spr-tracking-dashboard-thead");
-    $Table->th("&nbsp;", null, null, null, null);
-    $Table->th("Item number", null, null, null, "data-sort=\"int\"");
-    $Table->th("Type", null,  null, null, "data-sort=\"string\"");
-    $Table->th("Status", null, null, null, "data-sort=\"string\"");
-    $Table->th("Build Version", null, null, null, "data-sort=\"string\"");
-    $Table->th("Commit Build", null, null, null, "data-sort=\"string\"");
-    $Table->th("Respond By", null, null, null, "data-sort=\"string\"");
-    $Table->th("Comment", null, null, null);
-    $Table->th("Session", null, null, null, "data-sort=\"string\"");
-    //$Table->th("&nbsp;", null, null, null, null);
+        $year = getCurrentSession();
+        $qry = "SELECT spr_no, type, status, build_version, commit_build, respond_by_date, comment, session  FROM `spr_tracking` WHERE user_name = '". $_SESSION['project-managment-username'] ."' and session='" . $year . "'";
 
-    // add Table body
-    $Table->tbody("spr-tracking-dashboard-tbody");
-    // loop over the result and fill the rows
-    foreach($rows as $row)
-    {
-    $Table->tr(null, null, null, "align=\"center\"");
-    $Table->td(getGreppyDotTag(), "{$row[0]}-greppy", "hasGrippy", "text-align:center;");
-    $Table->td(getSPRString($row[1], $row[0]), "{$row[0]}-spr-no", null, null, "width=\"12%\"");
-    $Table->td("{$row[1]}", "{$row[0]}-type", null, null, "width=\"10%\"");
-    $Table->td("{$row[2]}", "{$row[0]}-status", null, "background-color:" . getSPRTrackingStatusColor($row[2]) . ";", "width=\"15%\"", "ondblclick=\"javascript:showSPREditTag('" . $row[0] . "-status', 'select', true)\"");
-    $Table->td("{$row[3]}", "{$row[0]}-build-version", null, null, "width=\"12%\"", "ondblclick=\"javascript:showSPREditTag('" . $row[0] . "-build-version', 'input', true)\"");
-    $Table->td("{$row[4]}", "{$row[0]}-commit-build", null, null, "width=\"12%\"", "ondblclick=\"javascript:showSPREditTag('" . $row[0] . "-commit-build', 'input', true)\"");
-    $Table->td("{$row[5]}", "{$row[0]}-respond-by", null, null, "width=\"12%\""," ondblclick=\"javascript:showSPREditTag('" . $row[0] . "-respond-by', 'input', true)\"");
-    $Table->td(shortDescription($row[6], 25), "{$row[0]}-comment", null, null, null, "ondblclick=\"javascript:showSPREditTag('" . $row[0] . "-comment', 'textarea', true)\"                                                                               onmouseover=\"javascript:showFullComment('" . $row[0] . "', true)\"                                                                                onblur=\"javascript:showFullComment('" . $row[0] . "', false)\"");
-    $Table->td("{$row[6]}", "{$row[0]}-comment-full", null, "display: none;");
-    $Table->td("{$row[7]}", "{$row[0]}-session", null, null, "width=\"8%\"", "ondblclick=\"javascript:showSPREditTag('" . $row[0] . "-session', 'input', true)\"");
-    //$Table->td(getQuickActionBtn("{$row[0]}-edit-btn", "spr-tracking-tbl-td-btn", "spr-tracking-dashboard-table-dropdown"), "{$row[0]}-edit", null, null, "width=\"2%\"");
-    }
+        $str = "";
 
-    $str = $Table->toHTML();
-    }
-    else
-    {
-    $str = "<p>No result !!!</p>";
-    }
+        $Table = new HTMLTable("spr-tracking-dashboard-table", "grippy-table spr-tracking-dashboard-table");
+        // add table header
+        $Table->thead("spr-tracking-dashboard-thead");
+        $Table->th("&nbsp;", null, null, null, null);
+        $Table->th("Item number", null, null, null, "data-sort=\"int\"");
+        $Table->th("Type", null,  null, null, "data-sort=\"string\"");
+        $Table->th("Status", null, null, null, "data-sort=\"string\"");
+        $Table->th("Build Version", null, null, null, "data-sort=\"string\"");
+        $Table->th("Commit Build", null, null, null, "data-sort=\"string\"");
+        $Table->th("Respond By", null, null, null, "data-sort=\"string\"");
+        $Table->th("Comment", null, null, null);
+        $Table->th("Session", null, null, null, "data-sort=\"string\"");
+        //$Table->th("&nbsp;", null, null, null, null);
 
-    return(utf8_encode($str));
+        // add Table body
+        $Table->tbody("spr-tracking-dashboard-tbody");
+
+        /// SELECT spr_no, type, status, build_version, commit_build, respond_by_date, comment, session FROM `spr_tracking`
+        $rows = $conn->result_fetch_array($qry);
+        if(!empty($rows))
+        {
+            // loop over the result and fill the rows
+            foreach($rows as $row)
+            {
+                $Table->tr(null, null, null, "align=\"center\"");
+                    $Table->td(getGreppyDotTag(), "{$row[0]}-greppy", "hasGrippy", "text-align:center;");
+                    $Table->td(getSPRString($row[1], $row[0]), "{$row[0]}-spr-no", null, null, "width=\"12%\"");
+                    $Table->td("{$row[1]}", "{$row[0]}-type", null, null, "width=\"10%\"");
+                    $Table->td("{$row[2]}", "{$row[0]}-status", null, "background-color:" . getSPRTrackingStatusColor($row[2]) . ";", "width=\"15%\"", "ondblclick=\"javascript:showSPREditTag('" . $row[0] . "-status', 'select', true)\"");
+                    $Table->td("{$row[3]}", "{$row[0]}-build-version", null, null, "width=\"12%\"", "ondblclick=\"javascript:showSPREditTag('" . $row[0] . "-build-version', 'input', true)\"");
+                    $Table->td("{$row[4]}", "{$row[0]}-commit-build", null, null, "width=\"12%\"", "ondblclick=\"javascript:showSPREditTag('" . $row[0] . "-commit-build', 'input', true)\"");
+                    $Table->td("{$row[5]}", "{$row[0]}-respond-by", null, null, "width=\"12%\""," ondblclick=\"javascript:showSPREditTag('" . $row[0] . "-respond-by', 'input', true)\"");
+                    $Table->td(shortDescription($row[6], 25), "{$row[0]}-comment", null, null, null, "ondblclick=\"javascript:showSPREditTag('" . $row[0] . "-comment', 'textarea', true)\"                                                                               onmouseover=\"javascript:showFullComment('" . $row[0] . "', true)\"                                                                                onblur=\"javascript:showFullComment('" . $row[0] . "', false)\"");
+                    $Table->td("{$row[6]}", "{$row[0]}-comment-full", null, "display: none;");
+                    $Table->td("{$row[7]}", "{$row[0]}-session", null, null, "width=\"8%\"", "ondblclick=\"javascript:showSPREditTag('" . $row[0] . "-session', 'input', true)\"");
+                    //$Table->td(getQuickActionBtn("{$row[0]}-edit-btn", "spr-tracking-tbl-td-btn", "spr-tracking-dashboard-table-dropdown"), "{$row[0]}-edit", null, null, "width=\"2%\"");
+            }
+        }
+        else
+        {
+            $Table->tr(null, null, null, "align=\"center\"");
+                $Table->td("<p>No result !!!</p>", "no-result", null, null, null);
+        }
+
+        return(utf8_encode($Table->toHTML()));
     }
 }
 
-class SPRSubmitStatusHTML extends HTMLTemplate
+class SPRTrackSubmitStatusHTML extends SPRTrackHTML
 {
     public function __construct($curNav = null, $curDir = null, $enableNav = false)
     {
-    parent::__construct("SPR Tracking-Submit Status", "spr_tracking", true);
+        parent::__construct("SPR Tracking-Submit Status", "spr_tracking", true);
     }
 
     protected function addDashboard()
     {
-    return(showSPRTrackingSubmissionStatus());
+        $tag = '';
+        $tag .= '<div class="main-article display-table">' . $this->EOF_LINE;
+
+        $tag .= parent::getTabMenu("Submission Status");
+
+        $tag .= '<div class="main-article-tab-container display-table-row">' . $this->EOF_LINE;
+        $tag .= '    <div class="main-article-tab-info-container">' . $this->EOF_LINE;
+        $tag .= '        <div class="main-article-info-header">' . $this->EOF_LINE;
+        $tag .= '            <div class="header-tag">' . $this->EOF_LINE;
+        $tag .= '                <h1>SPR Submit Status</h1>' . $this->EOF_LINE;
+        $tag .= '            </div>' . $this->EOF_LINE;
+        $tag .= '        </div>' . $this->EOF_LINE;
+        $tag .= '        <div class="project-backlog-container">' . $this->EOF_LINE;
+        $tag .= '                <div class="spr-tracking-menu-container">' . $this->EOF_LINE;
+        $tag .= '                    <div id="session-btn" class="session-btn">' . $this->EOF_LINE;
+        $tag .= '                        <select id="session-select" class="retro-style session-select" onchange="javascript:showDashboardAccdSession(\'submission-status-tbody\', \'fillSPRTrackingSubmissionStatusRow\')">' . $this->EOF_LINE;
+        $tag .= '                            <option value="All">All</option>' . $this->EOF_LINE;
+        $tag .= '                            <option value="2017" selected="">2017</option>' . $this->EOF_LINE;
+        $tag .= '                            <option value="2016">2016</option>' . $this->EOF_LINE;
+        $tag .= '                            <option value="2015">2015</option>' . $this->EOF_LINE;
+        $tag .= '                            <option value="2014">2014</option>' . $this->EOF_LINE;
+        $tag .= '                            <option value="2013">2013</option>' . $this->EOF_LINE;
+        $tag .= '                            <option value="2012">2012</option>' . $this->EOF_LINE;
+        $tag .= '                            <option value="2011">2011</option>' . $this->EOF_LINE;
+        $tag .= '                            <option value="2010">2010</option>' . $this->EOF_LINE;
+        $tag .= '                            <option value="2009">2009</option>' . $this->EOF_LINE;
+        $tag .= '                            <option value="2008">2008</option>' . $this->EOF_LINE;
+        $tag .= '                            <option value="2007">2007</option>' . $this->EOF_LINE;
+        $tag .= '                            <option value="2006">2006</option>' . $this->EOF_LINE;
+        $tag .= '                            <option value="2005">2005</option>' . $this->EOF_LINE;
+        $tag .= '                            <option value="2004">2004</option>' . $this->EOF_LINE;
+        $tag .= '                            <option value="2003">2003</option>' . $this->EOF_LINE;
+        $tag .= '                            <option value="2002">2002</option>' . $this->EOF_LINE;
+        $tag .= '                            <option value="2001">2001</option>' . $this->EOF_LINE;
+        $tag .= '                            <option value="2000">2000</option>' . $this->EOF_LINE;
+        $tag .= '                        </select>' . $this->EOF_LINE;
+        $tag .= '                    </div>' . $this->EOF_LINE;
+        $tag .= '                    <div style="float: right; margin-right: 10px;">' . $this->EOF_LINE;
+        $tag .= '                        <button class="retro-style green add-spr" type="button">' . $this->EOF_LINE;
+        $tag .= '                            <span>Add SPR to update Submission Status</span>' . $this->EOF_LINE;
+        $tag .= '                        </button>' . $this->EOF_LINE;
+        $tag .= '                        <button class="retro-style red" type="button">' . $this->EOF_LINE;
+        $tag .= '                            <span>Delete SPR Submission Status(s)</span>' . $this->EOF_LINE;
+        $tag .= '                        </button>' . $this->EOF_LINE;
+        $tag .= '                    </div>' . $this->EOF_LINE;
+        $tag .= '                </div>' . $this->EOF_LINE;
+        $tag .= '                <div id="spr-tracking-table-dropdown" class="dropdown-content">' . $this->EOF_LINE;
+        $tag .= '                    <a href="#">Save</a>' . $this->EOF_LINE;
+        $tag .= '                    <a href="#">Cancel</a>' . $this->EOF_LINE;
+        $tag .= '                </div>' . $this->EOF_LINE;
+        $tag .= '                <div class="spr-tracking-table-container">' . $this->EOF_LINE;
+
+        $tag .= $this->createDasboardTable();
+
+        $tag .= '                </div>' . $this->EOF_LINE;
+        $tag .= '       </div>' . $this->EOF_LINE;
+        $tag .= '    </div>' . $this->EOF_LINE;
+        $tag .= '</div>' . $this->EOF_LINE;
+        $tag .= '</div>' . $this->EOF_LINE;
+
+        return($tag);
+    }
+
+    private function createDasboardTable()
+    {
+        global $conn;
+        $tag = "";
+
+        $colNames = getColumnName('spr_submission');
+        if(!empty($colNames))
+        {
+
+            $cnt = count($colNames);
+
+            $qry = "SELECT ";
+            for($i = 0; $i < $cnt; ++$i)
+            {
+                $qry .= "spr_submission.".$colNames[$i];
+                if($i != ($cnt - 1))
+                    $qry .=",";
+                $qry .= " ";
+            }
+
+            $qry .= ", spr_tracking.type FROM spr_submission INNER JOIN spr_tracking ON spr_submission.spr_no=spr_tracking.spr_no
+                    and spr_tracking.user_name='". $_SESSION['project-managment-username'] ."' and spr_tracking.session='". getCurrentSession() ."'";
+
+            // Create table
+            $Table = new HTMLTable("submission-status-table", "grippy-table spr-tracking-dashboard-table");
+
+            // add table header
+            $Table->thead("submission-status-thead");
+                $Table->th("&nbsp;", null, null, null, null);
+                $Table->th("SPR Number", null, null, null, "data-sort=\"int\"");
+                $Table->th("l03", null,  null, null, "data-sort=\"string\"");
+                $Table->th("p10", null, null, null, "data-sort=\"string\"");
+                $Table->th("p20", null, null, null, "data-sort=\"string\"");
+                $Table->th("p30", null, null, null, "data-sort=\"string\"");
+                $Table->th("Comment", null, null, null);
+                //$Table->th("&nbsp;", null, null, null, null);
+
+            // add Table body
+            $Table->tbody("submission-status-tbody");
+
+            $rows = $conn->result_fetch_array($qry);
+            if(!empty($rows))
+            {
+                // loop over the result and fill the rows
+                foreach($rows as $row)
+                {
+                    $Table->tr(null, null, null, "align=\"center\"");
+                        $Table->td(getGreppyDotTag(), "{$row[0]}-greppy", "hasGrippy", null, "width=\"2%\"");
+                        $Table->td(getSPRString($row[1], $row[0]), "{$row[0]}-spr-no", null, null, "width=\"12%\"");
+
+                        $Table->td("{$row[1]}", "{$row[0]}-L03", null, "background-color:" . getSPRTrackingStatusColor($row[1]) . ";", "width=\"12%\"", "ondblclick=\"javascript:showSPRTrackingSubmissionEdit('" . $row[0] . "-L03', 'select', true)\"");
+
+                        $Table->td("{$row[2]}", "{$row[0]}-P10", null, "background-color:" . getSPRTrackingStatusColor($row[2]) . ";", "width=\"12%\"", "ondblclick=\"javascript:showSPRTrackingSubmissionEdit('" . $row[0] . "-P10', 'select', true)\"");
+
+                        $Table->td("{$row[3]}", "{$row[0]}-P20", null, "background-color:" . getSPRTrackingStatusColor($row[3]) . ";", "width=\"12%\"", "ondblclick=\"javascript:showSPRTrackingSubmissionEdit('" . $row[0] . "-P20', 'select', true)\"");
+
+                        $Table->td("{$row[4]}", "{$row[0]}-P30", null, "background-color:" . getSPRTrackingStatusColor($row[1]) . ";", "width=\"12%\"", "ondblclick=\"javascript:showSPRTrackingSubmissionEdit('" . $row[0] . "-P30', 'select', true)\"");
+
+                        $Table->td("{$row[5]}", "{$row[0]}-comment", null, null, "width=\"12%\""," ondblclick=\"javascript:showSPRTrackingSubmissionEdit('" . $row[0] . "-comment', 'textarea', true)\"");
+                }
+            }
+            else
+            {
+                $Table->tr(null, null, null, "align=\"center\"");
+                    $Table->td(" ", "no-result", null, null, null);
+            }
+
+            $str = $Table->toHTML();
+        }
+        else
+        {
+            $str = "<p>No result !!!</p>";
+        }
+
+        return(utf8_encode($str));
     }
 }
 

@@ -502,27 +502,20 @@
                 foreach($rows as $row)
                 {
                     $tag .= '            <tr>'."\n";
-                    $tag .= '              <td id="'.$row[0].'-spr-no" width = 12%>';
-                    if($row[6] == "SPR")
-                    {
-                        $tag .= '<a href="http://rdweb.ptc.com/WebSiebel/report.php?value='.$row[0].
-                                            '+&spr_no='.$row[0].'+&call_no=&mode=details&form=spr&do_not_check_ver=1" target="_blank">'.$row[0].'</a>';
-                    }
-                    else if($row[6] == "INTEGRITY SPR")
-                    {
-                        $tag .= '<a href="http://integrity.ptc.com:7001/im/viewissue?selection='.$row[0].'" target="_blank">'.$row[0].'</a>';
-                    }
-                    else if($row[6] == "REGRESSION")
-                    {
-                        $tag .= '<a href="http://regdb.ptc.com/regdb/servlet/Index?regbugid='.$row[0].'&mode=basic" target="_blank">'.$row[0].'</a>';
-                    }
-                    $tag .= '</td>'."\n";
 
-                    $tag .= '              <td id="'.$row[0].'-L03" style="background-color:'.getSPRSubmissionColor($row[1]).'" width = 15% ondblclick="javascript:showSPRTrackingSubmissionEdit(\''.$row[0].'-L03\', \'select\', true)">'.$row[1].'</td>'."\n";
+                    $tag .= '              <td id="'. $row[0]. '-greppy" class="hasGrippy" style="width:2%;">';
+                    $tag .=                     getGreppyDotTag();
+                    $tag .= '              </td>';
+
+                    $tag .= '              <td id="'.$row[0].'-spr-no" width = 12%>';
+                    $tag .= '                   <a href="#">' . getSPRString($row[1], $row[0]) . '</a>';
+                    $tag .= '              </td>'."\n";
+
+                    $tag .= '              <td id="'.$row[0].'-L03" style="background-color:'.getSPRSubmissionColor($row[1]).'" width = 12% ondblclick="javascript:showSPRTrackingSubmissionEdit(\''.$row[0].'-L03\', \'select\', true)">'.$row[1].'</td>'."\n";
                     $tag .= '              <td id="'.$row[0].'-P10" style="background-color:'.getSPRSubmissionColor($row[2]).'" width = 12% ondblclick="javascript:showSPRTrackingSubmissionEdit(\''.$row[0].'-P10\', \'select\', true)">'.$row[2].'</td>'."\n";
                     $tag .= '              <td id="'.$row[0].'-P20" style="background-color:'.getSPRSubmissionColor($row[3]).'" width = 12% ondblclick="javascript:showSPRTrackingSubmissionEdit(\''.$row[0].'-P20\', \'select\', true)">'.$row[3].'</td>'."\n";
                     $tag .= '              <td id="'.$row[0].'-P30" style="background-color:'.getSPRSubmissionColor($row[4]).'" width = 12% ondblclick="javascript:showSPRTrackingSubmissionEdit(\''.$row[0].'-P30\', \'select\', true)">'.$row[4].'</td>'."\n";
-                    $tag .= '              <td id="'.$row[0].'-comment" ondblclick="javascript:showSPRTrackingSubmissionEdit(\''.$row[0].'-comment\', \'textarea\', true)">'.$row[5].'</td>'."\n";
+                    $tag .= '              <td id="'.$row[0].'-comment" style="width:38%;" ondblclick="javascript:showSPRTrackingSubmissionEdit(\''.$row[0].'-comment\', \'textarea\', true)">'.$row[5].'</td>'."\n";
                     $tag .= '            </tr>'."\n";
                 }
             }

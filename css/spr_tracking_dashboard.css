@@ -37,7 +37,7 @@ button.retro-style.green.add-spr {
 
 .spr-tracking-dashboard-table thead tr th,
 .spr-tracking-dashboard-table tbody tr td {
-    //text-align: center;
+    text-align: center;
 }
 
 .spr-tracking-dashboard-table tbody tr td a {
