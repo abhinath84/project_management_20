@@ -93,7 +93,7 @@ abstract class HTMLTemplate
     protected function addHeader($currentDir, $selNav, $enableNav)
     {
         $nav = new Navigator();
-        $tag = $nav->header_new($currentDir, $selNav, $enableNav);
+        $tag = $nav->header($currentDir, $selNav, $enableNav);
 
         return($tag);
     }
@@ -1391,8 +1391,7 @@ class ScrumPPBHTML extends HTMLTemplate
 
     protected function addDashboard()
     {
-    return("");
-    //return(showWorkTrackerDashboard());
+        return("");
     }
 }
 
