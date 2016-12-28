@@ -4,3 +4,23 @@
     background-color: white;
     height: 100%;
 }
+
+.home-article table {
+    width:100%;
+    border-collapse: collapse;
+    border: 1px solid #d4d4d4;
+}
+
+.home-article table tr th{
+    text-align: center;
+    border: 1px solid #d4d4d4;
+}
+
+.home-article .td-border {
+    border: 1px solid #d4d4d4;
+}
+
+.home-article tbody tr td a {
+    text-decoration: none;
+    color: #0096e0;
+}
