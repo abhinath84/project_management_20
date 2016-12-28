@@ -37,7 +37,7 @@
         <div id="wrapper" class="wrapper">
             <?php
                 $nav = new Navigator();
-                echo $nav->header_new("base", "Login", false);
+                echo $nav->header("base", "Login", false);
             ?>
             <!-- Create login form -->
             <div id="result-main" class="result-main">
