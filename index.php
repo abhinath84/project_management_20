@@ -25,7 +25,7 @@
         <script type="text/javascript" src="js/addtable.js"></script>
         <script>
             $(document).ready(function(){
-               $("table").fixMe();
+               //$("table").fixMe();
                $(".up").click(function() {
                   $('html, body').animate({
                   scrollTop: 0
