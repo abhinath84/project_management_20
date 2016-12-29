@@ -408,7 +408,7 @@ class HomeHTML extends HTMLTemplate
         $tag .= '<div id="main-article-desc-container" style="align:center; margin: 25px;">' . $this->EOF_LINE;
         $tag .= '   <label id="session-label" style="font-size:15px">' . $this->EOF_LINE;
         $tag .= '       <strong style="font-size: 22px;">Project Management</strong>' . $this->EOF_LINE;
-        $tag .= '                Tool help user to organize SPRs assign to them. </br> It will help to tack SPR status, submission status and many other facilites. It also track user\'s daily work. It will generate weekly, monthly work reports. </br> It also manage <strong id="desc-strong">Scrum Methodology</strong>.' . $this->EOF_LINE;
+        $tag .= '                Tool help user to organize SPRs assign to them. </br> It will help to track SPR status, submission status and many other facilities. It also track user\'s daily work. It will generate weekly, monthly work reports. </br> It also manages <strong id="desc-strong">Scrum Methodology</strong>.' . $this->EOF_LINE;
         $tag .= '   </label>' . $this->EOF_LINE;
         $tag .= '</div>' . $this->EOF_LINE;
 
@@ -467,7 +467,7 @@ class HomeHTML extends HTMLTemplate
         $tag .= '<div id="scrum-process-flow-svg-container" class="scrum-process-flow-container">' . $this->EOF_LINE;
         $tag .=     $this->getScrumProcessFlowSVG();
         $tag .= '</div>' . $this->EOF_LINE;
-        $tag .= '<div id="scrum-process-link" class="display-table scrum-process-flow-container">' . $this->EOF_LINE;
+        $tag .= '<div id="scrum-process-link" class="display-table scrum-process-flow-container scrum-process-link">' . $this->EOF_LINE;
         $tag .=     $this->getScrumProcessLink();
         $tag .= '</div>' . $this->EOF_LINE;
 
@@ -979,37 +979,27 @@ class HomeHTML extends HTMLTemplate
     {
         $tag = '';
 
-        $tag .='<div class="display-table-cell report-item">
-                    <a href="#" class="tip" data-tip-text="Product Planning">
-                        <img src="images/burndown-chart.png" width="33" height="24" alt="Product Planning">
-                        <br>
-                        Product Planning
-                    </a>
-                </div>';
+        $tag .= '<div class="title">' . $this->EOF_LINE;
+        $tag .= '   Links' . $this->EOF_LINE;
+        $tag .= '</div>' . $this->EOF_LINE;
 
-        $tag .='<div class="display-table-cell report-item">
-                    <a href="#" class="tip" data-tip-text="Release Planning">
-                        <img src="images/burndown-chart.png" width="33" height="24" alt="Release Planning">
-                        <br>
-                        Release Planning
-                    </a>
-                </div>';
+        $tag .= $this->getScrumProcessLinkItem("Product Planning", "scrum/product_plan_backlog.php");
+        $tag .= $this->getScrumProcessLinkItem("Release Planning", "scrum/release_plan_dashboard.php");
+        $tag .= $this->getScrumProcessLinkItem("Sprint Planning", "scrum/sprint_plan_dashboard.php");
+        $tag .= $this->getScrumProcessLinkItem("Sprint Tracking", "scrum/sprint_track_detail.php");
 
-        $tag .='<div class="display-table-cell report-item">
-                    <a href="#" class="tip" data-tip-text="Sprint Planning">
-                        <img src="images/burndown-chart.png" width="33" height="24" alt="Sprint Planning">
-                        <br>
-                        Sprint Planning
-                    </a>
-                </div>';
+        return($tag);
+    }
 
-        $tag .='<div class="display-table-cell report-item">
-                    <a href="#" class="tip" data-tip-text="Sprint Tracking">
-                        <img src="images/burndown-chart.png" width="33" height="24" alt="Sprint Tracking">
-                        <br>
-                        Sprint Tracking
-                    </a>
-                </div>';
+    private function getScrumProcessLinkItem($title, $url)
+    {
+        $tag = '<div class="link-item">' . $this->EOF_LINE;
+        $tag .='    <a href="'. $url .'" class="tip" data-tip-text="' . $title . '">' . $this->EOF_LINE;
+        $tag .='        <img src="images/burndown-chart.png" width="33" height="24" alt="' . $title . '">' . $this->EOF_LINE;
+        $tag .='        <br>' . $this->EOF_LINE;
+        $tag .='        ' . $title . $this->EOF_LINE;
+        $tag .='    </a>' . $this->EOF_LINE;
+        $tag .='</div>' . $this->EOF_LINE;
 
         return($tag);
     }
@@ -1899,7 +1889,7 @@ class SprintTrackDetailHTML extends HTMLTemplate
 
     protected function addDashboard()
     {
-        $tag .= '';
+        $tag = '';
         $tag .= '<div class="main-article display-table">' . $this->EOF_LINE;
         $tag .= '   <p>#Sprint Tracking Detail - Artcle block</p>' . $this->EOF_LINE;
         $tag .= '</div>' . $this->EOF_LINE;

@@ -6,7 +6,7 @@
 }
 
 .spr-track-article-container {
-    width: 75%;
+    width: 60%;
     margin-left: auto;
     margin-right: auto;
     margin-top: 25px;
@@ -32,6 +32,29 @@
     margin-right: auto;
     margin-top: 25px;
     margin-bottom: 40px;
+}
+
+.scrum-process-link {
+    text-align: center;
+}
+
+.scrum-process-link .title {
+    margin: .3em 0 0;
+    padding-left: .5em;
+    margin-bottom: .5em;
+    font-weight: 700;
+}
+
+.scrum-process-link .link-item{
+    float: left;
+    text-align: center;
+    padding: .7em 0;
+    width: 24%;
+}
+
+.scrum-process-link .link-item a {
+    text-decoration: none;
+    color: #454545;
 }
 
 .info-container {
