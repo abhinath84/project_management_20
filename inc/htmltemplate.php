@@ -384,16 +384,16 @@ class HomeHTML extends HTMLTemplate
         $tag = '';
 
         $tag .= '   <div class="display-table">' . $this->EOF_LINE;
-        $tag .= '       <div class="display-table-row" style="border-bottom: 1px solid #d4d4d4;">' . $this->EOF_LINE;
+        $tag .= '       <div class="display-table-row pm-info-container">' . $this->EOF_LINE;
         $tag .=             $this->getPMShortDesc();
         $tag .= '       </div>' . $this->EOF_LINE;
         $tag .= '       <div class="display-table-row">' . $this->EOF_LINE;
         $tag .= '           <div class="display-table" style="width: 100%; height: 100%">' . $this->EOF_LINE;
-        $tag .= '               <div class="display-table-cell" style="width: 50%;">' . $this->EOF_LINE;
-        $tag .=                     $this->getArticleContainer();
+        $tag .= '               <div class="display-table-cell spr-article-table-cell">' . $this->EOF_LINE;
+        $tag .=                     $this->getSPRTrackInfoContainer();
         $tag .= '               </div>' . $this->EOF_LINE;
-        $tag .= '               <div class="display-table-cell">' . $this->EOF_LINE;
-        $tag .=                     $this->getScrumProcessFlowSVG();
+        $tag .= '               <div class="display-table-cell scrum-article-table-cell">' . $this->EOF_LINE;
+        $tag .=                     $this->getScrumInfoContainer();
         $tag .= '               </div>' . $this->EOF_LINE;
         $tag .= '           </div>' . $this->EOF_LINE;
         $tag .= '       </div>' . $this->EOF_LINE;
@@ -415,61 +415,68 @@ class HomeHTML extends HTMLTemplate
         return($tag);
     }
 
-    private function getArticleContainer()
+    private function getSPRTrackInfoContainer()
     {
         $imagesPath = "images";
 
-        $sprTrackingDashboardURL = "spr_tracking/dashboard.php";
-        $sprTrackingSubmitStatusURL = "spr_tracking/submit_status.php";
-        $workTrackerDashboardURL = "work_tracker/dashboard.php";
+        $sprTrackURL = "spr_tracking/dashboard.php";
+        $sprTrackImage = $imagesPath .'/spr_tracking_screen_new.png';
+        $sprTrackTitle = "SPR Tracking";
+        $sprTrackDesc = "Help user to manage SPRs those are assign to them.";
 
-        $tag  = '<div id="article-container" class="float-division" style="width:';
-        $tag .='%; height: 100%; margin-top: 10px;">
-        <div id="spr-tracking-article-container" class="float-division" style="width: 50%;">
-        <a href="'. $sprTrackingDashboardURL .'">
-        <img src="'. $imagesPath .'/spr_tracking_screen_.png" alt="SPR Tracking"
-        style="border:0;" height="150px" />
-        </a>
-        <h4 style="font-size: 15px;">
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <a href="'. $sprTrackingDashboardURL .'" style="text-decoration:none; color: #000">SPR Tacking</a>
-        </h4>
-        <p style="font-size: 13px;">Help user to manage SPRs those are assign to them.</p>
-        </div>
-        <div id="spr-submission-article-container" class="float-division" style="width: 45%;">
-        <a href="'.$sprTrackingSubmitStatusURL.'">
-        <img src="'. $imagesPath .'/spr_submission_status_screen_.png" alt="SPR Submission Status"
-        style="border:0;" height="150px" />
-        </a>
-        <h4 style="font-size: 15px;">
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <a href="'.$sprTrackingSubmitStatusURL .'" style="text-decoration:none; color: #000">SPR Submission Status</a>
-        </h4>
-        <p style="font-size: 13px;">Help user to manage Submission status of SPRs.</p>
-        </div>
-        <div id="work-tracker-article-container" class="float-division" style="width: 45%;">
-        <a href="'. $workTrackerDashboardURL .'">
-        <img src="'. $imagesPath .'/work_tracker_screen_.png" alt="Work Tracker"
-        style="border:0;" height="150px" />
-        </a>
-        <h4 style="font-size: 15px;">
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <a href="<?php echo $workTrackerDashboardURL ?>" style="text-decoration:none; color: #000">Work Tracker</a>
-        </h4>
-        <p style="font-size: 13px;">
-        Help user to track their daily work.
-        It will help them to understand how much time they spend for an SPR.
-        This will help them in future for project planning purpose.
-        </p>
-        </div>
-        </div>';
+        $sprSubmissionURL = "spr_tracking/submit_status.php";
+        $sprSubmissionImage = $imagesPath .'/spr_submission_status_screen_new.png';
+        $sprSubmissionTitle = "SPR Submission Status";
+        $sprSubmissionDesc = "Help user to manage Submission status of SPRs.";
+
+        $workTrackURL = "work_tracker/dashboard.php";
+        $workTrackImage = $imagesPath .'/work_tracker_screen_.png';
+        $workTrackTitle = "Work Tracker";
+        $workTrackDesc = "Help user to track their daily work. It will help them to understand how much time they spend for an SPR. This will help them in future for project planning purpose.";
+
+        $tag  = '<div id="spr-track-article-container" class="spr-track-article-container">' . $this->EOF_LINE;
+
+        $tag .=     $this->getSPRInfoDiv("spr-tracking-container", $sprTrackURL, $sprTrackImage, $sprTrackTitle, $sprTrackDesc);
+        $tag .=     $this->getSPRInfoDiv("spr-submission-article-container", $sprSubmissionURL, $sprSubmissionImage, $sprSubmissionTitle, $sprSubmissionDesc);
+        $tag .=     $this->getSPRInfoDiv("work-tracker-article-container", $workTrackURL, $workTrackImage, $workTrackTitle, $workTrackDesc);
+
+        $tag  .= '</div>' . $this->EOF_LINE;
 
         return(utf8_encode($tag));
     }
 
+    private function getSPRInfoDiv($divId, $url, $img, $headerStr, $desc)
+    {
+        $tag  = '  <div id="' . $divId . '" class="info-container">' . $this->EOF_LINE;
+        $tag  .= '      <a href="'. $url .'">' . $this->EOF_LINE;
+        $tag  .= '          <img src="'. $img .'" alt="' . $headerStr . '" />' . $this->EOF_LINE;
+        $tag  .= '      </a>' . $this->EOF_LINE;
+        $tag  .= '      <h4>' . $this->EOF_LINE;
+        $tag  .= '          <a href="'. $url .'">' . $headerStr . '</a>' . $this->EOF_LINE;
+        $tag  .= '      </h4>' . $this->EOF_LINE;
+        $tag  .= '      <p>' . $desc . '</p>' . $this->EOF_LINE;
+        $tag  .= '  </div>' . $this->EOF_LINE;
+
+        return($tag);
+    }
+
+    private function getScrumInfoContainer()
+    {
+        $tag = "";
+
+        $tag .= '<div id="scrum-process-flow-svg-container" class="scrum-process-flow-container">' . $this->EOF_LINE;
+        $tag .=     $this->getScrumProcessFlowSVG();
+        $tag .= '</div>' . $this->EOF_LINE;
+        $tag .= '<div id="scrum-process-link" class="display-table scrum-process-flow-container">' . $this->EOF_LINE;
+        $tag .=     $this->getScrumProcessLink();
+        $tag .= '</div>' . $this->EOF_LINE;
+
+        return($tag);
+    }
+
     private function getScrumProcessFlowSVG()
     {
-        $tag = '<div id="scrum-process-flow-svg-container" style="width:400px; height:400px;">
+        $tag = '<span id="scrum-process-flow-svg-span">
             <svg id="scrum-process-flow-svg" x="0px" y="0px" viewBox="0 0 593.9 593.9" enable-background="new 0 0 593.9 593.9" xml:space="preserve">
                 <g id="Layer_8">
                     <g id="Layer_1">
@@ -963,11 +970,49 @@ class HomeHTML extends HTMLTemplate
                     </g>
                 </g>
             </svg>
-        </div>';
+        </span>';
 
         return($tag);
     }
 
+    private function getScrumProcessLink()
+    {
+        $tag = '';
+
+        $tag .='<div class="display-table-cell report-item">
+                    <a href="#" class="tip" data-tip-text="Product Planning">
+                        <img src="images/burndown-chart.png" width="33" height="24" alt="Product Planning">
+                        <br>
+                        Product Planning
+                    </a>
+                </div>';
+
+        $tag .='<div class="display-table-cell report-item">
+                    <a href="#" class="tip" data-tip-text="Release Planning">
+                        <img src="images/burndown-chart.png" width="33" height="24" alt="Release Planning">
+                        <br>
+                        Release Planning
+                    </a>
+                </div>';
+
+        $tag .='<div class="display-table-cell report-item">
+                    <a href="#" class="tip" data-tip-text="Sprint Planning">
+                        <img src="images/burndown-chart.png" width="33" height="24" alt="Sprint Planning">
+                        <br>
+                        Sprint Planning
+                    </a>
+                </div>';
+
+        $tag .='<div class="display-table-cell report-item">
+                    <a href="#" class="tip" data-tip-text="Sprint Tracking">
+                        <img src="images/burndown-chart.png" width="33" height="24" alt="Sprint Tracking">
+                        <br>
+                        Sprint Tracking
+                    </a>
+                </div>';
+
+        return($tag);
+    }
 }
 
 class LoginHTML extends HTMLTemplate
@@ -1436,7 +1481,9 @@ class ScrumPPBHTML extends HTMLTemplate
 
     protected function addDashboard()
     {
-        return("");
+        $tag = "<p>#Article Block<p>";
+
+        return($tag);
     }
 }
 
