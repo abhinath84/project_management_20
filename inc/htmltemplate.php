@@ -1217,7 +1217,7 @@ class SPRTrackDashboardHTML extends SPRTrackHTML
         $tag .= '                        </select>' . $this->EOF_LINE;
         $tag .= '                    </div>' . $this->EOF_LINE;
         $tag .= '                    <div style="float: right; margin-right: 10px;">' . $this->EOF_LINE;
-        $tag .= '                        <button class="retro-style green add-spr" type="button">' . $this->EOF_LINE;
+        $tag .= '                        <button class="retro-style green add-spr" type="button" onclick="javascript:addSPRTrackingDashboardRow()">' . $this->EOF_LINE;
         $tag .= '                            <span>Add SPR to Track</span>' . $this->EOF_LINE;
         $tag .= '                        </button>' . $this->EOF_LINE;
         $tag .= '                        <button class="retro-style red" type="button">' . $this->EOF_LINE;

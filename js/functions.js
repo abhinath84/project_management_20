@@ -287,6 +287,35 @@ function getTagAccdType(id, type, event, value, select_list) {
     return(tag);
 }
 
+function getGreppyDotTag() {
+    var tag = '<i class="grippy">';
+    tag += '    <i class="dot"></i>';
+    tag += '    <i class="dot"></i>';
+    tag += '    <i class="dot"></i>';
+    tag += '    <i class="dot"></i>';
+    tag += '    <i class="dot"></i>';
+    tag += '</i>';
+
+    return(tag);
+}
+
+function getQuickActionBtn(Id, Class, dropdownId) {
+    var tag = '<div id="'+ Id +'" class="quick-action-btn '+ Class +'">';
+    tag += '    <a class="quick-action-text" href="popup:Widgets/Details/QuickEditStory">Save</a>';
+    tag += '    <a id="quick-action-arrow" class="quick-action-arrow" onclick="showHideEditMenu(\'show\', \''+ Id +'\', \''+ dropdownId +'\')" onblur="showHideEditMenu(\'hide\', \''+ Id +'\', \''+ dropdownId +'\')">';
+    tag += '        <span>';
+    tag += '            <svg width="10px" height="10px" viewBox="0 0 451.847 451.847" style="enable-background:new 0 0 451.847 451.847;" xml:space="preserve">';
+    tag += '                <g>';
+    tag += '                    <path d="M225.923,354.706c-8.098,0-16.195-3.092-22.369-9.263L9.27,151.157c-12.359-12.359-12.359-32.397,0-44.751   c12.354-12.354,32.388-12.354,44.748,0l171.905,171.915l171.906-171.909c12.359-12.354,32.391-12.354,44.744,0   c12.365,12.354,12.365,32.392,0,44.751L248.292,345.449C242.115,351.621,234.018,354.706,225.923,354.706z"/>';
+    tag += '                </g>';
+    tag += '            </svg>';
+    tag += '        </span>';
+    tag += '    </a>';
+    tag += '</div>';
+
+    return(tag);
+}
+
 function showSPREditTag(id, type, flag) {
     var tag = "";
     var parTag = document.getElementById(id);
@@ -415,11 +444,30 @@ function addDashboardRow(id, inputList) {
      * */
 
     // Add new row to existing dashboard table to put user input.
-    if($('#add-cancel-button-container').css('display') == "none") {
+    //if($('#add-cancel-button-container').css('display') == "none") {
         var table_rows = "";
 
         if((typeof inputList != "undefined") && (inputList != null) && (inputList.length > 0)) {
+
+            var tableTH = $('#' + id + "-table").find('th');
+            last_col = (tableTH.length - 1);
+
+            // add 'TH' element
+            tableTH.eq(last_col).after('<th>Edit</th>');
+
+            // add 'TD' element
+            $('#'+ id + "-table").find('tr').each(function () {
+                //if(typeof(col) === 'undefined')
+                    $(this).find('td').last().after('<td> &nbsp; </td>');
+                /*else
+                    $(this).find('td').eq(col).after('<td> &nbsp; </td>');*/
+            });
+
             table_rows += '<tr>';
+            table_rows += ' <td id="add-greppy" class="hasGrippy", style="text-align:center;">';
+            table_rows +=       getGreppyDotTag();
+            table_rows += ' </td>';
+
             for (var i in inputList) {
                 if(inputList[i][0] == "input") {
                     table_rows += '<td><input type="text" id="'+inputList[i][1]+'-input"';
@@ -452,10 +500,15 @@ function addDashboardRow(id, inputList) {
                     table_rows += '></textarea></td>';
                 }
             }
+
+            table_rows += ' <td id="add-btn" style="width: 2%">';
+            table_rows +=       getQuickActionBtn("edit-btn", "spr-tracking-tbl-td-btn", "spr-tracking-dashboard-table-dropdown");
+            table_rows += ' </td>';
+
             table_rows += '</tr>';
 
             if($('#'+id + '-tbody').find('tr').length > 0)
-                $('#'+id + '-tbody').find('tr:last').after(table_rows);
+                $('#'+id + '-tbody').find('tr:first').before(table_rows);
             else
                 $('#'+id + '-tbody').html(table_rows);
 
@@ -463,7 +516,7 @@ function addDashboardRow(id, inputList) {
             setAddDeleteContainer(id, 'Add', 'inline-block');
             $('#session-select').prop('disabled', true);
         }
-    }
+    //}
 }
 
 function deleteDashboardRow(id) {
