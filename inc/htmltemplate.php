@@ -408,7 +408,7 @@ class HomeHTML extends HTMLTemplate
         $tag .= '<div id="main-article-desc-container" style="align:center; margin: 25px;">' . $this->EOF_LINE;
         $tag .= '   <label id="session-label" style="font-size:15px">' . $this->EOF_LINE;
         $tag .= '       <strong style="font-size: 22px;">Project Management</strong>' . $this->EOF_LINE;
-        $tag .= '                Tool help user to organize SPRs assign to them. </br> It will help to tack SPR status, submission status and many other facilites. It also track user\'s daily work. It will generate weekly, monthly work reports. </br> It also manage <strong id="desc-strong">Scrum Methodology</strong>.' . $this->EOF_LINE;
+        $tag .= '                Tool help user to organize SPRs assign to them. </br> It will help to track SPR status, submission status and many other facilities. It also track user\'s daily work. It will generate weekly, monthly work reports. </br> It also manages <strong id="desc-strong">Scrum Methodology</strong>.' . $this->EOF_LINE;
         $tag .= '   </label>' . $this->EOF_LINE;
         $tag .= '</div>' . $this->EOF_LINE;
 
@@ -467,7 +467,7 @@ class HomeHTML extends HTMLTemplate
         $tag .= '<div id="scrum-process-flow-svg-container" class="scrum-process-flow-container">' . $this->EOF_LINE;
         $tag .=     $this->getScrumProcessFlowSVG();
         $tag .= '</div>' . $this->EOF_LINE;
-        $tag .= '<div id="scrum-process-link" class="display-table scrum-process-flow-container">' . $this->EOF_LINE;
+        $tag .= '<div id="scrum-process-link" class="display-table scrum-process-flow-container scrum-process-link">' . $this->EOF_LINE;
         $tag .=     $this->getScrumProcessLink();
         $tag .= '</div>' . $this->EOF_LINE;
 
@@ -979,37 +979,27 @@ class HomeHTML extends HTMLTemplate
     {
         $tag = '';
 
-        $tag .='<div class="display-table-cell link-item">
-                    <a href="#" class="tip" data-tip-text="Product Planning">
-                        <img src="images/burndown-chart.png" width="33" height="24" alt="Product Planning">
-                        <br>
-                        Product Planning
-                    </a>
-                </div>';
+        $tag .= '<div class="title">' . $this->EOF_LINE;
+        $tag .= '   Links' . $this->EOF_LINE;
+        $tag .= '</div>' . $this->EOF_LINE;
 
-        $tag .='<div class="display-table-cell link-item">
-                    <a href="#" class="tip" data-tip-text="Release Planning">
-                        <img src="images/burndown-chart.png" width="33" height="24" alt="Release Planning">
-                        <br>
-                        Release Planning
-                    </a>
-                </div>';
+        $tag .= $this->getScrumProcessLinkItem("Product Planning", "scrum/product_plan_backlog.php");
+        $tag .= $this->getScrumProcessLinkItem("Release Planning", "scrum/release_plan_dashboard.php");
+        $tag .= $this->getScrumProcessLinkItem("Sprint Planning", "scrum/sprint_plan_dashboard.php");
+        $tag .= $this->getScrumProcessLinkItem("Sprint Tracking", "scrum/sprint_track_detail.php");
 
-        $tag .='<div class="display-table-cell link-item">
-                    <a href="#" class="tip" data-tip-text="Sprint Planning">
-                        <img src="images/burndown-chart.png" width="33" height="24" alt="Sprint Planning">
-                        <br>
-                        Sprint Planning
-                    </a>
-                </div>';
+        return($tag);
+    }
 
-        $tag .='<div class="display-table-cell link-item">
-                    <a href="#" class="tip" data-tip-text="Sprint Tracking">
-                        <img src="images/burndown-chart.png" width="33" height="24" alt="Sprint Tracking">
-                        <br>
-                        Sprint Tracking
-                    </a>
-                </div>';
+    private function getScrumProcessLinkItem($title, $url)
+    {
+        $tag = '<div class="link-item">' . $this->EOF_LINE;
+        $tag .='    <a href="'. $url .'" class="tip" data-tip-text="' . $title . '">' . $this->EOF_LINE;
+        $tag .='        <img src="images/burndown-chart.png" width="33" height="24" alt="' . $title . '">' . $this->EOF_LINE;
+        $tag .='        <br>' . $this->EOF_LINE;
+        $tag .='        ' . $title . $this->EOF_LINE;
+        $tag .='    </a>' . $this->EOF_LINE;
+        $tag .='</div>' . $this->EOF_LINE;
 
         return($tag);
     }
@@ -1483,7 +1473,7 @@ class ScrumPPBHTML extends HTMLTemplate
     {
         $tag = '<p>#Article Block</p>'. $this->EOF_LINE;
 
-        //$tag .= '<div class="article-container display-table">'. $this->EOF_LINE;
+        $tag .= '<div class="article-container display-table">'. $this->EOF_LINE;
         $tag .=   '<div class="project-item display-table">'. $this->EOF_LINE;
         $tag .=     '<button class="project-selector asset-hover" type="button">'. $this->EOF_LINE;
         $tag .=         '<h3>Product Backlog</h3>'. $this->EOF_LINE;
@@ -1499,10 +1489,10 @@ class ScrumPPBHTML extends HTMLTemplate
         $tag .=  '</div>'. $this->EOF_LINE;
         $tag .=  '<div class="main-article display-table">'. $this->EOF_LINE;
         $tag .=     '<div class="main-article-nav-container display-table-row">'. $this->EOF_LINE;
-        $tag .=         '<ul class="float-box-nav main-article-nav">';
-        $tag .= '       <li><a class="selected-tab" href="#" target="_top">Backlog</a></li>';
-        $tag .=         '<li><a href="#" target="_top">Import</a></li>';
-        $tag .=         '</ul>';
+        $tag .=         '<ul class="float-box-nav main-article-nav">'. $this->EOF_LINE;
+        $tag .= '       <li><a class="selected-tab" href="#" target="_top">Backlog</a></li>'. $this->EOF_LINE;
+        $tag .=         '<li><a href="#" target="_top">Import</a></li>'. $this->EOF_LINE;
+        $tag .=         '</ul>'. $this->EOF_LINE;
         $tag .=     '</div>'. $this->EOF_LINE;
         $tag .=   '<div class="main-article-tab-container display-table-row">'. $this->EOF_LINE;
         $tag .=     '<div class="main-article-tab-info-container">'. $this->EOF_LINE;
@@ -1563,26 +1553,26 @@ class ScrumPPBHTML extends HTMLTemplate
         $tag .= '                   <a href="#">Delete</a>'. $this->EOF_LINE;
         $tag .= '               </div>'. $this->EOF_LINE;
         $tag .= '             <div class="project-backlog-table-container">'. $this->EOF_LINE;
-        $tag .= '               <table id="project-backlog-table" class="grippy-table">';
-        $tag .= '                   <thead id="project-backlog-thead">';
-        $tag .= '                       <tr>';
-        $tag .= '                           <th> </th>';
-        $tag .= '                            <th style="text-align: center;">';
+        $tag .= '               <table id="project-backlog-table" class="grippy-table">'. $this->EOF_LINE;
+        $tag .= '                   <thead id="project-backlog-thead">'. $this->EOF_LINE;
+        $tag .= '                       <tr>'. $this->EOF_LINE;
+        $tag .= '                           <th> </th>'. $this->EOF_LINE;
+        $tag .= '                            <th style="text-align: center;">'. $this->EOF_LINE;
         $tag .= '                               <input id="_fjvevqi" _v1_multiselector="1" type="checkbox" clickhandler="V1.Gadgets.Grid.MultiSelect.ToggleAll(\'_fjvevqi\');" name="selectAll">'. $this->EOF_LINE;
-        $tag .= '                            </th>';
-        $tag .= '                            <th data-sort="int">Order</th>';
-        $tag .= '                            <th data-sort="string"><a class="sortable">Title</a></th>';
-        $tag .= '                            <th data-sort="string"><a class="sortable">ID</a></th>';
-        $tag .= '                            <th data-sort="string"><a class="sortable">Owner</a></th>';
-        $tag .= '                            <th data-sort="string"><a class="sortable">Priority</a></th>';
-        $tag .= '                            <th data-sort="string"><a class="sortable">Estimate Pts</a></th>';
-        $tag .= '                            <th data-sort="string"><a class="sortable">Project</a></th>';
-        $tag .= '                            <th> </th>';
-        $tag .= '                       </tr>';
-        $tag .= '                   </thead>';
-        $tag .= '                   <tbody id="project-backlog-tbody">';
-        $tag .= '                       <tr align="center">';
-        $tag .= '                       <td class="hasGrippy" style="text-align: center;">';
+        $tag .= '                            </th>'. $this->EOF_LINE;
+        $tag .= '                            <th data-sort="int">Order</th>'. $this->EOF_LINE;
+        $tag .= '                            <th data-sort="string"><a class="sortable">Title</a></th>'. $this->EOF_LINE;
+        $tag .= '                            <th data-sort="string"><a class="sortable">ID</a></th>'. $this->EOF_LINE;
+        $tag .= '                            <th data-sort="string"><a class="sortable">Owner</a></th>'. $this->EOF_LINE;
+        $tag .= '                            <th data-sort="string"><a class="sortable">Priority</a></th>'. $this->EOF_LINE;
+        $tag .= '                            <th data-sort="string"><a class="sortable">Estimate Pts</a></th>'. $this->EOF_LINE;
+        $tag .= '                            <th data-sort="string"><a class="sortable">Project</a></th>'. $this->EOF_LINE;
+        $tag .= '                            <th> </th>'. $this->EOF_LINE;
+        $tag .= '                       </tr>'. $this->EOF_LINE;
+        $tag .= '                   </thead>'. $this->EOF_LINE;
+        $tag .= '                   <tbody id="project-backlog-tbody">'. $this->EOF_LINE;
+        $tag .= '                       <tr align="center">'. $this->EOF_LINE;
+        $tag .= '                       <td class="hasGrippy" style="text-align: center;">'. $this->EOF_LINE;
         $tag .= '                           <i class="grippy">'. $this->EOF_LINE;
         $tag .= '                           <i class="dot"></i>'. $this->EOF_LINE;
         $tag .= '                           <i class="dot"></i>'. $this->EOF_LINE;
@@ -1590,25 +1580,25 @@ class ScrumPPBHTML extends HTMLTemplate
         $tag .= '                           <i class="dot"></i>'. $this->EOF_LINE;
         $tag .= '                           <i class="dot"></i>'. $this->EOF_LINE;
         $tag .= '                           </i>'. $this->EOF_LINE;
-        $tag .= '                       </td>';
-        $tag .= '                       <td style="text-align: center;">';
+        $tag .= '                       </td>'. $this->EOF_LINE;
+        $tag .= '                       <td style="text-align: center;">'. $this->EOF_LINE;
         $tag .= '                           <input _v1_multiselector="1" type="checkbox" clickhandler="V1.Gadgets.Grid.MultiSelect.ToggleAll(\'_fjvevqi\');" name="selectAll">'. $this->EOF_LINE;
-        $tag .= '                       </td>';
-        $tag .= '                       <td>1</td>';
-        $tag .= '                       <td>';
+        $tag .= '                       </td>'. $this->EOF_LINE;
+        $tag .= '                       <td>1</td>'. $this->EOF_LINE;
+        $tag .= '                       <td>'. $this->EOF_LINE;
         $tag .= '                   <div class="backlog-title-container">'. $this->EOF_LINE;
         $tag .= '                        <span class="backlog-image-container">'. $this->EOF_LINE;
         $tag .= '                            <img alt="12345" src="../../images/Defect-Icon.gif" title="12345">'. $this->EOF_LINE;
         $tag .= '                        </span>'. $this->EOF_LINE;
         $tag .= ' <a>6534211</a>'. $this->EOF_LINE;
         $tag .= ' </div>'. $this->EOF_LINE;
-        $tag .= ' </td>';
-        $tag .= ' <td>s00001</td>';
-        $tag .= ' <td>Pooja</td>';
-        $tag .= ' <td>High</td>';
-        $tag .= ' <td>15.0</td>';
-        $tag .= ' <td>Release 1.0</td>';
-        $tag .= ' <td class="gg" align="right" style="text-align: right;">';
+        $tag .= ' </td>'. $this->EOF_LINE;
+        $tag .= ' <td>s00001</td>'. $this->EOF_LINE;
+        $tag .= ' <td>Pooja</td>'. $this->EOF_LINE;
+        $tag .= ' <td>High</td>'. $this->EOF_LINE;
+        $tag .= ' <td>15.0</td>'. $this->EOF_LINE;
+        $tag .= ' <td>Release 1.0</td>'. $this->EOF_LINE;
+        $tag .= ' <td class="gg" align="right" style="text-align: right;">'. $this->EOF_LINE;
         $tag .= ' <div id="backlog-table-btn-1" class="quick-action-btn backlog-table-btn">'. $this->EOF_LINE;
         $tag .= ' <a class="quick-action-text" href="popup:Widgets/Details/QuickEditStory">Edit</a>'. $this->EOF_LINE;
         $tag .= ' <a id="quick-action-arrow" class="quick-action-arrow" onclick="showHideEditMenu(\'show\', \'backlog-table-btn-1\', \'backlog-table-dropdown\')" onblur="showHideEditMenu(\'hide\', \'backlog-table-btn-1\', \'backlog-table-dropdown\')">'. $this->EOF_LINE;
@@ -1621,10 +1611,10 @@ class ScrumPPBHTML extends HTMLTemplate
         $tag .= ' </span>'. $this->EOF_LINE;
         $tag .= ' </a>'. $this->EOF_LINE;
         $tag .= ' </div>'. $this->EOF_LINE;
-        $tag .= ' </td>';
-        $tag .= ' </tr>';
-        $tag .= ' <tr align="center">';
-        $tag .= ' <td class="hasGrippy" style="text-align: center;">';
+        $tag .= ' </td>'. $this->EOF_LINE;
+        $tag .= ' </tr>'. $this->EOF_LINE;
+        $tag .= ' <tr align="center">'. $this->EOF_LINE;
+        $tag .= ' <td class="hasGrippy" style="text-align: center;">'. $this->EOF_LINE;
         $tag .= ' <i class="grippy">'. $this->EOF_LINE;
         $tag .= ' <i class="dot"></i>'. $this->EOF_LINE;
         $tag .= ' <i class="dot"></i>'. $this->EOF_LINE;
@@ -1632,25 +1622,25 @@ class ScrumPPBHTML extends HTMLTemplate
         $tag .= ' <i class="dot"></i>'. $this->EOF_LINE;
         $tag .= ' <i class="dot"></i>'. $this->EOF_LINE;
         $tag .= ' </i>'. $this->EOF_LINE;
-        $tag .= ' </td>';
-        $tag .= ' <td style="text-align: center;">';
+        $tag .= ' </td>'. $this->EOF_LINE;
+        $tag .= ' <td style="text-align: center;">'. $this->EOF_LINE;
         $tag .= ' <input id="_fjvevqi" _v1_multiselector="1" type="checkbox" clickhandler="V1.Gadgets.Grid.MultiSelect.ToggleAll(\'_fjvevqi\');" name="selectAll">'. $this->EOF_LINE;
-        $tag .= ' </td>';
-        $tag .= ' <td>2</td>';
-        $tag .= ' <td>';
+        $tag .= ' </td>'. $this->EOF_LINE;
+        $tag .= ' <td>2</td>'. $this->EOF_LINE;
+        $tag .= ' <td>'. $this->EOF_LINE;
         $tag .= ' <div class="backlog-title-container">'. $this->EOF_LINE;
         $tag .= ' <span class="backlog-image-container">'. $this->EOF_LINE;
         $tag .= ' <img alt="12345" src="../../images/Defect-Icon.gif" title="12345">'. $this->EOF_LINE;
         $tag .= ' </span>'. $this->EOF_LINE;
         $tag .= ' <a>6534215</a>'. $this->EOF_LINE;
         $tag .= ' </div>'. $this->EOF_LINE;
-        $tag .= ' </td>';
-        $tag .= ' <td>s00002</td>';
-        $tag .= ' <td>Pooja</td>';
-        $tag .= ' <td>Low</td>';
-        $tag .= ' <td>10.0</td>';
-        $tag .= ' <td>Release 1.0</td>';
-        $tag .= ' <td class="gg" align="right" style="text-align: right;">';
+        $tag .= ' </td>'. $this->EOF_LINE;
+        $tag .= ' <td>s00002</td>'. $this->EOF_LINE;
+        $tag .= ' <td>Pooja</td>'. $this->EOF_LINE;
+        $tag .= ' <td>Low</td>'. $this->EOF_LINE;
+        $tag .= ' <td>10.0</td>'. $this->EOF_LINE;
+        $tag .= ' <td>Release 1.0</td>'. $this->EOF_LINE;
+        $tag .= ' <td class="gg" align="right" style="text-align: right;">'. $this->EOF_LINE;
         $tag .= ' <div id="backlog-table-btn-2" class="quick-action-btn backlog-table-btn">'. $this->EOF_LINE;
         $tag .= ' <a class="quick-action-text" href="popup:Widgets/Details/QuickEditStory">Edit</a>'. $this->EOF_LINE;
         $tag .= ' <a id="quick-action-arrow" class="quick-action-arrow" onclick="showHideEditMenu(\'show\', \'backlog-table-btn-2\', \'backlog-table-dropdown\')" onblur="showHideEditMenu(\'hide\', \'backlog-table-btn-2\', \'backlog-table-dropdown\')">'. $this->EOF_LINE;
@@ -1663,10 +1653,10 @@ class ScrumPPBHTML extends HTMLTemplate
         $tag .= ' </span>'. $this->EOF_LINE;
         $tag .= ' </a>'. $this->EOF_LINE;
         $tag = ' </div>'. $this->EOF_LINE;
-        $tag .= ' </td>';
-        $tag .= ' </tr>';
-        $tag .= ' <tr align="center">';
-        $tag .= ' <td class="hasGrippy" style="text-align: center;">';
+        $tag .= ' </td>'. $this->EOF_LINE;
+        $tag .= ' </tr>'. $this->EOF_LINE;
+        $tag .= ' <tr align="center">'. $this->EOF_LINE;
+        $tag .= ' <td class="hasGrippy" style="text-align: center;">'. $this->EOF_LINE;
         $tag .= ' <i class="grippy">'. $this->EOF_LINE;
         $tag .= ' <i class="dot"></i>'. $this->EOF_LINE;
         $tag .= ' <i class="dot"></i>'. $this->EOF_LINE;
@@ -1674,25 +1664,25 @@ class ScrumPPBHTML extends HTMLTemplate
         $tag .= ' <i class="dot"></i>'. $this->EOF_LINE;
         $tag .= ' <i class="dot"></i>'. $this->EOF_LINE;
         $tag .= ' </i>. $this->EOF_LINE';
-        $tag .= ' </td>';
-        $tag .= ' <td style="text-align: center;">';
+        $tag .= ' </td>'. $this->EOF_LINE;
+        $tag .= ' <td style="text-align: center;">'. $this->EOF_LINE;
         $tag .= ' <input id="_fjvevqi" _v1_multiselector="1" type="checkbox" clickhandler="V1.Gadgets.Grid.MultiSelect.ToggleAll(\'_fjvevqi\');" name="selectAll">'. $this->EOF_LINE;
-        $tag .= ' </td>';
-        $tag .= ' <td>3</td>';
-        $tag .= ' <td>';
+        $tag .= ' </td>'. $this->EOF_LINE;
+        $tag .= ' <td>3</td>'. $this->EOF_LINE;
+        $tag .= ' <td>'. $this->EOF_LINE;
         $tag .= ' <div class="backlog-title-container">'. $this->EOF_LINE;
         $tag .= ' <span class="backlog-image-container">'. $this->EOF_LINE;
         $tag .= ' <img alt="12345" src="../../images/Defect-Icon.gif" title="12345">'. $this->EOF_LINE;
         $tag .= ' </span>'. $this->EOF_LINE;
         $tag .= ' <a>6534221</a>'. $this->EOF_LINE;
         $tag .= ' </div>'. $this->EOF_LINE;
-        $tag .= ' </td>';
-        $tag .= ' <td>s00003</td>';
-        $tag .= ' <td>Abhishek</td>';
-        $tag .= ' <td>High</td>';
-        $tag .= ' <td>10.0</td>';
-        $tag .= ' <td>Release 1.0</td>';
-        $tag .= ' <td class="gg" align="right" style="text-align: right;">';
+        $tag .= ' </td>'. $this->EOF_LINE;
+        $tag .= ' <td>s00003</td>'. $this->EOF_LINE;
+        $tag .= ' <td>Abhishek</td>'. $this->EOF_LINE;
+        $tag .= ' <td>High</td>'. $this->EOF_LINE;
+        $tag .= ' <td>10.0</td>'. $this->EOF_LINE;
+        $tag .= ' <td>Release 1.0</td>'. $this->EOF_LINE;
+        $tag .= ' <td class="gg" align="right" style="text-align: right;">'. $this->EOF_LINE;
         $tag .= ' <div id="backlog-table-btn-3" class="quick-action-btn backlog-table-btn">'. $this->EOF_LINE;
         $tag .= ' <a class="quick-action-text" href="popup:Widgets/Details/QuickEditStory">Edit</a>'. $this->EOF_LINE;
         $tag .= ' <a id="quick-action-arrow" class="quick-action-arrow" onclick="showHideEditMenu(\'show\', \'backlog-table-btn-3\', \'backlog-table-dropdown\')" onblur="showHideEditMenu(\'hide\', \'backlog-table-btn-3\', \'backlog-table-dropdown\')">'. $this->EOF_LINE;
@@ -1705,10 +1695,10 @@ class ScrumPPBHTML extends HTMLTemplate
         $tag .= ' </span>'. $this->EOF_LINE;
         $tag .= ' </a>'. $this->EOF_LINE;
         $tag .= ' </div>'. $this->EOF_LINE;
-        $tag .= ' </td>';
-        $tag .= ' </tr>';
-        $tag .= ' <tr align="center">';
-        $tag .= ' <td class="hasGrippy" style="text-align: center;">';
+        $tag .= ' </td>'. $this->EOF_LINE;
+        $tag .= ' </tr>'. $this->EOF_LINE;
+        $tag .= ' <tr align="center">'. $this->EOF_LINE;
+        $tag .= ' <td class="hasGrippy" style="text-align: center;">'. $this->EOF_LINE;
         $tag .= ' <i class="grippy">'. $this->EOF_LINE;
         $tag .= ' <i class="dot"></i>'. $this->EOF_LINE;
         $tag .= ' <i class="dot"></i>'. $this->EOF_LINE;
@@ -1716,25 +1706,25 @@ class ScrumPPBHTML extends HTMLTemplate
         $tag .= ' <i class="dot"></i>'. $this->EOF_LINE;
         $tag .= ' <i class="dot"></i>'. $this->EOF_LINE;
         $tag .= ' </i>'. $this->EOF_LINE;
-        $tag .= ' </td>';
-        $tag .= ' <td style="text-align: center;">';
+        $tag .= ' </td>'. $this->EOF_LINE;
+        $tag .= ' <td style="text-align: center;">'. $this->EOF_LINE;
         $tag .= ' <input id="_fjvevqi" _v1_multiselector="1" type="checkbox" clickhandler="V1.Gadgets.Grid.MultiSelect.ToggleAll(\'_fjvevqi\');" name="selectAll">'. $this->EOF_LINE;
-        $tag .= ' </td>';
-        $tag .= ' <td>4</td>';
-        $tag .= ' <td>';
+        $tag .= ' </td>'. $this->EOF_LINE;
+        $tag .= ' <td>4</td>'. $this->EOF_LINE;
+        $tag .= ' <td>'. $this->EOF_LINE;
         $tag .= ' <div class="backlog-title-container">'. $this->EOF_LINE;
         $tag .= ' <span class="backlog-image-container">'. $this->EOF_LINE;
         $tag .= ' <img alt="12345" src="../../images/Defect-Icon.gif" title="12345">'. $this->EOF_LINE;
         $tag .= ' </span>'. $this->EOF_LINE;
         $tag .= ' <a>6534225</a>'. $this->EOF_LINE;
         $tag .= ' </div>'. $this->EOF_LINE;
-        $tag .= ' </td>';
-        $tag .= ' <td>s00004</td>';
-        $tag .= ' <td>Abhishek</td>';
-        $tag .= ' <td>High</td>';
-        $tag .= ' <td>10.0</td>';
-        $tag .= ' <td>Release 1.0</td>';
-        $tag .= ' <td class="gg" align="right" style="text-align: right;">';
+        $tag .= ' </td>'. $this->EOF_LINE;
+        $tag .= ' <td>s00004</td>'. $this->EOF_LINE;
+        $tag .= ' <td>Abhishek</td>'. $this->EOF_LINE;
+        $tag .= ' <td>High</td>'. $this->EOF_LINE;
+        $tag .= ' <td>10.0</td>'. $this->EOF_LINE;
+        $tag .= ' <td>Release 1.0</td>'. $this->EOF_LINE;
+        $tag .= ' <td class="gg" align="right" style="text-align: right;">'. $this->EOF_LINE;
         $tag .= ' <div id="backlog-table-btn-4" class="quick-action-btn backlog-table-btn">'. $this->EOF_LINE;
         $tag .= ' <a class="quick-action-text" href="popup:Widgets/Details/QuickEditStory">Edit</a>'. $this->EOF_LINE;
         $tag .= ' <a id="quick-action-arrow" class="quick-action-arrow" onclick="showHideEditMenu(\'show\', \'backlog-table-btn-4\', \'backlog-table-dropdown\')" onblur="showHideEditMenu(\'hide\', \'backlog-table-btn-4\', \'backlog-table-dropdown\')">'. $this->EOF_LINE;
@@ -1747,10 +1737,10 @@ class ScrumPPBHTML extends HTMLTemplate
         $tag .= ' </span>'. $this->EOF_LINE;
         $tag .= ' </a>'. $this->EOF_LINE;
         $tag .= ' </div>'. $this->EOF_LINE;
-        $tag .= ' </td>';
-        $tag .= ' </tr>';
-        $tag .= ' <tr align="center">';
-        $tag .= ' <td class="hasGrippy" style="text-align: center;">';
+        $tag .= ' </td>'. $this->EOF_LINE;
+        $tag .= ' </tr>'. $this->EOF_LINE;
+        $tag .= ' <tr align="center">'. $this->EOF_LINE;
+        $tag .= ' <td class="hasGrippy" style="text-align: center;">'. $this->EOF_LINE;
         $tag .= ' <i class="grippy">'. $this->EOF_LINE;
         $tag .= ' <i class="dot"></i>'. $this->EOF_LINE;
         $tag .= ' <i class="dot"></i>'. $this->EOF_LINE;
@@ -1758,25 +1748,25 @@ class ScrumPPBHTML extends HTMLTemplate
         $tag .= ' <i class="dot"></i>'. $this->EOF_LINE;
         $tag .= ' <i class="dot"></i>'. $this->EOF_LINE;
         $tag .= ' </i>'. $this->EOF_LINE;
-        $tag .= ' </td>';
-        $tag .= ' <td style="text-align: center;">';
+        $tag .= ' </td>'. $this->EOF_LINE;
+        $tag .= ' <td style="text-align: center;">'. $this->EOF_LINE;
         $tag .= ' <input id="_fjvevqi" _v1_multiselector="1" type="checkbox" clickhandler="V1.Gadgets.Grid.MultiSelect.ToggleAll(\'_fjvevqi\');" name="selectAll">'. $this->EOF_LINE;
-        $tag .= ' </td>';
-        $tag .= ' <td>5</td>';
-        $tag .= ' <td>';
+        $tag .= ' </td>'. $this->EOF_LINE. $this->EOF_LINE;
+        $tag .= ' <td>5</td>'. $this->EOF_LINE;
+        $tag .= ' <td>'. $this->EOF_LINE;
         $tag .= ' <div class="backlog-title-container">'. $this->EOF_LINE. $this->EOF_LINE;
         $tag .= ' <span class="backlog-image-container">'. $this->EOF_LINE;
         $tag .= ' <img alt="12345" src="../../images/Defect-Icon.gif" title="12345">'. $this->EOF_LINE;
         $tag .= ' </span>'. $this->EOF_LINE;
         $tag .= ' <a>6534228</a>'. $this->EOF_LINE;
         $tag .= ' </div>'. $this->EOF_LINE;
-        $tag .= ' </td>';
-        $tag .= ' <td>s00005</td>';
-        $tag .= ' <td>Abhishek</td>';
-        $tag .= ' <td>high</td>';
-        $tag .= ' <td>10.0</td>';
-        $tag .= ' <td>Release 1.0</td>';
-        $tag .= ' <td class="gg" align="right" style="text-align: right;">';
+        $tag .= ' </td>'. $this->EOF_LINE;
+        $tag .= ' <td>s00005</td>'. $this->EOF_LINE;
+        $tag .= ' <td>Abhishek</td>'. $this->EOF_LINE;
+        $tag .= ' <td>high</td>'. $this->EOF_LINE;
+        $tag .= ' <td>10.0</td>'. $this->EOF_LINE;
+        $tag .= ' <td>Release 1.0</td>'. $this->EOF_LINE;
+        $tag .= ' <td class="gg" align="right" style="text-align: right;">'. $this->EOF_LINE;
         $tag .= ' <div id="backlog-table-btn-5" class="quick-action-btn backlog-table-btn">'. $this->EOF_LINE;
         $tag .= ' <a class="quick-action-text" href="popup:Widgets/Details/QuickEditStory">Edit</a>'. $this->EOF_LINE;
         $tag .= ' <a id="quick-action-arrow" class="quick-action-arrow" onclick="showHideEditMenu(\'show\', \'backlog-table-btn-5\', \'backlog-table-dropdown\')" onblur="showHideEditMenu(\'hide\', \'backlog-table-btn-5\', \'backlog-table-dropdown\')">'. $this->EOF_LINE;
@@ -1789,10 +1779,10 @@ class ScrumPPBHTML extends HTMLTemplate
         $tag .= ' </span>'. $this->EOF_LINE;
         $tag .= ' </a>'. $this->EOF_LINE;
         $tag .= ' </div>'. $this->EOF_LINE;
-        $tag .= ' </td>';
-        $tag .= ' </tr>';
-        $tag .= ' <tr align="center">';
-        $tag .= ' <td class="hasGrippy" style="text-align: center;">';
+        $tag .= ' </td>'. $this->EOF_LINE;
+        $tag .= ' </tr>'. $this->EOF_LINE;
+        $tag .= ' <tr align="center">'. $this->EOF_LINE;
+        $tag .= ' <td class="hasGrippy" style="text-align: center;">'. $this->EOF_LINE;
         $tag .= ' <i class="grippy">'. $this->EOF_LINE;
         $tag .= ' <i class="dot"></i>'. $this->EOF_LINE;
         $tag .= ' <i class="dot"></i>'. $this->EOF_LINE;
@@ -1800,41 +1790,41 @@ class ScrumPPBHTML extends HTMLTemplate
         $tag .= ' <i class="dot"></i>'. $this->EOF_LINE;
         $tag .= ' <i class="dot"></i>'. $this->EOF_LINE;
         $tag .= ' </i>'. $this->EOF_LINE;
-        $tag .= ' </td>';
-        $tag .= ' <td style="text-align: center;">';
+        $tag .= ' </td>'. $this->EOF_LINE;
+        $tag .= ' <td style="text-align: center;">'. $this->EOF_LINE;
         $tag .= ' <input id="_fjvevqi" _v1_multiselector="1" type="checkbox" clickhandler="V1.Gadgets.Grid.MultiSelect.ToggleAll(\'_fjvevqi\');" name="selectAll">'. $this->EOF_LINE;
-        $tag .= ' </td>';
-        $tag .= ' <td>6</td>';
-        $tag .= ' <td>';
+        $tag .= ' </td>'. $this->EOF_LINE;
+        $tag .= ' <td>6</td>'. $this->EOF_LINE;
+        $tag .= ' <td>'. $this->EOF_LINE;
         $tag .= ' <div class="backlog-title-container">'. $this->EOF_LINE;
         $tag .= ' <span class="backlog-image-container">'. $this->EOF_LINE;
         $tag .= ' <img alt="12345" src="../../images/Defect-Icon.gif" title="12345">'. $this->EOF_LINE;
         $tag .= ' </span>'. $this->EOF_LINE;
         $tag .= ' <a>6534231</a>'. $this->EOF_LINE;
         $tag .= ' </div>'. $this->EOF_LINE;
-        $tag .= ' </td>';
-        $tag .= ' <td>s00006</td>';
-        $tag .= ' <td>Abhishek</td>';
-        $tag .= ' <td>High</td>';
-        $tag .= ' <td>10.0</td>';
-        $tag .= ' <td>Release 1.0</td>';
-        $tag .= ' <td class="gg" align="right" style="text-align: right;">';
-        $tag .= ' <div id="backlog-table-btn-6" class="quick-action-btn backlog-table-btn">'. $this->EOF_LINE;
-        $tag .= ' <a class="quick-action-text" href="popup:Widgets/Details/QuickEditStory">Edit</a>'. $this->EOF_LINE;
-        $tag .= ' <a id="quick-action-arrow" class="quick-action-arrow" onclick="showHideEditMenu(\'show\', \'backlog-table-btn-6\', \'backlog-table-dropdown\')" onblur="showHideEditMenu(\'hide\', \'backlog-table-btn-6\', \'backlog-table-dropdown\')">'. $this->EOF_LINE;
-        $tag .= ' <span>'. $this->EOF_LINE;
-        $tag .= ' <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="10px" height="10px" viewBox="0 0 451.847 451.847" style="enable-background:new 0 0 451.847 451.847;" xml:space="preserve">'. $this->EOF_LINE;
-        $tag .= ' <g>'. $this->EOF_LINE;
+        $tag .= ' </td>'. $this->EOF_LINE;
+        $tag .= ' <td>s00006</td>'. $this->EOF_LINE;
+        $tag .= ' <td>Abhishek</td>'. $this->EOF_LINE;
+        $tag .= ' <td>High</td>'. $this->EOF_LINE;
+        $tag .= ' <td>10.0</td>'. $this->EOF_LINE;
+        $tag .= ' <td>Release 1.0</td>'. $this->EOF_LINE;
+        $tag .= ' <td class="gg" align="right" style="text-align: right;">'. $this->EOF_LINE. $this->EOF_LINE;
+        $tag .= ' <div id="backlog-table-btn-6" class="quick-action-btn backlog-table-btn">'. $this->EOF_LINE. $this->EOF_LINE. $this->EOF_LINE;
+        $tag .= ' <a class="quick-action-text" href="popup:Widgets/Details/QuickEditStory">Edit</a>'. $this->EOF_LINE. $this->EOF_LINE. $this->EOF_LINE. $this->EOF_LINE;
+        $tag .= ' <a id="quick-action-arrow" class="quick-action-arrow" onclick="showHideEditMenu(\'show\', \'backlog-table-btn-6\', \'backlog-table-dropdown\')" onblur="showHideEditMenu(\'hide\', \'backlog-table-btn-6\', \'backlog-table-dropdown\')">';
+        $tag .= ' <span>'. $this->EOF_LINE. $this->EOF_LINE. $this->EOF_LINE. $this->EOF_LINE. $this->EOF_LINE;
+        $tag .= ' <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="10px" height="10px" viewBox="0 0 451.847 451.847" style="enable-background:new 0 0 451.847 451.847;" xml:space="preserve">'. $this->EOF_LINE. $this->EOF_LINE. $this->EOF_LINE. $this->EOF_LINE. $this->EOF_LINE. $this->EOF_LINE;
+        $tag .= ' <g>'. $this->EOF_LINE. $this->EOF_LINE. $this->EOF_LINE. $this->EOF_LINE. $this->EOF_LINE. $this->EOF_LINE. $this->EOF_LINE;
         $tag .= ' <path d="M225.923,354.706c-8.098,0-16.195-3.092-22.369-9.263L9.27,151.157c-12.359-12.359-12.359-32.397,0-44.751 c12.354-12.354,32.388-12.354,44.748,0l171.905,171.915l171.906-171.909c12.359-12.354,32.391-12.354,44.744,0 c12.365,12.354,12.365,32.392,0,44.751L248.292,345.449C242.115,351.621,234.018,354.706,225.923,354.706z"/>'. $this->EOF_LINE;
-        $tag .= ' </g>'. $this->EOF_LINE;
-        $tag .= ' </svg>'. $this->EOF_LINE;
-        $tag .= ' </span>'. $this->EOF_LINE;
-        $tag .= ' </a>'. $this->EOF_LINE;
-        $tag .= ' </div>'. $this->EOF_LINE;
-        $tag .= ' </td>';
-        $tag .= ' </tr>';
-        $tag .= ' <tr align="center">';
-        $tag .= ' <td class="hasGrippy" style="text-align: center;">';
+        $tag .= ' </g>'. $this->EOF_LINE. $this->EOF_LINE;
+        $tag .= ' </svg>'. $this->EOF_LINE. $this->EOF_LINE. $this->EOF_LINE;
+        $tag .= ' </span>'. $this->EOF_LINE. $this->EOF_LINE. $this->EOF_LINE. $this->EOF_LINE;
+        $tag .= ' </a>'. $this->EOF_LINE. $this->EOF_LINE. $this->EOF_LINE. $this->EOF_LINE. $this->EOF_LINE;
+        $tag .= ' </div>'. $this->EOF_LINE. $this->EOF_LINE. $this->EOF_LINE. $this->EOF_LINE. $this->EOF_LINE. $this->EOF_LINE;
+        $tag .= ' </td>'. $this->EOF_LINE. $this->EOF_LINE. $this->EOF_LINE. $this->EOF_LINE. $this->EOF_LINE. $this->EOF_LINE. $this->EOF_LINE;
+        $tag .= ' </tr>'. $this->EOF_LINE;
+        $tag .= ' <tr align="center">'. $this->EOF_LINE;
+        $tag .= ' <td class="hasGrippy" style="text-align: center;">'. $this->EOF_LINE;
         $tag .= ' <i class="grippy">'. $this->EOF_LINE;
         $tag .= ' <i class="dot"></i>'. $this->EOF_LINE;
         $tag .= ' <i class="dot"></i>'. $this->EOF_LINE;
@@ -1842,25 +1832,25 @@ class ScrumPPBHTML extends HTMLTemplate
         $tag .= ' <i class="dot"></i>'. $this->EOF_LINE;
         $tag .= ' <i class="dot"></i>'. $this->EOF_LINE;
         $tag .= ' </i>'. $this->EOF_LINE;
-        $tag .= ' </td>';
-        $tag .= ' <td style="text-align: center;">';
+        $tag .= ' </td>'. $this->EOF_LINE;
+        $tag .= ' <td style="text-align: center;">'. $this->EOF_LINE;
         $tag .= ' <input id="_fjvevqi" _v1_multiselector="1" type="checkbox" clickhandler="V1.Gadgets.Grid.MultiSelect.ToggleAll(\'_fjvevqi\');" name="selectAll">'. $this->EOF_LINE;
-        $tag .= ' </td>';
-        $tag .= ' <td>7</td>';
-        $tag .= ' <td>';
+        $tag .= ' </td>'. $this->EOF_LINE;
+        $tag .= ' <td>7</td>'. $this->EOF_LINE;
+        $tag .= ' <td>'. $this->EOF_LINE;
         $tag .= ' <div class="backlog-title-container">'. $this->EOF_LINE;
         $tag .= ' <span class="backlog-image-container">'. $this->EOF_LINE;
         $tag .= ' <img alt="12345" src="../../images/Feature-Icon.gif" title="12345">'. $this->EOF_LINE;
         $tag .= ' </span>'. $this->EOF_LINE;
         $tag .= ' <a>Scrum Web-page Design</a>'. $this->EOF_LINE;
         $tag .= ' </div>'. $this->EOF_LINE;
-        $tag .= ' </td>';
-        $tag .= ' <td>s00007</td>';
-        $tag .= ' <td>Abhishek</td>';
-        $tag .= ' <td>High</td>';
-        $tag .= ' <td>10.0</td>';
-        $tag .= ' <td>Release 1.0</td>';
-        $tag .= ' <td class="gg" align="right" style="text-align: right;">';
+        $tag .= ' </td>'. $this->EOF_LINE;
+        $tag .= ' <td>s00007</td>'. $this->EOF_LINE;
+        $tag .= ' <td>Abhishek</td>'. $this->EOF_LINE;
+        $tag .= ' <td>High</td>'. $this->EOF_LINE;
+        $tag .= ' <td>10.0</td>'. $this->EOF_LINE;
+        $tag .= ' <td>Release 1.0</td>'. $this->EOF_LINE;
+        $tag .= ' <td class="gg" align="right" style="text-align: right;">'. $this->EOF_LINE;
         $tag .= ' <div id="backlog-table-btn-7" class="quick-action-btn backlog-table-btn">'. $this->EOF_LINE;
         $tag .= ' <a class="quick-action-text" href="popup:Widgets/Details/QuickEditStory">Edit</a>'. $this->EOF_LINE;
         $tag .= ' <a id="quick-action-arrow" class="quick-action-arrow" onclick="showHideEditMenu(\'show\', \'backlog-table-btn-7\', \'backlog-table-dropdown\')" onblur="showHideEditMenu(\'hide\', \'backlog-table-btn-7\', \'backlog-table-dropdown\')">'. $this->EOF_LINE;
@@ -1873,10 +1863,10 @@ class ScrumPPBHTML extends HTMLTemplate
         $tag .= ' </span>'. $this->EOF_LINE;
         $tag .= ' </a>'. $this->EOF_LINE;
         $tag .= ' </div>'. $this->EOF_LINE;
-        $tag .= ' </td>';
-        $tag .= ' </tr>';
-        $tag .= ' </tbody>';
-        $tag .= ' </table>';
+        $tag .= ' </td>'. $this->EOF_LINE;
+        $tag .= ' </tr>'. $this->EOF_LINE;
+        $tag .= ' </tbody>'. $this->EOF_LINE;
+        $tag .= ' </table>'. $this->EOF_LINE;
         $tag .= ' </div>'. $this->EOF_LINE;
         $tag .= ' </div>'. $this->EOF_LINE;
         $tag .= ' </div>'. $this->EOF_LINE;
@@ -1884,7 +1874,7 @@ class ScrumPPBHTML extends HTMLTemplate
         $tag .= ' </div>'. $this->EOF_LINE;
         $tag .= ' </div>'. $this->EOF_LINE;
         $tag .= ' </div>'. $this->EOF_LINE;
-        //$tag .= ' </div>'. $this->EOF_LINE;
+        $tag .= ' </div>'. $this->EOF_LINE;
 
         return($tag);
     }
@@ -1899,7 +1889,7 @@ class SprintTrackDetailHTML extends HTMLTemplate
 
     protected function addDashboard()
     {
-        $tag  = '';
+        $tag = '';
         $tag .= '<div class="main-article display-table">' . $this->EOF_LINE;
         $tag .= '   <p>#Sprint Tracking Detail - Artcle block</p>' . $this->EOF_LINE;
         $tag .= '</div>' . $this->EOF_LINE;
@@ -1912,12 +1902,12 @@ class SprintTrackTaskboardHTML extends HTMLTemplate
 {
     public function __construct($curNav = null, $curDir = null, $enableNav = false)
     {
-        parent::__construct("Scrum-Sprint-Tracking-Taskboard", "scrum", true);
+    parent::__construct("Scrum-Sprint-Tracking-Taskboard", "scrum", true);
     }
 
     protected function addDashboard()
     {
-        $tag  = '';
+        $tag = '';
         $tag .= '<div class="main-article display-table">' . $this->EOF_LINE;
         $tag .= '   <p>#Sprint Tracking Taskboard - Artcle block</p>' . $this->EOF_LINE;
         $tag .= '</div>' . $this->EOF_LINE;
