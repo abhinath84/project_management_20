@@ -756,6 +756,22 @@ function deleteFromDBTable(id, fillDashboardRow, deleteRowCallback, key, flag) {
     }
 }
 
+function cancelEditTable(id, fillDashboardRow)
+{
+    $('#session-select').prop('disabled', false);
+
+    var editMenuElem = document.getElementById('spr-tracking-dashboard-table-dropdown');
+    editMenuElem.style.display = "none";
+
+    showDashboardAccdSession(id + "-tbody", fillDashboardRow);
+
+    // delete 'TH' element
+    var tableTH = $('#'+ id+'-table').find('th');
+    tableTH.eq(tableTH.length - 1).remove();
+
+    setThWidth(id+'-table', 'fixed_table');
+}
+
 function addDeleteWorkTracker(flag) {
     if($("#work-tracker-dashboard-add-button").html() == 'Add') {
         // collect data from page
