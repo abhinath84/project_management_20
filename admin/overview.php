@@ -4,13 +4,17 @@
 
     require_once ('../inc/functions.inc.php');
     require_once ('../inc/mysql_functions.inc.php');
-    require_once ('../inc/htmltemplate.php');
+    require_once ('../inc/adminhtml.php');
 
     // Create Database and required tables
     build_db();
 
     // Initialize session data
     session_start();
+
+    // if not log in then redirect to login page.
+    if(!isset($_SESSION['project-managment-username']))
+        header("Location: ../user/login.php?redirect=../admin/overview.php");
 ?>
 
 <!DOCTYPE HTML>
@@ -36,7 +40,7 @@
     </head>
     <body>
         <?php
-            $htmlBody = new overviewHTML();
+            $htmlBody = new OverviewHTML();
             echo $htmlBody->generateBody();
         ?>
     </body>

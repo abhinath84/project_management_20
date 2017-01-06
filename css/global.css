@@ -64,6 +64,26 @@ h1,h2,h3,h4,h5,h6 {
     border: 1px solid #d4d4d4;
 }
 
+/*  css for plus, minus and other icon present in sprites-10x10.png file*/
+.icon {
+    zoom: 1;
+    min-width: 10px;
+    display: inline-block;
+    vertical-align: middle;
+    height: 10px;
+    width: 10px;
+    margin: 4px 2px 4px 4px;
+}
+
+.plus-icon {
+    background: url(../images/sprites-10x10.png) 0 -560px no-repeat;
+}
+
+.minus-icon {
+    background: url(../images/sprites-10x10.png) 0 -200px no-repeat;
+}
+
+
 /*********************************
         float-box-nav
 **********************************/

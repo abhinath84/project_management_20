@@ -1,0 +1,56 @@
+/*
+    css for projects.php file
+*/
+
+.project-container {
+    margin-top: 30px;
+}
+
+.project-td-btn {
+    border: 1px solid black;
+    background-color: white;
+}
+
+.project-td-btn a {
+    color: black;
+}
+
+.project-td-btn svg {
+    fill: black;
+}
+
+.project-td-btn .quick-action-text {
+    border-right: 1px solid black;
+}
+
+.project-td-btn:hover {
+    border-color: #00a9e0;
+    background-color: #00a9e0;
+}
+
+.project-td-btn:hover a {
+    color: #fff;
+}
+
+.project-td-btn:hover svg {
+    fill: #fff;
+}
+
+.project-td-btn:hover .quick-action-text {
+    border-right: 1px solid currentColor;
+}
+
+.project-title-td * {
+    display: table-cell;
+    vertical-align: middle;
+    //margin: 0;
+    padding-left: 1px;
+}
+
+.project-title-plus-icon {
+    padding-left: 5px;
+}
+
+.project-title-image {
+    padding-right: 5px;
+}

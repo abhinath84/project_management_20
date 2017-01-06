@@ -13,7 +13,7 @@
 }
 
 .move-to-project-btn {
-    margin-top: 15px;
+    margin-top: 5px;
     margin-left: 5px;
 }
 
@@ -53,4 +53,13 @@
 
 .backlog-table-btn:hover .quick-action-text {
     border-right: 1px solid currentColor;
+}
+
+.session-button {
+    margin-top: 5px;
+}
+
+.session-button .story-inline-btn{
+    float: right;
+    margin-top: 5px;
 }

@@ -120,10 +120,10 @@
         return($tag);
     }
 
-    function getQuickActionBtn($id, $class, $dropdownId)
+    function getQuickActionBtn($id, $val, $class, $dropdownId)
     {
         $tag = '<div id="'. $id .'" class="quick-action-btn '. $class .'">' . EOF_LINE;
-        $tag .= '    <a class="quick-action-text" href="popup:Widgets/Details/QuickEditStory">Save</a>' . EOF_LINE;
+        $tag .= '    <a class="quick-action-text" href="popup:Widgets/Details/QuickEditStory">' . $val .'</a>' . EOF_LINE;
         $tag .= '    <a id="quick-action-arrow" class="quick-action-arrow" onclick="showHideEditMenu(\'show\', \''. $id .'\', \''. $dropdownId .'\')" onblur="showHideEditMenu(\'hide\', \''. $id .'\', \''. $dropdownId .'\')">' . EOF_LINE;
         $tag .= '        <span>' . EOF_LINE;
         $tag .= '            <svg width="10px" height="10px" viewBox="0 0 451.847 451.847" style="enable-background:new 0 0 451.847 451.847;" xml:space="preserve">' . EOF_LINE;
@@ -1187,5 +1187,4 @@
 
         return($tag);
     }
-
 ?>

@@ -1,6 +1,53 @@
-.overview-article{
-    margin-left: 40px;
-    margin-right: 40px;
+.overview-article {
+    margin-left: auto;
+    margin-right: auto;
     background-color: white;
     height: 100%;
+    width: 70%;
+}
+
+.overview-container {
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.title-container {
+    padding-top: 30px;
+}
+
+.title {
+    font-weight: bold;
+}
+
+.step-link img {
+    height:40px;
+    width: 40px;
+    padding-left: 55px;
+    vertical-align: middle;
+}
+
+.step-link a {
+    text-decoration: none;
+    color: #003f7f;
+    font-weight: bold;
+    font-size: 30px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.step-desc {
+    margin-top: 10px;
+}
+
+.step-desc img {
+    vertical-align: top;
+}
+
+.step-desc span {
+    vertical-align: top;
+    width: 250px;
+    padding-left: 15px;
+    font-size: 18px;
+    color: #666666;
 }

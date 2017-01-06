@@ -4,7 +4,7 @@
 
     require_once ('../inc/functions.inc.php');
     require_once ('../inc/mysql_functions.inc.php');
-    require_once ('../inc/htmltemplate.php');
+    require_once ('../inc/adminhtml.php');
 
     // Create Database and required tables
     build_db();
@@ -36,7 +36,7 @@
     </head>
     <body>
         <?php
-            $htmlBody = new teamsHTML();
+            $htmlBody = new TeamsHTML();
             echo $htmlBody->generateBody();
         ?>
     </body>

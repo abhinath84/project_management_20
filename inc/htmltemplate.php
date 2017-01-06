@@ -34,6 +34,7 @@
 
 
 /* include header file */
+require_once ('utility.php');
 require_once ('navigator.php');
 require_once ('htmltable.php');
 require_once ('functions.inc.php');
@@ -103,7 +104,7 @@ abstract class HTMLTemplate
         $tag = "";
 
         $tag = '<div class="article display-table-row">' . $this->EOF_LINE;
-        $tag .= '    <div class="display-table article-container">' . $this->EOF_LINE;
+        $tag .= '    <div class="display-table">' . $this->EOF_LINE;
         $tag .= $this->addDashboard() . $this->EOF_LINE;
         $tag .= '    </div>' . $this->EOF_LINE;
         $tag .= '</div>' . $this->EOF_LINE;
@@ -139,7 +140,7 @@ class HomeHTML extends HTMLTemplate
     {
         $tag = "";
 
-        $tag .= '<div class="home-article">' . $this->EOF_LINE;
+        $tag .= '<div class="home-article article-container">' . $this->EOF_LINE;
 
         if((isset($_SESSION["project-managment-username"])) && ($_SESSION["project-managment-username"] != ""))
         {
@@ -1148,106 +1149,6 @@ class RecoveryHTML extends HTMLTemplate
     }
 }
 
-class overviewHTML extends HTMLTemplate
-{
-    public function __construct($curNav = null, $curDir = null, $enableNav = false)
-    {
-        parent::__construct("Overview", "admin", true);
-    }
-
-    protected function addDashboard()
-    {
-        $tag = "";
-        $tag .= '<div class="overview-article">' . $this->EOF_LINE;
-
-        $tag .= '   <p>Overview main article.</p>' . $this->EOF_LINE;
-
-        $tag .= '</div>' . $this->EOF_LINE;
-
-        return($tag);
-    }
-}
-
-class projectsHTML extends HTMLTemplate
-{
-    public function __construct($curNav = null, $curDir = null, $enableNav = false)
-    {
-        parent::__construct("Projects", "admin", true);
-    }
-
-    protected function addDashboard()
-    {
-        $tag = "";
-        $tag .= '<div class="overview-article">' . $this->EOF_LINE;
-
-        $tag .= '   <p>Projects main article.</p>' . $this->EOF_LINE;
-
-        $tag .= '</div>' . $this->EOF_LINE;
-
-        return($tag);
-    }
-}
-
-class membersHTML extends HTMLTemplate
-{
-    public function __construct($curNav = null, $curDir = null, $enableNav = false)
-    {
-        parent::__construct("Members", "admin", true);
-    }
-
-    protected function addDashboard()
-    {
-        $tag = "";
-        $tag .= '<div class="overview-article">' . $this->EOF_LINE;
-
-        $tag .= '   <p>Members main article.</p>' . $this->EOF_LINE;
-
-        $tag .= '</div>' . $this->EOF_LINE;
-
-        return($tag);
-    }
-}
-
-class teamsHTML extends HTMLTemplate
-{
-    public function __construct($curNav = null, $curDir = null, $enableNav = false)
-    {
-        parent::__construct("Teams", "admin", true);
-    }
-
-    protected function addDashboard()
-    {
-        $tag = "";
-        $tag .= '<div class="overview-article">' . $this->EOF_LINE;
-
-        $tag .= '   <p>Teams main article.</p>' . $this->EOF_LINE;
-
-        $tag .= '</div>' . $this->EOF_LINE;
-
-        return($tag);
-    }
-}
-
-class configurationHTML extends HTMLTemplate
-{
-    public function __construct($curNav = null, $curDir = null, $enableNav = false)
-    {
-        parent::__construct("Configuration", "admin", true);
-    }
-
-    protected function addDashboard()
-    {
-        $tag = "";
-        $tag .= '<div class="overview-article">' . $this->EOF_LINE;
-
-        $tag .= '   <p>Configuration main article.</p>' . $this->EOF_LINE;
-
-        $tag .= '</div>' . $this->EOF_LINE;
-
-        return($tag);
-    }
-}
-
 abstract class SPRTrackHTML extends HTMLTemplate
 {
     public function __construct($curNav = null, $curDir = null, $enableNav = false)
@@ -1257,14 +1158,10 @@ abstract class SPRTrackHTML extends HTMLTemplate
 
     protected function getTabMenu($currentTab)
     {
-        $tag = '<div class="main-article-nav-container display-table-row">' . $this->EOF_LINE;
-        $tag .= '    <ul class="float-box-nav main-article-nav">' . $this->EOF_LINE;
-        $tag .= '        <li><a ' . (($currentTab == "Dashboard") ? 'class="selected-tab"' : '') . 'href="dashboard.php" target="_top">Dashboard</a></li>' . $this->EOF_LINE;
-        $tag .= '        <li><a ' . (($currentTab == "Submission Status") ? 'class="selected-tab"' : '') . 'href="submit_status.php" target="_top">Submission Status</a></li>' . $this->EOF_LINE;
-        $tag .= '        <li><a ' . (($currentTab == "Report") ? 'class="selected-tab"' : '') . 'href="report.php" target="_top">Report</a></li>' . $this->EOF_LINE;
-        $tag .= '        <li><a ' . (($currentTab == "Import") ? 'class="selected-tab"' : '') . 'href="spr_import.php" target="_top">Import</a></li>' . $this->EOF_LINE;
-        $tag .= '    </ul>' . $this->EOF_LINE;
-        $tag .= '</div>' . $this->EOF_LINE;
+        $lists = array(array('Dashboard', 'dashboard.php'), array('Submission Status', 'submit_status.php'),
+                        array('Report', 'report.php'), array('Import', 'spr_import.php'));
+
+        $tag = Utility::getTabMenu($currentTab, $lists);
 
         return($tag);
     }
@@ -1280,7 +1177,7 @@ class SPRTrackDashboardHTML extends SPRTrackHTML
     protected function addDashboard()
     {
         $tag = '';
-        $tag .= '<div class="main-article display-table">' . $this->EOF_LINE;
+        $tag .= '<div class="main-article display-table article-container">' . $this->EOF_LINE;
 
         $tag .= parent::getTabMenu("Dashboard");
 
@@ -1409,7 +1306,7 @@ class SPRTrackSubmitStatusHTML extends SPRTrackHTML
     protected function addDashboard()
     {
         $tag = '';
-        $tag .= '<div class="main-article display-table">' . $this->EOF_LINE;
+        $tag .= '<div class="main-article display-table article-container">' . $this->EOF_LINE;
 
         $tag .= parent::getTabMenu("Submission Status");
 
@@ -1571,8 +1468,185 @@ class ScrumPPBHTML extends HTMLTemplate
 
     protected function addDashboard()
     {
-        $tag = '<div class="article-container display-table">'. $this->EOF_LINE;
-        $tag .= ' </div>'. $this->EOF_LINE;
+        $tag  = '';
+        $tag .= '<div class="display-table">';
+        $tag .= '    <div class="project-item display-table">'. $this->EOF_LINE;
+        $tag .= '        <button class="project-selector asset-hover" type="button">'. $this->EOF_LINE;
+        $tag .= '              <h3>Product Backlog</h3>'. $this->EOF_LINE;
+        $tag .= '            <span class="ps-icon">'. $this->EOF_LINE;
+        $tag .= '                <svg class="project-selector-icon" viewBox="0 0 250 250" width="20" height="20">'. $this->EOF_LINE;
+        $tag .= '                   <rect x="50" y="20" rx="10" ry="10" width="60" height="60"
+                            style="fill:black;stroke:#00a9e0;stroke-width:25;" />'. $this->EOF_LINE;
+        $tag .= '                  <line x1="80" y1="80" x2="80" y2="150"
+                              stroke-width="25" stroke="#00a9e0"/>'. $this->EOF_LINE;
+        $tag .= '                  <line x1="67" y1="150" x2="150" y2="150"
+                              stroke-width="25" stroke="#00a9e0"/>'. $this->EOF_LINE;
+        $tag .= '                  <rect x="150" y="120" rx="10" ry="10" width="60" height="60"
+                            style="fill:black;stroke:#00a9e0;stroke-width:25;" />'. $this->EOF_LINE;
+        $tag .= '                Sorry, your browser does not support inline SVG.'. $this->EOF_LINE;
+        $tag .= '                </svg>'. $this->EOF_LINE;
+        $tag .= '            </span>'. $this->EOF_LINE;
+        $tag .= '        </button>'. $this->EOF_LINE;
+        $tag .= '    </div>'. $this->EOF_LINE;
+        $tag .= '    <div class="main-article display-table">'. $this->EOF_LINE;
+
+        $tag .=         $this->getTabMenu('Backlog');
+
+        $tag .= '        <div class="main-article-tab-container display-table-row">'. $this->EOF_LINE;
+        $tag .= '            <div class="main-article-tab-info-container">'. $this->EOF_LINE;
+        $tag .= '                <div class="main-article-info-header">'. $this->EOF_LINE;
+        $tag .= '                    <div class="header-tag">'. $this->EOF_LINE;
+        $tag .= '                        <h1>Backlog</h1>'. $this->EOF_LINE;
+        $tag .= '                    </div>'. $this->EOF_LINE;
+        $tag .= '                </div>'. $this->EOF_LINE;
+        $tag .= '                <div class="article-container">'. $this->EOF_LINE;
+        $tag .= '                    <div class="project-backlog-container">'. $this->EOF_LINE;
+        $tag .= '                           <div class="session-button">'. $this->EOF_LINE;
+        $tag .= '                        <div id="move-to-project-btn" class="quick-action-btn move-to-project-btn">'. $this->EOF_LINE;
+        $tag .= '                    <a class="quick-action-text" href="popup:Widgets/Details/QuickEditStory">Move to Project</a>'. $this->EOF_LINE;
+        $tag .= '                            <a id="quick-action-arrow" class="quick-action-arrow" onclick="showHideEditMenu(\'show\', \'move-to-project-btn\', \'move-to-project-dropdown\')" onblur="showHideEditMenu(\'hide\', \'move-to-project-btn\', \'move-to-project-dropdown\')">'. $this->EOF_LINE;
+        $tag .= '                                <span>'. $this->EOF_LINE;
+        $tag .= '                                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="10px" height="10px" viewBox="0 0 451.847 451.847" style="enable-background:new 0 0 451.847 451.847;" xml:space="preserve">'. $this->EOF_LINE;
+        $tag .= '                                        <g>'. $this->EOF_LINE;
+        $tag .= '                                            <path d="M225.923,354.706c-8.098,0-16.195-3.092-22.369-9.263L9.27,151.157c-12.359-12.359-12.359-32.397,0-44.751   c12.354-12.354,32.388-12.354,44.748,0l171.905,171.915l171.906-171.909c12.359-12.354,32.391-12.354,44.744,0   c12.365,12.354,12.365,32.392,0,44.751L248.292,345.449C242.115,351.621,234.018,354.706,225.923,354.706z"/>'. $this->EOF_LINE;
+        $tag .= '                                        </g>'. $this->EOF_LINE;
+        $tag .= '                                    </svg>'. $this->EOF_LINE;
+        $tag .= '                                </span>'. $this->EOF_LINE;
+        $tag .= '                            </a>'. $this->EOF_LINE;
+        $tag .= '                        </div>'. $this->EOF_LINE;
+        $tag .= '                        <div id="move-to-project-dropdown" class="dropdown-content">'. $this->EOF_LINE;
+        $tag .= '                            <a href="#">Move To Project</a>'. $this->EOF_LINE;
+        $tag .= '                            <a href="#">Move To Iteration</a>'. $this->EOF_LINE;
+        $tag .= '                            <a href="#">Quick Close</a>'. $this->EOF_LINE;
+        $tag .= '                                    <a href="#">Close</a>'. $this->EOF_LINE;
+        $tag .= '                            <a href="#">Reopen</a>'. $this->EOF_LINE;
+        $tag .= '                            <a href="#">Delete</a>'. $this->EOF_LINE;
+        $tag .= '                                    <a href="#">Rank</a>'. $this->EOF_LINE;
+        $tag .= '                        </div>'. $this->EOF_LINE;
+        $tag .= '                    <div id="story-inline-dropdown" class="dropdown-content">'. $this->EOF_LINE;
+        $tag .= '                      <a href="#">Add Story Inline</a>'. $this->EOF_LINE;
+        $tag .= '                      <a href="#">Add Story</a>'. $this->EOF_LINE;
+        $tag .= '                      <a href="#">Add Defect Inline</a>'. $this->EOF_LINE;
+        $tag .= '                      <a href="#">Add Defect</a>'. $this->EOF_LINE;
+        $tag .= '                    </div>'. $this->EOF_LINE;
+        $tag .= '                        <div id="backlog-table-dropdown" class="dropdown-content">'. $this->EOF_LINE;
+        $tag .= '                            <a class="dashed-bottom-border" href="#">Edit</a>'. $this->EOF_LINE;
+        $tag .= '                            <a href="#">Plan Story</a>'. $this->EOF_LINE;
+        $tag .= '                            <a href="#">Add Task</a>'. $this->EOF_LINE;
+        $tag .= '                            <a class="dashed-bottom-border" href="#">Copy</a>'. $this->EOF_LINE;
+        $tag .= '                            <a href="#">Quick Close</a>'. $this->EOF_LINE;
+        $tag .= '                            <a class="dashed-bottom-border" href="#">Close</a>'. $this->EOF_LINE;
+        $tag .= '                            <a href="#">Convert to Defect</a>'. $this->EOF_LINE;
+        $tag .= '                            <a href="#">Delete</a>'. $this->EOF_LINE;
+        $tag .= '                        </div>'. $this->EOF_LINE;
+        $tag .= '                       <div id="story-inline-btn" class="quick-action-btn story-inline-btn" >'. $this->EOF_LINE;
+        $tag .= '                        <a class="quick-action-text" href="popup:Widgets/Details/QuickEditStory">Add to Story Inline</a>'. $this->EOF_LINE;
+        $tag .= '                        <a id="quick-action-arrow" class="quick-action-arrow" onclick="showHideEditMenu(\'show\', \'story-inline-btn\', \'story-inline-dropdown\')" onblur="showHideEditMenu(\'hide\', \'story-inline-btn\', \'story-inline-dropdown\')">'. $this->EOF_LINE;
+        $tag .= '                            <span>'. $this->EOF_LINE;
+        $tag .= '                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="10px" height="10px" viewBox="0 0 451.847 451.847" style="enable-background:new 0 0 451.847 451.847;" xml:space="preserve">'. $this->EOF_LINE;
+        $tag .= '                                    <g>'. $this->EOF_LINE;
+        $tag .= '                                        <path d="M225.923,354.706c-8.098,0-16.195-3.092-22.369-9.263L9.27,151.157c-12.359-12.359-12.359-32.397,0-44.751   c12.354-12.354,32.388-12.354,44.748,0l171.905,171.915l171.906-171.909c12.359-12.354,32.391-12.354,44.744,0   c12.365,12.354,12.365,32.392,0,44.751L248.292,345.449C242.115,351.621,234.018,354.706,225.923,354.706z"/>'. $this->EOF_LINE;
+        $tag .= '                                    </g>'. $this->EOF_LINE;
+        $tag .= '                                </svg>'. $this->EOF_LINE;
+        $tag .= '                            </span>'. $this->EOF_LINE;
+        $tag .= '                        </a>'. $this->EOF_LINE;
+        $tag .= '                    </div>'. $this->EOF_LINE;
+        $tag .= '                       </div>'.$this->EOF_LINE;
+        $tag .= '                        <div class="project-backlog-table-container">'. $this->EOF_LINE;
+
+        $tag .= $this->createDasboardTable();
+
+        $tag .= '                        </div>'. $this->EOF_LINE;
+        $tag .= '                    </div>'. $this->EOF_LINE;
+        $tag .= '                </div>'. $this->EOF_LINE;
+        $tag .= '            </div>'. $this->EOF_LINE;
+        $tag .= '        </div>'. $this->EOF_LINE;
+        $tag .= '    </div>'. $this->EOF_LINE;
+        $tag .= '</div>'. $this->EOF_LINE;
+
+        return($tag);
+    }
+
+    protected function getTabMenu($currentTab)
+    {
+        $lists = array(array('Backlog', 'product_plan_backlog.php'), array('Import', 'product_plan_backlog_import.php'));
+
+        $tag = Utility::getTabMenu($currentTab, $lists);
+
+        return($tag);
+    }
+
+    private function createDasboardTable()
+    {
+    /*    global $conn;
+
+        $qry = "SELECT order_no, title, id, owner, priority, estimate, project  FROM `spr_tracking` WHERE user_name = '". $_SESSION['project-managment-username'] ."'";
+*/
+        $str = '';
+
+        $Table = new HTMLTable("project-backlog-table", "grippy-table");
+
+        $Table->thead("project-backlog-thead");
+        $Table->th("&nbsp;", null, null, null, null);
+        $Table->th('<input type="checkbox" id="select_all" clickhandler="V1.Gadgets.Grid.MultiSelect.ToggleAll(\'_fjvevqi\');">', null, null, null, null);
+        $Table->th("Order", null, null, null, "data-sort=\"int\"");
+        $Table->th("Title", null,  null, null, "data-sort=\"string\"");
+        $Table->th("ID", null,  null, null, "data-sort=\"string\"");
+        $Table->th("Owner", null,  null, null, "data-sort=\"string\"");
+        $Table->th("Priority", null,  null, null, "data-sort=\"string\"");
+        $Table->th("Estimate Pts", null,  null, null, "data-sort=\"int\"");
+        $Table->th("Project", null,  null, null, "data-sort=\"string\"");
+        $Table->th("&nbsp", null,  null, null, null);
+
+        $Table->tbody("project-backlog-tbody");
+
+      /* $rows = $conn->result_fetch_array($qry);
+       if(!empty($rows))
+       {*/
+         //loop over the result and fill the rows
+           for($i = 1; $i <= 10; $i++)
+           {
+               $Table->tr(null, null, null, "align=\"center\"");
+                   $Table->td(getGreppyDotTag(), "{$i}-greppy", "hasGrippy", "text-align: center; width: 2%;");
+
+                   $Table->td('<input type="checkbox" clickhandler="V1.Gadgets.Grid.MultiSelect.ToggleAll(\'_fjvevqi\');" class="checkbox">', "{$i}", null, "width: 4%", "text-align=\"center\"");
+
+                   $Table->td("{$i}", "{$i}", null, null, null);
+
+                   $Table->td($this->getBacklogTitle(true, "6587294"),"{$i}-title_container", "backlog-title-container");
+
+                   $Table->td("s00001", "{$i}-id", null, null);
+
+                   $Table->td("Pooja", "{$i}-owner", null, null);
+
+                   $Table->td("High", "{$i}-priority", null, null);
+
+                   $Table->td("15.0", "{$i}-estimate", null, null);
+
+                   $Table->td("Release 1.0", "{$i}-project", null, null);
+
+                   $Table->td(getQuickActionBtn("{$i}-edit-btn", "Edit", "quick-action-btn backlog-table-btn", "backlog-table-dropdown"), "{$i}-edit", null, null, "width=\"2%\"");
+
+           }
+       //}
+
+       //else
+       //{
+        //$Table->tr(null, null, null, "align=\"center\"");
+        //$Table->td(null, null, null, null);
+    //}
+        return(utf8_encode($Table->toHTML()));
+    }
+
+    private function getBacklogTitle($isBacklog, $val)
+    {
+        $tag = '   <span class="backlog-image-container">' . EOF_LINE;
+        if($isBacklog == true)
+            $tag .= '      <img alt="backlog" src="../images/Feature-Icon.gif" title="backlog">'. EOF_LINE;
+        else
+            $tag .= '      <img alt="defect" src="../images/Defect-Icon.gif" title="defect">'. EOF_LINE;
+        $tag .= '   </span>'.EOF_LINE;
+        $tag .= '   <a>' . $val . '</a>'.EOF_LINE;
 
         return($tag);
     }
@@ -1607,8 +1681,300 @@ class SprintTrackTaskboardHTML extends HTMLTemplate
     {
         $tag = '';
         $tag .= '<div class="main-article display-table">' . $this->EOF_LINE;
-        $tag .= '   <p>#Sprint Tracking Taskboard - Artcle block</p>' . $this->EOF_LINE;
+
+        $tag .= $this->getTabMenu('Taskboard');
+
+        $tag .= '<div class="main-article-tab-container display-table-row">' . $this->EOF_LINE;
+        $tag .= '   <div class="main-article-tab-info-container">' . $this->EOF_LINE;
+        $tag .= '       <div class="main-article-info-header">' . $this->EOF_LINE;
+        $tag .= '           <h1>Taskboard</h1>' . $this->EOF_LINE;
+        $tag .= '       </div>' . $this->EOF_LINE;
+        $tag .= '   <div class="sprint-planning-container">' . $this->EOF_LINE;
+        $tag .= '       <table id="addrow" class="sprint-taskboard-table">' . $this->EOF_LINE;
+        $tag .= '           <thead>' . $this->EOF_LINE;
+        $tag .= '               <tr>' . $this->EOF_LINE;
+        $tag .= '                   <th class="backlog-th">Backlog</th>' . $this->EOF_LINE;
+        $tag .= '                   <th>(None)</th>' . $this->EOF_LINE;
+        $tag .= '                   <th>Blocked</th>' . $this->EOF_LINE;
+        $tag .= '                   <th>In Progress</th>' . $this->EOF_LINE;
+        $tag .= '                   <th>Completed</th>' . $this->EOF_LINE;
+        $tag .= '                   <th class="summary-th">Summary</th>' . $this->EOF_LINE;
+        $tag .= '               </tr>' . $this->EOF_LINE;
+        $tag .= '           </thead>' . $this->EOF_LINE;
+        $tag .= '           <tbody>' . $this->EOF_LINE;
+        $tag .= '               <tr>' . $this->EOF_LINE;
+        $tag .= '                   <td class="backlog-td">' . $this->EOF_LINE;
+        $tag .= '                       <div class="story-card-container">' . $this->EOF_LINE;
+        $tag .= '                           <div class="identity">' . $this->EOF_LINE;
+        $tag .= '                               <div class="identity-left">' . $this->EOF_LINE;
+        $tag .= '                                   <span class="number">s00001</span>' . $this->EOF_LINE;
+        $tag .= '                               </div>' . $this->EOF_LINE;
+        $tag .= '                           <div class="identity-right">' . $this->EOF_LINE;
+        $tag .= '                               <span class="story-card-actions">' . $this->EOF_LINE;
+        $tag .= '                                   <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="10px" height="10px" viewBox="0 0 451.847 451.847" style="enable-background:new 0 0 451.847 451.847;" xml:space="preserve">' . $this->EOF_LINE;
+        $tag .= '                                       <g>' . $this->EOF_LINE;
+        $tag .= '                                           <path d="M225.923,354.706c-8.098,0-16.195-3.092-22.369-9.263L9.27,151.157c-12.359-12.359-12.359-32.397,0-44.751   c12.354-12.354,32.388-12.354,44.748,0l171.905,171.915l171.906-171.909c12.359-12.354,32.391-12.354,44.744,0   c12.365,12.354,12.365,32.392,0,44.751L248.292,345.449C242.115,351.621,234.018,354.706,225.923,354.706z"/>' . $this->EOF_LINE;
+        $tag .= '                                       </g>' . $this->EOF_LINE;
+        $tag .= '                                   </svg>' . $this->EOF_LINE;
+        $tag .= '                               </span>' . $this->EOF_LINE;
+        $tag .= '                           </div>' . $this->EOF_LINE;
+        $tag .= '                       </div>' . $this->EOF_LINE;
+        $tag .= '                       <div class="title">' . $this->EOF_LINE;
+        $tag .= '                           <a href="#">6534211</a>' . $this->EOF_LINE;
+        $tag .= '                       </div>' . $this->EOF_LINE;
+        $tag .= '                       <div class="backlog-td-status" >In Progress</div>' . $this->EOF_LINE;
+        $tag .= '                           <div class="backlog-td-bottom">' . $this->EOF_LINE;
+        $tag .= '                               <span class="backlog-td-bottom-owner-name">' . $this->EOF_LINE;
+        $tag .= '                                   <a href="#">Pooja Kumari</a>' . $this->EOF_LINE;
+        $tag .= '                               </span>' . $this->EOF_LINE;
+        $tag .= '                               <span class="backlog-td-bottom-time">15.00</span>' . $this->EOF_LINE;
+        $tag .= '                           </div>' . $this->EOF_LINE;
+        $tag .= '                       </div>' . $this->EOF_LINE;
+        $tag .= '                   </td>' . $this->EOF_LINE;
+        $tag .= '<td class="status-td">' . $this->EOF_LINE;
+        $tag .= '<div class="task-card">' . $this->EOF_LINE;
+        $tag .= '<div class="task-card-title">' . $this->EOF_LINE;
+        $tag .= '<span class="task-card-title-name">Resolve</span>' . $this->EOF_LINE;
+        $tag .= '<span class="task-card-arrow" style="float:right;">' . $this->EOF_LINE;
+        $tag .= '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="10px" height="10px" viewBox="0 0 451.847 451.847" style="enable-background:new 0 0 451.847 451.847;" xml:space="preserve">' . $this->EOF_LINE;
+        $tag .= '<g>' . $this->EOF_LINE;
+        $tag .= '<path d="M225.923,354.706c-8.098,0-16.195-3.092-22.369-9.263L9.27,151.157c-12.359-12.359-12.359-32.397,0-44.751   c12.354-12.354,32.388-12.354,44.748,0l171.905,171.915l171.906-171.909c12.359-12.354,32.391-12.354,44.744,0   c12.365,12.354,12.365,32.392,0,44.751L248.292,345.449C242.115,351.621,234.018,354.706,225.923,354.706z"/>' . $this->EOF_LINE;
+        $tag .= '</g>' . $this->EOF_LINE;
+        $tag .= '</svg>' . $this->EOF_LINE;
+        $tag .= '</span>' . $this->EOF_LINE;
         $tag .= '</div>' . $this->EOF_LINE;
+        $tag .= '<div class="task-card-owner">' . $this->EOF_LINE;
+        $tag .= '<span class="task-card-owner-name">Pooja Kumari</span>' . $this->EOF_LINE;
+        $tag .= '<span class="task-card-owner-time" style="float:right">2.00</span>' . $this->EOF_LINE;
+        $tag .= '</div>' . $this->EOF_LINE;
+        $tag .= '</div>' . $this->EOF_LINE;
+        $tag .= '<div class="task-card">' . $this->EOF_LINE;
+        $tag .= '<div class="task-card-title">' . $this->EOF_LINE;
+        $tag .= '<span class="task-card-title-name">Integrate</span>' . $this->EOF_LINE;
+        $tag .= '<span class="task-card-arrow" style="float:right;">' . $this->EOF_LINE;
+        $tag .= '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="10px" height="10px" viewBox="0 0 451.847 451.847" style="enable-background:new 0 0 451.847 451.847;" xml:space="preserve">' . $this->EOF_LINE;
+        $tag .= '<g>' . $this->EOF_LINE;
+        $tag .= '<path d="M225.923,354.706c-8.098,0-16.195-3.092-22.369-9.263L9.27,151.157c-12.359-12.359-12.359-32.397,0-44.751   c12.354-12.354,32.388-12.354,44.748,0l171.905,171.915l171.906-171.909c12.359-12.354,32.391-12.354,44.744,0   c12.365,12.354,12.365,32.392,0,44.751L248.292,345.449C242.115,351.621,234.018,354.706,225.923,354.706z"/>' . $this->EOF_LINE;
+        $tag .= '</g>' . $this->EOF_LINE;
+        $tag .= '</svg>' . $this->EOF_LINE;
+        $tag .= '</span>' . $this->EOF_LINE;
+        $tag .= '</div>' . $this->EOF_LINE;
+        $tag .= '<div class="task-card-owner">' . $this->EOF_LINE;
+        $tag .= '<span class="task-card-owner-name">Pooja Kumari</span>' . $this->EOF_LINE;
+        $tag .= '<span class="task-card-owner-time" style="float:right">2.00</span>' . $this->EOF_LINE;
+        $tag .= '</div>' . $this->EOF_LINE;
+        $tag .= '</div>' . $this->EOF_LINE;
+        $tag .= '</td>' . $this->EOF_LINE;
+        $tag .= '<td class="status-td">' . $this->EOF_LINE;
+        $tag .= '<div class="task-card">' . $this->EOF_LINE;
+        $tag .= '<div class="task-card-title">' . $this->EOF_LINE;
+        $tag .= '<span class="task-card-title-name">Communication</span>' . $this->EOF_LINE;
+        $tag .= '<span class="task-card-arrow" style="float:right;">' . $this->EOF_LINE;
+        $tag .= '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="10px" height="10px" viewBox="0 0 451.847 451.847" style="enable-background:new 0 0 451.847 451.847;" xml:space="preserve">' . $this->EOF_LINE;
+        $tag .= '<g>' . $this->EOF_LINE;
+        $tag .= '<path d="M225.923,354.706c-8.098,0-16.195-3.092-22.369-9.263L9.27,151.157c-12.359-12.359-12.359-32.397,0-44.751   c12.354-12.354,32.388-12.354,44.748,0l171.905,171.915l171.906-171.909c12.359-12.354,32.391-12.354,44.744,0   c12.365,12.354,12.365,32.392,0,44.751L248.292,345.449C242.115,351.621,234.018,354.706,225.923,354.706z"/>' . $this->EOF_LINE;
+        $tag .= '</g>' . $this->EOF_LINE;
+        $tag .= '</svg>' . $this->EOF_LINE;
+        $tag .= '</span>' . $this->EOF_LINE;
+        $tag .= '</div>' . $this->EOF_LINE;
+        $tag .= '<div class="task-card-owner">' . $this->EOF_LINE;
+        $tag .= '<span class="task-card-owner-name">Pooja Kumari</span>' . $this->EOF_LINE;
+        $tag .= '<span class="task-card-owner-time" style="float:right">1.00</span>' . $this->EOF_LINE;
+        $tag .= '</div>' . $this->EOF_LINE;
+        $tag .= '</div>' . $this->EOF_LINE;
+        $tag .= '</td>' . $this->EOF_LINE;
+        $tag .= '<td class="status-td">' . $this->EOF_LINE;
+        $tag .= '</td>' . $this->EOF_LINE;
+        $tag .= '<td class="status-td">' . $this->EOF_LINE;
+        $tag .= '<div class="task-card">' . $this->EOF_LINE;
+        $tag .= '<div class="task-card-title">' . $this->EOF_LINE;
+        $tag .= '<span class="task-card-title-name">Analysis</span>' . $this->EOF_LINE;
+        $tag .= '<span class="task-card-arrow" style="float:right;">' . $this->EOF_LINE;
+        $tag .= '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="10px" height="10px" viewBox="0 0 451.847 451.847" style="enable-background:new 0 0 451.847 451.847;" xml:space="preserve">' . $this->EOF_LINE;
+        $tag .= '<g>' . $this->EOF_LINE;
+        $tag .= '<path d="M225.923,354.706c-8.098,0-16.195-3.092-22.369-9.263L9.27,151.157c-12.359-12.359-12.359-32.397,0-44.751   c12.354-12.354,32.388-12.354,44.748,0l171.905,171.915l171.906-171.909c12.359-12.354,32.391-12.354,44.744,0   c12.365,12.354,12.365,32.392,0,44.751L248.292,345.449C242.115,351.621,234.018,354.706,225.923,354.706z"/>' . $this->EOF_LINE;
+        $tag .= '</g>' . $this->EOF_LINE;
+        $tag .= '</svg>' . $this->EOF_LINE;
+        $tag .= '</span>' . $this->EOF_LINE;
+        $tag .= '</div>' . $this->EOF_LINE;
+        $tag .= '<div class="task-card-owner">' . $this->EOF_LINE;
+        $tag .= '<span class="task-card-owner-name">Pooja Kumari</span>' . $this->EOF_LINE;
+        $tag .= '<span class="task-card-owner-time" style="float:right">2.00</span>' . $this->EOF_LINE;
+        $tag .= '</div>' . $this->EOF_LINE;
+        $tag .= '</div>' . $this->EOF_LINE;
+        $tag .= '</td>' . $this->EOF_LINE;
+        $tag .= '<td class="summary-td">' . $this->EOF_LINE;
+        $tag .= '<dl class="non-card">' . $this->EOF_LINE;
+        $tag .= '<dt>Test Results:</dt>' . $this->EOF_LINE;
+        $tag .= '<dd class="value">' . $this->EOF_LINE;
+
+        $tag .= '</dd>' . $this->EOF_LINE;
+        $tag .= '<dt>To Do:</dt>' . $this->EOF_LINE;
+        $tag .= '<dd class="value">12.00</dd>' . $this->EOF_LINE;
+        $tag .= '</dl>' . $this->EOF_LINE;
+        $tag .= '</td>' . $this->EOF_LINE;
+        $tag .= '</tr>' . $this->EOF_LINE;
+        $tag .= '<tr>' . $this->EOF_LINE;
+        $tag .= '<td class="backlog-td story-card-container">' . $this->EOF_LINE;
+        $tag .= '<div class="story-card-container">' . $this->EOF_LINE;
+        $tag .= '<div class="identity">' . $this->EOF_LINE;
+        $tag .= '<div class="identity-left">' . $this->EOF_LINE;
+        $tag .= '<span class="number">s00002</span>' . $this->EOF_LINE;
+        $tag .= '</div>' . $this->EOF_LINE;
+        $tag .= '<div class="identity-right">' . $this->EOF_LINE;
+        $tag .= '<span class="story-card-actions">' . $this->EOF_LINE;
+        $tag .= '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="10px" height="10px" viewBox="0 0 451.847 451.847" style="enable-background:new 0 0 451.847 451.847;" xml:space="preserve">' . $this->EOF_LINE;
+        $tag .= '<g>' . $this->EOF_LINE;
+        $tag .= '<path d="M225.923,354.706c-8.098,0-16.195-3.092-22.369-9.263L9.27,151.157c-12.359-12.359-12.359-32.397,0-44.751   c12.354-12.354,32.388-12.354,44.748,0l171.905,171.915l171.906-171.909c12.359-12.354,32.391-12.354,44.744,0   c12.365,12.354,12.365,32.392,0,44.751L248.292,345.449C242.115,351.621,234.018,354.706,225.923,354.706z"/>' . $this->EOF_LINE;
+        $tag .= '</g>' . $this->EOF_LINE;
+        $tag .= '</svg>' . $this->EOF_LINE;
+        $tag .= '</span>' . $this->EOF_LINE;
+        $tag .= '</div>' . $this->EOF_LINE;
+        $tag .= '</div>' . $this->EOF_LINE;
+        $tag .= '<div class="title">' . $this->EOF_LINE;
+        $tag .= '<a href="#">6534215</a>' . $this->EOF_LINE;
+        $tag .= '</div>' . $this->EOF_LINE;
+        $tag .= '<div class="backlog-td-status" >In Progress</div>' . $this->EOF_LINE;
+        $tag .= '<div class="backlog-td-bottom">' . $this->EOF_LINE;
+        $tag .= '<span class="backlog-td-bottom-owner-name"><a href="#">Pooja Kumari</a>' . $this->EOF_LINE;
+        $tag .= '</span>' . $this->EOF_LINE;
+        $tag .= '<span class="backlog-td-bottom-time">15.00</span>' . $this->EOF_LINE;
+        $tag .= '</div>' . $this->EOF_LINE;
+        $tag .= '</div>' . $this->EOF_LINE;
+        $tag .= '</td>' . $this->EOF_LINE;
+        $tag .= '<td class="status-td">' . $this->EOF_LINE;
+        $tag .= '<div class="task-card">' . $this->EOF_LINE;
+        $tag .= '<div class="task-card-title">' . $this->EOF_LINE;
+        $tag .= '<span class="task-card-title-name">Testing</span>' . $this->EOF_LINE;
+        $tag .= '<span class="task-card-arrow" style="float:right;">' . $this->EOF_LINE;
+        $tag .= '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="10px" height="10px" viewBox="0 0 451.847 451.847" style="enable-background:new 0 0 451.847 451.847;" xml:space="preserve">' . $this->EOF_LINE;
+        $tag .= '<g>' . $this->EOF_LINE;
+        $tag .= '<path d="M225.923,354.706c-8.098,0-16.195-3.092-22.369-9.263L9.27,151.157c-12.359-12.359-12.359-32.397,0-44.751   c12.354-12.354,32.388-12.354,44.748,0l171.905,171.915l171.906-171.909c12.359-12.354,32.391-12.354,44.744,0   c12.365,12.354,12.365,32.392,0,44.751L248.292,345.449C242.115,351.621,234.018,354.706,225.923,354.706z"/>' . $this->EOF_LINE;
+        $tag .= '</g>' . $this->EOF_LINE;
+        $tag .= '</svg>' . $this->EOF_LINE;
+        $tag .= '</span>' . $this->EOF_LINE;
+        $tag .= '</div>' . $this->EOF_LINE;
+        $tag .= '<div class="task-card-owner">' . $this->EOF_LINE;
+        $tag .= '<span class="task-card-owner-name">Pooja Kumari</span>' . $this->EOF_LINE;
+        $tag .= '<span class="task-card-owner-time" style="float:right">2.00</span>' . $this->EOF_LINE;
+        $tag .= '</div>' . $this->EOF_LINE;
+        $tag .= '</div>' . $this->EOF_LINE;
+        $tag .= '<div class="task-card">' . $this->EOF_LINE;
+        $tag .= '<div class="task-card-title">' . $this->EOF_LINE;
+        $tag .= '<span class="task-card-title-name">Code Review</span>' . $this->EOF_LINE;
+        $tag .= '<span class="task-card-arrow" style="float:right;">' . $this->EOF_LINE;
+        $tag .= '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="10px" height="10px" viewBox="0 0 451.847 451.847" style="enable-background:new 0 0 451.847 451.847;" xml:space="preserve">' . $this->EOF_LINE;
+        $tag .= '<g>' . $this->EOF_LINE;
+        $tag .= '<path d="M225.923,354.706c-8.098,0-16.195-3.092-22.369-9.263L9.27,151.157c-12.359-12.359-12.359-32.397,0-44.751   c12.354-12.354,32.388-12.354,44.748,0l171.905,171.915l171.906-171.909c12.359-12.354,32.391-12.354,44.744,0   c12.365,12.354,12.365,32.392,0,44.751L248.292,345.449C242.115,351.621,234.018,354.706,225.923,354.706z"/>' . $this->EOF_LINE;
+        $tag .= '</g>' . $this->EOF_LINE;
+        $tag .= '</svg>' . $this->EOF_LINE;
+        $tag .= '</span>' . $this->EOF_LINE;
+        $tag .= '</div>' . $this->EOF_LINE;
+        $tag .= '<div class="task-card-owner">' . $this->EOF_LINE;
+        $tag .= '<span class="task-card-owner-name">Pooja Kumari</span>' . $this->EOF_LINE;
+        $tag .= '<span class="task-card-owner-time" style="float:right">2.00</span>' . $this->EOF_LINE;
+        $tag .= '</div>' . $this->EOF_LINE;
+        $tag .= '</div>' . $this->EOF_LINE;
+        $tag .= '<div class="task-card">' . $this->EOF_LINE;
+        $tag .= '<div class="task-card-title">' . $this->EOF_LINE;
+        $tag .= '<span class="task-card-title-name">Integrate</span>' . $this->EOF_LINE;
+        $tag .= '<span class="task-card-arrow" style="float:right;">' . $this->EOF_LINE;
+        $tag .= '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="10px" height="10px" viewBox="0 0 451.847 451.847" style="enable-background:new 0 0 451.847 451.847;" xml:space="preserve">' . $this->EOF_LINE;
+        $tag .= '<g>' . $this->EOF_LINE;
+        $tag .= '<path d="M225.923,354.706c-8.098,0-16.195-3.092-22.369-9.263L9.27,151.157c-12.359-12.359-12.359-32.397,0-44.751   c12.354-12.354,32.388-12.354,44.748,0l171.905,171.915l171.906-171.909c12.359-12.354,32.391-12.354,44.744,0   c12.365,12.354,12.365,32.392,0,44.751L248.292,345.449C242.115,351.621,234.018,354.706,225.923,354.706z"/>' . $this->EOF_LINE;
+        $tag .= '</g>' . $this->EOF_LINE;
+        $tag .= '</svg>' . $this->EOF_LINE;
+        $tag .= '</span>' . $this->EOF_LINE;
+        $tag .= '</div>' . $this->EOF_LINE;
+        $tag .= '<div class="task-card-owner">' . $this->EOF_LINE;
+        $tag .= '<span class="task-card-owner-name">Pooja Kumari</span>' . $this->EOF_LINE;
+        $tag .= '<span class="task-card-owner-time" style="float:right">2.00</span>' . $this->EOF_LINE;
+        $tag .= '</div>' . $this->EOF_LINE;
+        $tag .= '</div>' . $this->EOF_LINE;
+        $tag .= '</td>' . $this->EOF_LINE;
+        $tag .= '<td class="status-td">' . $this->EOF_LINE;
+        $tag .= '</td>' . $this->EOF_LINE;
+        $tag .= '<td class="status-td">' . $this->EOF_LINE;
+        $tag .= '<div class="task-card">' . $this->EOF_LINE;
+        $tag .= '<div class="task-card-title">' . $this->EOF_LINE;
+        $tag .= '<span class="task-card-title-name">Communication</span>' . $this->EOF_LINE;
+        $tag .= '<span class="task-card-arrow" style="float:right;">' . $this->EOF_LINE;
+        $tag .= '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="10px" height="10px" viewBox="0 0 451.847 451.847" style="enable-background:new 0 0 451.847 451.847;" xml:space="preserve">' . $this->EOF_LINE;
+        $tag .= '<g>' . $this->EOF_LINE;
+        $tag .= '<path d="M225.923,354.706c-8.098,0-16.195-3.092-22.369-9.263L9.27,151.157c-12.359-12.359-12.359-32.397,0-44.751   c12.354-12.354,32.388-12.354,44.748,0l171.905,171.915l171.906-171.909c12.359-12.354,32.391-12.354,44.744,0   c12.365,12.354,12.365,32.392,0,44.751L248.292,345.449C242.115,351.621,234.018,354.706,225.923,354.706z"/>' . $this->EOF_LINE;
+        $tag .= '</g>' . $this->EOF_LINE;
+        $tag .= '</svg>' . $this->EOF_LINE;
+        $tag .= '</span>' . $this->EOF_LINE;
+        $tag .= '</div>' . $this->EOF_LINE;
+        $tag .= '<div class="task-card-owner">' . $this->EOF_LINE;
+        $tag .= '<span class="task-card-owner-name">Pooja Kumari</span>' . $this->EOF_LINE;
+        $tag .= '<span class="task-card-owner-time" style="float:right">0.50</span>' . $this->EOF_LINE;
+        $tag .= '</div>' . $this->EOF_LINE;
+        $tag .= '</div>' . $this->EOF_LINE;
+        $tag .= '<div class="task-card">' . $this->EOF_LINE;
+        $tag .= '<div class="task-card-title">' . $this->EOF_LINE;
+        $tag .= '<span class="task-card-title-name">Resolve</span>' . $this->EOF_LINE;
+        $tag .= '<span class="task-card-arrow" style="float:right;">' . $this->EOF_LINE;
+        $tag .= '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="10px" height="10px" viewBox="0 0 451.847 451.847" style="enable-background:new 0 0 451.847 451.847;" xml:space="preserve">' . $this->EOF_LINE;
+        $tag .= '<g>' . $this->EOF_LINE;
+        $tag .= '<path d="M225.923,354.706c-8.098,0-16.195-3.092-22.369-9.263L9.27,151.157c-12.359-12.359-12.359-32.397,0-44.751   c12.354-12.354,32.388-12.354,44.748,0l171.905,171.915l171.906-171.909c12.359-12.354,32.391-12.354,44.744,0   c12.365,12.354,12.365,32.392,0,44.751L248.292,345.449C242.115,351.621,234.018,354.706,225.923,354.706z"/>' . $this->EOF_LINE;
+        $tag .= '</g>' . $this->EOF_LINE;
+        $tag .= '</svg>' . $this->EOF_LINE;
+        $tag .= '</span>' . $this->EOF_LINE;
+        $tag .= '</div>' . $this->EOF_LINE;
+        $tag .= '<div class="task-card-owner">' . $this->EOF_LINE;
+        $tag .= '<span class="task-card-owner-name">Pooja Kumari</span>' . $this->EOF_LINE;
+        $tag .= '<span class="task-card-owner-time" style="float:right">1.00</span>' . $this->EOF_LINE;
+        $tag .= '</div>' . $this->EOF_LINE;
+        $tag .= '</div>' . $this->EOF_LINE;
+        $tag .= '</td>' . $this->EOF_LINE;
+        $tag .= '<td class="status-td">' . $this->EOF_LINE;
+        $tag .= '<div class="task-card">' . $this->EOF_LINE;
+        $tag .= '<div class="task-card-title">' . $this->EOF_LINE;
+        $tag .= '<span class="task-card-title-name">Analysis</span>' . $this->EOF_LINE;
+        $tag .= '<span class="task-card-arrow" style="float:right;">' . $this->EOF_LINE;
+        $tag .= '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="10px" height="10px" viewBox="0 0 451.847 451.847" style="enable-background:new 0 0 451.847 451.847;" xml:space="preserve">' . $this->EOF_LINE;
+        $tag .= '<g>' . $this->EOF_LINE;
+        $tag .= '<path d="M225.923,354.706c-8.098,0-16.195-3.092-22.369-9.263L9.27,151.157c-12.359-12.359-12.359-32.397,0-44.751   c12.354-12.354,32.388-12.354,44.748,0l171.905,171.915l171.906-171.909c12.359-12.354,32.391-12.354,44.744,0   c12.365,12.354,12.365,32.392,0,44.751L248.292,345.449C242.115,351.621,234.018,354.706,225.923,354.706z"/>' . $this->EOF_LINE;
+        $tag .= '</g>' . $this->EOF_LINE;
+        $tag .= '</svg>' . $this->EOF_LINE;
+        $tag .= '</span>' . $this->EOF_LINE;
+        $tag .= '</div>' . $this->EOF_LINE;
+        $tag .= '<div class="task-card-owner">' . $this->EOF_LINE;
+        $tag .= '<span class="task-card-owner-name">Pooja Kumari</span>' . $this->EOF_LINE;
+        $tag .= '<span class="task-card-owner-time" style="float:right">2.00</span>' . $this->EOF_LINE;
+        $tag .= '</div>' . $this->EOF_LINE;
+        $tag .= '</div>' . $this->EOF_LINE;
+        $tag .= '</td>' . $this->EOF_LINE;
+        $tag .= '<td class="summary-td">' . $this->EOF_LINE;
+        $tag .= '<dl class="non-card">' . $this->EOF_LINE;
+        $tag .= '<dt>Test Results:</dt>' . $this->EOF_LINE;
+        $tag .= '<dd class="value">' . $this->EOF_LINE;
+
+        $tag .= '</dd>' . $this->EOF_LINE;
+        $tag .= '<dt>To Do:</dt>' . $this->EOF_LINE;
+        $tag .= '<dd class="value">10.50</dd>' . $this->EOF_LINE;
+        $tag .= '</dl>' . $this->EOF_LINE;
+        $tag .= '</td>' . $this->EOF_LINE;
+        $tag .= '</tr>' . $this->EOF_LINE;
+        $tag .= '</tbody>' . $this->EOF_LINE;
+        $tag .= '</table>' . $this->EOF_LINE;
+        $tag .= '</div>' . $this->EOF_LINE;
+        $tag .= '</div>' . $this->EOF_LINE;
+        $tag .= '</div>' . $this->EOF_LINE;
+        $tag .= '</div>' . $this->EOF_LINE;
+        $tag .= '</div>' . $this->EOF_LINE;
+        $tag .= '</div>' . $this->EOF_LINE;
+
+        return($tag);
+    }
+
+    protected function getTabMenu($currentTab)
+    {
+        $lists = array(array('Detailed Tracking', 'sprint_track_detail.php'), array('Storyboard', 'sprint_track_storyboard.php'),
+                        array('Taskboard', 'sprint_track_taskboard.php'), array('Testboard', 'sprint_track_testboard.php'));
+
+        $tag = Utility::getTabMenu($currentTab, $lists);
 
         return($tag);
     }
