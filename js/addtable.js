@@ -76,16 +76,6 @@ function getPosition(el) {
   };
 }
 
-/*function showItem() {
-    //alert("showItem");
-    document.getElementById("myDropdown1").style.display = 'block';
-}
-
-function hideItem() {
-    //alert("hideItem");
-    document.getElementById("myDropdown1").style.display = 'none';
-}*/
-
 function showHideEditMenu(display, callingElemTag, editMenuElemTag){
     if(editMenuElem != "")
     {
@@ -125,8 +115,4 @@ function showHideEditMenu(display, callingElemTag, editMenuElemTag){
             editMenuElem.style.display = "none";
         }
     }
-}
-
-function hideBacklogEditMenu(display) {
-    alert('here');
 }

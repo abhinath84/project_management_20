@@ -54,3 +54,7 @@
 .project-title-image {
     padding-right: 5px;
 }
+
+.sprint-schedule-add-form-container {
+    visibility: hidden;
+}

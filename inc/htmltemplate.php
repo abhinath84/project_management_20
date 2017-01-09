@@ -1243,12 +1243,10 @@ class SPRTrackDashboardHTML extends SPRTrackHTML
     {
         global $conn;
 
-        $year = getCurrentSession();
-        $qry = "SELECT spr_no, type, status, build_version, commit_build, respond_by_date, comment, session  FROM `spr_tracking` WHERE user_name = '". $_SESSION['project-managment-username'] ."' and session='" . $year . "'";
-
         $str = "";
 
         $Table = new HTMLTable("spr-tracking-dashboard-table", "grippy-table spr-tracking-dashboard-table");
+
         // add table header
         $Table->thead("spr-tracking-dashboard-thead");
         $Table->th("&nbsp;", null, null, null, null);
@@ -1266,6 +1264,8 @@ class SPRTrackDashboardHTML extends SPRTrackHTML
         $Table->tbody("spr-tracking-dashboard-tbody");
 
         /// SELECT spr_no, type, status, build_version, commit_build, respond_by_date, comment, session FROM `spr_tracking`
+        $qry = "SELECT spr_no, type, status, build_version, commit_build, respond_by_date, comment, session  FROM `spr_tracking` WHERE user_name = '". $_SESSION['project-managment-username'] ."' and session='" . getCurrentSession() . "'";
+
         $rows = $conn->result_fetch_array($qry);
         if(!empty($rows))
         {

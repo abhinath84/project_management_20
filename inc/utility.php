@@ -3,10 +3,13 @@
     require_once ('variables.inc.php');
     require_once ('navigator.php');
     require_once ('htmltable.php');
+    require_once ('cipher.inc.php');
+
 
     class Utility
     {
         private static $EOF_LINE = "\n";
+        private static $cipher; //= new Cipher($key);
 
         /*
             $lists = array(array(<val>, <href>), ...)
@@ -34,6 +37,28 @@
             $tag .= '           </div>' . self::$EOF_LINE;
 
             return($tag);
+        }
+
+        public static function encode($val)
+        {
+            global $key;
+            $cipher = new Cipher($key);
+
+            if($val === "")
+                return("");
+            else
+                return($cipher->encrypt($val));
+        }
+
+        public static function decode($val)
+        {
+            global $key;
+            $cipher = new Cipher($key);
+
+            if($val === "")
+                return("");
+            else
+                return($cipher->decrypt($val));
         }
     }
 ?>

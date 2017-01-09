@@ -267,6 +267,7 @@ h1,h2,h3,h4,h5,h6 {
 
  .dropdown-content a {
     color: black;
+    cursor: pointer;
     text-decoration: none;
     display: block;
     text-align: left;
