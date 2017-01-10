@@ -273,6 +273,30 @@ input[type=submit].retro-style.green[disabled] {
   background-color: #35aa47;
 }
 
+button.retro-style.green-bg,
+input[type=submit].retro-style.green-bg {
+  //border-color: #35aa47;
+  color: #FFFFFF;
+  background-color: #35aa47;
+}
+
+button.retro-style.green-bg:hover,
+button.retro-style.green-bg:focus,
+button.retro-style.green-bg:active,
+button.retro-style.green-bg.active,
+button.retro-style.green-bg.disabled,
+button.retro-style.green-bg[disabled],
+input[type=submit].retro-style.green-bg:hover,
+input[type=submit].retro-style.green-bg:focus,
+input[type=submit].retro-style.green-bg:active,
+input[type=submit].retro-style.green-bg.active,
+input[type=submit].retro-style.green-bg.disabled,
+input[type=submit].retro-style.green-bg[disabled] {
+  //border-color: #257631;
+  color: #FFFFFF;
+  background-color: #257631;
+}
+
 button.retro-style.red,
 input[type=submit].retro-style.red {
   border-color:#d84a38;

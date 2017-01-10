@@ -1,0 +1,159 @@
+.shield-wrapper {
+    visibility: hidden;
+}
+
+.shield {
+    position:fixed;
+    background:#000;
+    top:0;
+    left:0;
+    z-index:1000;
+    opacity:.5;
+    filter:alpha(opacity=50);
+    width:100%;
+    height:100%;
+    _position:absolute;
+}
+
+.shield-window {
+    position:fixed;
+    z-index:1001;
+    text-align:left;
+    _position:absolute;
+    /*width:400px!important;*/
+
+    max-height: 100%;
+    padding-bottom: 3px;
+    top: 10em;
+    bottom: 10em;
+    right: 30em;
+    left: 25em;
+    margin: auto;
+    background-color: #dde2e9;
+    //overflow: hidden;
+}
+
+.shield-window-position {
+    height: auto;
+    /*top: 200px;
+    left: 450px;*/
+}
+
+.line {
+    font-size:14px;
+    font-weight:bold;
+    padding:0;
+    margin:0;
+    color:#004b91;
+    width:100%;
+    float:left;
+    text-decoration:none;
+}
+
+.sprint-schedule-form {
+    padding-top: 25px;
+    padding-bottom: 25px;
+    text-align:center;
+    background:white;
+}
+
+.sprint-schedule-table {
+    width: 100%;
+    margin-left: 15px;
+}
+
+.sprint-schedule-table tr td{
+    padding-bottom: 10px;
+}
+
+.sprint-schedule-table .label-td {
+    width: 12%;
+    text-align: left;
+}
+
+.sprint-schedule-table .text-td {
+    //width: 10%;
+    text-align: left;
+}
+
+.sprint-schedule-table .unit-select {
+    height: 23px;
+}
+
+.red-asterisk {
+    margin-left: 5px;
+    color: red;
+}
+
+.close-icon {
+    background:url('../images/close.png') no-repeat;
+    width:15px;
+    height:15px;
+    position:absolute;
+    cursor:pointer;
+    top:5px;
+    right:5px;
+}
+
+.toolbar {
+    background: #31363e;
+    padding-top: 15px;
+    padding-bottom: 20px;
+}
+
+.toolbar .icon {
+    margin-left: 10px;
+    display: inline-block;
+    zoom: 1;
+    width: 16px;
+    height: 16px;
+    background: top left no-repeat;
+    background-image: url('../images/Schedule-Icon.gif');
+}
+
+.toolbar h2 {
+    margin: 0;
+    display: inline-block;
+    color: #fff;
+    padding-left: 5px;
+    vertical-align: top;
+}
+
+.submit-btns {
+    float: right;
+    margin-right: 10px;
+}
+
+/*.close {
+    background:url("../prod/images/fkart/compare-cart-sprite-6d5e187e.png") no-repeat scroll -177px -2px transparent;
+    cursor:pointer;
+    display:block;
+    height:16px;
+    position:absolute;
+    right:-8px;
+    bottom:-4px;
+    width:17px;
+}
+
+.close {
+    background:url("../prod/images/fkart/compare-cart-sprite-6d5e187e.png") no-repeat scroll 0 0 transparent;
+    height:12px;
+    right:-4px;
+    top:3px;
+    width:12px;
+    cursor:pointer;
+}
+
+.close {
+    background:url("../prod/images/fkart/hf-icons-sprite-7e4c8132.png") no-repeat scroll -49px -163px transparent;
+    height:17px;
+    width:17px;
+    cursor:pointer;
+    right:-12px;
+    top:-7px;
+}
+
+.close {
+    top:6px;
+    position:relative;
+}*/

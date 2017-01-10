@@ -1625,7 +1625,7 @@ class ScrumPPBHTML extends HTMLTemplate
 
                    $Table->td("Release 1.0", "{$i}-project", null, null);
 
-                   $Table->td(getQuickActionBtn("{$i}-edit-btn", "Edit", "quick-action-btn backlog-table-btn", "backlog-table-dropdown"), "{$i}-edit", null, null, "width=\"2%\"");
+                   $Table->td(getQuickActionBtn("{$i}-edit-btn", "Edit", "quick-action-btn backlog-table-btn", "", "", "backlog-table-dropdown"), "{$i}-edit", null, null, "width=\"2%\"");
 
            }
        //}

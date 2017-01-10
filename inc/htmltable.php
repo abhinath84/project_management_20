@@ -160,9 +160,7 @@
 
         public function toString()
         {
-            $str = "    <td {$this->_comp->toString()}>" . EOF_LINE;
-            $str .= "            {$this->_val}" . EOF_LINE;
-            $str .= "        </td>" . EOF_LINE;
+            $str = "    <td {$this->_comp->toString()}>{$this->_val}</td>" . EOF_LINE;
 
             return $str;
         }

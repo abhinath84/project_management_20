@@ -1240,8 +1240,13 @@ function showSPRTrackingReportSearchResult() {
         alert("Please select item from 'Search for' option!");
 }
 
+function showAddSprintScheduleDialog(selObj) {
+    //alert("Here");
+    shield.openDialog(selObj, false, 'sprint-schedule-add-form-container', createSprintScheduleDialog);
+}
+
 function getAddSprintScheduleDialog() {
-    
+    //sprint-schedule-add-form-container
 }
 
 /*function getOffset(elem) {

@@ -201,7 +201,7 @@
                         $table->td("{$row[2]}", "{$row[0]}-begin-date", null, null, "width=\"10%\"");
                         $table->td("{$row[3]}", "{$row[0]}-end-date", null, null, "width=\"10%\"");
                         $table->td("{$row[4]}", "{$row[0]}-sprint-schedule", null, null, "width=\"25%\"");
-                        $table->td(getQuickActionBtn("{$row[0]}-project-edit-btn", "Add Child Project", "project-td-btn", "project-table-dropdown"), "project-edit", null, null, "width=\"5%\"");
+                        $table->td(getQuickActionBtn("{$row[0]}-project-edit-btn", "Add Child Project", "project-td-btn", "", "", "project-table-dropdown"), "project-edit", null, null, "width=\"5%\"");
                 }
             }
             else
@@ -253,12 +253,13 @@
             $tag .= '               <div id="sprint-schedule-add-form-container">' . $this->EOF_LINE;
             $tag .= '               </div>' . $this->EOF_LINE;
             $tag .= '               <div style="float: right; margin-right: 25px; margin-top: 25px; margin-bottom: 20px;">' . $this->EOF_LINE;
-            $tag .= '                   <button class="retro-style green add-spr" type="button" onclick="javascript:addSprintSchedule()">' . $this->EOF_LINE;
+            $tag .= '                   <button class="retro-style green add-spr" type="button" onclick="addSprintScheduleDialog();">' . $this->EOF_LINE;
             $tag .= '                       <span>Add Sprint Schedule</span>' . $this->EOF_LINE;
             $tag .= '                   </button>' . $this->EOF_LINE;
             $tag .= '               </div>' . $this->EOF_LINE;
             $tag .= '               <div id="sprint-schedule-table-dropdown" class="dropdown-content">' . $this->EOF_LINE;
-            $tag .= '                   <a>Edit</a>' . $this->EOF_LINE;
+            $tag .= '                   <span id="quick-action-btn-key-span" style="display: none;"></span>' . EOF_LINE;
+            $tag .= '                   <a onclick="editSprintScheduleDialog(\'sprint-schedule-table-dropdown\', true)">Edit</a>' . $this->EOF_LINE;
             $tag .= '                   <a>Delete</a>' . $this->EOF_LINE;
             $tag .= '               </div>' . $this->EOF_LINE;
             $tag .= '               <div id="sprint-schedule-table-container">' . $this->EOF_LINE;
@@ -296,20 +297,24 @@
             // add Table body
             $table->tbody("project-tbody");
 
-            $qry = "SELECT title, length, len_unit, gap, gap_unit FROM scrum_sprint_schedule";
+            $qry = "SELECT title, length, len_unit, gap, gap_unit, description FROM scrum_sprint_schedule";
 
             $rows = $conn->result_fetch_array($qry);
             if(!empty($rows))
             {
                 // loop over the result and fill the rows
+                $inx = 1;
                 foreach($rows as $row)
                 {
                     $table->tr(null, null, null, "align=\"center\"");
                         $table->td(getGreppyDotTag(), "1-greppy", "hasGrippy", "text-align:center;", "width=\"5%\"");
-                        $table->td("$row[0]", "{$row[0]}-title", "project-title-td", null, "width=\"43%\"");
-                        $table->td("{$row[1]} {$row[2]}", "{$row[0]}-length", null, null, "width=\"25%\"");
-                        $table->td("{$row[3]} {$row[4]}", "{$row[0]}-gap", null, null, "width=\"25%\"");
-                        $table->td(getQuickActionBtn("{$row[0]}-sprint-schedule-edit-btn", "Edit", "project-td-btn", "sprint-schedule-table-dropdown"), "sprint-schedule-edit", null, null, "width=\"5%\"");
+                        $table->td("{$row[0]}", "{$inx}-title", "project-title-td", null, "width=\"43%\"");
+                        $table->td("{$row[1]} {$row[2]}", "{$inx}-length", null, null, "width=\"25%\"");
+                        $table->td("{$row[3]} {$row[4]}", "{$inx}-gap", null, null, "width=\"25%\"");
+                        $table->td("{$row[5]}", "{$inx}-desc", null, "display: none;");
+                        $table->td(getQuickActionBtn("{$inx}-sprint-schedule-edit-btn", "Edit", "project-td-btn", "onclick=\"editSprintScheduleDialog('{$inx}-sprint-schedule-edit-btn', false)\"", "{$inx}", "sprint-schedule-table-dropdown"), "sprint-schedule-edit", null, null, "width=\"5%\"");
+
+                    $inx++;
                 }
             }
             else

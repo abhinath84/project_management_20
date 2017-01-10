@@ -88,6 +88,11 @@ function showHideEditMenu(display, callingElemTag, editMenuElemTag){
             var leftOffset = getOffset(callingElem).left;
             var topOffset = getOffset(callingElem).top;
 
+            // set id in the first hidden span.
+            var keySpan = editMenuElem.children[0];
+            if(keySpan != null)
+                keySpan.innerHTML = callingElemTag;
+
             // show the edit menu div by giving 'display:block'.
             editMenuElem.style.position = "absolute";
             editMenuElem.style.display = "block";
