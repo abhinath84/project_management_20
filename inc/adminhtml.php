@@ -253,13 +253,13 @@
             $tag .= '               <div id="sprint-schedule-add-form-container">' . $this->EOF_LINE;
             $tag .= '               </div>' . $this->EOF_LINE;
             $tag .= '               <div style="float: right; margin-right: 25px; margin-top: 25px; margin-bottom: 20px;">' . $this->EOF_LINE;
-            $tag .= '                   <button class="retro-style green add-spr" type="button" onclick="addSprintScheduleDialog();">' . $this->EOF_LINE;
+            $tag .= '                   <button class="retro-style green add-spr" type="button" onclick="shieldSprintSchedule.openAddDialog(\'sprint-schedule-tbody\');">' . $this->EOF_LINE;
             $tag .= '                       <span>Add Sprint Schedule</span>' . $this->EOF_LINE;
             $tag .= '                   </button>' . $this->EOF_LINE;
             $tag .= '               </div>' . $this->EOF_LINE;
             $tag .= '               <div id="sprint-schedule-table-dropdown" class="dropdown-content">' . $this->EOF_LINE;
             $tag .= '                   <span id="quick-action-btn-key-span" style="display: none;"></span>' . EOF_LINE;
-            $tag .= '                   <a onclick="editSprintScheduleDialog(\'sprint-schedule-table-dropdown\', true)">Edit</a>' . $this->EOF_LINE;
+            $tag .= '                   <a onclick="shieldSprintSchedule.openEditDialog(\'sprint-schedule-table-dropdown\', \'sprint-schedule-tbody\', true)">Edit</a>' . $this->EOF_LINE;
             $tag .= '                   <a>Delete</a>' . $this->EOF_LINE;
             $tag .= '               </div>' . $this->EOF_LINE;
             $tag .= '               <div id="sprint-schedule-table-container">' . $this->EOF_LINE;
@@ -280,14 +280,14 @@
 
             $str = "";
 
-            $table = new HTMLTable("project-table", "grippy-table");
+            $table = new HTMLTable("sprint-schedule-table", "grippy-table");
 
             $title_th = '<a href="javascript:void(0);"><span class="icon plus-icon"></span></a>
                         <a href="javascript:void(0);"><span class="icon minus-icon"></span></a>
                         Title';
 
             // add table header
-            $table->thead("project-thead");
+            $table->thead("sprint-schedule-thead");
                 $table->th("&nbsp;", null, null, null, null);
                 $table->th("Title", null, null, null, "data-sort=\"string\"");
                 $table->th("Iteration Length", null,  null, null, "data-sort=\"string\"");
@@ -295,7 +295,7 @@
                 $table->th("&nbsp;", null, null, null);
 
             // add Table body
-            $table->tbody("project-tbody");
+            $table->tbody("sprint-schedule-tbody");
 
             $qry = "SELECT title, length, len_unit, gap, gap_unit, description FROM scrum_sprint_schedule";
 
@@ -312,7 +312,7 @@
                         $table->td("{$row[1]} {$row[2]}", "{$inx}-length", null, null, "width=\"25%\"");
                         $table->td("{$row[3]} {$row[4]}", "{$inx}-gap", null, null, "width=\"25%\"");
                         $table->td("{$row[5]}", "{$inx}-desc", null, "display: none;");
-                        $table->td(getQuickActionBtn("{$inx}-sprint-schedule-edit-btn", "Edit", "project-td-btn", "onclick=\"editSprintScheduleDialog('{$inx}-sprint-schedule-edit-btn', false)\"", "{$inx}", "sprint-schedule-table-dropdown"), "sprint-schedule-edit", null, null, "width=\"5%\"");
+                        $table->td(getQuickActionBtn("{$inx}-sprint-schedule-edit-btn", "Edit", "project-td-btn", "onclick=\"shieldSprintSchedule.openEditDialog('{$inx}-sprint-schedule-edit-btn', 'sprint-schedule-tbody', false)\"", "{$inx}", "sprint-schedule-table-dropdown"), "sprint-schedule-edit", null, null, "width=\"5%\"");
 
                     $inx++;
                 }

@@ -50,33 +50,33 @@
     text-decoration:none;
 }
 
-.sprint-schedule-form {
+.shield-dialog-form {
     padding-top: 25px;
     padding-bottom: 25px;
     text-align:center;
     background:white;
 }
 
-.sprint-schedule-table {
+.shield-dialog-table {
     width: 100%;
     margin-left: 15px;
 }
 
-.sprint-schedule-table tr td{
+.shield-dialog-table tr td{
     padding-bottom: 10px;
 }
 
-.sprint-schedule-table .label-td {
+.shield-dialog-table .label-td {
     width: 12%;
     text-align: left;
 }
 
-.sprint-schedule-table .text-td {
+.shield-dialog-table .text-td {
     //width: 10%;
     text-align: left;
 }
 
-.sprint-schedule-table .unit-select {
+.shield-dialog-table .unit-select {
     height: 23px;
 }
 
@@ -108,6 +108,9 @@
     width: 16px;
     height: 16px;
     background: top left no-repeat;
+}
+
+.toolbar .sprint-schedule-icon-img {
     background-image: url('../images/Schedule-Icon.gif');
 }
 

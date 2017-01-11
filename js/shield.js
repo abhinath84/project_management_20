@@ -9,125 +9,316 @@
     10-Jan-17   V1-01-00   abhishek   $$1   Created.
 --*/
 
+var shieldSprintSchedule = {
+    info : {
+        title: "",
+        len: "1",
+        len_unit: "days",
+        gap: "0",
+        gap_unit: "days",
+        description: "",
+        setDefult: function() {
+            this.title = "";
+            this.len = "1";
+            this.len_unit = "days";
+            this.gap = "0";
+            this.gap_unit = "days";
+            this.description = "";
+        }
+    },
 
-var sprintScheduleInfo = {
-    title: "",
-    len: "1",
-    len_unit: "days",
-    gap: "0",
-    gap_unit: "days",
-    description: "",
-    setDefult: function() {
-        this.title = "";
-        this.len = "1";
-        this.len_unit = "days";
-        this.gap = "0";
-        this.gap_unit = "days";
-        this.description = "";
+    createDialog: function () {
+        return(shieldDialog.getTag());
+    },
+
+    fillTitle: function () {
+        // fill all the toolbar related infomation before move on.
+        shieldDialog.toolBar.title = "Sprint Schedule";
+        shieldDialog.toolBar.imgIconClass = "sprint-schedule-icon-img";
+    },
+
+    fillTable: function () {
+        var inputTag = '';
+
+        // fill all infomation of dialog form.
+        // reset before use.
+        shieldDialog.formTable.clear();
+
+        inputTag += '<input style="width: 400px;" type="text" id="title-input" name="title" value="' + this.info.title + '"/>';
+        inputTag += '<span class="red-asterisk">*</span>';
+        shieldDialog.formTable.add('Title', inputTag);
+
+        inputTag = '                <input style="width: 50px;" type="text" id="len-input" name="len" value="' + this.info.len + '" />';
+        inputTag += '                <select id="len-unit-select" class="retro-style unit-select">';
+        inputTag += '                    <option value="days"'+ ((this.info.len_unit == "days") ? 'selected' : '') +'>days</option>';
+        inputTag += '                    <option value="weeks"'+ ((this.info.len_unit == "weeks") ? 'selected' : '') +'>weeks</option>';
+        inputTag += '                    <option value="months"'+ ((this.info.len_unit == "months") ? 'selected' : '') +'>months</option>';
+        inputTag += '                </select>';
+        shieldDialog.formTable.add('Sprint Length', inputTag);
+
+        inputTag = '                <input style="width: 50px;" type="text" id="gap-input" name="gap" value="' + this.info.gap + '" />';
+        inputTag += '                <select id="gap-unit-select" class="retro-style unit-select">';
+        inputTag += '                    <option value="days"'+ ((this.info.gap_unit == "days") ? 'selected' : '') +'>days</option>';
+        inputTag += '                    <option value="weeks"'+ ((this.info.gap_unit == "weeks") ? 'selected' : '') +'>weeks</option>';
+        inputTag += '                    <option value="months"'+ ((this.info.gap_unit == "months") ? 'selected' : '') +'>months</option>';
+        inputTag += '                </select>';
+        shieldDialog.formTable.add('Sprint Gap', inputTag);
+
+        inputTag = '<textarea id="description-textarea" name="description" rows="15" cols="120" spellcheck="false">' + this.info.description + '</textarea>';
+        shieldDialog.formTable.add('Description', inputTag);
+    },
+
+    onclickCancel: function (tbodyId) {
+        // hide shield dialog.
+        shield.show(false);
+
+        // update
+    },
+
+    onclickSaveNew: function (tbodyId) {
+        shield.show(false);
+    },
+
+    onclickSave: function (tbodyId) {
+        alert(tbodyId);
+
+        if(this.info.title == "") {
+            // Add new entry.
+        } else {
+            // Edit existing sprint schedule.
+        }
+
+        // hide the dialog
+        shield.show(false);
+
+        // update sprint schedule list.
+    },
+
+    openAddDialog: function (tbodyId) {
+        this.info.setDefult();
+
+        // fill all infomation of dialog title(toolBar).
+        this.fillTitle();
+
+        // reset and add button for dialog
+        shieldDialog.toolBar.toolbarBtns.clear();
+        shieldDialog.toolBar.toolbarBtns.add('submit-btns', 'retro-style red add-spr', 'Cancel', 'onclick="shieldSprintSchedule.onclickCancel(\''+ tbodyId +'\')"');
+        shieldDialog.toolBar.toolbarBtns.add('submit-btns', 'retro-style green-bg add-spr', 'Save & New', 'onclick="shieldSprintSchedule.onclickSaveNew(\''+ tbodyId +'\')"');
+        shieldDialog.toolBar.toolbarBtns.add('submit-btns', 'retro-style green-bg add-spr', 'Save', 'onclick="shieldSprintSchedule.onclickSave(\''+ tbodyId +'\')"');
+
+        // fill all infomation of dialog form.
+        this.fillTable();
+
+        shield.openDialog(this, false, 'sprint-schedule-add-form-container', this.createDialog);
+    },
+
+    openEditDialog: function (Id, tbodyId, isCallingFromDropMenu) {
+
+        var key = '';
+        var divObj = document.getElementById(Id).children[0];
+
+        if(isCallingFromDropMenu) {
+            key = document.getElementById(divObj.innerHTML).children[0].innerHTML;
+            document.getElementById(Id).style.display = "none";
+        } else {
+            key = divObj.innerHTML;
+        }
+
+        if((key != null) && (key != "")) {
+            // update this.info and open dialog with updated infomsg
+            this.info.title = document.getElementById(key + "-title").innerHTML; //"Base Sprint Schedule";
+
+            var lenStr = document.getElementById(key + "-length").innerHTML;
+            var res = lenStr.split(" ");
+            this.info.len = res[0]; //"1";
+            this.info.len_unit = res[1];
+
+            lenStr = document.getElementById(key + "-gap").innerHTML;
+            res = lenStr.split(" ");
+            this.info.gap = res[0]; //"2";
+            this.info.gap_unit = res[1];
+            this.info.description = document.getElementById(key + "-desc").innerHTML; //"Base Sprint Schedule";
+
+            // fill all infomation of dialog title(toolBar).
+            this.fillTitle();
+
+            // reset and add button for dialog
+            shieldDialog.toolBar.toolbarBtns.clear();
+            shieldDialog.toolBar.toolbarBtns.add('submit-btns', 'retro-style red add-spr', 'Cancel', 'onclick="shieldSprintSchedule.onclickCancel(\''+ tbodyId +'\')"');
+            shieldDialog.toolBar.toolbarBtns.add('submit-btns', 'retro-style green-bg add-spr', 'Save', 'onclick="shieldSprintSchedule.onclickSave(\''+ tbodyId +'\')"');
+
+            // fill all infomation of dialog form.
+            this.fillTable();
+
+            shield.openDialog(this, false, 'sprint-schedule-add-form-container', this.createDialog);
+        }
     }
 };
 
-function createSprintScheduleDialog() {
+var shieldProject = {
 
-    var tag = '';
+};
 
-    tag += '<div class="toolbar">';
-    tag += '    <span class="icon"></span>';
-    tag += '    <h2>Sprint Schedule</h2>';
-    tag += '    <div class="submit-btns">'
-    tag += '        <button class="retro-style red add-spr" type="button" onclick="shield.show(false)">';
-    tag += '            <span>Cancel</span>';
-    tag += '        </button>';
-    tag += '    </div>';
-    tag += '    <div class="submit-btns">'
-    tag += '        <button class="retro-style green-bg add-spr" type="button" onclick="shield.show(false)">';
-    tag += '            <span>Save & New</span>';
-    tag += '        </button>';
-    tag += '    </div>';
-    tag += '    <div class="submit-btns">'
-    tag += '        <button class="retro-style green-bg add-spr" type="button" onclick="shield.show(false)">';
-    tag += '            <span>Save</span>';
-    tag += '        </button>';
-    tag += '    </div>';
-    tag += '</div>';
+/* object to create dialog for shield popup. */
+var shieldDialog = {
+    toolBar : {
+        title           : "",
+        imgIconClass    : "",
+        toolbarBtns     : {
+        buttons         : [],
 
-    // Added field for input for Sprint Schedule.
-    tag += '<div class="sprint-schedule-form line">';
-    tag += '    <table class="sprint-schedule-table">';
-    tag += '        <tr>';
-    tag += '            <td class="label-td"><label for="title">Title:</label></td>';
-    tag += '            <td class="text-td"><input style="width: 400px;" type="text" name="title" value="' + sprintScheduleInfo.title + '"/><span class="red-asterisk">*</span></td>';
-    tag += '        </tr>';
-    tag += '        <tr>';
-    tag += '            <td class="label-td"><label for="len">Sprint Length:</label></td>';
-    tag += '            <td class="text-td">';
-    tag += '                <input style="width: 50px;" type="text" name="len" value="' + sprintScheduleInfo.len + '" />';
-    tag += '                <select id="len-unit-select" class="retro-style unit-select">';
-    tag += '                    <option value="days"'+ ((sprintScheduleInfo.len_unit == "days") ? 'selected' : '') +'>days</option>';
-    tag += '                    <option value="weeks"'+ ((sprintScheduleInfo.len_unit == "weeks") ? 'selected' : '') +'>weeks</option>';
-    tag += '                    <option value="months"'+ ((sprintScheduleInfo.len_unit == "months") ? 'selected' : '') +'>months</option>';
-    tag += '                </select>'
-    tag += '            </td>';
-    tag += '        </tr>';
-    tag += '        <tr>';
-    tag += '            <td class="label-td"><label for="gap">Sprint Gap:</label></td>';
-    tag += '            <td class="text-td">';
-    tag += '                <input style="width: 50px;" type="text" name="gap" value="' + sprintScheduleInfo.gap + '" />';
-    tag += '                <select id="gap-unit-select" class="retro-style unit-select">';
-    tag += '                    <option value="days"'+ ((sprintScheduleInfo.gap_unit == "days") ? 'selected' : '') +'>days</option>';
-    tag += '                    <option value="weeks"'+ ((sprintScheduleInfo.gap_unit == "weeks") ? 'selected' : '') +'>weeks</option>';
-    tag += '                    <option value="months"'+ ((sprintScheduleInfo.gap_unit == "months") ? 'selected' : '') +'>months</option>';
-    tag += '                </select>'
-    tag += '            </td>';
-    tag += '        </tr>';
-    tag += '        <tr>';
-    tag += '            <td class="label-td"><label for="description">Description:</label></td>';
-    tag += '            <td class="text-td">';
-    tag += '                <textarea name="description" rows="15" cols="120" spellcheck="false">' + sprintScheduleInfo.description + '</textarea>';
-    tag += '            </td>';
-    tag += '        </tr>';
-    tag += '    </table>';
-    tag += '</div>';
-    //tag += '<span class="close-icon close" onclick="showShield(false)"></span>';
+        setDefult: function() {
+            this.title = "";
+            this.imgIconClass = "";
+            this.toolbarBtns.clear();
+        },
 
-    return(tag);
-}
+        add: function (divClass, btnClass, btnTitle, btnEvent) {
+              this.buttons.push({
+                divClass: divClass,
+                btnClass: btnClass,
+                btnTitle: btnTitle,
+                btnEvent: btnEvent
+              });
+            },
 
-function addSprintScheduleDialog() {
-    sprintScheduleInfo.setDefult();
+        clear: function () {
+                while(this.buttons.length > 0) {
+                    this.buttons.pop();
+                }
+            }
+        },
 
-    shield.openDialog(this, false, 'sprint-schedule-add-form-container', createSprintScheduleDialog);
-}
+        getTitle: function () {
+            var tag = '';
 
-function editSprintScheduleDialog(Id, isCallingFromDropMenu) {
+            tag += '<span class="icon ' + this.imgIconClass + '"></span>';
+            tag += '<h2>' + this.title + '</h2>';
 
-    var key = '';
-    var divObj = document.getElementById(Id).children[0];
+            return(tag);
+        },
 
-    if(isCallingFromDropMenu) {
-        key = document.getElementById(divObj.innerHTML).children[0].innerHTML;
-    } else {
-        key = divObj.innerHTML;
+        getButtons: function () {
+            var tag = '';
+
+            // Add buttons
+            for(var inx in this.toolbarBtns.buttons) {
+                tag += '<div class="' + this.toolbarBtns.buttons[inx].divClass + '">'
+                tag += '    <button class="' + this.toolbarBtns.buttons[inx].btnClass + '" type="button" ' + this.toolbarBtns.buttons[inx].btnEvent + '">';
+                tag += '    <span>' + this.toolbarBtns.buttons[inx].btnTitle + '</span>';
+                tag += '    </button>';
+                tag += '</div>';
+            }
+
+            return(tag);
+        },
+
+        /*  top header block.
+            consists:
+            - Icon of the dialog content, like if dialog is for project then Icon of the project.
+            - Title of the dialog.
+            - Buttons for the dialog. ie, cancel, save, edit etc button.
+                - Note: pass button in reverse order than it display in the dialog. Because button are floating
+                right using float: right property.
+        */
+        getTag: function () {
+            var tag = '';
+
+            tag += '<div class="toolbar">';
+            // Add title for toolbar(dialog)
+            tag +=      this.getTitle();
+            // Add buttons for toolbar(dialog)
+            tag +=      this.getButtons();
+            tag += '</div>';
+
+            return(tag);
+        }
+    },
+
+    formTable : {
+        tr: [],
+
+        add: function(label, inputTag) {
+            this.tr.push({
+                label: label,
+                input: inputTag
+            })
+        },
+
+        clear: function() {
+            while(this.tr.length > 0) {
+                this.tr.pop();
+            }
+        },
+
+        getLabelTD: function (title) {
+            var tag = '';
+
+            tag += '            <td class="label-td">';
+            tag += '                <label for="title">' + title + ':</label>';
+            tag += '            </td>';
+
+            return(tag);
+        },
+
+        getInputTD: function (input) {
+            tag = '';
+
+            tag += '            <td class="text-td">';
+            tag +=                  input;
+            tag += '            </td>';
+
+            return(tag);
+        },
+
+        getTR: function (title, input) {
+            var tag = '';
+
+            tag += '        <tr>';
+            tag +=              this.getLabelTD(title);
+            tag +=              this.getInputTD(input);
+            tag += '        </tr>';
+
+            return(tag);
+        },
+
+        getTag: function () {
+            var tag = '';
+
+            tag += '<div class="shield-dialog-form line">';
+            tag += '    <table class="shield-dialog-table">';
+
+            // Add rows according to the input (formTable.tr).
+            for(var inx in this.tr) {
+                tag += this.getTR(this.tr[inx].label, this.tr[inx].input);
+            }
+
+            tag += '    </table>';
+            tag += '</div>';
+
+            return(tag);
+        }
+    },
+
+    getTag: function () {
+        var tag = '';
+
+        /*  top header block.
+            consists:
+            - Icon of the dialog content, like if dialog is for project then Icon of the project.
+            - Title of the dialog.
+            - Buttons for the dialog. ie, cancel, save, edit etc button.
+                - Note: pass button in reverse order than it display in the dialog. Because button are floating
+                right using float: right property.
+        */
+        tag += shieldDialog.toolBar.getTag();
+
+        //  Added field for input.
+        tag += shieldDialog.formTable.getTag();
+
+        return(tag);
     }
-    if((key != null) && (key != "")) {
-        // update sprintScheduleInfo and open dialog with updated infomsg
-        sprintScheduleInfo.title = document.getElementById(key + "-title").innerHTML; //"Base Sprint Schedule";
-
-        var lenStr = document.getElementById(key + "-length").innerHTML;
-        var res = lenStr.split(" ");
-        sprintScheduleInfo.len = res[0]; //"1";
-        sprintScheduleInfo.len_unit = res[1];
-
-        lenStr = document.getElementById(key + "-gap").innerHTML;
-        res = lenStr.split(" ");
-        sprintScheduleInfo.gap = res[0]; //"2";
-        sprintScheduleInfo.gap_unit = res[1];
-        sprintScheduleInfo.description = document.getElementById(key + "-desc").innerHTML; //"Base Sprint Schedule";
-
-        shield.openDialog(this, false, 'sprint-schedule-add-form-container', createSprintScheduleDialog);
-    }
-}
-
+};
 
 /* Create namespace Using Object Literal Notation */
 var shield = {

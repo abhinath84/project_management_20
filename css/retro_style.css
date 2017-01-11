@@ -275,7 +275,7 @@ input[type=submit].retro-style.green[disabled] {
 
 button.retro-style.green-bg,
 input[type=submit].retro-style.green-bg {
-  //border-color: #35aa47;
+  border-color: #35aa47;
   color: #FFFFFF;
   background-color: #35aa47;
 }
@@ -292,7 +292,7 @@ input[type=submit].retro-style.green-bg:active,
 input[type=submit].retro-style.green-bg.active,
 input[type=submit].retro-style.green-bg.disabled,
 input[type=submit].retro-style.green-bg[disabled] {
-  //border-color: #257631;
+  border-color: #257631;
   color: #FFFFFF;
   background-color: #257631;
 }
