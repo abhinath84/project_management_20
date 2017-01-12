@@ -617,7 +617,7 @@ function showDashboardAccdSession(tagId, func) {
 
 function addSPRTrackingDashboard(flag) {
     var errMsg = "";
-alert("alert");
+
     // Add new SPR number for tracking
     if(flag == true) {
         var spr_no = document.getElementById('spr_no-input').value.trim();
@@ -628,7 +628,7 @@ alert("alert");
         var respond_by_date = document.getElementById('respond_by_date-input').value;
         var comment = document.getElementById('comment-textarea').value.trim();
         var session = document.getElementById('session-input').value;
-alert("alert");
+
         if(spr_no != "") {
             // call server side function via AJAX
             errMsg = getServerResponseViaAJAX("../ajax/default.php", "addSPRTrackingDashboardCallback", {},
@@ -1238,15 +1238,6 @@ function showSPRTrackingReportSearchResult() {
     }
     else
         alert("Please select item from 'Search for' option!");
-}
-
-function showAddSprintScheduleDialog(selObj) {
-    //alert("Here");
-    shield.openDialog(selObj, false, 'sprint-schedule-add-form-container', createSprintScheduleDialog);
-}
-
-function getAddSprintScheduleDialog() {
-    //sprint-schedule-add-form-container
 }
 
 /*function getOffset(elem) {

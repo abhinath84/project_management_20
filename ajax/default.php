@@ -21,27 +21,29 @@
 require_once ('../inc/functions.inc.php');
 require_once ('../inc/mysql_functions.inc.php');
 require_once ('../inc/utility.php');
+require_once ('../inc/mysqldb.php');
 
 
 // Initialize session data
 session_start();
 
-if(function_exists($_GET['f'])) {
+if(function_exists($_GET['f']))
+{
     // get function name and parameter
     if($_GET['f'] == 'updateSPRTrackingCallback')
-    $_GET['f']($_GET["spr_no"], $_GET["field"], $_GET["value"]);
+        $_GET['f']($_GET["spr_no"], $_GET["field"], $_GET["value"]);
     else if($_GET['f'] == 'updateSPRTrackingSubmissionCallback')
-    $_GET['f']($_GET["spr_no"], $_GET["field"], $_GET["value"]);
+        $_GET['f']($_GET["spr_no"], $_GET["field"], $_GET["value"]);
     else if($_GET['f'] == 'updateWorkTrackerCallback')
-    $_GET['f']($_GET["key"], $_GET["field"], $_GET["value"]);
+        $_GET['f']($_GET["key"], $_GET["field"], $_GET["value"]);
     else if($_GET['f'] == 'getTagBGColorCallback')
-    $_GET['f']($_GET["func"], $_GET["val"]);
+        $_GET['f']($_GET["func"], $_GET["val"]);
     else if($_GET['f'] == 'addUpdateSPRSubmissionStatusCallback')
-    $_GET['f']($_GET["spr_no"], $_GET["version"]);
+        $_GET['f']($_GET["spr_no"], $_GET["version"]);
     else if($_GET['f'] == 'shortDescriptionCallback')
-    $_GET['f']($_GET["comment"], $_GET["len"]);
+        $_GET['f']($_GET["comment"], $_GET["len"]);
     else
-    $_GET['f']();
+        $_GET['f']();
 }
 else
 {
@@ -53,9 +55,10 @@ function updateSPRTrackingCallback($spr_no, $field, $val)
     $bgColor = "";
 
     $status = updateSPRTracking('spr_tracking', $field, $val, "spr_no = '". $spr_no .
-    "' AND user_name = '". $_SESSION['project-managment-username'] ."'");
+                                "' AND user_name = '". $_SESSION['project-managment-username'] ."'");
+
     if(($status == true) && ($field == "status"))
-    $bgColor = getSPRTrackingStatusColor($val);
+        $bgColor = getSPRTrackingStatusColor($val);
 
     echo(json_encode($bgColor));
 }
@@ -66,7 +69,7 @@ function updateSPRTrackingSubmissionCallback($spr_no, $field, $val)
 
     $status = updateSPRTracking('spr_submission', $field, $val, "spr_no = '". $spr_no ."'");
     if($status == true)
-    $bgColor = getSPRSubmissionColor($val);
+        $bgColor = getSPRSubmissionColor($val);
 
     echo(json_encode($bgColor));
 }
@@ -81,7 +84,17 @@ function showDashboardAccdSessionCallback()
     $tag = "";
 
     if(!empty($_POST["func"]) && !empty($_POST["session"]))
-    $tag .= $_POST["func"]($_POST["session"]);
+        $tag .= $_POST["func"]($_POST["session"]);
+
+    echo(json_encode($tag));
+}
+
+function updateDashboradTablecallback()
+{
+    $tag = "";
+
+    if(!empty($_POST["fillTableFunc"]))
+        $tag .= $_POST["fillTableFunc"]();
 
     echo(json_encode($tag));
 }
@@ -114,22 +127,23 @@ function addSPRTrackingDashboardCallback()
     // check for date format.(pending)
     $errors = checkEmptyField($post_data);
 
-    if ( ! empty($errors)) {
-    $data['success'] = false;
-    $data['errors']  = $errors;
-    }
-    else {
-    $msg = add_spr($spr_no, $type, $status, $build_version, $commit_build, $respond_by_date, $comment, $session);
-
-    if($msg != "")
+    if ( ! empty($errors))
     {
-    $errors[0] = ['qry', $msg];
-
-    $data['success'] = false;
-    $data['errors']  = $errors;
+        $data['success'] = false;
+        $data['errors']  = $errors;
     }
     else
-    $data['success'] = true;
+    {
+        $msg = add_spr($spr_no, $type, $status, $build_version, $commit_build, $respond_by_date, $comment, $session);
+        if($msg != "")
+        {
+            $errors[0] = ['qry', $msg];
+
+            $data['success'] = false;
+            $data['errors']  = $errors;
+        }
+        else
+            $data['success'] = true;
     }
 
     echo(json_encode($data));
@@ -151,22 +165,24 @@ function addSPRSubmissionStatusCallback()
     $post_data = [['SPR No', $spr_no], ['L03', $l03], ['P10', $p10], ['P20', $p20], ['P30', $p30]];
     $errors = checkEmptyField($post_data);
 
-    if ( ! empty($errors)) {
-    $data['success'] = false;
-    $data['errors']  = $errors;
-    }
-    else {
-    $msg = addSPRSubmissionStatus($spr_no, $l03, $p10, $p20, $p30, $comment);
-
-    if($msg != "")
+    if ( ! empty($errors))
     {
-    $errors[0] = ['qry', $msg];
-
-    $data['success'] = false;
-    $data['errors']  = $errors;
+        $data['success'] = false;
+        $data['errors']  = $errors;
     }
     else
-    $data['success'] = true;
+    {
+        $msg = addSPRSubmissionStatus($spr_no, $l03, $p10, $p20, $p30, $comment);
+
+        if($msg != "")
+        {
+            $errors[0] = ['qry', $msg];
+
+            $data['success'] = false;
+            $data['errors']  = $errors;
+        }
+        else
+            $data['success'] = true;
     }
 
     echo(json_encode($data));
@@ -188,22 +204,24 @@ function addWorkTrackerCallback()
     // check for date format.(pending)
     $errors = checkEmptyField($post_data);
 
-    if ( ! empty($errors)) {
-    $data['success'] = false;
-    $data['errors']  = $errors;
-    }
-    else {
-    $msg = addWorkTracker($day, $task, $category, $time, $comment);
-
-    if($msg != "")
+    if ( ! empty($errors))
     {
-    $errors[0] = ['qry', $msg];
-
-    $data['success'] = false;
-    $data['errors']  = $errors;
+        $data['success'] = false;
+        $data['errors']  = $errors;
     }
     else
-    $data['success'] = true;
+    {
+        $msg = addWorkTracker($day, $task, $category, $time, $comment);
+
+        if($msg != "")
+        {
+            $errors[0] = ['qry', $msg];
+
+            $data['success'] = false;
+            $data['errors']  = $errors;
+        }
+        else
+            $data['success'] = true;
     }
 
     echo(json_encode($data));
@@ -228,7 +246,8 @@ function loginSubmitCallback()
 
 // return a response ===========================================================
     // if there are any errors in our errors array, return a success boolean of false
-    if ( ! empty($errors)) {
+    if ( ! empty($errors))
+    {
 
         // if there are items in our errors array, return those errors
         $data['success'] = false;
@@ -265,14 +284,14 @@ function recoverySubmitCallback()
 // validate the variables ======================================================
     // check for empty field.
     if( ! isset($_POST['recovery']))
-    $errors['recovery'] = 'Please select one of the following options.';
+        $errors['recovery'] = 'Please select one of the following options.';
     else
     {
-    if(($_POST['recovery'] == "password") && (empty($_POST['username'])))
-    $errors['username'] = 'Please enter an username.';
+        if(($_POST['recovery'] == "password") && (empty($_POST['username'])))
+            $errors['username'] = 'Please enter an username.';
 
-    if(($_POST['recovery'] == "username") && (empty($_POST['email'])))
-    $errors['email'] = 'Please enter an email address.';
+        if(($_POST['recovery'] == "username") && (empty($_POST['email'])))
+            $errors['email'] = 'Please enter an email address.';
     }
 
 // return a response ===========================================================
@@ -283,36 +302,36 @@ function recoverySubmitCallback()
     }
     else
     {
-    // check for username/email
-    if($_POST['recovery'] == "password")
-    {
-        // check for username
-        $password = getItemFromTable("password", "user", "user_name='".Utility::encode($_POST['username'])."'");
-        if($password == "")
-            $errors['username'] = 'No account found with that username.';
+        // check for username/email
+        if($_POST['recovery'] == "password")
+        {
+            // check for username
+            $password = getItemFromTable("password", "user", "user_name='".Utility::encode($_POST['username'])."'");
+            if($password == "")
+                $errors['username'] = 'No account found with that username.';
+            else
+                $data['msg'] = 'Password for \''.$_POST['username'].'\' is \''.Utility::decode($password).'\'.';
+        }
         else
-            $data['msg'] = 'Password for \''.$_POST['username'].'\' is \''.Utility::decode($password).'\'.';
-    }
-    else
-    {
-        // check for email
-        $username = getItemFromTable("user_name", "user", "email='".Utility::encode($_POST['email'])."'");
-        if($username == "")
-            $errors['email'] = 'No account found with that email address.';
-        else
-        $data['msg'] = 'Username for \''.$_POST['email'].'\' is \''.Utility::decode($username).'\'.';
-    }
+        {
+            // check for email
+            $username = getItemFromTable("user_name", "user", "email='".Utility::encode($_POST['email'])."'");
+            if($username == "")
+                $errors['email'] = 'No account found with that email address.';
+            else
+            $data['msg'] = 'Username for \''.$_POST['email'].'\' is \''.Utility::decode($username).'\'.';
+        }
 
-    if ( ! empty($errors))
-    {
-    $data['success'] = false;
-    $data['errors']  = $errors;
-    }
-    else
-    {
-    // get username/password and mail to user
-    $data['success'] = true;
-    }
+        if ( ! empty($errors))
+        {
+            $data['success'] = false;
+            $data['errors']  = $errors;
+        }
+        else
+        {
+            // get username/password and mail to user
+            $data['success'] = true;
+        }
     }
 
     // return all our data to an AJAX call
@@ -326,11 +345,11 @@ function checkEmptyField($data)
 
     foreach($data as $each)
     {
-    if(empty($each[1]))
-    {
-    $errors[$inx] = [$each[0], 'Please enter '.$each[0].'.'];
-    $inx++;
-    }
+        if(empty($each[1]))
+        {
+            $errors[$inx] = [$each[0], 'Please enter '.$each[0].'.'];
+            $inx++;
+        }
     }
 
     return($errors);
@@ -343,13 +362,13 @@ function getErrorMsgs($data, $password_val)
 
     foreach($data as $each)
     {
-    $errMsg = "";
-    $errMsg = getErrorMsg($each[0], $each[1], $password_val);
-    if($errMsg <> "")
-    {
-    $errors[$inx] = [$each[0], $errMsg];
-    $inx++;
-    }
+        $errMsg = "";
+        $errMsg = getErrorMsg($each[0], $each[1], $password_val);
+        if($errMsg <> "")
+        {
+            $errors[$inx] = [$each[0], $errMsg];
+            $inx++;
+        }
     }
     return($errors);
 }
@@ -373,20 +392,22 @@ function signupSubmitCallback()
     $errors = getErrorMsgs($post_data, $_POST['password']);
     if(empty($errors))
     {
-    if(create_user($_POST['username'], $_POST['password'], $_POST['firstName'], $_POST['lastName'], $_POST['gender'],
-    $_POST['title'], $_POST['department'], $_POST['email'], $_POST['altEmail'], $_POST['manager']) == true)
-    $data['success'] = true;
+        if(create_user($_POST['username'], $_POST['password'], $_POST['firstName'], $_POST['lastName'], $_POST['gender'],
+            $_POST['title'], $_POST['department'], $_POST['email'], $_POST['altEmail'], $_POST['manager']) == true)
+        {
+            $data['success'] = true;
+        }
+        else
+        {
+            $data['success'] = false;
+            $errors[$inx] = [$each[0], 'Please enter '.$each[0].'.'];
+            $data['errors']  = $errors;
+        }
+    }
     else
     {
-    $data['success'] = false;
-    $errors[$inx] = [$each[0], 'Please enter '.$each[0].'.'];
-    $data['errors']  = $errors;
-    }
-    }
-    else
-    {
-    $data['success'] = false;
-    $data['errors']  = $errors;
+        $data['success'] = false;
+        $data['errors']  = $errors;
     }
     //}
 
@@ -399,38 +420,39 @@ function getErrorMsg($tag_id, $tag_val, $password_val)
     $errMsg = "";
 
     if (empty($tag_val))
-    $errMsg = 'Please enter '.$tag_id.'.';
-    else {
-    // check for username
-    if(($tag_id == "username") && (getItemFromTable("user_name", "user", "user_name = '".Utility::encode($tag_val)."'") <> ""))
+        $errMsg = 'Please enter '.$tag_id.'.';
+    else
     {
-    $errMsg = 'Username already exists.';
-    }
-    // check for password format
-    else if(($tag_id == "password") && ((strlen($tag_val) < 8) ||
-    (!(preg_match('/[a-z]/', $tag_val)) /*|| !(preg_match('/[0-9]/', $tag_val)) || !(preg_match('/[A-Z]/', $tag_val))*/)))
-    {
-    $errMsg = 'Password does not match the format.(Password have atleast 8 Characters.)';
-    }
-    else if($tag_id == "confirm-password")
-    {
-    if((strlen($tag_val) < 8) || (!(preg_match('/[a-z]/', $tag_val)) /*|| !(preg_match('/[0-9]/', $tag_val)) || !(preg_match('/[A-Z]/', $tag_val))*/))
-    {
-    $errMsg = 'Password does not match the format.(Password have atleast 8 Characters.)';
-    }
-    else if($password_val <> $tag_val)
-    {
-    $errMsg = 'Password and Comfirm Password doesn\'t match.';
-    }
-    }
-    else if(($tag_id == "gender") && ($tag_val == "Select ..."))
-    {
-    $errMsg = 'Please Select your Gender';
-    }
-    else  if (($tag_id == "email") && (!filter_var($tag_val, FILTER_VALIDATE_EMAIL)))
-    {
-    $errMsg = 'Please enter valid e-mail.';
-    }
+        // check for username
+        if(($tag_id == "username") && (getItemFromTable("user_name", "user", "user_name = '".Utility::encode($tag_val)."'") <> ""))
+        {
+            $errMsg = 'Username already exists.';
+        }
+        // check for password format
+        else if(($tag_id == "password") && ((strlen($tag_val) < 8) ||
+        (!(preg_match('/[a-z]/', $tag_val)) /*|| !(preg_match('/[0-9]/', $tag_val)) || !(preg_match('/[A-Z]/', $tag_val))*/)))
+        {
+            $errMsg = 'Password does not match the format.(Password have atleast 8 Characters.)';
+        }
+        else if($tag_id == "confirm-password")
+        {
+            if((strlen($tag_val) < 8) || (!(preg_match('/[a-z]/', $tag_val)) /*|| !(preg_match('/[0-9]/', $tag_val)) || !(preg_match('/[A-Z]/', $tag_val))*/))
+            {
+                $errMsg = 'Password does not match the format.(Password have atleast 8 Characters.)';
+            }
+            else if($password_val <> $tag_val)
+            {
+                $errMsg = 'Password and Comfirm Password doesn\'t match.';
+            }
+        }
+        else if(($tag_id == "gender") && ($tag_val == "Select ..."))
+        {
+            $errMsg = 'Please Select your Gender';
+        }
+        else  if (($tag_id == "email") && (!filter_var($tag_val, FILTER_VALIDATE_EMAIL)))
+        {
+            $errMsg = 'Please enter valid e-mail.';
+        }
     }
 
     return($errMsg);
@@ -449,12 +471,12 @@ function showErrorMsgCallback()
     $errMsg = getErrorMsg($tag_id, $tag_val, $password_val);
     if($errMsg <> "")
     {
-    $data['success'] = false;
-    $errors[$tag_id] = $errMsg;
-    $data['errors']  = $errors;
+        $data['success'] = false;
+        $errors[$tag_id] = $errMsg;
+        $data['errors']  = $errors;
     }
     else
-    $data['success'] = true;
+        $data['success'] = true;
 
     // return all our data to an AJAX call
     echo json_encode($data);
@@ -467,11 +489,11 @@ function deleteWorkTrackerCallback()
     $where = $_POST['where'];
     if((isset($_SESSION['project-managment-username'])) && ($_SESSION['project-managment-username'] != "") && (!empty($where)))
     {
-    $where .= " AND user_name = '".$_SESSION['project-managment-username']."'";
-    $data['success'] = deleteTableElement('work_tracker', $where);
+        $where .= " AND user_name = '".$_SESSION['project-managment-username']."'";
+        $data['success'] = deleteTableElement('work_tracker', $where);
     }
     else
-    $data['success'] = false;
+        $data['success'] = false;
 
     // return all our data to an AJAX call
     echo json_encode($data);
@@ -484,10 +506,10 @@ function deleteSPRTrackingSubmissionStatusCallback()
     $where = $_POST['where'];
     if((isset($_SESSION['project-managment-username'])) && ($_SESSION['project-managment-username'] != "") && (!empty($where)))
     {
-    $data['success'] = deleteTableElement('spr_submission', $where);
+        $data['success'] = deleteTableElement('spr_submission', $where);
     }
     else
-    $data['success'] = false;
+        $data['success'] = false;
 
     // return all our data to an AJAX call
     echo json_encode($data);
@@ -500,11 +522,11 @@ function deleteSPRTrackingDashboardCallback()
     $where = $_POST['where'];
     if((isset($_SESSION['project-managment-username'])) && ($_SESSION['project-managment-username'] != "") && (!empty($where)))
     {
-    $where .= " AND user_name = '".$_SESSION['project-managment-username']."'";
-    $data['success'] = deleteTableElement('spr_tracking', $where);
+        $where .= " AND user_name = '".$_SESSION['project-managment-username']."'";
+        $data['success'] = deleteTableElement('spr_tracking', $where);
     }
     else
-    $data['success'] = false;
+        $data['success'] = false;
 
     // return all our data to an AJAX call
     echo json_encode($data);
@@ -520,14 +542,15 @@ function showSPRTrackingReportCallback()
     $sub_search = $_POST['sub_search'];
 
     $qry = "SELECT spr_no, type, status, build_version, commit_build, respond_by_date, comment, session FROM `spr_tracking`
-    WHERE user_name =  '{$_SESSION['project-managment-username']}' AND session = {$session} AND (type <> 'REGRESSION' AND type <> 'OTHERS')";
+            WHERE user_name =  '{$_SESSION['project-managment-username']}' AND session = {$session}
+            AND (type <> 'REGRESSION' AND type <> 'OTHERS')";
 
     if($main_search == "Commit Build")
     {
-    if($sub_search == "Having Commit Build")
-    $qry .= " AND commit_build <> ''";
-    else if($sub_search == "Without Commit Build")
-    $qry .= " AND commit_build = ''";
+        if($sub_search == "Having Commit Build")
+            $qry .= " AND commit_build <> ''";
+        else if($sub_search == "Without Commit Build")
+            $qry .= " AND commit_build = ''";
     }
     //else if($main_search == "Respond By")
     //{
@@ -549,35 +572,34 @@ function importExportCSVCallback()
     $filePath = $_POST['filePath'];
 
     if($type == "")
-    $errors[$type] = 'Please enter '.$type.'.';
+        $errors[$type] = 'Please enter '.$type.'.';
 
     if($filePath == "")
-    $errors[$type] = 'Please enter '.$filePath.'.';
+        $errors[$type] = 'Please enter '.$filePath.'.';
 
     if(empty($errors))
     {
-    if($type == "Import")
-    {
-    $errMsg = readCSVFile($filePath);
-    if($errMsg <> "")
-    {
-    $data['success'] = false;
-    $errors['misc'] = $errMsg;
-    $data['errors']  = $errors;
+        if($type == "Import")
+        {
+            $errMsg = readCSVFile($filePath);
+            if($errMsg <> "")
+            {
+                $data['success'] = false;
+                $errors['misc'] = $errMsg;
+                $data['errors']  = $errors;
+            }
+            else
+                $data['success'] = true;
+        }
+        else if($type == "Export")
+        {
+
+        }
     }
     else
-    $data['success'] = true;
-    }
-    else if($type == "Export")
     {
-
-    }
-
-    }
-    else
-    {
-    $data['success'] = false;
-    $data['errors']  = $errors;
+        $data['success'] = false;
+        $data['errors']  = $errors;
     }
 
     // return all our data to an AJAX call
@@ -592,65 +614,65 @@ function readCSVFile($filePath)
 
     if((isset($_SESSION['project-managment-username'])) && ($_SESSION['project-managment-username'] != ""))
     {
-    if (($handle = fopen('..\\config\\'.$filePath, "r")) !== FALSE) {
-    while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
-    // check for file format
-    $colNum = count($data);
-    if($colNum != 18)
-    {
-    $errMsg = "CSV file format is not correct.";
-    break;
-    }
+        if (($handle = fopen('..\\config\\'.$filePath, "r")) !== FALSE)
+        {
+            while (($data = fgetcsv($handle, 1000, ",")) !== FALSE)
+            {
+                // check for file format
+                $colNum = count($data);
+                if($colNum != 18)
+                {
+                    $errMsg = "CSV file format is not correct.";
+                    break;
+                }
 
-    if($row == 1)
-    {
-    // check for user name
-    $user = Utility::decode($_SESSION['project-managment-username']);
-    if(($data[1] <> $user))
-    {
-    $errMsg = "User name mismatch between user name mentioned in CSV file [Line : 1, Col : 2]
-    and current logged user name.";
-    break;
-    }
+                if($row == 1)
+                {
+                    // check for user name
+                    $user = Utility::decode($_SESSION['project-managment-username']);
+                    if(($data[1] <> $user))
+                    {
+                        $errMsg = "User name mismatch between user name mentioned in CSV file [Line : 1, Col : 2]
+                                    and current logged user name.";
+                        break;
+                    }
 
-    // check and get type.
-    if(($data[2] <> "SPR") && ($data[2] <> "REGRESSION"))
-    {
-    $errMsg = "Please specify proper task type [SPR/REGRESSION] in [Line : 1, Col : 3].";
-    break;
+                    // check and get type.
+                    if(($data[2] <> "SPR") && ($data[2] <> "REGRESSION"))
+                    {
+                        $errMsg = "Please specify proper task type [SPR/REGRESSION] in [Line : 1, Col : 3].";
+                        break;
+                    }
+                    else
+                        $task_type = $data[2];
+                }
+
+                // check 'Task number' is on line #4 & line have 18 column
+                if(($row == 4) && (($data[0] <> "Task Number") || ($data[17] <> "Target Build")))
+                {
+                    $errMsg = "Line 4: Format of the line is not correct";
+                    break;
+                }
+
+                // start tacking input form line #5 onwards
+                if($row > 4)
+                {
+                    $msg = updateSPRTrackingFromData($data, $task_type, $_SESSION['project-managment-username']);
+                    if($msg <> "")
+                        $errMsg .= "Line # " . strval($row) . " : " . $msg . "\n";
+                    else
+                        $errMsg .= "Line # " . strval($row) . " : " . $task_type . "[" . explode('-', $data[0])[0]  ."] Import  successfully." . "\n";
+                }
+
+                $row++;
+            }
+            fclose($handle);
+        }
+        else
+            $errMsg = "file path is wrong.";
     }
     else
-    {
-    $task_type = $data[2];
-    }
-    }
-
-    // check 'Task number' is on line #4 & line have 18 column
-    if(($row == 4) && (($data[0] <> "Task Number") || ($data[17] <> "Target Build")))
-    {
-    $errMsg = "Line 4: Format of the line is not correct";
-    break;
-    }
-
-    // start tacking input form line #5 onwards
-    if($row > 4)
-    {
-    $msg = updateSPRTrackingFromData($data, $task_type, $_SESSION['project-managment-username']);
-    if($msg <> "")
-    $errMsg .= "Line # " . strval($row) . " : " . $msg . "\n";
-    else
-    $errMsg .= "Line # " . strval($row) . " : " . $task_type . "[" . explode('-', $data[0])[0]  ."] Import successfully." . "\n";
-    }
-
-    $row++;
-    }
-    fclose($handle);
-    }
-    else
-    $errMsg = "file path is wrong.";
-    }
-    else
-    $errMsg = "User name is not valid.";
+        $errMsg = "User name is not valid.";
 
     return $errMsg;
 }
@@ -673,46 +695,49 @@ function updateSPRTrackingFromData($data, $task_type, $user)
     // check each field in a row.
     if(empty($task_number_pieces))
     {
-    $errMsg .= "Please specify proper task number.";
+        $errMsg .= "Please specify proper task number.";
     }
     else
     {
-    $spr_no = $task_number_pieces[0];
+        $spr_no = $task_number_pieces[0];
     }
+
     if(($type <> "SPR") && ($type <> "REGRESSION"))
     {
-    $errMsg .= "Please specify proper task type [SPR/REGRESSION].";
+        $errMsg .= "Please specify proper task type [SPR/REGRESSION].";
     }
+
     if($user_name == "")
     {
-    $errMsg .= "User mane is invalid.";
+        $errMsg .= "User mane is invalid.";
     }
+
     if($build_version == "")
     {
-    $errMsg .= "Please specify proper Build version.";
+        $errMsg .= "Please specify proper Build version.";
     }
 
     // Please check for commit build field also, I'm feeling tired now, please do it later.
 
     if($data[12] <> "")
     {
-    $respond_by_date = getRespondBy($data[12]);
-    if($respond_by_date == "")
-    {
-    $errMsg .= "Please specify proper Respond By.";
-    }
+        $respond_by_date = getRespondBy($data[12]);
+        if($respond_by_date == "")
+        {
+            $errMsg .= "Please specify proper Respond By.";
+        }
     }
 
     if($errMsg == "")
     {
-    // check for the duplicate row before insert into database.
-    // make insert qry.
-    // insert into database.
-    $msg = add_spr($spr_no, $type, $status, $build_version, $commit_build, $respond_by_date, $comment, $session);;
-    if($msg <> "")
-    {
-    $errMsg .= $type . "[" . $spr_no. "] alread exists.";
-    }
+        // check for the duplicate row before insert into database.
+        // make insert qry.
+        // insert into database.
+        $msg = add_spr($spr_no, $type, $status, $build_version, $commit_build, $respond_by_date, $comment, $session);;
+        if($msg <> "")
+        {
+            $errMsg .= $type . "[" . $spr_no. "] alread exists.";
+        }
     }
 
     return($errMsg);
@@ -727,29 +752,29 @@ function getBVersion($bv)
 
     if(!empty($pieces))
     {
-    // check 'L', 'P'
-    if($pieces[0] == "L")
-    {
-    if(($pieces[1] == "03") || ($pieces[1] == "05"))
-    {
-    $version = $pieces[0] . $pieces[1] . ",P10,P20,P30"; 	// Add other version
-    }
-    }
-    else if($pieces[0] == "P")
-    {
-    if(($pieces[1] == "10"))
-    {
-    $version = $pieces[0] . $pieces[1] . ",P20,P30";		// Add other version
-    }
-    else if(($pieces[1] == "20"))
-    {
-    $version = $pieces[0] . $pieces[1] . ",P30";			// Add other version
-    }
-    else if(($pieces[1] == "30"))
-    {
-    $version = $pieces[0] . $pieces[1];
-    }
-    }
+        // check 'L', 'P'
+        if($pieces[0] == "L")
+        {
+            if(($pieces[1] == "03") || ($pieces[1] == "05"))
+            {
+                $version = $pieces[0] . $pieces[1] . ",P10,P20,P30"; 	// Add other version
+            }
+        }
+        else if($pieces[0] == "P")
+        {
+            if(($pieces[1] == "10"))
+            {
+                $version = $pieces[0] . $pieces[1] . ",P20,P30";		// Add other version
+            }
+            else if(($pieces[1] == "20"))
+            {
+                $version = $pieces[0] . $pieces[1] . ",P30";			// Add other version
+            }
+            else if(($pieces[1] == "30"))
+            {
+                $version = $pieces[0] . $pieces[1];
+            }
+        }
     }
 
     return($version);
@@ -767,21 +792,21 @@ function getRespondBy($rbd)
 
     if(!empty($pieces))
     {
-    // get the month in numeric format
-    for($i = 0; $i < sizeof($months); $i++)
-     {
-     if($pieces[1] == $months[$i])
-     {
-     $month = strval($i + 1);
-     $month = (($month < 10 ? "0".$month : $month));
-     break;
-     }
-     }
+        // get the month in numeric format
+        for($i = 0; $i < sizeof($months); $i++)
+        {
+            if($pieces[1] == $months[$i])
+            {
+                $month = strval($i + 1);
+                $month = (($month < 10 ? "0".$month : $month));
+                break;
+            }
+        }
 
-     if(((intval($pieces[0]) > 0) && (intval($pieces[0]) < 32)) && ($month <> "") && (intval($pieces[2] <= $year)))
-     {
-     $respondBy = "20" . $pieces[2] . "-" . $month . "-" . $pieces[0];
-     }
+        if(((intval($pieces[0]) > 0) && (intval($pieces[0]) < 32)) && ($month <> "") && (intval($pieces[2] <= $year)))
+        {
+            $respondBy = "20" . $pieces[2] . "-" . $month . "-" . $pieces[0];
+        }
     }
 
     return($respondBy);
@@ -794,6 +819,59 @@ function shortDescriptionCallback($comment, $limit)
     $shortDesc 	= shortDescription($comment, $limit);
 
     echo(json_encode($shortDesc));
+}
+
+function addSprintScheduleCallback()
+{
+    $errors     = array();      // array to hold validation errors
+    $data       = array();      // array to pass back data
+
+    $keys = array('title', 'length', 'length_unit', 'gap', 'gap_unit', 'description', 'key_title');
+
+    // create object of mysqlDB class to add data into mysql database.
+    $mysqlDBObj = new mysqlDB('scrum_sprint_schedule');
+    foreach($keys as $each)
+        $mysqlDBObj->appendData($each, $_POST[$each]);
+
+    $msg = $mysqlDBObj->insert();
+    if($msg == false)
+    {
+        $errors[0] = ['qry', $msg];
+
+        $data['success'] = false;
+        $data['errors']  = $errors;
+    }
+    else
+    {
+        $data['success'] = true;
+    }
+
+    echo(json_encode($data));
+}
+
+function deleteSprintScheduleCallback()
+{
+    $errors     = array();      // array to hold validation errors
+    $data       = array();      // array to pass back data
+
+    // create object of mysqlDB class to add data into mysql database.
+    $mysqlDBObj = new mysqlDB('scrum_sprint_schedule');
+    $mysqlDBObj->appendClause($_POST['clause']);
+
+    $msg = $mysqlDBObj->delete();
+    if($msg == false)
+    {
+        $errors[0] = ['qry', $msg];
+
+        $data['success'] = false;
+        $data['errors']  = $errors;
+    }
+    else
+    {
+        $data['success'] = true;
+    }
+
+    echo(json_encode($data));
 }
 
 ?>

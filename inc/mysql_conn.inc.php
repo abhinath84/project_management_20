@@ -90,7 +90,8 @@
 
         public function __destruct()
         {
-            mysqli_close($this->link);
+            if($this->isConnected())
+                mysqli_close($this->link);
         }
 
         public function connect()
@@ -102,7 +103,8 @@
 
         public function close_connection()
         {
-            mysqli_close($this->link);
+            if($this->isConnected())
+                mysqli_close($this->link);
         }
 
         public function isConnected()
@@ -182,7 +184,7 @@
 
             // Create and execute a MySQL query
             $result = mysqli_query($this->link, $qry);
-            If($result)
+            if($result)
             {
                 while($row = $funcs($result))
                 {

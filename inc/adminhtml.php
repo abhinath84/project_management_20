@@ -260,7 +260,7 @@
             $tag .= '               <div id="sprint-schedule-table-dropdown" class="dropdown-content">' . $this->EOF_LINE;
             $tag .= '                   <span id="quick-action-btn-key-span" style="display: none;"></span>' . EOF_LINE;
             $tag .= '                   <a onclick="shieldSprintSchedule.openEditDialog(\'sprint-schedule-table-dropdown\', \'sprint-schedule-tbody\', true)">Edit</a>' . $this->EOF_LINE;
-            $tag .= '                   <a>Delete</a>' . $this->EOF_LINE;
+            $tag .= '                   <a onclick="shieldSprintSchedule.delete(\'sprint-schedule-table-dropdown\', \'sprint-schedule-tbody\')">Delete</a>' . $this->EOF_LINE;
             $tag .= '               </div>' . $this->EOF_LINE;
             $tag .= '               <div id="sprint-schedule-table-container">' . $this->EOF_LINE;
             $tag .=                     $this->getProjectTable();
@@ -297,8 +297,7 @@
             // add Table body
             $table->tbody("sprint-schedule-tbody");
 
-            $qry = "SELECT title, length, len_unit, gap, gap_unit, description FROM scrum_sprint_schedule";
-
+            $qry = "SELECT title, length, length_unit, gap, gap_unit, description FROM scrum_sprint_schedule";
             $rows = $conn->result_fetch_array($qry);
             if(!empty($rows))
             {
@@ -311,7 +310,7 @@
                         $table->td("{$row[0]}", "{$inx}-title", "project-title-td", null, "width=\"43%\"");
                         $table->td("{$row[1]} {$row[2]}", "{$inx}-length", null, null, "width=\"25%\"");
                         $table->td("{$row[3]} {$row[4]}", "{$inx}-gap", null, null, "width=\"25%\"");
-                        $table->td("{$row[5]}", "{$inx}-desc", null, "display: none;");
+                        $table->td("{$row[5]}", "{$inx}-description", null, "display: none;");
                         $table->td(getQuickActionBtn("{$inx}-sprint-schedule-edit-btn", "Edit", "project-td-btn", "onclick=\"shieldSprintSchedule.openEditDialog('{$inx}-sprint-schedule-edit-btn', 'sprint-schedule-tbody', false)\"", "{$inx}", "sprint-schedule-table-dropdown"), "sprint-schedule-edit", null, null, "width=\"5%\"");
 
                     $inx++;

@@ -48,8 +48,8 @@ var shieldSprintSchedule = {
         inputTag += '<span class="red-asterisk">*</span>';
         shieldDialog.formTable.add('Title', inputTag);
 
-        inputTag = '                <input style="width: 50px;" type="text" id="len-input" name="len" value="' + this.info.len + '" />';
-        inputTag += '                <select id="len-unit-select" class="retro-style unit-select">';
+        inputTag = '                <input style="width: 50px;" type="text" id="length-input" name="len" value="' + this.info.len + '" />';
+        inputTag += '                <select id="length_unit-select" class="retro-style unit-select">';
         inputTag += '                    <option value="days"'+ ((this.info.len_unit == "days") ? 'selected' : '') +'>days</option>';
         inputTag += '                    <option value="weeks"'+ ((this.info.len_unit == "weeks") ? 'selected' : '') +'>weeks</option>';
         inputTag += '                    <option value="months"'+ ((this.info.len_unit == "months") ? 'selected' : '') +'>months</option>';
@@ -57,7 +57,7 @@ var shieldSprintSchedule = {
         shieldDialog.formTable.add('Sprint Length', inputTag);
 
         inputTag = '                <input style="width: 50px;" type="text" id="gap-input" name="gap" value="' + this.info.gap + '" />';
-        inputTag += '                <select id="gap-unit-select" class="retro-style unit-select">';
+        inputTag += '                <select id="gap_unit-select" class="retro-style unit-select">';
         inputTag += '                    <option value="days"'+ ((this.info.gap_unit == "days") ? 'selected' : '') +'>days</option>';
         inputTag += '                    <option value="weeks"'+ ((this.info.gap_unit == "weeks") ? 'selected' : '') +'>weeks</option>';
         inputTag += '                    <option value="months"'+ ((this.info.gap_unit == "months") ? 'selected' : '') +'>months</option>';
@@ -66,6 +66,91 @@ var shieldSprintSchedule = {
 
         inputTag = '<textarea id="description-textarea" name="description" rows="15" cols="120" spellcheck="false">' + this.info.description + '</textarea>';
         shieldDialog.formTable.add('Description', inputTag);
+    },
+
+    getFormData: function () {
+        return({
+                'title'         : $('#title-input').val(),
+                'length'        : $('#length-input').val(),
+                'length_unit'   : $('#length_unit-select').val(),
+                'gap'           : $('#gap-input').val(),
+                'gap_unit'      : $('#gap_unit-select').val(),
+                'description'   : $('#description-textarea').val(),
+                'key_title'     : this.info.title
+        });
+    },
+
+    getServerResponseSprintSchedule: function () {
+        //var retdata;
+        var formData = this.getFormData();
+
+        utility.ajax.serverRespond( {
+            url             : "../ajax/default.php",
+            callbackFunc    : "addSprintScheduleCallback",
+            formData        : formData,
+            successFunc     : shieldSprintSchedule.onclickSaveSuccessFunc,
+            errorFunc       : null,
+            failFunc        : null
+        });
+
+        // call AJAX function
+        /*$.ajax({
+            type        : 'POST', // define the type of HTTP verb we want to use (POST for our form)
+            url         : '../ajax/default.php?f=addSprintScheduleCallback', // the url where we want to POST
+            data        : formData, // our data object
+            dataType    : 'json', // what type of data do we expect back from the server
+            encode      : true
+        })
+
+        // handle error
+        .done(function(data) {
+
+            var formData = {
+                'fillTableFunc' : 'fillSprintSheduleTable',
+            };
+
+            document.getElementById('sprint-schedule-tbody').innerHTML = getServerResponseViaAJAX("../ajax/default.php", "updateDashboradTablecallback", formData, "");
+
+            // log data to the console so we can see
+            console.log(data);
+
+            // here we will handle errors and validation messages
+            if ( ! data.success) {
+                /*for(var inx in data.errors) {
+                    var id_errmsg = "";
+                    if((data.errors[inx][0] == "firstName") || (data.errors[inx][0] == "lastName"))
+                        id_errmsg = "name";
+                    else
+                        id_errmsg = data.errors[inx][0];
+
+                    $('#'+data.errors[inx][0]+'-input').addClass('form-error');
+                    $('#'+id_errmsg+'-errmsg').css( "display", "block" );
+                    $('#'+id_errmsg+'-errmsg').text( data.errors[inx][1] );
+                }*/
+                /*console.log(data);
+
+            } else {
+                console.log(data);
+                // usually after form submission, you'll want to redirect
+                //window.location = '../result.php?user=created';
+            }
+        })
+
+        // using the fail promise callback
+        .fail(function(data) {
+
+            // show any errors
+            // best to remove for production
+            console.log(data);
+
+            var formData = {
+                'fillTableFunc' : 'fillSprintSheduleTable',
+            };
+
+            document.getElementById('sprint-schedule-tbody').innerHTML = getServerResponseViaAJAX("../ajax/default.php", "updateDashboradTablecallback", formData, "");
+        })
+
+        return(retdata);*/
     },
 
     onclickCancel: function (tbodyId) {
@@ -79,19 +164,42 @@ var shieldSprintSchedule = {
         shield.show(false);
     },
 
-    onclickSave: function (tbodyId) {
-        alert(tbodyId);
-
-        if(this.info.title == "") {
-            // Add new entry.
-        } else {
-            // Edit existing sprint schedule.
-        }
-
+    onclickSaveSuccessFunc: function (data) {
         // hide the dialog
         shield.show(false);
 
         // update sprint schedule list.
+        utility.updateDashboradTable('sprint-schedule-tbody', 'fillSprintSheduleTable');
+    },
+
+    onclickSaveErrorFunc: function (data) {
+        // update sprint schedule list.
+        //utility.updateDashboradTable('sprint-schedule-tbody', 'fillSprintSheduleTable');
+    },
+
+    onclickSave: function (tbodyId) {
+        var formData = this.getFormData();
+
+        var data = {
+            url             : "../ajax/default.php",
+            callbackFunc    : "",
+            formData        : formData,
+            successFunc     : shieldSprintSchedule.onclickSaveSuccessFunc,
+            errorFunc       : shieldSprintSchedule.onclickSaveErrorFunc,
+            failFunc        : null
+        };
+
+
+        if(this.info.title == "") {
+            // Add new entry.
+            data.callbackFunc = "addSprintScheduleCallback";
+        } else {
+            // Edit existing sprint schedule.
+            data.callbackFunc = "updateSprintScheduleCallback";
+        }
+
+        // Update DB according to the input and also update sprint schedule list in the display.
+        utility.ajax.serverRespond(data);
     },
 
     openAddDialog: function (tbodyId) {
@@ -137,7 +245,7 @@ var shieldSprintSchedule = {
             res = lenStr.split(" ");
             this.info.gap = res[0]; //"2";
             this.info.gap_unit = res[1];
-            this.info.description = document.getElementById(key + "-desc").innerHTML; //"Base Sprint Schedule";
+            this.info.description = document.getElementById(key + "-description").innerHTML; //"Base Sprint Schedule";
 
             // fill all infomation of dialog title(toolBar).
             this.fillTitle();
@@ -151,6 +259,38 @@ var shieldSprintSchedule = {
             this.fillTable();
 
             shield.openDialog(this, false, 'sprint-schedule-add-form-container', this.createDialog);
+        }
+    },
+
+    delete: function(Id, tbodyId) {
+
+        var key = '';
+        var title = '';
+        var divObj = document.getElementById(Id).children[0];
+
+        key = document.getElementById(divObj.innerHTML).children[0].innerHTML;
+        title = document.getElementById(key + "-title").innerHTML;
+        document.getElementById(Id).style.display = "none";
+
+        var r = confirm("Do you want to delete '" + title + "' ?");
+        if (r == true) {
+            var formData = {
+                    'clause'    : "title = '" + title + "'"
+            };
+
+            var data = {
+                url             : "../ajax/default.php",
+                callbackFunc    : "deleteSprintScheduleCallback",
+                formData        : formData,
+                successFunc     : function () {
+                    utility.updateDashboradTable('sprint-schedule-tbody', 'fillSprintSheduleTable');
+                },
+                errorFunc       : shieldSprintSchedule.onclickSaveErrorFunc,
+                failFunc        : null
+            };
+
+            // Update DB according to the input and also update sprint schedule list in the display.
+            utility.ajax.serverRespond(data);
         }
     }
 };
