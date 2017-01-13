@@ -46,6 +46,7 @@ var shieldSprintSchedule = {
 
         inputTag += '<input style="width: 400px;" type="text" id="title-input" name="title" value="' + this.info.title + '"/>';
         inputTag += '<span class="red-asterisk">*</span>';
+        inputTag += '<div class="retro-style-errmsg" id="title-errmsg"></div>';
         shieldDialog.formTable.add('Title', inputTag);
 
         inputTag = '                <input style="width: 50px;" type="text" id="length-input" name="len" value="' + this.info.len + '" />';
@@ -80,7 +81,7 @@ var shieldSprintSchedule = {
         });
     },
 
-    getServerResponseSprintSchedule: function () {
+    /*getServerResponseSprintSchedule: function () {
         //var retdata;
         var formData = this.getFormData();
 
@@ -92,66 +93,7 @@ var shieldSprintSchedule = {
             errorFunc       : null,
             failFunc        : null
         });
-
-        // call AJAX function
-        /*$.ajax({
-            type        : 'POST', // define the type of HTTP verb we want to use (POST for our form)
-            url         : '../ajax/default.php?f=addSprintScheduleCallback', // the url where we want to POST
-            data        : formData, // our data object
-            dataType    : 'json', // what type of data do we expect back from the server
-            encode      : true
-        })
-
-        // handle error
-        .done(function(data) {
-
-            var formData = {
-                'fillTableFunc' : 'fillSprintSheduleTable',
-            };
-
-            document.getElementById('sprint-schedule-tbody').innerHTML = getServerResponseViaAJAX("../ajax/default.php", "updateDashboradTablecallback", formData, "");
-
-            // log data to the console so we can see
-            console.log(data);
-
-            // here we will handle errors and validation messages
-            if ( ! data.success) {
-                /*for(var inx in data.errors) {
-                    var id_errmsg = "";
-                    if((data.errors[inx][0] == "firstName") || (data.errors[inx][0] == "lastName"))
-                        id_errmsg = "name";
-                    else
-                        id_errmsg = data.errors[inx][0];
-
-                    $('#'+data.errors[inx][0]+'-input').addClass('form-error');
-                    $('#'+id_errmsg+'-errmsg').css( "display", "block" );
-                    $('#'+id_errmsg+'-errmsg').text( data.errors[inx][1] );
-                }*/
-                /*console.log(data);
-
-            } else {
-                console.log(data);
-                // usually after form submission, you'll want to redirect
-                //window.location = '../result.php?user=created';
-            }
-        })
-
-        // using the fail promise callback
-        .fail(function(data) {
-
-            // show any errors
-            // best to remove for production
-            console.log(data);
-
-            var formData = {
-                'fillTableFunc' : 'fillSprintSheduleTable',
-            };
-
-            document.getElementById('sprint-schedule-tbody').innerHTML = getServerResponseViaAJAX("../ajax/default.php", "updateDashboradTablecallback", formData, "");
-        })
-
-        return(retdata);*/
-    },
+    },*/
 
     onclickCancel: function (tbodyId) {
         // hide shield dialog.

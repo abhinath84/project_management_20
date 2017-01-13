@@ -18,6 +18,7 @@
     require_once ('variables.inc.php');
     require_once ('navigator.php');
     require_once ('htmltable.php');
+    require_once ('adminhtml.php');
 
 
 
@@ -534,25 +535,10 @@
         $rows = $conn->result_fetch_array($qry);
         if(!empty($rows))
         {
-            $inx = 1;
-            // loop over the result and show the element
-            foreach($rows as $row)
-            {
-                $tag .= '   <tr>'."\n";
+            $sprintScheduleHTMLObj = new SprintScheduleHTML();
 
-                $tag .= '       <td id="1-greppy" class="hasGrippy" style="width:5%;">' . getGreppyDotTag() . ' </td>';
-                $tag .= '       <td id="'. $inx .'-title" class="project-title-td" style="width:43%;">' . $row[0] . '</td>'."\n";
-                $tag .= '       <td id="'. $inx .'-length" style="width:25%;">' . $row[1]. ' ' .$row[2] . '</td>'."\n";
-                $tag .= '       <td id="'. $inx .'-gap" style="width:25%;">' . $row[3]. ' ' .$row[4] . '</td>'."\n";
-                $tag .= '       <td id="'. $inx .'-description" style="display: none;">' . $row[5] . '</td>'."\n";
-                $tag .= '       <td id="sprint-schedule-edit" style="width:5%;">';
-                $tag .=             getQuickActionBtn("{$inx}-sprint-schedule-edit-btn", "Edit", "project-td-btn", "onclick=\"shieldSprintSchedule.openEditDialog('{$inx}-sprint-schedule-edit-btn', 'sprint-schedule-tbody', false)\"", "{$inx}", "sprint-schedule-table-dropdown");
-                $tag .= '       </td>'."\n";
-
-                $tag .= '   </tr>'."\n";
-
-                $inx++;
-            }
+            $sprintScheduleHTMLObj->fillTableBody($rows);
+            $tag .= $sprintScheduleHTMLObj->getTBodyElementHTML();
         }
 
         return(utf8_encode($tag));

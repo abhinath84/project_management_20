@@ -279,6 +279,24 @@
 
             return($str);
         }
+
+        public function getElementHTML()
+        {
+            $str = "";
+
+            if(($this->_tr != null) && (count($this->_tr) > 0))
+            {
+                // add all td
+                $i = 0;
+                foreach ($this->_tr as &$tr)
+                {
+                    $i++;
+                    $str .= "    {$tr->toString()}";
+                }
+            }
+
+            return($str);
+        }
     }
 
     class Thead
@@ -318,7 +336,7 @@
             {
                 // start thead
                 $str .= "<thead {$this->_comp->toString()}>" . EOF_LINE;
-                $str .= "        <tr>" . EOF_LINE;
+                $str .= "   <tr>" . EOF_LINE;
 
                 // add all td
                 foreach ($this->_th as &$th)
@@ -330,8 +348,8 @@
                 }
 
                 // end tbody
-                $str .= "        </tr>" . EOF_LINE;
-                $str .= "    </thead>" . EOF_LINE;
+                $str .= "   </tr>" . EOF_LINE;
+                $str .= "</thead>" . EOF_LINE;
             }
 
             return($str);
@@ -399,6 +417,13 @@
 
                 $str .= "</table>" . EOF_LINE;
             }
+
+            return(utf8_encode($str));
+        }
+
+        public function getTBodyElementHTML()
+        {
+            $str = "    {$this->_tbody->getElementHTML()}";
 
             return(utf8_encode($str));
         }

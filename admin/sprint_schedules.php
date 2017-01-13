@@ -2,9 +2,9 @@
     /*ini_set('display_errors', 'On');
     error_reporting(E_ALL);*/
 
+    require_once ('../inc/adminhtml.php');
     require_once ('../inc/functions.inc.php');
     require_once ('../inc/mysql_functions.inc.php');
-    require_once ('../inc/adminhtml.php');
 
     // Create Database and required tables
     build_db();

@@ -106,6 +106,8 @@
 
     abstract class ProjectHTML extends HTMLTemplate
     {
+        protected $table = null;
+
         public function __construct($curNav = null, $curDir = null, $enableNav = false)
         {
             parent::__construct($curNav, $curDir, $enableNav);
@@ -235,6 +237,7 @@
         public function __construct($curNav = null, $curDir = null, $enableNav = false)
         {
             parent::__construct("Projects", "admin", true);
+            $this->table = new HTMLTable("sprint-schedule-table", "grippy-table");
         }
 
         protected function addDashboard()
@@ -277,52 +280,67 @@
         private function getProjectTable()
         {
             global $conn;
-
             $str = "";
-
-            $table = new HTMLTable("sprint-schedule-table", "grippy-table");
-
-            $title_th = '<a href="javascript:void(0);"><span class="icon plus-icon"></span></a>
-                        <a href="javascript:void(0);"><span class="icon minus-icon"></span></a>
-                        Title';
-
-            // add table header
-            $table->thead("sprint-schedule-thead");
-                $table->th("&nbsp;", null, null, null, null);
-                $table->th("Title", null, null, null, "data-sort=\"string\"");
-                $table->th("Iteration Length", null,  null, null, "data-sort=\"string\"");
-                $table->th("Iteration Gap", null, null, null, "data-sort=\"string\"");
-                $table->th("&nbsp;", null, null, null);
-
-            // add Table body
-            $table->tbody("sprint-schedule-tbody");
 
             $qry = "SELECT title, length, length_unit, gap, gap_unit, description FROM scrum_sprint_schedule";
             $rows = $conn->result_fetch_array($qry);
-            if(!empty($rows))
-            {
-                // loop over the result and fill the rows
-                $inx = 1;
-                foreach($rows as $row)
-                {
-                    $table->tr(null, null, null, "align=\"center\"");
-                        $table->td(getGreppyDotTag(), "1-greppy", "hasGrippy", "text-align:center;", "width=\"5%\"");
-                        $table->td("{$row[0]}", "{$inx}-title", "project-title-td", null, "width=\"43%\"");
-                        $table->td("{$row[1]} {$row[2]}", "{$inx}-length", null, null, "width=\"25%\"");
-                        $table->td("{$row[3]} {$row[4]}", "{$inx}-gap", null, null, "width=\"25%\"");
-                        $table->td("{$row[5]}", "{$inx}-description", null, "display: none;");
-                        $table->td(getQuickActionBtn("{$inx}-sprint-schedule-edit-btn", "Edit", "project-td-btn", "onclick=\"shieldSprintSchedule.openEditDialog('{$inx}-sprint-schedule-edit-btn', 'sprint-schedule-tbody', false)\"", "{$inx}", "sprint-schedule-table-dropdown"), "sprint-schedule-edit", null, null, "width=\"5%\"");
 
-                    $inx++;
+            // fill table components to display Sprint Schedule.
+            // add table header
+            $this->fillTableHead();
+            // add Table body
+            $this->fillTableBody($rows);
+
+            return(utf8_encode($this->table->toHTML()));
+        }
+
+        public function fillTableHead() {
+            // add table header
+            $this->table->thead("sprint-schedule-thead");
+                $this->table->th("&nbsp;", null, null, null, null);
+                $this->table->th("Title", null, null, null, "data-sort=\"string\"");
+                $this->table->th("Iteration Length", null,  null, null, "data-sort=\"string\"");
+                $this->table->th("Iteration Gap", null, null, null, "data-sort=\"string\"");
+                $this->table->th("&nbsp;", null, null, null);
+        }
+
+        public function fillTableBody($rows) {
+            $status = false;
+
+            if(($this->table != null) && ($rows != null))
+            {
+                $status = true;
+                $this->table->tbody("sprint-schedule-tbody");
+
+                if(!empty($rows))
+                {
+                    // loop over the result and fill the rows
+                    $inx = 1;
+                    foreach($rows as $row)
+                    {
+                        $this->table->tr(null, null, null, "align=\"center\"");
+                            $this->table->td(getGreppyDotTag(), "1-greppy", "hasGrippy", "text-align:center;", "width=\"5%\"");
+                            $this->table->td("{$row[0]}", "{$inx}-title", "project-title-td", null, "width=\"43%\"");
+                            $this->table->td("{$row[1]} {$row[2]}", "{$inx}-length", null, null, "width=\"25%\"");
+                            $this->table->td("{$row[3]} {$row[4]}", "{$inx}-gap", null, null, "width=\"25%\"");
+                            $this->table->td("{$row[5]}", "{$inx}-description", null, "display: none;");
+                            $this->table->td(getQuickActionBtn("{$inx}-sprint-schedule-edit-btn", "Edit", "project-td-btn", "onclick=\"shieldSprintSchedule.openEditDialog('{$inx}-sprint-schedule-edit-btn', 'sprint-schedule-tbody', false)\"", "{$inx}", "sprint-schedule-table-dropdown"), "sprint-schedule-edit", null, null, "width=\"5%\"");
+
+                        $inx++;
+                    }
+                }
+                else
+                {
+                    $this->table->tr(null, null, null, "align=\"center\"");
+                        $this->table->td("<p>No result !!!</p>", "no-result", null, null, null);
                 }
             }
-            else
-            {
-                $table->tr(null, null, null, "align=\"center\"");
-                    $table->td("<p>No result !!!</p>", "no-result", null, null, null);
-            }
 
-            return(utf8_encode($table->toHTML()));
+            return($status);
+        }
+
+        public function getTBodyElementHTML() {
+            return($this->table->getTBodyElementHTML());
         }
     }
 
