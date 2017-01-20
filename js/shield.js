@@ -11,16 +11,17 @@
 
 var shieldSprintSchedule = {
     info : {
-        title: "",
-        len: "1",
-        len_unit: "days",
-        gap: "0",
-        gap_unit: "days",
-        description: "",
+        title       : "",
+        len         : "1",
+        len_unit    : "days",
+        gap         : "0",
+        gap_unit    : "days",
+        description : "",
+
         setDefult: function() {
             this.title = "";
-            this.len = "1";
-            this.len_unit = "days";
+            this.length = "1";
+            this.length_unit = "days";
             this.gap = "0";
             this.gap_unit = "days";
             this.description = "";
@@ -44,16 +45,18 @@ var shieldSprintSchedule = {
         // reset before use.
         shieldDialog.formTable.clear();
 
+        //, owner, begin_date, end_date, sprint_schedule, parent, description, status, target_estimate, test_suit, target_swag, reference
+
         inputTag += '<input style="width: 400px;" type="text" id="title-input" name="title" value="' + this.info.title + '"/>';
         inputTag += '<span class="red-asterisk">*</span>';
         inputTag += '<div class="retro-style-errmsg" id="title-errmsg"></div>';
         shieldDialog.formTable.add('Title', inputTag);
 
-        inputTag = '                <input style="width: 50px;" type="text" id="length-input" name="len" value="' + this.info.len + '" />';
+        inputTag = '                <input style="width: 50px;" type="text" id="length-input" name="len" value="' + this.info.length + '" />';
         inputTag += '                <select id="length_unit-select" class="retro-style unit-select">';
-        inputTag += '                    <option value="days"'+ ((this.info.len_unit == "days") ? 'selected' : '') +'>days</option>';
-        inputTag += '                    <option value="weeks"'+ ((this.info.len_unit == "weeks") ? 'selected' : '') +'>weeks</option>';
-        inputTag += '                    <option value="months"'+ ((this.info.len_unit == "months") ? 'selected' : '') +'>months</option>';
+        inputTag += '                    <option value="days"'+ ((this.info.length_unit == "days") ? 'selected' : '') +'>days</option>';
+        inputTag += '                    <option value="weeks"'+ ((this.info.length_unit == "weeks") ? 'selected' : '') +'>weeks</option>';
+        inputTag += '                    <option value="months"'+ ((this.info.length_unit == "months") ? 'selected' : '') +'>months</option>';
         inputTag += '                </select>';
         shieldDialog.formTable.add('Sprint Length', inputTag);
 
@@ -79,31 +82,6 @@ var shieldSprintSchedule = {
                 'description'   : $('#description-textarea').val(),
                 'key_title'     : this.info.title
         });
-    },
-
-    /*getServerResponseSprintSchedule: function () {
-        //var retdata;
-        var formData = this.getFormData();
-
-        utility.ajax.serverRespond( {
-            url             : "../ajax/default.php",
-            callbackFunc    : "addSprintScheduleCallback",
-            formData        : formData,
-            successFunc     : shieldSprintSchedule.onclickSaveSuccessFunc,
-            errorFunc       : null,
-            failFunc        : null
-        });
-    },*/
-
-    onclickCancel: function (tbodyId) {
-        // hide shield dialog.
-        shield.show(false);
-
-        // update
-    },
-
-    onclickSaveNew: function (tbodyId) {
-        shield.show(false);
     },
 
     onclickSaveSuccessFunc: function (data) {
@@ -144,6 +122,33 @@ var shieldSprintSchedule = {
         utility.ajax.serverRespond(data);
     },
 
+    onclickSaveNew: function (tbodyId) {
+        var formData = this.getFormData();
+
+        var data = {
+            url             : "../ajax/default.php",
+            callbackFunc    : "addSprintScheduleCallback",
+            formData        : formData,
+            successFunc     : function () {
+                $("#title-input").val(shieldSprintSchedule.info.title);
+                $("#length-input").val(shieldSprintSchedule.info.length);
+                $("#length_unit-select").val(shieldSprintSchedule.info.length_unit);
+                $("#gap-input").val(shieldSprintSchedule.info.gap);
+                $("#gap_unit-select").val(shieldSprintSchedule.info.gap_unit);
+                $("#description-textarea").val(shieldSprintSchedule.info.description);
+            },
+            errorFunc       : shieldSprintSchedule.onclickSaveErrorFunc,
+            failFunc        : null
+        };
+
+        // Update DB according to the input and also update sprint schedule list in the display.
+        utility.ajax.serverRespond(data);
+    },
+
+    onclickCancel: function (tbodyId) {
+        this.onclickSaveSuccessFunc();
+    },
+
     openAddDialog: function (tbodyId) {
         this.info.setDefult();
 
@@ -176,12 +181,12 @@ var shieldSprintSchedule = {
 
         if((key != null) && (key != "")) {
             // update this.info and open dialog with updated infomsg
-            this.info.title = document.getElementById(key + "-title").innerHTML; //"Base Sprint Schedule";
+            this.info.title = document.getElementById(key + "-title").innerHTML;
 
             var lenStr = document.getElementById(key + "-length").innerHTML;
             var res = lenStr.split(" ");
-            this.info.len = res[0]; //"1";
-            this.info.len_unit = res[1];
+            this.info.length = res[0]; //"1";
+            this.info.length_unit = res[1];
 
             lenStr = document.getElementById(key + "-gap").innerHTML;
             res = lenStr.split(" ");
@@ -189,13 +194,13 @@ var shieldSprintSchedule = {
             this.info.gap_unit = res[1];
             this.info.description = document.getElementById(key + "-description").innerHTML; //"Base Sprint Schedule";
 
-            // fill all infomation of dialog title(toolBar).
-            this.fillTitle();
-
             // reset and add button for dialog
             shieldDialog.toolBar.toolbarBtns.clear();
             shieldDialog.toolBar.toolbarBtns.add('submit-btns', 'retro-style red add-spr', 'Cancel', 'onclick="shieldSprintSchedule.onclickCancel(\''+ tbodyId +'\')"');
             shieldDialog.toolBar.toolbarBtns.add('submit-btns', 'retro-style green-bg add-spr', 'Save', 'onclick="shieldSprintSchedule.onclickSave(\''+ tbodyId +'\')"');
+
+            // fill all infomation of dialog title(toolBar).
+            this.fillTitle();
 
             // fill all infomation of dialog form.
             this.fillTable();
@@ -227,7 +232,7 @@ var shieldSprintSchedule = {
                 successFunc     : function () {
                     utility.updateDashboradTable('sprint-schedule-tbody', 'fillSprintSheduleTable');
                 },
-                errorFunc       : shieldSprintSchedule.onclickSaveErrorFunc,
+                errorFunc       : null,
                 failFunc        : null
             };
 
@@ -238,7 +243,247 @@ var shieldSprintSchedule = {
 };
 
 var shieldProject = {
+    info : {
+        title               : "",
+        parent              : "",
+        sprint_schedule     : "",
+        description         : "",
+        begin_date          : "",
+        end_date            : "",
+        owner               : "",
+        status              : "",
+        target_estimate     : "",
+        test_suit           : "",
+        target_swag         : "",
+        reference           : "",
 
+        setDefult: function() {
+            this.title              = "";
+            this.parent             = "";
+            this.sprint_schedule    = "";
+            this.description        = "";
+            this.begin_date         = utility.getCurrentDate('-');
+            this.end_date           = "";
+            this.owner              = utility.getSessionValue('project-managment-username');
+            this.status             = "";
+            this.target_estimate    = "";
+            this.test_suit          = "";
+            this.target_swag        = "";
+            this.reference          = "";
+        },
+
+        fillFromTable: function($row) {
+            this.title              = $('#-title').innerHTML;
+            this.parent             = "";
+            this.sprint_schedule    = "";
+            this.description        = "";
+            this.begin_date         = utility.getCurrentDate('-');
+            this.end_date           = "";
+            this.owner              = utility.getSessionValue('project-managment-username');
+            this.status             = "";
+            this.target_estimate    = "";
+            this.test_suit          = "";
+            this.target_swag        = "";
+            this.reference          = "";
+        }
+    },
+
+    fillInfo: function (key, isAdding = true) {
+        if((key != null) && (key != "")) {
+            if(isAdding == true) {
+                this.info.parent             = document.getElementById(key + "-title-span").innerHTML;
+                this.info.begin_date         = utility.getCurrentDate('-');
+                this.info.owner              = utility.getSessionValue('project-managment-username');
+            } else {
+                this.info.title              = document.getElementById(key + "-title-span").innerHTML;
+                this.info.parent             = document.getElementById(key + "-parent").innerHTML;
+                this.info.sprint_schedule    = document.getElementById(key + "-sprint_schedule").innerHTML;
+                this.info.description        = document.getElementById(key + "-description").innerHTML;
+                this.info.begin_date         = document.getElementById(key + "-begin_date").innerHTML;
+                this.info.end_date           = document.getElementById(key + "-end_date").innerHTML;
+                this.info.owner              = document.getElementById(key + "-owner").innerHTML;
+                this.info.status             = document.getElementById(key + "-status").innerHTML;
+                this.info.target_estimate    = document.getElementById(key + "-target_estimate").innerHTML;
+                this.info.test_suit          = document.getElementById(key + "-test_suit").innerHTML;
+                this.info.target_swag        = document.getElementById(key + "-target_swag").innerHTML;
+                this.info.reference          = document.getElementById(key + "-reference").innerHTML;
+            }
+        }
+    },
+
+    fillTitle: function () {
+        // fill all the toolbar related infomation before move on.
+        shieldDialog.toolBar.title = "Projects";
+        shieldDialog.toolBar.imgIconClass = "project-icon-img";
+    },
+
+    fillTable: function () {
+        var inputTag = '';
+
+        // fill all infomation of dialog form.
+        // reset before use.
+        shieldDialog.formTable.clear();
+
+        // Title
+        inputTag += '<input style="width: 400px;" type="text" id="title-input" name="title" value="' + this.info.title + '"/>';
+        inputTag += '<span class="red-asterisk">*</span>';
+        inputTag += '<div class="retro-style-errmsg" id="title-errmsg"></div>';
+        shieldDialog.formTable.add('Title', inputTag);
+
+        // Parent Project
+        inputTag = '<label id="parent-label" for="parent_project" style="color: black;">' + this.info.parent + '</label>';
+        shieldDialog.formTable.add('Parent Project', inputTag);
+
+        // Sprint Schedule
+        inputTag = ' <select id="sprint_schedule-select" class="retro-style unit-select">';
+        inputTag += '   <option value="Base Sprint Schedule">Base Sprint Schedule</option>';
+        inputTag += '   <option value="Default Schedule">Default Schedule</option>';
+        inputTag += '   <option value="Project(2017) Sprint Schedule">Project(2017) Sprint Schedule</option>';
+        inputTag += '</select>';
+        inputTag += '<span class="red-asterisk">*</span>';
+        shieldDialog.formTable.add('Sprint Schedule', inputTag);
+
+        // Description
+        inputTag = '<textarea id="description-textarea" name="description" rows="15" cols="120" spellcheck="false">' + this.info.description + '</textarea>';
+        shieldDialog.formTable.add('Description', inputTag);
+
+        // Begin Date
+        inputTag = '<input type="date" id="begin_date-input" name="begin_date" value="' + this.info.begin_date + '"/>';
+        inputTag += '<span class="red-asterisk">*</span>';
+        inputTag += '<div class="retro-style-errmsg" id="begin_date-errmsg"></div>';
+        shieldDialog.formTable.add('Begin Date', inputTag);
+
+        // End Date
+        inputTag = '<input type="date" id="end_date-input" name="end_date" value="' + this.info.end_date + '"/>';
+        inputTag += '<span class="red-asterisk">*</span>';
+        inputTag += '<div class="retro-style-errmsg" id="begin_date-errmsg"></div>';
+        shieldDialog.formTable.add('End Date', inputTag);
+
+        // Status
+        inputTag = '<input type="input" id="status-input" name="status" value="' + this.info.status + '"/>';
+        shieldDialog.formTable.add('Status', inputTag);
+
+        // Owner
+        inputTag = '<input type="text" id="owner-input" name="owner" value="' + this.info.owner + '"/>';
+        inputTag += '<span class="red-asterisk">*</span>';
+        inputTag += '<div class="retro-style-errmsg" id="owner-errmsg"></div>';
+        shieldDialog.formTable.add('Owner', inputTag);
+
+        // Target Estimate Pts.
+        inputTag = '<input type="text" id="target_estimate-input" name="target_estimate" value="' + this.info.target_estimate + '"/>';
+        inputTag += '<span class="red-asterisk">*</span>';
+        inputTag += '<div class="retro-style-errmsg" id="target_estimate-errmsg"></div>';
+        shieldDialog.formTable.add('Target Estimate Pts.', inputTag);
+
+        // Target Swag
+        inputTag = '<input type="text" id="target_estimate-input" name="target_estimate" value="' + this.info.target_swag + '"/>';
+        shieldDialog.formTable.add('Target Swag', inputTag);
+    },
+
+    onclickSaveSuccessFunc: function (data) {
+        // hide the dialog
+        shield.show(false);
+
+        // update sprint schedule list.
+        utility.updateDashboradTable('project-tbody', 'fillProjectTable');
+    },
+
+    onclickSaveErrorFunc: function (data) {
+        // update sprint schedule list.
+        //utility.updateDashboradTable('sprint-schedule-tbody', 'fillSprintSheduleTable');
+    },
+
+    onclickSave: function (tbodyId) {
+        var formData = this.getFormData();
+
+        var data = {
+            url             : "../ajax/default.php",
+            callbackFunc    : "",
+            formData        : formData,
+            successFunc     : shieldSprintSchedule.onclickSaveSuccessFunc,
+            errorFunc       : shieldSprintSchedule.onclickSaveErrorFunc,
+            failFunc        : null
+        };
+
+
+        if(this.info.title == "") {
+            // Add new entry.
+            data.callbackFunc = "addProjectCallback";
+        } else {
+            // Edit existing sprint schedule.
+            data.callbackFunc = "updateProjectCallback";
+        }
+
+        // Update DB according to the input and also update sprint schedule list in the display.
+        utility.ajax.serverRespond(data);
+    },
+
+    onclickSaveNew: function (tbodyId) {
+        var formData = this.getFormData();
+
+        var data = {
+            url             : "../ajax/default.php",
+            callbackFunc    : "addSprintScheduleCallback",
+            formData        : formData,
+            successFunc     : function () {
+                /*$("#title-input").val(shieldSprintSchedule.info.title);
+                $("#length-input").val(shieldSprintSchedule.info.length);
+                $("#length_unit-select").val(shieldSprintSchedule.info.length_unit);
+                $("#gap-input").val(shieldSprintSchedule.info.gap);
+                $("#gap_unit-select").val(shieldSprintSchedule.info.gap_unit);
+                $("#description-textarea").val(shieldSprintSchedule.info.description);*/
+            },
+            errorFunc       : shieldSprintSchedule.onclickSaveErrorFunc,
+            failFunc        : null
+        };
+
+        // Update DB according to the input and also update sprint schedule list in the display.
+        utility.ajax.serverRespond(data);
+    },
+
+    onclickCancel: function (tbodyId) {
+        this.onclickSaveSuccessFunc();
+    },
+
+    openAddDialog: function(Id, tbodyId, isCallingFromDropMenu) {
+        this.openDialog(Id, tbodyId, isCallingFromDropMenu, true);
+    },
+
+    openEditDialog: function(Id, tbodyId, isCallingFromDropMenu) {
+        this.openDialog(Id, tbodyId, isCallingFromDropMenu, false);
+    },
+
+    openDialog: function (Id, tbodyId, isCallingFromDropMenu, isAdding) {
+        this.info.setDefult();
+
+        var key = '';
+        var divObj = document.getElementById(Id).children[0];
+
+        if(isCallingFromDropMenu) {
+            key = document.getElementById(divObj.innerHTML).children[0].innerHTML;
+            document.getElementById(Id).style.display = "none";
+        } else {
+            key = divObj.innerHTML;
+        }
+
+        if((key != null) && (key != "")) {
+            this.fillInfo(key, isAdding);
+
+            // fill all infomation of dialog title(toolBar).
+            this.fillTitle();
+            // fill all infomation of dialog form.
+            this.fillTable();
+
+            // reset and add button for dialog
+            shieldDialog.toolBar.toolbarBtns.clear();
+
+            shieldDialog.toolBar.toolbarBtns.add('submit-btns', 'retro-style red add-spr', 'Cancel', 'onclick="shieldProject.onclickCancel(\''+ tbodyId +'\')"');
+            shieldDialog.toolBar.toolbarBtns.add('submit-btns', 'retro-style green-bg add-spr', 'Save & New', 'onclick="shieldProject.onclickSaveNew(\''+ tbodyId +'\')"');
+            shieldDialog.toolBar.toolbarBtns.add('submit-btns', 'retro-style green-bg add-spr', 'Save', 'onclick="shieldProject.onclickSave(\''+ tbodyId +'\')"');
+
+            shield.openDialog(this, false, 'project-add-form-container', shieldDialog.getTag);
+        }
+    }
 };
 
 /* object to create dialog for shield popup. */
@@ -449,8 +694,8 @@ var shield = {
                 var width = utility.getWindowWidth();
                 var height = utility.getWindowHeight();
 
-                o_top = height/4;
-                o_left = width/4;
+                o_top = height/8;
+                o_left = width/8;
             }
 
             // create the dialog container and components before displaying them.
@@ -462,7 +707,7 @@ var shield = {
             tag += '</div>';
 
             $("#" + destId).html(tag);
-            //$('#shield-form-window').offset({ top: o_top, left: o_left});
+            $('#shield-form-window').offset({ top: o_top, left: o_left});
 
             shield.show(true);
         }

@@ -50,6 +50,18 @@ else
     echo 'Method Not Exist';
 }
 
+function getSessionValueCallback()
+{
+    $val = '';
+
+    if($_POST['sessionId'])
+        $val = Utility::decode($_SESSION[$_POST['sessionId']]);
+    else
+        $val = '';
+
+    echo(json_encode($val));
+}
+
 function updateSPRTrackingCallback($spr_no, $field, $val)
 {
     $bgColor = "";
@@ -89,7 +101,7 @@ function showDashboardAccdSessionCallback()
     echo(json_encode($tag));
 }
 
-function updateDashboradTablecallback()
+function updateDashboradTableCallback()
 {
     $tag = "";
 
@@ -237,14 +249,14 @@ function loginSubmitCallback()
     $errors         = array();  	// array to hold validation errors
     $data 			= array(); 		// array to pass back data
 
-// validate the variables ======================================================
+    // validate the variables ======================================================
     if (empty($_POST['username']))
         $errors['username'] = 'Enter your username.';
 
     if (empty($_POST['password']))
         $errors['password'] = 'Enter your password.';
 
-// return a response ===========================================================
+    // return a response ===========================================================
     // if there are any errors in our errors array, return a success boolean of false
     if ( ! empty($errors))
     {
@@ -281,7 +293,7 @@ function recoverySubmitCallback()
     $data 			= array(); 		// array to pass back data
     $username		= "";
 
-// validate the variables ======================================================
+    // validate the variables ======================================================
     // check for empty field.
     if( ! isset($_POST['recovery']))
         $errors['recovery'] = 'Please select one of the following options.';
@@ -294,7 +306,7 @@ function recoverySubmitCallback()
             $errors['email'] = 'Please enter an email address.';
     }
 
-// return a response ===========================================================
+    // return a response ===========================================================
     if ( ! empty($errors))
     {
         $data['success'] = false;
@@ -380,7 +392,7 @@ function signupSubmitCallback()
     $errMsg			= "";
     $inx			= 0;
 
-// validate the variables ======================================================
+    // validate the variables ======================================================
     $post_data = [['firstName', $_POST['firstName']], ['lastName', $_POST['lastName']], ['username', $_POST['username']],
     ['password', $_POST['password']], ['confirm-password', $_POST['confirm-password']], ['gender', $_POST['gender']],
     ['title', $_POST['title']], ['department', $_POST['department']], ['manager', $_POST['manager']],
@@ -388,7 +400,7 @@ function signupSubmitCallback()
 
     //$errors = checkEmptyField($post_data);
 
-// return a response ===========================================================
+    // return a response ===========================================================
     $errors = getErrorMsgs($post_data, $_POST['password']);
     if(empty($errors))
     {
@@ -409,7 +421,6 @@ function signupSubmitCallback()
         $data['success'] = false;
         $data['errors']  = $errors;
     }
-    //}
 
     // return all our data to an AJAX call
     echo json_encode($data);
@@ -826,14 +837,43 @@ function addSprintScheduleCallback()
     $errors     = array();      // array to hold validation errors
     $data       = array();      // array to pass back data
 
-    $keys = array('title', 'length', 'length_unit', 'gap', 'gap_unit', 'description', 'key_title');
-
     // create object of mysqlDB class to add data into mysql database.
     $mysqlDBObj = new mysqlDB('scrum_sprint_schedule');
+
+    $keys = array('title', 'length', 'length_unit', 'gap', 'gap_unit', 'description', 'key_title');
     foreach($keys as $each)
         $mysqlDBObj->appendData($each, $_POST[$each]);
 
     $msg = $mysqlDBObj->insert();
+    if($msg == false)
+    {
+        $errors[0] = ['qry', $msg];
+
+        $data['success'] = false;
+        $data['errors']  = $errors;
+    }
+    else
+    {
+        $data['success'] = true;
+    }
+
+    echo(json_encode($data));
+}
+
+function updateSprintScheduleCallback()
+{
+    $errors     = array();      // array to hold validation errors
+    $data       = array();      // array to pass back data
+
+    // create object of mysqlDB class to add data into mysql database.
+    $mysqlDBObj = new mysqlDB('scrum_sprint_schedule');
+
+    $keys = array('title', 'length', 'length_unit', 'gap', 'gap_unit', 'description');
+    foreach($keys as $each)
+        $mysqlDBObj->appendData($each, $_POST[$each]);
+    $mysqlDBObj->appendClause("title = '" . $_POST['key_title'] . "'");
+
+    $msg = $mysqlDBObj->update();
     if($msg == false)
     {
         $errors[0] = ['qry', $msg];

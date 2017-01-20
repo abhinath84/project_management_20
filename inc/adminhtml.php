@@ -129,6 +129,7 @@
         public function __construct($curNav = null, $curDir = null, $enableNav = false)
         {
             parent::__construct("Projects", "admin", true);
+            $this->table = new HTMLTable("project-table", "grippy-table");
         }
 
         protected function addDashboard()
@@ -144,10 +145,12 @@
             $tag .=             Utility::getArticleTitle('Projects');
 
             $tag .= '           <div class="project-container">' . $this->EOF_LINE;
+            $tag .= '               <div id="project-add-form-container"></div>' . $this->EOF_LINE;
             $tag .= '               <div id="project-table-dropdown" class="dropdown-content">' . $this->EOF_LINE;
+            $tag .= '                   <span id="quick-action-btn-key-span" style="display: none;"></span>' . EOF_LINE;
             $tag .= '                   <a>Add Child Project</a>' . $this->EOF_LINE;
-            $tag .= '                   <a>Move Project</a>' . $this->EOF_LINE;
             $tag .= '                   <a>Edit</a>' . $this->EOF_LINE;
+            $tag .= '                   <a>Move Project</a>' . $this->EOF_LINE;
             $tag .= '                   <a>Close Project</a>' . $this->EOF_LINE;
             $tag .= '                   <a>Delete</a>' . $this->EOF_LINE;
             $tag .= '               </div>' . $this->EOF_LINE;
@@ -165,57 +168,87 @@
 
         private function getProjectTable()
         {
-            global $conn;
-
             $str = "";
 
-            $table = new HTMLTable("project-table", "grippy-table");
+            $qry = "SELECT title, owner, begin_date, end_date, sprint_schedule, parent, description, status, target_estimate, test_suit, target_swag, reference FROM scrum_project  WHERE (owner = '". $_SESSION['project-managment-username'] ."') OR (title IN (SELECT project_title FROM scrum_project_member WHERE member_id='". $_SESSION['project-managment-username'] ."'))";
 
+            // fill table components to display Sprint Schedule.
+            // add table header
+            $this->fillTableHead();
+            // add Table body
+            $this->fillTableBody($qry);
+
+            return(utf8_encode($this->table->toHTML()));
+        }
+
+        public function fillTableHead()
+        {
             $title_th = '<a href="javascript:void(0);"><span class="icon plus-icon"></span></a>
                         <a href="javascript:void(0);"><span class="icon minus-icon"></span></a>
                         Title';
 
             // add table header
-            $table->thead("project-thead");
-                $table->th("&nbsp;", null, null, null, null);
-                $table->th($title_th, null, null, null, "data-sort=\"string\"");
-                $table->th("Owner", null,  null, null, "data-sort=\"string\"");
-                $table->th("Begin Date", null, null, null, "data-sort=\"string\"");
-                $table->th("End Date", null, null, null, "data-sort=\"string\"");
-                $table->th("Sprint Schedule", null, null, null, "data-sort=\"string\"");
-                $table->th("&nbsp;", null, null, null);
-
-            // add Table body
-            $table->tbody("project-tbody");
-
-            $qry = "SELECT title, owner, begin_date, end_date, sprint_schedule, parent_project FROM scrum_project  WHERE (owner = '". $_SESSION['project-managment-username'] ."') OR (title IN (SELECT project_title FROM scrum_project_member WHERE member_id='". $_SESSION['project-managment-username'] ."'))";
-
-            $rows = $conn->result_fetch_array($qry);
-            if(!empty($rows))
-            {
-                // loop over the result and fill the rows
-                foreach($rows as $row)
-                {
-                    $table->tr(null, null, null, "align=\"center\"");
-                        $table->td(getGreppyDotTag(), "1-greppy", "hasGrippy", "text-align:center;", "width=\"1%\"");
-                        $table->td($this->getProjectTitle($row[0], false), "{$row[0]}-title", "project-title-td", null, "width=\"25%\"");
-                        $table->td(Utility::decode($row[1]), "{$row[0]}-owner", null, null, "width=\"18%\"");
-                        $table->td("{$row[2]}", "{$row[0]}-begin-date", null, null, "width=\"10%\"");
-                        $table->td("{$row[3]}", "{$row[0]}-end-date", null, null, "width=\"10%\"");
-                        $table->td("{$row[4]}", "{$row[0]}-sprint-schedule", null, null, "width=\"25%\"");
-                        $table->td(getQuickActionBtn("{$row[0]}-project-edit-btn", "Add Child Project", "project-td-btn", "", "", "project-table-dropdown"), "project-edit", null, null, "width=\"5%\"");
-                }
-            }
-            else
-            {
-                $table->tr(null, null, null, "align=\"center\"");
-                    $table->td("<p>No result !!!</p>", "no-result", null, null, null);
-            }
-
-            return(utf8_encode($table->toHTML()));
+            $this->table->thead("project-thead");
+                $this->table->th("&nbsp;", null, null, null, null);
+                $this->table->th($title_th, null, null, null, "data-sort=\"string\"");
+                $this->table->th("Owner", null,  null, null, "data-sort=\"string\"");
+                $this->table->th("Begin Date", null, null, null, "data-sort=\"string\"");
+                $this->table->th("End Date", null, null, null, "data-sort=\"string\"");
+                $this->table->th("Sprint Schedule", null, null, null, "data-sort=\"string\"");
+                $this->table->th("&nbsp;", null, null, null);
         }
 
-        private function getProjectTitle($val, $isChild)
+        public function fillTableBody($qry)
+        {
+            global $conn;
+            $status = false;
+
+            if($this->table != null)
+            {
+                $status = true;
+
+                // add Table body
+                $this->table->tbody("project-tbody");
+
+                $rows = $conn->result_fetch_array($qry);
+                if(!empty($rows))
+                {
+                    // loop over the result and fill the rows
+                    $inx = 1;
+                    foreach($rows as $row)
+                    {
+                        $this->table->tr(null, null, null, "align=\"center\"");
+                            $this->table->td(getGreppyDotTag(), "1-greppy", "hasGrippy", "text-align:center;", "width=\"1%\"");
+                            $this->table->td($this->getProjectTitle($inx, $row[0], false), "{$inx}-title", "project-title-td", null, "width=\"25%\"");
+                            $this->table->td(Utility::decode($row[1]), "{$inx}-owner", null, null, "width=\"18%\"");
+                            $this->table->td("{$row[2]}", "{$inx}-begin_date", null, null, "width=\"10%\"");
+                            $this->table->td("{$row[3]}", "{$inx}-end_date", null, null, "width=\"10%\"");
+                            $this->table->td("{$row[4]}", "{$inx}-sprint_schedule", null, null, "width=\"25%\"");
+
+                            $this->table->td("{$row[5]}", "{$inx}-parent", null, "display: none;");
+                            $this->table->td("{$row[6]}", "{$inx}-description", null, "display: none;");
+                            $this->table->td("{$row[7]}", "{$inx}-status", null, "display: none;");
+                            $this->table->td("{$row[8]}", "{$inx}-target_estimate", null, "display: none;");
+                            $this->table->td("{$row[9]}", "{$inx}-test_suit", null, "display: none;");
+                            $this->table->td("{$row[10]}", "{$inx}-target_swag", null, "display: none;");
+                            $this->table->td("{$row[11]}", "{$inx}-reference", null, "display: none;");
+
+                            $this->table->td(getQuickActionBtn("{$inx}-project-edit-btn", "Add Child Project", "project-td-btn", "onclick=\"shieldProject.openAddDialog('{$inx}-project-edit-btn', 'project-tbody', false)\"", "{$inx}", "project-table-dropdown"), "project-edit", null, null, "width=\"5%\"");
+
+                        $inx++;
+                    }
+                }
+                else
+                {
+                    $this->table->tr(null, null, null, "align=\"center\"");
+                        $this->table->td("<p>No result !!!</p>", "no-result", null, null, null);
+                }
+            }
+
+            return($status);
+        }
+
+        private function getProjectTitle($id, $val, $isChild)
         {
             $tag = '';
 
@@ -223,12 +256,16 @@
                 $tag .= '<span>&nbsp;&nbsp;&nbsp;&nbsp;</span>';
 
             $tag .= '   <a class = "project-title-plus-icon" href="javascript:void(0);"><span class="icon plus-icon"></span></a>';
-            $tag .= '   <span class="project-title-image">' . EOF_LINE;
+            /*$tag .= '   <span class="project-title-image">' . EOF_LINE;
             $tag .= '       <img alt="backlog" src="../images/project_folder.png" title="backlog">'. EOF_LINE;
-            $tag .= '   </span>'.EOF_LINE;
-            $tag .= '   <span>' . $val . '</span>'.EOF_LINE;
+            $tag .= '   </span>'.EOF_LINE;*/
+            $tag .= '   <span id="'. $id .'-title-span">' . $val . '</span>'.EOF_LINE;
 
             return($tag);
+        }
+
+        public function getTBodyElementHTML() {
+            return($this->table->getTBodyElementHTML());
         }
     }
 
@@ -294,7 +331,8 @@
             return(utf8_encode($this->table->toHTML()));
         }
 
-        public function fillTableHead() {
+        public function fillTableHead()
+        {
             // add table header
             $this->table->thead("sprint-schedule-thead");
                 $this->table->th("&nbsp;", null, null, null, null);
@@ -304,7 +342,8 @@
                 $this->table->th("&nbsp;", null, null, null);
         }
 
-        public function fillTableBody($rows) {
+        public function fillTableBody($rows)
+        {
             $status = false;
 
             if(($this->table != null) && ($rows != null))

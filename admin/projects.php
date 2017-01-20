@@ -30,6 +30,7 @@
         <script type="text/javascript" src="../js/jqry.js"></script>
         <script type="text/javascript" src="../js/utility.js"></script>
         <script type="text/javascript" src="../js/shield.js"></script>
+        <script type="text/javascript" src="../js/functions.js"></script>
         <script type="text/javascript" src="../js/stupidtable.min.js?dev"></script>
         <script type="text/javascript" src="../js/addtable.js"></script>
         <script>

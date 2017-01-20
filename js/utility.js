@@ -130,7 +130,7 @@ var utility = {
             'fillTableFunc' : fillTableFunc,
         };
 
-        document.getElementById(tagBodyId).innerHTML = getServerResponseViaAJAX("../ajax/default.php", "updateDashboradTablecallback", formData, "");
+        document.getElementById(tagBodyId).innerHTML = getServerResponseViaAJAX("../ajax/default.php", "updateDashboradTableCallback", formData, "");
     },
 
     executeFunctionByName: function (functionName, context /*, args */) {
@@ -142,5 +142,30 @@ var utility = {
         }
 
         return context[func].apply(context, args);
+    },
+
+    getCurrentDate: function (seperator) {
+        var today = new Date();
+        var dd = today.getDate();
+        var mm = today.getMonth() + 1; //January is 0!
+
+        var yyyy = today.getFullYear();
+        if(dd<10){
+            dd='0' + dd;
+        }
+
+        if(mm<10){
+            mm='0' + mm;
+        }
+
+        return(yyyy + seperator + mm + seperator + dd);
+    },
+
+    getSessionValue: function (sessionId) {
+        var formData = {
+            'sessionId': sessionId
+        }
+
+        return(getServerResponseViaAJAX("../ajax/default.php", "getSessionValueCallback", formData, ""));
     }
 };

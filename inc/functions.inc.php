@@ -544,6 +544,21 @@
         return(utf8_encode($tag));
     }
 
+    function fillProjectTable()
+    {
+        global $conn;
+        $tag = "";
+
+        $qry = "SELECT title, owner, begin_date, end_date, sprint_schedule, parent, description, status, target_estimate, test_suit, target_swag, reference FROM scrum_project  WHERE (owner = '". $_SESSION['project-managment-username'] ."') OR (title IN (SELECT project_title FROM scrum_project_member WHERE member_id='". $_SESSION['project-managment-username'] ."'))";
+
+        $projectsHTMLObj = new ProjectsHTML();
+
+        $projectsHTMLObj->fillTableBody($qry);
+        $tag .= $projectsHTMLObj->getTBodyElementHTML();
+
+        return(utf8_encode($tag));
+    }
+
     function getWorkTrackerCount($day)
     {
         global $conn;

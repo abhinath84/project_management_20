@@ -24,12 +24,13 @@
 
     max-height: 100%;
     padding-bottom: 3px;
-    top: 10em;
-    bottom: 10em;
-    right: 30em;
-    left: 25em;
+    //top: 10em;
+    //bottom: 10em;
+    //right: 30em;
+    //left: 25em;
     margin: auto;
     background-color: #dde2e9;
+    padding-bottom: 50px;
     //overflow: hidden;
 }
 
@@ -51,6 +52,7 @@
 }
 
 .shield-dialog-form {
+    margin-right: 25px;
     padding-top: 25px;
     padding-bottom: 25px;
     text-align:center;
@@ -112,6 +114,10 @@
 
 .toolbar .sprint-schedule-icon-img {
     background-image: url('../images/Schedule-Icon.gif');
+}
+
+.toolbar .project-icon-img {
+    background-image: url('../images/Project-Icon.gif');
 }
 
 .toolbar h2 {

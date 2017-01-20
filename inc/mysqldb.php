@@ -92,8 +92,6 @@
                $vals .= ')';
 
                $qry = 'INSERT INTO ' . $this->tableName . ' ' . $keys . ' VALUES ' . $vals;
-               //echo "qry: " . $qry;
-
                if($this->conn->execute_query($qry))
                    return(true);
                else
@@ -113,7 +111,7 @@
 
                 $inx = 1;
                 $dataCount = count($this->data);
-                foreach($doubleArray as $key => $val)
+                foreach($this->data as $key => $val)
                 {
                     $sets .= $key . " = '".$val."'";
                     if($inx < $dataCount)
@@ -125,7 +123,7 @@
                 foreach($this->clause as $each)
                     $clause .= $each;
 
-               $qry = "UPDATE ".$this->tableName." SET ". $sets ."' WHERE ". $clause;
+               $qry = "UPDATE ".$this->tableName." SET ". $sets ." WHERE ". $clause;
                if($this->conn->execute_query($qry))
                    return(true);
                else
@@ -139,15 +137,13 @@
                  ($this->conn->isConnected()))
             {
                 $clause = '';
-
                 foreach($this->clause as $each)
-                    $clause .= $each;
+                    $clause .= " {$each}";
 
                 $qry = "DELETE FROM " . $this->tableName;
                 if(!empty($clause))
                     $qry .= " WHERE ". $clause;
 
-                //echo $qry;
                 if($this->conn->execute_query($qry))
                     return(true);
                 else
