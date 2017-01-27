@@ -1025,7 +1025,7 @@ class LoginHTML extends HTMLTemplate
         $tag .=              addInputTag('input', 'text', 'username', 'Username', '', '') . $this->EOF_LINE;
         $tag .=              addInputTag('input', 'password', 'password', 'Password', '', '') . $this->EOF_LINE;
         $tag .= '            <div class="retro-style-form-element">' . $this->EOF_LINE;
-        $tag .= '                <input id="signIn" name="signIn" type="submit" value="Sign in" class="retro-style blue">' . $this->EOF_LINE;
+        $tag .= '                <input id="signIn" name="signIn" type="submit" value="Sign in" class="retro-style royal-blue">' . $this->EOF_LINE;
         $tag .= '            </div>' . $this->EOF_LINE;
         $tag .= '        </form>' . $this->EOF_LINE;
         $tag .= '        <span><a id="link-forgot-passwd" href="recovery.php">Can&#39;t access your account?</a></span>' . $this->EOF_LINE;
@@ -1083,7 +1083,7 @@ class SignupHTML extends HTMLTemplate
         $tag .= addInputTag('input', 'text', 'email', 'Your current email address', 'onblur="javascript:showErrorMsg(\'email\', \'input\', \'\')"', "");
         $tag .= addInputTag('input', 'text', 'altEmail', 'Your alternative email address(optional)', '', "");
         $tag .= '        <div class="retro-style-form-element">' . $this->EOF_LINE;
-        $tag .= '            <input id="submitbutton" name="submitbutton" type="submit" value="Submit" class="retro-style blue">' . $this->EOF_LINE;
+        $tag .= '            <input id="submitbutton" name="submitbutton" type="submit" value="Submit" class="retro-style royal-blue">' . $this->EOF_LINE;
         $tag .= '        </div>' . $this->EOF_LINE;
         $tag .= '    </form>' . $this->EOF_LINE;
         $tag .= '</div>' . $this->EOF_LINE;
@@ -1136,7 +1136,7 @@ class RecoveryHTML extends HTMLTemplate
         $tag .= '        </div>' . $this->EOF_LINE;
 
         $tag .= '        <div style="margin-top:20px">' . $this->EOF_LINE;
-        $tag .= '            <input id="continue" class="retro-style blue" name="continue" type="submit" value="Continue">' . $this->EOF_LINE;
+        $tag .= '            <input id="continue" class="retro-style royal-blue" name="continue" type="submit" value="Continue">' . $this->EOF_LINE;
         $tag .= '        </div>' . $this->EOF_LINE;
         $tag .= '    </form>' . $this->EOF_LINE;
         $tag .= '</div>' . $this->EOF_LINE;
@@ -1468,11 +1468,13 @@ class ScrumPPBHTML extends HTMLTemplate
 
     protected function addDashboard()
     {
+        $dropdownList = null;
+
         $tag  = '';
         $tag .= '<div class="display-table">';
         $tag .= '    <div class="project-item display-table">'. $this->EOF_LINE;
         $tag .= '        <button class="project-selector asset-hover" type="button">'. $this->EOF_LINE;
-        $tag .= '              <h3>Product Backlog</h3>'. $this->EOF_LINE;
+        $tag .= '            <h3>Product Backlog</h3>'. $this->EOF_LINE;
         $tag .= '            <span class="ps-icon">'. $this->EOF_LINE;
         $tag .= '                <svg class="project-selector-icon" viewBox="0 0 250 250" width="20" height="20">'. $this->EOF_LINE;
         $tag .= '                   <rect x="50" y="20" rx="10" ry="10" width="60" height="60"
@@ -1501,61 +1503,47 @@ class ScrumPPBHTML extends HTMLTemplate
         $tag .= '                </div>'. $this->EOF_LINE;
         $tag .= '                <div class="article-container">'. $this->EOF_LINE;
         $tag .= '                    <div class="project-backlog-container">'. $this->EOF_LINE;
-        $tag .= '                           <div class="session-button">'. $this->EOF_LINE;
-        $tag .= '                        <div id="move-to-project-btn" class="quick-action-btn move-to-project-btn">'. $this->EOF_LINE;
-        $tag .= '                    <a class="quick-action-text" href="popup:Widgets/Details/QuickEditStory">Move to Project</a>'. $this->EOF_LINE;
-        $tag .= '                            <a id="quick-action-arrow" class="quick-action-arrow" onclick="showHideEditMenu(\'show\', \'move-to-project-btn\', \'move-to-project-dropdown\')" onblur="showHideEditMenu(\'hide\', \'move-to-project-btn\', \'move-to-project-dropdown\')">'. $this->EOF_LINE;
-        $tag .= '                                <span>'. $this->EOF_LINE;
-        $tag .= '                                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="10px" height="10px" viewBox="0 0 451.847 451.847" style="enable-background:new 0 0 451.847 451.847;" xml:space="preserve">'. $this->EOF_LINE;
-        $tag .= '                                        <g>'. $this->EOF_LINE;
-        $tag .= '                                            <path d="M225.923,354.706c-8.098,0-16.195-3.092-22.369-9.263L9.27,151.157c-12.359-12.359-12.359-32.397,0-44.751   c12.354-12.354,32.388-12.354,44.748,0l171.905,171.915l171.906-171.909c12.359-12.354,32.391-12.354,44.744,0   c12.365,12.354,12.365,32.392,0,44.751L248.292,345.449C242.115,351.621,234.018,354.706,225.923,354.706z"/>'. $this->EOF_LINE;
-        $tag .= '                                        </g>'. $this->EOF_LINE;
-        $tag .= '                                    </svg>'. $this->EOF_LINE;
-        $tag .= '                                </span>'. $this->EOF_LINE;
-        $tag .= '                            </a>'. $this->EOF_LINE;
-        $tag .= '                        </div>'. $this->EOF_LINE;
-        $tag .= '                        <div id="move-to-project-dropdown" class="dropdown-content">'. $this->EOF_LINE;
-        $tag .= '                            <a href="#">Move To Project</a>'. $this->EOF_LINE;
-        $tag .= '                            <a href="#">Move To Iteration</a>'. $this->EOF_LINE;
-        $tag .= '                            <a href="#">Quick Close</a>'. $this->EOF_LINE;
-        $tag .= '                                    <a href="#">Close</a>'. $this->EOF_LINE;
-        $tag .= '                            <a href="#">Reopen</a>'. $this->EOF_LINE;
-        $tag .= '                            <a href="#">Delete</a>'. $this->EOF_LINE;
-        $tag .= '                                    <a href="#">Rank</a>'. $this->EOF_LINE;
-        $tag .= '                        </div>'. $this->EOF_LINE;
-        $tag .= '                    <div id="story-inline-dropdown" class="dropdown-content">'. $this->EOF_LINE;
-        $tag .= '                      <a href="#">Add Story Inline</a>'. $this->EOF_LINE;
-        $tag .= '                      <a href="#">Add Story</a>'. $this->EOF_LINE;
-        $tag .= '                      <a href="#">Add Defect Inline</a>'. $this->EOF_LINE;
-        $tag .= '                      <a href="#">Add Defect</a>'. $this->EOF_LINE;
-        $tag .= '                    </div>'. $this->EOF_LINE;
-        $tag .= '                        <div id="backlog-table-dropdown" class="dropdown-content">'. $this->EOF_LINE;
-        $tag .= '                            <a class="dashed-bottom-border" href="#">Edit</a>'. $this->EOF_LINE;
-        $tag .= '                            <a href="#">Plan Story</a>'. $this->EOF_LINE;
-        $tag .= '                            <a href="#">Add Task</a>'. $this->EOF_LINE;
-        $tag .= '                            <a class="dashed-bottom-border" href="#">Copy</a>'. $this->EOF_LINE;
-        $tag .= '                            <a href="#">Quick Close</a>'. $this->EOF_LINE;
-        $tag .= '                            <a class="dashed-bottom-border" href="#">Close</a>'. $this->EOF_LINE;
-        $tag .= '                            <a href="#">Convert to Defect</a>'. $this->EOF_LINE;
-        $tag .= '                            <a href="#">Delete</a>'. $this->EOF_LINE;
-        $tag .= '                        </div>'. $this->EOF_LINE;
-        $tag .= '                       <div id="story-inline-btn" class="quick-action-btn story-inline-btn" >'. $this->EOF_LINE;
-        $tag .= '                        <a class="quick-action-text" href="popup:Widgets/Details/QuickEditStory">Add to Story Inline</a>'. $this->EOF_LINE;
-        $tag .= '                        <a id="quick-action-arrow" class="quick-action-arrow" onclick="showHideEditMenu(\'show\', \'story-inline-btn\', \'story-inline-dropdown\')" onblur="showHideEditMenu(\'hide\', \'story-inline-btn\', \'story-inline-dropdown\')">'. $this->EOF_LINE;
-        $tag .= '                            <span>'. $this->EOF_LINE;
-        $tag .= '                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="10px" height="10px" viewBox="0 0 451.847 451.847" style="enable-background:new 0 0 451.847 451.847;" xml:space="preserve">'. $this->EOF_LINE;
-        $tag .= '                                    <g>'. $this->EOF_LINE;
-        $tag .= '                                        <path d="M225.923,354.706c-8.098,0-16.195-3.092-22.369-9.263L9.27,151.157c-12.359-12.359-12.359-32.397,0-44.751   c12.354-12.354,32.388-12.354,44.748,0l171.905,171.915l171.906-171.909c12.359-12.354,32.391-12.354,44.744,0   c12.365,12.354,12.365,32.392,0,44.751L248.292,345.449C242.115,351.621,234.018,354.706,225.923,354.706z"/>'. $this->EOF_LINE;
-        $tag .= '                                    </g>'. $this->EOF_LINE;
-        $tag .= '                                </svg>'. $this->EOF_LINE;
-        $tag .= '                            </span>'. $this->EOF_LINE;
-        $tag .= '                        </a>'. $this->EOF_LINE;
-        $tag .= '                    </div>'. $this->EOF_LINE;
-        $tag .= '                       </div>'.$this->EOF_LINE;
+        $tag .= '                       <div class="session-button">'. $this->EOF_LINE;
+
+        $dropdownList = array
+                            (
+                                array("Move To Project", ""),
+                                array("Move To Iteration", ""),
+                                array("Quick Close", ""),
+                                array("Close", ""),
+                                array("Reopen", ""),
+                                array("Delete", "")
+                            );
+        $tag .= Utility::getQuickActionBtnDropdown('move-to-project-dropdown', $dropdownList);
+
+        $dropdownList = array
+                            (
+                                array("Add Story Inline", ""),
+                                array("Add Story", ""),
+                                array("Add Defect Inline", ""),
+                                array("Add Defect", "")
+                            );
+        $tag .= Utility::getQuickActionBtnDropdown('story-inline-dropdown', $dropdownList);
+
+        $dropdownList = array
+                            (
+                                array('Edit', 'class="dashed-bottom-border"'),
+                                array('Plan Story', ''),
+                                array('Add Task', ''),
+                                array('Copy', 'class="dashed-bottom-border"'),
+                                array('Quick Close', ''),
+                                array('Close', 'class="dashed-bottom-border"'),
+                                array('Convert to Defect', ''),
+                                array('Delete', '')
+                            );
+        $tag .= Utility::getQuickActionBtnDropdown('backlog-table-dropdown', $dropdownList);
+
+        $tag .= Utility::getQuickActionBtn("move-to-project-btn", "Move to Project", "move-to-project-btn", "", "", "move-to-project-dropdown");
+        $tag .= Utility::getQuickActionBtn("story-inline-btn", "Add to Story Inline", "story-inline-btn", "", "", "story-inline-dropdown");
+
+        $tag .= '                        </div>'.$this->EOF_LINE;
         $tag .= '                        <div class="project-backlog-table-container">'. $this->EOF_LINE;
-
-        $tag .= $this->createDasboardTable();
-
+        $tag .=                             $this->createDasboardTable();
         $tag .= '                        </div>'. $this->EOF_LINE;
         $tag .= '                    </div>'. $this->EOF_LINE;
         $tag .= '                </div>'. $this->EOF_LINE;
@@ -1578,10 +1566,10 @@ class ScrumPPBHTML extends HTMLTemplate
 
     private function createDasboardTable()
     {
-    /*    global $conn;
+       /*global $conn;
 
         $qry = "SELECT order_no, title, id, owner, priority, estimate, project  FROM `spr_tracking` WHERE user_name = '". $_SESSION['project-managment-username'] ."'";
-*/
+        */
         $str = '';
 
         $Table = new HTMLTable("project-backlog-table", "grippy-table");
@@ -1625,7 +1613,7 @@ class ScrumPPBHTML extends HTMLTemplate
 
                    $Table->td("Release 1.0", "{$i}-project", null, null);
 
-                   $Table->td(getQuickActionBtn("{$i}-edit-btn", "Edit", "quick-action-btn backlog-table-btn", "", "", "backlog-table-dropdown"), "{$i}-edit", null, null, "width=\"2%\"");
+                   $Table->td(Utility::getQuickActionBtn("{$i}-edit-btn", "Edit", "quick-action-btn backlog-table-btn", "", "", "backlog-table-dropdown"), "{$i}-edit", null, null, "width=\"2%\"");
 
            }
        //}

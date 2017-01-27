@@ -53,19 +53,19 @@ var shieldSprintSchedule = {
         shieldDialog.formTable.add('Title', inputTag);
 
         inputTag = '                <input style="width: 50px;" type="text" id="length-input" name="len" value="' + this.info.length + '" />';
-        inputTag += '                <select id="length_unit-select" class="retro-style unit-select">';
-        inputTag += '                    <option value="days"'+ ((this.info.length_unit == "days") ? 'selected' : '') +'>days</option>';
-        inputTag += '                    <option value="weeks"'+ ((this.info.length_unit == "weeks") ? 'selected' : '') +'>weeks</option>';
-        inputTag += '                    <option value="months"'+ ((this.info.length_unit == "months") ? 'selected' : '') +'>months</option>';
-        inputTag += '                </select>';
+        inputTag += '               <select id="length_unit-select" class="retro-style unit-select">';
+        inputTag += '                   <option value="days"'+ ((this.info.length_unit == "days") ? 'selected' : '') +'>days</option>';
+        inputTag += '                   <option value="weeks"'+ ((this.info.length_unit == "weeks") ? 'selected' : '') +'>weeks</option>';
+        inputTag += '                   <option value="months"'+ ((this.info.length_unit == "months") ? 'selected' : '') +'>months</option>';
+        inputTag += '               </select>';
         shieldDialog.formTable.add('Sprint Length', inputTag);
 
         inputTag = '                <input style="width: 50px;" type="text" id="gap-input" name="gap" value="' + this.info.gap + '" />';
-        inputTag += '                <select id="gap_unit-select" class="retro-style unit-select">';
-        inputTag += '                    <option value="days"'+ ((this.info.gap_unit == "days") ? 'selected' : '') +'>days</option>';
-        inputTag += '                    <option value="weeks"'+ ((this.info.gap_unit == "weeks") ? 'selected' : '') +'>weeks</option>';
-        inputTag += '                    <option value="months"'+ ((this.info.gap_unit == "months") ? 'selected' : '') +'>months</option>';
-        inputTag += '                </select>';
+        inputTag += '               <select id="gap_unit-select" class="retro-style unit-select">';
+        inputTag += '                   <option value="days"'+ ((this.info.gap_unit == "days") ? 'selected' : '') +'>days</option>';
+        inputTag += '                   <option value="weeks"'+ ((this.info.gap_unit == "weeks") ? 'selected' : '') +'>weeks</option>';
+        inputTag += '                   <option value="months"'+ ((this.info.gap_unit == "months") ? 'selected' : '') +'>months</option>';
+        inputTag += '               </select>';
         shieldDialog.formTable.add('Sprint Gap', inputTag);
 
         inputTag = '<textarea id="description-textarea" name="description" rows="15" cols="120" spellcheck="false">' + this.info.description + '</textarea>';

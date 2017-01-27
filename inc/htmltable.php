@@ -47,11 +47,11 @@
      */
     class TComponent
     {
-        private $_id             = null;
-        private $_classes         = null;
-        private $_style            = null;
+        private $_id            = null;
+        private $_classes       = null;
+        private $_style         = null;
         private $_attributes    = null;
-        private $_events         = null;
+        private $_events        = null;
 
         public function __construct($id = null, $class = null, $style = null,
                                     $attribute = null, $event = null)
@@ -133,8 +133,8 @@
 
     class TD
     {
-        private $_comp    = null;    // TComponent
-        private $_val    = null;
+        private $_comp  = null;    // TComponent
+        private $_val   = null;
 
         public function __construct($val = null, $id = null, $class = null, $style = null,
                                     $attribute = null, $event = null)
@@ -175,9 +175,9 @@
         public function __construct($id = null, $class = null, $style = null,
                                     $attribute = null, $event = null)
         {
-            $_comp        = new TComponent($id, $class, $style, $attribute, $event);
-            $_td         = array();
-            $_node_id     = 0;
+            $this->_comp    = new TComponent($id, $class, $style, $attribute, $event);
+            $this->_td      = array();
+            $this->_node_id = 0;
         }
 
         public function setComponent($comp)    { if($comp != null) $this->_comp = $comp; }
@@ -199,7 +199,7 @@
             if(($this->_td != null) && (count($this->_td) > 0))
             {
                 // start tr
-                $str .= "<tr>" . EOF_LINE; // need to add  '{$this->_comp->toString()}'
+                $str .= "<tr {$this->_comp->toString()}>" . EOF_LINE; // need to add  '{$this->_comp->toString()}'
 
                 // add all td
                 foreach ($this->_td as &$td)

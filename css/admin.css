@@ -58,3 +58,11 @@
 .sprint-schedule-add-form-container {
     visibility: hidden;
 }
+
+.member-role-info-container {
+    border: 0;
+}
+
+.member-role-info-table-container {
+    border: 1px solid #dde2e9;
+}

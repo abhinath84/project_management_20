@@ -1240,79 +1240,56 @@ function showSPRTrackingReportSearchResult() {
         alert("Please select item from 'Search for' option!");
 }
 
-/*function getOffset(elem) {
-  var elemClientRect = elem.getBoundingClientRect();
+var memberRoles = {
+    info: {
+        rowid           : '',
+        projectTBody    : 'project-tbody',
+        memberDiv       : 'member-div',
+        memberTBody     : 'member-thead'
+    },
 
-  return {
-    left: elemClientRect.left + window.scrollX,
-    top: elemClientRect.top + window.scrollY
-  }
-}
+    showMemberTable: function(rowId) {
+        if((rowId != null) && (rowId != '')) {
+            var isOpen = false;
 
-// Helper function to get an element's exact position
-function getPosition(el) {
-  var xPos = 0;
-  var yPos = 0;
+            // check member table is already shown or not.
+            // if not then open it.
+            // else show warning and ask user whether they want's to change member table without saving current change.
+            var memberDivDisplay = $('#' + this.info.memberDiv).css('display');
+            if((memberDivDisplay != null) && (memberDivDisplay != '') & (memberDivDisplay != 'none')) {
+                var r = confirm("Do you want to close unsaved Member Table?");
+                if (r == false) {
+                    isOpen = true;
+                }
+            }
 
-  while (el) {
-    if (el.tagName == "BODY") {
-      // deal with browser quirks with body/window/document and page scroll
-      var xScroll = el.scrollLeft || document.documentElement.scrollLeft;
-      var yScroll = el.scrollTop || document.documentElement.scrollTop;
+            if(isOpen == false) {
+                // change background-color of selected row of Project table.
+                // reset bg-color for all the tr.
+                $('#' + this.info.projectTBody).find('tr').each(function () {
+                    $(this).removeClass('alice-blue-bg');
+                });
 
-      xPos += (el.offsetLeft - xScroll + el.clientLeft);
-      yPos += (el.offsetTop - yScroll + el.clientTop);
-    } else {
-      // for all other non-BODY elements
-      xPos += (el.offsetLeft - el.scrollLeft + el.clientLeft);
-      yPos += (el.offsetTop - el.scrollTop + el.clientTop);
-    }
+                // set bg-color for selected color.
+                $('#' + rowId + '-project-tr').addClass('alice-blue-bg');
 
-    el = el.offsetParent;
-  }
-  return {
-    left: xPos,
-    top: yPos
-  };
-}
-
-function showHideEditMenu(display, callingElemTag, editMenuElemTag){
-    if(editMenuElem != "")
-    {
-        var editMenuElem = document.getElementById(editMenuElemTag);
-
-        if((editMenuElem.style.display == '') || (editMenuElem.style.display == 'none')) {
-            var callingElem = document.getElementById(callingElemTag);
-
-            // get location of the current button (x, y)
-            var leftOffset = getOffset(callingElem).left;
-            var topOffset = getOffset(callingElem).top;
-
-            // show the edit menu div by giving 'display:block'.
-            editMenuElem.style.position = "absolute";
-            editMenuElem.style.display = "block";
-
-            // Check menu width cross the screen or not.
-            // if so then move menu location bit left.
-            var diff = window.outerWidth - leftOffset;
-            if(diff < editMenuElem.offsetWidth)
-                leftOffset = leftOffset - (diff + 5);
-
-            // Check menu height cross the screen or not.
-            // if so then move menu location bit top.
-            diff = window.outerHeight - topOffset;
-            if(diff < editMenuElem.offsetHeight)
-                topOffset = topOffset - (editMenuElem.offsetHeight + 1);
-            else
-                topOffset = topOffset + (callingElem.offsetHeight + 1);
-
-            // put location of the edit menu div bit below to the current button
-            editMenuElem.style.left = leftOffset + 'px';
-            editMenuElem.style.top = topOffset + 'px';
-
-        } else {
-            // hide the edit menu div by giving 'display:none'.
-            editMenuElem.style.display = "none";
+                // get members for the selected project.
+                // display member for changing role.
+                $('#' + this.info.memberDiv).css('display', 'block');
+                this.info.rowid = rowId;
+            }
         }
+    },
+
+    close: function() {
+        this.info.rowid = '';
+        $('#' + this.info.memberDiv).css('display', 'none');
+    },
+
+    save: function() {
+        // check all the inputs are proper or not?
+        // if not then display the error
+        // otherwise save information and close the member table.
+        this.close();
     }
-}*/
+};

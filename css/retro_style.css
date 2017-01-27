@@ -197,7 +197,7 @@ textarea.retro-style {
 button.retro-style,
 input[type=submit].retro-style {
   margin: 0;
-  height: 35px;
+  height: 30px;
   cursor: pointer;
   outline: none;
   border: 1px solid #222222;
@@ -297,6 +297,7 @@ input[type=submit].retro-style.green-bg[disabled] {
   background-color: #257631;
 }
 
+/* Red Button */
 button.retro-style.red,
 input[type=submit].retro-style.red {
   border-color:#d84a38;
@@ -318,23 +319,46 @@ input[type=submit].retro-style.red[disabled] {
   background-color: #d84a38;
 }
 
-button.retro-style.blue,
-input[type=submit].retro-style.blue {
+/* Royal Blue Button */
+button.retro-style.royal-blue,
+input[type=submit].retro-style.royal-blue {
   border-color:#3876D8;
 }
 
-button.retro-style.blue:hover,
-button.retro-style.blue:focus,
-button.retro-style.blue:active,
-button.retro-style.blue.active,
-button.retro-style.blue.disabled,
-button.retro-style.blue[disabled],
-input[type=submit].retro-style.blue:hover,
-input[type=submit].retro-style.blue:focus,
-input[type=submit].retro-style.blue:active,
-input[type=submit].retro-style.blue.active,
-input[type=submit].retro-style.blue.disabled,
-input[type=submit].retro-style.blue[disabled] {
+button.retro-style.royal-blue:hover,
+button.retro-style.royal-blue:focus,
+button.retro-style.royal-blue:active,
+button.retro-style.royal-blue.active,
+button.retro-style.royal-blue.disabled,
+button.retro-style.royal-blue[disabled],
+input[type=submit].retro-style.royal-blue:hover,
+input[type=submit].retro-style.royal-blue:focus,
+input[type=submit].retro-style.royal-blue:active,
+input[type=submit].retro-style.royal-blue.active,
+input[type=submit].retro-style.royal-blue.disabled,
+input[type=submit].retro-style.royal-blue[disabled] {
   color: #FFFFFF;
   background-color: #3876D8;
+}
+
+/* Iris Blue Button */
+button.retro-style.iris-blue,
+input[type=submit].retro-style.iris-blue {
+  border-color:#00a9e0;
+}
+
+button.retro-style.iris-blue:hover,
+button.retro-style.iris-blue:focus,
+button.retro-style.iris-blue:active,
+button.retro-style.iris-blue.active,
+button.retro-style.iris-blue.disabled,
+button.retro-style.iris-blue[disabled],
+input[type=submit].retro-style.iris-blue:hover,
+input[type=submit].retro-style.iris-blue:focus,
+input[type=submit].retro-style.iris-blue:active,
+input[type=submit].retro-style.iris-blue.active,
+input[type=submit].retro-style.iris-blue.disabled,
+input[type=submit].retro-style.iris-blue[disabled] {
+  color: #FFFFFF;
+  background-color: #00a9e0;
 }
