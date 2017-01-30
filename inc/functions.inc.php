@@ -540,6 +540,52 @@
         return(utf8_encode($tag));
     }
 
+    function fillMemberRolesMemberTable($clause)
+    {
+        global $conn;
+        $tag = "";
+
+        $qry = "SELECT user.first_name, user.last_name, user.user_name, scrum_project_member.privilage FROM user INNER JOIN scrum_project_member ON scrum_project_member.member_id = user.user_name AND scrum_project_member.project_title = '{$clause}' ORDER BY user.user_name DESC";
+
+        $rows = $conn->result_fetch_array($qry);
+        if(!empty($rows))
+        {
+            $table = new HTMLTable("member-table", "grippy-table");
+            $table->tbody("member-tbody");
+
+            $inx = 1;
+            foreach($rows as $row)
+            {
+                $name = Utility::decode($row[0]) . ' ' . Utility::decode($row[1]);
+                $newProjectRoleSelect = '<select id="'. $inx .'-privilage-select" class="retro-style session-select">
+                                            <option value="none"></option>
+                                            <option value="system admin">system admin</option>
+                                            <option value="member admin">member admin</option>
+                                            <option value="project admin">project admin</option>
+                                            <option value="team member">team member</option>
+                                            <option value="developer">developer</option>
+                                            <option value="tester">tester</option>
+                                            <option value="customer">customer</option>
+                                        </select>';
+
+                $table->tr(null, null, null, "align=\"center\"");
+                    $table->td(getGreppyDotTag(), "1-greppy", "hasGrippy", "text-align:center;", "width=\"1%\"");
+                    $table->td($name, "{$inx}-name", "project-title-td", null, "width=\"32%\"");
+                    $table->td(Utility::decode($row[2]), "{$inx}-member_id", null, null, "width=\"20%\"");
+                    $table->td("{$row[3]}", "{$inx}-old-privilage", null, null, "width=\"20%\"");
+                    $table->td("{$newProjectRoleSelect}", "{$inx}-new-privilage", null, null, "width=\"20%\"");
+
+                $inx++;
+            }
+
+            $tag .= $table->getTBodyElementHTML();
+        }
+
+        //echo $tag;
+
+        return(utf8_encode($tag));
+    }
+
     function getWorkTrackerCount($day)
     {
         global $conn;

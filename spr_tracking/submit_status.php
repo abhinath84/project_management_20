@@ -46,7 +46,6 @@
     <body>
         <?php
             $htmlBody = new SPRTrackSubmitStatusHTML();
-
             echo $htmlBody->generateBody();
         ?>
     </body>

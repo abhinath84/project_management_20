@@ -10,21 +10,6 @@
     {
         private static $EOF_LINE = "\n";
         private static $cipher; //= new Cipher($key);
-
-        public static function getRetroButton($title, $class, $event)
-        {
-            $tag = '';
-
-            if(($title != "") && ($event != ""))
-            {
-                $tag .= '                   <button class="retro-style '. $class .'" type="button" '. $event .'>' . self::$EOF_LINE;
-                $tag .= '                       <span>'. $title .'</span>' . self::$EOF_LINE;
-                $tag .= '                   </button>' . self::$EOF_LINE;
-            }
-
-            return($tag);
-        }
-
         /*
             $lists = array(array(<val>, <href>), ...)
         */
@@ -46,7 +31,7 @@
 
         public static function getArticleTitle($titleName)
         {
-            $tag = '           <div class="main-article-info-header">' . self::$EOF_LINE;
+            $tag = '           <div class="titlebar">' . self::$EOF_LINE;
             $tag .= '                   <h1>' . $titleName . '</h1>' . self::$EOF_LINE;
             $tag .= '           </div>' . self::$EOF_LINE;
 
@@ -73,6 +58,46 @@
                 return("");
             else
                 return($cipher->decrypt($val));
+        }
+
+        public static function getRetroButton($title, $class, $event)
+        {
+            $tag = '';
+
+            if(($title != "") && ($event != ""))
+            {
+                $tag .= '<button class="retro-style '. $class .'" type="button" '. $event .'>' . self::$EOF_LINE;
+                $tag .= '   <span>'. $title .'</span>' . self::$EOF_LINE;
+                $tag .= '</button>' . self::$EOF_LINE;
+            }
+
+            return($tag);
+        }
+
+        public static function getRetroSelect($selectId, $selectOptions, $selectedItem, $selectEvent, $selectClass, $containerClass)
+        {
+            $tag ='';
+
+            if(
+                (($selectId != null) && ($selectId != '')) &&
+                (($selectOptions != null) && (count($selectOptions) > 0)) &&
+                (($selectedItem != null) && ($selectedItem != '')) &&
+                (($selectEvent != null) && ($selectEvent != ''))
+              )
+            {
+                $tag .= '<div class="retro-style-select-container '. $containerClass .'">' . self::$EOF_LINE;
+                $tag .= '   <select id="'. $selectId .'" class="retro-style '. $selectClass .'" '. $selectEvent .'>' . self::$EOF_LINE;
+
+                foreach($selectOptions as $item)
+                {
+                    $tag .= '   <option value="'. $item[0] .'" '. (($item[0] == $selectedItem) ? 'selected' : '') .'>'. $item[0] .'</option>' . self::$EOF_LINE;
+                }
+
+                $tag .= '   </select>' . self::$EOF_LINE;
+                $tag .= '</div>' . self::$EOF_LINE;
+            }
+
+            return($tag);
         }
 
         public static function getQuickActionBtn($id, $val, $class, $event, $key, $dropdownId)
@@ -107,6 +132,27 @@
                 foreach($lists as $child)
                     $tag .= '   <a '. $child[1] .'>'. $child[0] .'</a>' . self::$EOF_LINE;
 
+                $tag .= '</div>' . self::$EOF_LINE;
+            }
+
+            return($tag);
+        }
+
+        public static function getWidgetBox($title, $widgetboxId, $widgetboxClass, $widgetboxAttribute, $contentClass, $content)
+        {
+            $tag = '';
+
+            if(
+                (($title != null) && ($title != "")) &&
+                (($widgetboxId != null) && ($widgetboxId != "")) &&
+                (($content != null) && ($content != ""))
+              )
+            {
+                $tag .= '<div id="'. $widgetboxId .'" class="widgetbox '. $widgetboxClass .'">' . self::$EOF_LINE;
+                $tag .=     self::getArticleTitle($title);
+                $tag .= '   <div class="content '. $contentClass .'">' . self::$EOF_LINE;
+                $tag .=         $content;
+                $tag .= '   </div>' . self::$EOF_LINE;
                 $tag .= '</div>' . self::$EOF_LINE;
             }
 

@@ -132,6 +132,10 @@ textarea.retro-style {
 /*************************************/
 /* Design Form Element               */
 /*************************************/
+.retro-style-select-container {
+    display: inline-block;
+}
+
 .retro-style-form-element {
     position: relative;
     margin: 0 0 1.5em;

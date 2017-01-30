@@ -125,9 +125,10 @@ var utility = {
         return actualWidth;
     },
 
-    updateDashboradTable: function (tagBodyId, fillTableFunc) {
+    updateDashboradTable: function (tagBodyId, fillTableFunc, clause) {
         var formData = {
             'fillTableFunc' : fillTableFunc,
+            'clause'        : clause
         };
 
         document.getElementById(tagBodyId).innerHTML = getServerResponseViaAJAX("../ajax/default.php", "updateDashboradTableCallback", formData, "");

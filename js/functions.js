@@ -1273,7 +1273,10 @@ var memberRoles = {
                 // set bg-color for selected color.
                 $('#' + rowId + '-project-tr').addClass('alice-blue-bg');
 
+                var projectName = document.getElementById(rowId + '-title-span').innerHTML;
                 // get members for the selected project.
+                utility.updateDashboradTable('member-tbody', 'fillMemberRolesMemberTable', projectName);
+
                 // display member for changing role.
                 $('#' + this.info.memberDiv).css('display', 'block');
                 this.info.rowid = rowId;
@@ -1282,8 +1285,12 @@ var memberRoles = {
     },
 
     close: function() {
-        this.info.rowid = '';
+        // unselect the row by removing 'alice-blue-bg' from selected tr element.
+        $('#' + this.info.rowid + '-project-tr').removeClass('alice-blue-bg');
+        // hide member table.
         $('#' + this.info.memberDiv).css('display', 'none');
+        // reset row id for further use.
+        this.info.rowid = '';
     },
 
     save: function() {

@@ -106,7 +106,12 @@ function updateDashboradTableCallback()
     $tag = "";
 
     if(!empty($_POST["fillTableFunc"]))
-        $tag .= $_POST["fillTableFunc"]();
+    {
+        if(empty($_POST["clause"]))
+            $tag .= $_POST["fillTableFunc"]();
+        else
+            $tag .= $_POST["fillTableFunc"]($_POST["clause"]);
+    }
 
     echo(json_encode($tag));
 }

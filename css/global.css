@@ -613,6 +613,35 @@ h1,h2,h3,h4,h5,h6 {
     border: 1px solid #dde2e9;
 }
 
+.widgetbox {
+    border: 1px solid #dde2e9;
+}
+
+.widgetbox .titlebar {
+    background-color: #dde2e9;
+}
+
+.widgetbox .titlebar .header-tag{
+    display: inline-block;
+}
+
+.widgetbox .titlebar h1 {
+    margin: 0;
+    font-weight: 300;
+    font-size: 1.714em;
+    letter-spacing: -.025em;
+    padding: 10px .5em;
+}
+
+.widgetbox .content {
+    margin-top: 30px;
+}
+
+/****************************************************
+Note: remove main-article-info-header related class
+once they are replaced by .widgetbox .titlebar from
+all the pages.
+****************************************************/
 .main-article-info-header {
     background-color: #dde2e9;
 }

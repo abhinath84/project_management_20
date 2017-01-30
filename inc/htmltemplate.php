@@ -91,7 +91,7 @@ abstract class HTMLTemplate
     * @return string $tag
     *   header tag string.
     */
-    protected function addHeader($currentDir, $selNav, $enableNav)
+    private function addHeader($currentDir, $selNav, $enableNav)
     {
         $nav = new Navigator();
         $tag = $nav->header($currentDir, $selNav, $enableNav);
@@ -99,7 +99,7 @@ abstract class HTMLTemplate
         return($tag);
     }
 
-    protected function addArticle()
+    private function addArticle()
     {
         $tag = "";
 
@@ -120,10 +120,28 @@ abstract class HTMLTemplate
     * @return string $tag
     *   header tag string.
     */
-    protected function addFooter($currentDir, $hrTagFlag = true)
+    private function addFooter($currentDir, $hrTagFlag = true)
     {
         $nav = new Navigator();
         $tag = $nav->footer($currentDir, $hrTagFlag);
+
+        return($tag);
+    }
+}
+
+abstract class SPRTrackHTML extends HTMLTemplate
+{
+    public function __construct($curNav = null, $curDir = null, $enableNav = false)
+    {
+        parent::__construct($curNav, $curDir, $enableNav);
+    }
+
+    protected function getTabMenu($currentTab)
+    {
+        $lists = array(array('Dashboard', 'dashboard.php'), array('Submission Status', 'submit_status.php'),
+                        array('Report', 'report.php'), array('Import', 'spr_import.php'));
+
+        $tag = Utility::getTabMenu($currentTab, $lists);
 
         return($tag);
     }
@@ -1149,24 +1167,6 @@ class RecoveryHTML extends HTMLTemplate
     }
 }
 
-abstract class SPRTrackHTML extends HTMLTemplate
-{
-    public function __construct($curNav = null, $curDir = null, $enableNav = false)
-    {
-        parent::__construct($curNav, $curDir, $enableNav);
-    }
-
-    protected function getTabMenu($currentTab)
-    {
-        $lists = array(array('Dashboard', 'dashboard.php'), array('Submission Status', 'submit_status.php'),
-                        array('Report', 'report.php'), array('Import', 'spr_import.php'));
-
-        $tag = Utility::getTabMenu($currentTab, $lists);
-
-        return($tag);
-    }
-}
-
 class SPRTrackDashboardHTML extends SPRTrackHTML
 {
     public function __construct($curNav = null, $curDir = null, $enableNav = false)
@@ -1178,63 +1178,47 @@ class SPRTrackDashboardHTML extends SPRTrackHTML
     {
         $tag = '';
         $tag .= '<div class="main-article display-table article-container">' . $this->EOF_LINE;
+        $tag .=     parent::getTabMenu("Dashboard");
 
-        $tag .= parent::getTabMenu("Dashboard");
+        $tag .= '   <div class="main-article-tab-container display-table-row">' . $this->EOF_LINE;
+        $tag .= '       <div class="main-article-tab-info-container">' . $this->EOF_LINE;
+        $tag .=             Utility::getWidgetBox('SPR Tracking Dashboard', 'spr-track-dashboard-div', '', '', '', $this->getWidgetContent());
+        $tag .= '       </div>' . $this->EOF_LINE;
+        $tag .= '   </div>' . $this->EOF_LINE;
+        $tag .= '</div>' . $this->EOF_LINE;
 
-        $tag .= '<div class="main-article-tab-container display-table-row">' . $this->EOF_LINE;
-        $tag .= '    <div class="main-article-tab-info-container">' . $this->EOF_LINE;
-        $tag .= '        <div class="main-article-info-header">' . $this->EOF_LINE;
-        $tag .= '            <div class="header-tag">' . $this->EOF_LINE;
-        $tag .= '                <h1>SPR Tracking Dashboard</h1>' . $this->EOF_LINE;
-        $tag .= '            </div>' . $this->EOF_LINE;
-        $tag .= '        </div>' . $this->EOF_LINE;
-        $tag .= '        <div class="project-backlog-container">' . $this->EOF_LINE;
-        $tag .= '                <div class="spr-tracking-menu-container">' . $this->EOF_LINE;
-        $tag .= '                    <div id="session-btn" class="session-btn">' . $this->EOF_LINE;
-        $tag .= '                        <select id="session-select" class="retro-style session-select" onchange="javascript:showDashboardAccdSession(\'spr-tracking-dashboard-tbody\', \'fillSPRTrackingDashboardRow\')">' . $this->EOF_LINE;
-        $tag .= '                            <option value="All">All</option>' . $this->EOF_LINE;
-        $tag .= '                            <option value="2017" selected="">2017</option>' . $this->EOF_LINE;
-        $tag .= '                            <option value="2016">2016</option>' . $this->EOF_LINE;
-        $tag .= '                            <option value="2015">2015</option>' . $this->EOF_LINE;
-        $tag .= '                            <option value="2014">2014</option>' . $this->EOF_LINE;
-        $tag .= '                            <option value="2013">2013</option>' . $this->EOF_LINE;
-        $tag .= '                            <option value="2012">2012</option>' . $this->EOF_LINE;
-        $tag .= '                            <option value="2011">2011</option>' . $this->EOF_LINE;
-        $tag .= '                            <option value="2010">2010</option>' . $this->EOF_LINE;
-        $tag .= '                            <option value="2009">2009</option>' . $this->EOF_LINE;
-        $tag .= '                            <option value="2008">2008</option>' . $this->EOF_LINE;
-        $tag .= '                            <option value="2007">2007</option>' . $this->EOF_LINE;
-        $tag .= '                            <option value="2006">2006</option>' . $this->EOF_LINE;
-        $tag .= '                            <option value="2005">2005</option>' . $this->EOF_LINE;
-        $tag .= '                            <option value="2004">2004</option>' . $this->EOF_LINE;
-        $tag .= '                            <option value="2003">2003</option>' . $this->EOF_LINE;
-        $tag .= '                            <option value="2002">2002</option>' . $this->EOF_LINE;
-        $tag .= '                            <option value="2001">2001</option>' . $this->EOF_LINE;
-        $tag .= '                            <option value="2000">2000</option>' . $this->EOF_LINE;
-        $tag .= '                        </select>' . $this->EOF_LINE;
-        $tag .= '                    </div>' . $this->EOF_LINE;
-        $tag .= '                    <div style="float: right; margin-right: 10px;">' . $this->EOF_LINE;
-        $tag .= '                        <button class="retro-style green add-spr" type="button" onclick="javascript:addSPRTrackingDashboardRow()">' . $this->EOF_LINE;
-        $tag .= '                            <span>Add SPR to Track</span>' . $this->EOF_LINE;
-        $tag .= '                        </button>' . $this->EOF_LINE;
-        $tag .= '                        <button class="retro-style red" type="button">' . $this->EOF_LINE;
-        $tag .= '                            <span>Delete SPR(s)</span>' . $this->EOF_LINE;
-        $tag .= '                        </button>' . $this->EOF_LINE;
-        $tag .= '                    </div>' . $this->EOF_LINE;
-        $tag .= '                </div>' . $this->EOF_LINE;
-        $tag .= '                <div id="spr-tracking-dashboard-table-dropdown" class="dropdown-content">' . $this->EOF_LINE;
-        $tag .= '                    <a>Save</a>' . $this->EOF_LINE;
-        $tag .= '                    <a onclick="javascript:cancelEditTable(\'spr-tracking-dashboard\', \'fillSPRTrackingDashboardRow\')">Cancel</a>' . $this->EOF_LINE;
-        $tag .= '                </div>' . $this->EOF_LINE;
-        $tag .= '                <div class="spr-tracking-table-container">' . $this->EOF_LINE;
+        return($tag);
+    }
 
+    private function getWidgetContent()
+    {
+        $selectOptions = array
+                            (
+                                array('All', 'All'),
+                                array('2017', '2017'), array('2016', '2016'), array('2015', '2015'), array('2014', '2014'),
+                                array('2013', '2013'), array('2012', '2012'), array('2011', '2011'), array('2010', '2010'),
+                                array('2009', '2009'), array('2008', '2008'), array('2007', '2007'), array('2006', '2006'),
+                                array('2005', '2005'), array('2004', '2004'), array('2003', '2003'), array('2002', '2002'),
+                                array('2001', '2001'), array('2000', '2000')
+                            );
+
+        $addSPRDropdownList = array
+                                (
+                                    array('Save', 'onclick=""'),
+                                    array('Cancel', 'onclick="cancelEditTable(\'spr-tracking-dashboard\', \'fillSPRTrackingDashboardRow\')"')
+                                );
+
+
+        $tag = '<div class="spr-tracking-menu-container">' . $this->EOF_LINE;
+        $tag .=     Utility::getRetroSelect('session-select', $selectOptions, '2017', 'onchange="javascript:showDashboardAccdSession(\'spr-tracking-dashboard-tbody\', \'fillSPRTrackingDashboardRow\')"', 'session-select', 'session-container');
+        $tag .= '   <div style="float: right; margin-right: 10px;">' . $this->EOF_LINE;
+        $tag .=         Utility::getRetroButton('Add SPR to Track', 'green add-spr', 'onclick="javascript:addSPRTrackingDashboardRow()"');
+        $tag .=         Utility::getRetroButton('Delete SPR(s)', 'red', 'onclick=""');
+        $tag .= '   </div>' . $this->EOF_LINE;
+        $tag .= '</div>' . $this->EOF_LINE;
+
+        $tag .= Utility::getQuickActionBtnDropdown('spr-tracking-dashboard-table-dropdown', $addSPRDropdownList);
         $tag .= $this->createDasboardTable();
-
-        $tag .= '           </div>' . $this->EOF_LINE;
-        $tag .= '        </div>' . $this->EOF_LINE;
-        $tag .= '    </div>' . $this->EOF_LINE;
-        $tag .= '</div>' . $this->EOF_LINE;
-        $tag .= '</div>' . $this->EOF_LINE;
 
         return($tag);
     }
@@ -1242,8 +1226,6 @@ class SPRTrackDashboardHTML extends SPRTrackHTML
     private function createDasboardTable()
     {
         global $conn;
-
-        $str = "";
 
         $Table = new HTMLTable("spr-tracking-dashboard-table", "grippy-table spr-tracking-dashboard-table");
 
@@ -1292,7 +1274,11 @@ class SPRTrackDashboardHTML extends SPRTrackHTML
                 $Table->td("<p>No result !!!</p>", "no-result", null, null, null);
         }
 
-        return(utf8_encode($Table->toHTML()));
+        $tag = '<div class="spr-tracking-table-container">' . $this->EOF_LINE;
+        $tag .=     $Table->toHTML();
+        $tag .= '</div>' . $this->EOF_LINE;
+
+        return(utf8_encode($tag));
     }
 }
 
@@ -1308,62 +1294,49 @@ class SPRTrackSubmitStatusHTML extends SPRTrackHTML
         $tag = '';
         $tag .= '<div class="main-article display-table article-container">' . $this->EOF_LINE;
 
-        $tag .= parent::getTabMenu("Submission Status");
+        $tag .=     parent::getTabMenu("Submission Status");
 
-        $tag .= '<div class="main-article-tab-container display-table-row">' . $this->EOF_LINE;
-        $tag .= '    <div class="main-article-tab-info-container">' . $this->EOF_LINE;
-        $tag .= '        <div class="main-article-info-header">' . $this->EOF_LINE;
-        $tag .= '            <div class="header-tag">' . $this->EOF_LINE;
-        $tag .= '                <h1>SPR Submit Status</h1>' . $this->EOF_LINE;
-        $tag .= '            </div>' . $this->EOF_LINE;
-        $tag .= '        </div>' . $this->EOF_LINE;
-        $tag .= '        <div class="project-backlog-container">' . $this->EOF_LINE;
-        $tag .= '                <div class="spr-tracking-menu-container">' . $this->EOF_LINE;
-        $tag .= '                    <div id="session-btn" class="session-btn">' . $this->EOF_LINE;
-        $tag .= '                        <select id="session-select" class="retro-style session-select" onchange="javascript:showDashboardAccdSession(\'submission-status-tbody\', \'fillSPRTrackingSubmissionStatusRow\')">' . $this->EOF_LINE;
-        $tag .= '                            <option value="All">All</option>' . $this->EOF_LINE;
-        $tag .= '                            <option value="2017" selected="">2017</option>' . $this->EOF_LINE;
-        $tag .= '                            <option value="2016">2016</option>' . $this->EOF_LINE;
-        $tag .= '                            <option value="2015">2015</option>' . $this->EOF_LINE;
-        $tag .= '                            <option value="2014">2014</option>' . $this->EOF_LINE;
-        $tag .= '                            <option value="2013">2013</option>' . $this->EOF_LINE;
-        $tag .= '                            <option value="2012">2012</option>' . $this->EOF_LINE;
-        $tag .= '                            <option value="2011">2011</option>' . $this->EOF_LINE;
-        $tag .= '                            <option value="2010">2010</option>' . $this->EOF_LINE;
-        $tag .= '                            <option value="2009">2009</option>' . $this->EOF_LINE;
-        $tag .= '                            <option value="2008">2008</option>' . $this->EOF_LINE;
-        $tag .= '                            <option value="2007">2007</option>' . $this->EOF_LINE;
-        $tag .= '                            <option value="2006">2006</option>' . $this->EOF_LINE;
-        $tag .= '                            <option value="2005">2005</option>' . $this->EOF_LINE;
-        $tag .= '                            <option value="2004">2004</option>' . $this->EOF_LINE;
-        $tag .= '                            <option value="2003">2003</option>' . $this->EOF_LINE;
-        $tag .= '                            <option value="2002">2002</option>' . $this->EOF_LINE;
-        $tag .= '                            <option value="2001">2001</option>' . $this->EOF_LINE;
-        $tag .= '                            <option value="2000">2000</option>' . $this->EOF_LINE;
-        $tag .= '                        </select>' . $this->EOF_LINE;
-        $tag .= '                    </div>' . $this->EOF_LINE;
-        $tag .= '                    <div style="float: right; margin-right: 10px;">' . $this->EOF_LINE;
-        $tag .= '                        <button class="retro-style green add-spr" type="button">' . $this->EOF_LINE;
-        $tag .= '                            <span>Add SPR to update Submission Status</span>' . $this->EOF_LINE;
-        $tag .= '                        </button>' . $this->EOF_LINE;
-        $tag .= '                        <button class="retro-style red" type="button">' . $this->EOF_LINE;
-        $tag .= '                            <span>Delete SPR Submission Status(s)</span>' . $this->EOF_LINE;
-        $tag .= '                        </button>' . $this->EOF_LINE;
-        $tag .= '                    </div>' . $this->EOF_LINE;
-        $tag .= '                </div>' . $this->EOF_LINE;
-        $tag .= '                <div id="submission-status-table-dropdown" class="dropdown-content">' . $this->EOF_LINE;
-        $tag .= '                    <a href="#">Save</a>' . $this->EOF_LINE;
-        $tag .= '                    <a href="#">Cancel</a>' . $this->EOF_LINE;
-        $tag .= '                </div>' . $this->EOF_LINE;
-        $tag .= '                <div class="spr-tracking-table-container">' . $this->EOF_LINE;
-
-        $tag .= $this->createDasboardTable();
-
-        $tag .= '                </div>' . $this->EOF_LINE;
+        $tag .= '   <div class="main-article-tab-container display-table-row">' . $this->EOF_LINE;
+        $tag .= '       <div class="main-article-tab-info-container">' . $this->EOF_LINE;
+        $tag .=             Utility::getWidgetBox('SPR Submit Status', 'spr-submission-status-div', '', '', '', $this->getWidgetContent());
         $tag .= '       </div>' . $this->EOF_LINE;
-        $tag .= '    </div>' . $this->EOF_LINE;
+        $tag .= '   </div>' . $this->EOF_LINE;
         $tag .= '</div>' . $this->EOF_LINE;
+
+        return($tag);
+    }
+
+    private function getWidgetContent()
+    {
+        $selectOptions = array
+                            (
+                                array('All', 'All'),
+                                array('2017', '2017'), array('2016', '2016'), array('2015', '2015'), array('2014', '2014'),
+                                array('2013', '2013'), array('2012', '2012'), array('2011', '2011'), array('2010', '2010'),
+                                array('2009', '2009'), array('2008', '2008'), array('2007', '2007'), array('2006', '2006'),
+                                array('2005', '2005'), array('2004', '2004'), array('2003', '2003'), array('2002', '2002'),
+                                array('2001', '2001'), array('2000', '2000')
+                            );
+
+        $addSPRDropdownList = array
+                                (
+                                    array('Save', 'onclick=""'),
+                                    array('Cancel', 'onclick=""')
+                                );
+
+        $tag = '';
+
+        $tag .= '<div class="spr-tracking-menu-container">' . $this->EOF_LINE;
+        $tag .=     Utility::getRetroSelect('session-select', $selectOptions, '2017', 'onchange="showDashboardAccdSession(\'submission-status-tbody\', \'fillSPRTrackingSubmissionStatusRow\')"', 'session-select', 'session-container');
+
+        $tag .= '   <div style="float: right; margin-right: 10px;">' . $this->EOF_LINE;
+        $tag .=         Utility::getRetroButton('Add SPR to update Submission Status', 'green add-spr', 'onclick=""');
+        $tag .=         Utility::getRetroButton('Delete SPR Submission Status(s)', 'red', 'onclick=""');
+        $tag .= '   </div>' . $this->EOF_LINE;
         $tag .= '</div>' . $this->EOF_LINE;
+
+        $tag .= Utility::getQuickActionBtnDropdown('submission-status-table-dropdown', $addSPRDropdownList);
+        $tag .= $this->createDasboardTable();
 
         return($tag);
     }
@@ -1371,8 +1344,8 @@ class SPRTrackSubmitStatusHTML extends SPRTrackHTML
     private function createDasboardTable()
     {
         global $conn;
-        $tag = "";
 
+        $str = '';
         $colNames = getColumnName('spr_submission');
         if(!empty($colNames))
         {
@@ -1432,10 +1405,12 @@ class SPRTrackSubmitStatusHTML extends SPRTrackHTML
             else
             {
                 $Table->tr(null, null, null, "align=\"center\"");
-                    $Table->td(" ", "no-result", null, null, null);
+                    $Table->td("<p>No result !!!</p>", "no-result", null, null, null);
             }
 
-            $str = $Table->toHTML();
+            $str .= '<div class="spr-tracking-table-container">' . $this->EOF_LINE;
+            $str .=     $Table->toHTML();
+            $str .= '</div>' . $this->EOF_LINE;
         }
         else
         {
@@ -1455,7 +1430,7 @@ class WorkTrackerHTML extends HTMLTemplate
 
     protected function addDashboard()
     {
-    return(showWorkTrackerDashboard());
+        return(showWorkTrackerDashboard());
     }
 }
 

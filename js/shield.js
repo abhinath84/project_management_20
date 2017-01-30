@@ -89,12 +89,12 @@ var shieldSprintSchedule = {
         shield.show(false);
 
         // update sprint schedule list.
-        utility.updateDashboradTable('sprint-schedule-tbody', 'fillSprintSheduleTable');
+        utility.updateDashboradTable('sprint-schedule-tbody', 'fillSprintSheduleTable', '');
     },
 
     onclickSaveErrorFunc: function (data) {
         // update sprint schedule list.
-        //utility.updateDashboradTable('sprint-schedule-tbody', 'fillSprintSheduleTable');
+        //utility.updateDashboradTable('sprint-schedule-tbody', 'fillSprintSheduleTable', '');
     },
 
     onclickSave: function (tbodyId) {
@@ -230,7 +230,7 @@ var shieldSprintSchedule = {
                 callbackFunc    : "deleteSprintScheduleCallback",
                 formData        : formData,
                 successFunc     : function () {
-                    utility.updateDashboradTable('sprint-schedule-tbody', 'fillSprintSheduleTable');
+                    utility.updateDashboradTable('sprint-schedule-tbody', 'fillSprintSheduleTable', '');
                 },
                 errorFunc       : null,
                 failFunc        : null
@@ -385,12 +385,12 @@ var shieldProject = {
         shield.show(false);
 
         // update sprint schedule list.
-        utility.updateDashboradTable('project-tbody', 'fillProjectTable');
+        utility.updateDashboradTable('project-tbody', 'fillProjectTable', '');
     },
 
     onclickSaveErrorFunc: function (data) {
         // update sprint schedule list.
-        //utility.updateDashboradTable('sprint-schedule-tbody', 'fillSprintSheduleTable');
+        //utility.updateDashboradTable('sprint-schedule-tbody', 'fillSprintSheduleTable', '');
     },
 
     onclickSave: function (tbodyId) {

@@ -1,10 +1,9 @@
 .spr-tracking-menu-container {
     margin-top: 25px;
-    margin-bottom: 35px;
+    margin-bottom: 25px;
 }
 
-.session-btn {
-    display: inline-block;
+.session-container {
     margin-left: 15px;
 }
 
