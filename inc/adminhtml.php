@@ -4,7 +4,11 @@
 
     abstract class adminHTML extends HTMLTemplate
     {
+<<<<<<< HEAD
         protected $tabItems = null;
+=======
+        protected $tabItem = null;
+>>>>>>> 82b376a8288d6874783533d303d2208fc6a1e246
         protected $table = null;
         protected $dropdownList = null;
         protected $currentTab = null;
@@ -31,7 +35,11 @@
 
         private function getTabMenu()
         {
+<<<<<<< HEAD
             $tag = Utility::getTabMenu($this->currentTab, $this->tabItems);
+=======
+            $tag = Utility::getTabMenu($this->currentTab, $this->tabItem);
+>>>>>>> 82b376a8288d6874783533d303d2208fc6a1e246
 
             return($tag);
         }
@@ -43,7 +51,11 @@
         {
             parent::__construct($curNav, $curDir, $enableNav, $currentTab);
 
+<<<<<<< HEAD
             $this->tabItems = array
+=======
+            $this->tabItem = array
+>>>>>>> 82b376a8288d6874783533d303d2208fc6a1e246
                                 (
                                     array('Projects', 'projects.php'),
                                     array('Sprint Schedules', 'sprint_schedules.php'),
@@ -59,7 +71,11 @@
         {
             parent::__construct($curNav, $curDir, $enableNav, $currentTab);
 
+<<<<<<< HEAD
             $this->tabItems = array
+=======
+            $this->tabItem = array
+>>>>>>> 82b376a8288d6874783533d303d2208fc6a1e246
                                 (
                                     array('Members', 'members.php'),
                                     array('Project Assignmemnt', 'projecct_assignment.php'),

@@ -13,7 +13,11 @@
 
 	define('MYSQL_SERVER', 'localhost');
 	define('MYSQL_USER', 'root');
+<<<<<<< HEAD
 	define('MYSQL_PASS', 'root');
+=======
+	define('MYSQL_PASS', '');
+>>>>>>> 82b376a8288d6874783533d303d2208fc6a1e246
 
 	define('PDO_DB_INFO', 'mysql:host=localhost;dbname=project_management');
 	define('PDO_DB_USER', 'root');
