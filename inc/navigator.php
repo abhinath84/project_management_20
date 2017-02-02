@@ -297,7 +297,9 @@
                         $tag .= '        <div class="main-nav display-table-cell">' . EOF_LINE;
                         $tag .= '            <ul class ="navbox">' . EOF_LINE;
                         $tag .= '                <li>' . EOF_LINE;
-                        $tag .= '                    <a href="" target="_top">ADMIN</a>' . EOF_LINE;
+                        $tag .= '                    <a href="" target="_top">' . EOF_LINE;
+                        $tag .= '                       <img vertical-align=middle src="' . $this->imagesPath . '/admin_gray.png" alt="ptc.com" style="width: 40px; height: 40px;"/>' . EOF_LINE;
+                        $tag .= '                    </a>' . EOF_LINE;
                         $tag .= '                    <ul style="text-align: left;">' . EOF_LINE;
                         $tag .= '                        <li><a href="'. $this->getNavURL($currentDir, $this->adminDir, $this->overviewURL) .'" target="_top">Overview</a></li>' . EOF_LINE;
                         $tag .= '                        <li><a href="'. $this->getNavURL($currentDir, $this->adminDir, $this->projectsURL) .'" target="_top">Projects</a></li>' . EOF_LINE;
