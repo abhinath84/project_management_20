@@ -1,6 +1,11 @@
 /*********************************
               Basic
 **********************************/
+@font-face {
+    font-family: OpenSans;
+    src: url(../fonts/OpenSans-Light.ttf);
+}
+
 html, body {
     height: 100%;
 }
@@ -8,7 +13,7 @@ html, body {
 body {
     margin: 0px;
     padding:0px;
-    font-family: "Open Sans", "Proxima Nova", "Montserrat Light", monaco, verdana, arial;
+    font-family: OpenSans, "Proxima Nova", "Montserrat Light", monaco, verdana, arial;
     font-size: 14px;
     background-color: #dde2e9;
 }
