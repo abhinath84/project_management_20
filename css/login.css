@@ -1,0 +1,76 @@
+.login-body {
+    margin: 0px;
+    padding:0px;
+    font-family: "Proxima Nova", "Montserrat Light", monaco, verdana, arial;
+    font-size: 14px;
+    background-color: white;
+}
+
+.login-main {
+    height: 600px;
+    margin: 0;
+    border: 1px solid #e5e5e5;
+}
+
+.login {
+    margin: 0;
+    width: 50%;
+    border-right: 1px solid #d4d4d4;
+}
+
+.login-main * {
+    font-size: 15px;
+    font-weight: normal;
+}
+
+.login-form input {
+    width: 300px;
+}
+
+.login h3 {
+    font-weight:normal;
+    font-size:40px;
+    line-height: normal;
+    padding: 0;
+    margin: 0;
+    margin-bottom: 25px;
+}
+
+.login-main a:link,
+.login-main a:visited {
+    color:#0071E0;
+    text-decoration:none;
+}
+
+.login-main a:hover,
+.login-main a:active {
+    color:#ff4800;
+    text-decoration:none;
+}
+
+#signup-nav-sub {
+    margin-top: 55px;
+    margin-left: 65px;
+}
+
+#signup-nav-sub * {
+    margin: 0;
+    padding: 0;
+}
+
+#signup-nav-sub h3 {
+    font-weight:normal;
+    font-size:20px;
+    line-height: normal;
+    margin: 0;
+}
+
+#login-sub {
+    margin-top: 5px;
+    margin-left: 90px;
+}
+
+#signIn {
+    width: 150px;
+    margin-top: 20px;
+}

@@ -1,0 +1,31 @@
+.recovery-body {
+    background-color: white;
+}
+
+.login-main, #recovery-msg-container {
+    font-size: 15px;
+}
+
+.side-align {
+    height:500px;
+    margin-left:150px;
+    margin-top:20px;
+}
+
+.recovery-radio-container
+{
+    margin-top:5px;
+}
+
+.recovery-radio-input-container
+{
+    display:none;
+    margin-left:22px;
+    margin-top:10px;
+}
+
+#continue {
+    width: 100px;
+    background-color: #3876D8;
+    color: #FFFFFF;
+}

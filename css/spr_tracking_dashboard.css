@@ -1,0 +1,50 @@
+.spr-tracking-menu-container {
+    margin-top: 25px;
+    margin-bottom: 25px;
+}
+
+.session-container {
+    margin-left: 15px;
+}
+
+.retro-style.session-select {
+    border-color: #00a9e0;
+    padding: 0 10px;
+}
+
+.retro-style.session-select:hover {
+    background-color: #00a9e0;
+    color: white;
+}
+
+.retro-style.session-select:focus {
+    outline: none;
+}
+
+.retro-style.session-select option {
+    background-color:white;
+    color: black;
+}
+
+button.retro-style.green.add-spr {
+    margin-right: 15px;
+}
+
+.spr-tracking-table-container{
+    margin-top: 20px;
+}
+
+.spr-tracking-dashboard-table thead tr th,
+.spr-tracking-dashboard-table tbody tr td {
+    text-align: center;
+}
+
+.spr-tracking-dashboard-table tbody tr td a {
+    text-decoration: none;
+    color: #0096e0;
+}
+
+#edit-btn a{
+    //display: none;
+    color: white;
+}

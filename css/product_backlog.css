@@ -1,0 +1,65 @@
+.main-article-info-header .story-inline-btn {
+    float: right;
+    margin-top: 10px;
+}
+
+.main-article-info-header .add-story-btn {
+    margin-left:
+}
+
+.project-backlog-container {
+	margin-left: 0;
+	margin-right: 0;
+}
+
+.move-to-project-btn {
+    margin-top: 5px;
+    margin-left: 5px;
+}
+
+.project-backlog-table-container {
+    margin-top: 10px;
+}
+
+.backlog-table-btn {
+    border: 1px solid black;
+    background-color: white;
+}
+
+.backlog-table-btn a {
+    color: black;
+}
+
+.backlog-table-btn svg {
+    fill: black;
+}
+
+.backlog-table-btn .quick-action-text {
+    border-right: 1px solid black;
+}
+
+.backlog-table-btn:hover {
+    border-color: #00a9e0;
+    background-color: #00a9e0;
+}
+
+.backlog-table-btn:hover a {
+    color: #fff;
+}
+
+.backlog-table-btn:hover svg {
+    fill: #fff;
+}
+
+.backlog-table-btn:hover .quick-action-text {
+    border-right: 1px solid currentColor;
+}
+
+.session-button {
+    margin-top: 5px;
+}
+
+.session-button .story-inline-btn{
+    float: right;
+    margin-top: 5px;
+}
