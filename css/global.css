@@ -6,6 +6,11 @@
     src: url(../fonts/OpenSans-Light.ttf);
 }
 
+@font-face {
+    font-family: ProximaNova;
+    src: url(../fonts/Proxima Nova Light.otf);
+}
+
 html, body {
     height: 100%;
 }
@@ -13,7 +18,7 @@ html, body {
 body {
     margin: 0px;
     padding:0px;
-    font-family: OpenSans, "Proxima Nova", "Montserrat Light", monaco, verdana, arial;
+    font-family: OpenSans, ProximaNova, monaco, verdana, arial;
     font-size: 14px;
     background-color: #dde2e9;
 }
@@ -113,7 +118,7 @@ h1,h2,h3,h4,h5,h6 {
     float: left;
     padding: 7px 20px;
     color:#FFF;
-    font: 14px/24px "Proxima Nova", "Montserrat Light", monaco, verdana, arial;
+    font: 16px/24px OpenSans, "Proxima Nova", "Montserrat Light", monaco, verdana, arial;
     text-decoration: none;
 }
 
@@ -457,12 +462,14 @@ h1,h2,h3,h4,h5,h6 {
 }
 
 .main-nav {
-    background-color: #31363e;
+    background-color: #111212; //#31363e;
 }
 
 .main-nav .selected {
     font-weight: bold;
-    background-color: #228B22;
+    //background-color:#228B22;
+    color: #228B22;
+    background-color: black;
 }
 
 .sub-nav-container {
@@ -723,30 +730,91 @@ all the pages.
 
 
 
-
-
-/*.session-dropdown {
-    display: none;
-    max-width: 100px;
-    position: absolute;
-    background-color: white;
-    right: 15px;
-    border: 1px solid black;
+/*
+    Another nav format
+*/
+.navbox{
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    list-style: none;
 }
 
- .session-dropdown span {
-    color: black;
+.navbox li{
+    float: left;
+    position: relative;
+}
+
+.navbox a{
+    min-height: 25px;
+    float: left;
+    padding: 7px 20px;
+    color:white;
+    font: 16px/24px OpenSans, "Proxima Nova", "Montserrat Light", monaco, verdana, arial;
     text-decoration: none;
+}
+
+.navbox li:hover > a{
+    color: #228B22;
+    background-color: black;
+}
+
+*html .navbox li a:hover{ /* IE6 */
+    background-color: #228B22;
+}
+
+.navbox li:hover > ul{
     display: block;
-    text-align: left;
-    padding-left: 10px;
+}
+
+/* Sub-menu */
+
+.navbox ul{
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: none;
+    position: absolute;
+    top: 39px;
+    left: 0;
+    z-index: 99999;
+}
+
+.navbox ul li{
+    float: none;
+    margin: 0;
+    padding: 0;
+}
+
+.navbox ul a{
     padding-top: 5px;
     padding-bottom: 5px;
-    cursor: pointer;
+    padding-left: 25px;
+    padding-right: 45px;
+    height: auto;
+    display: block;
+    color: white;
+    background-color: black;
+    white-space: nowrap;
+    float: none;
+    text-transform: none;
 }
 
- .session-dropdown span:hover {
-    background-color: black;
-    color: white;
-    cursor: pointer;
-}*/
+*html .navbox ul a{ /* IE6 */
+    height: 10px;
+    width: 150px;
+}
+
+*:first-child+html .navbox ul a{ /* IE7 */
+    height: 10px;
+    width: 150px;
+}
+
+.navbox ul a:hover{
+    color: #228B22;
+    background-color: #1a1919;
+}
+
+.navbox li:first-child a {
+    padding-left: 25px;
+}

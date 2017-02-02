@@ -150,7 +150,7 @@ abstract class HTMLTemplate
     private function addHeader($currentDir, $selNav, $enableNav)
     {
         $nav = new Navigator();
-        $tag = $nav->header($currentDir, $selNav, $enableNav);
+        $tag = $nav->header_new($currentDir, $selNav, $enableNav);
 
         return($tag);
     }

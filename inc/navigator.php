@@ -129,6 +129,222 @@
             return($tag);
         }
 
+        public function header_new($currentDir, $selNav, $enableNav = true)
+        {
+            global $cipherObj;
+            $tag = "";
+
+            if(($currentDir <> "") && ($selNav <> ""))
+            {
+                $this->imagesPath = ($currentDir === "base") ? "images" : "../images";
+
+                $tag .= '<div class="header display-table-row">' . EOF_LINE;
+                /*$tag .= '    <div class="banner display-table">' . EOF_LINE;
+                $tag .= '        <div class="logo display-table-cell">' . EOF_LINE;
+                $tag .= '            <a href="'. $this->getNavURL($currentDir, $this->baseDir, $this->homeURL) .'">' . EOF_LINE;
+                $tag .= '                <img src="' . $this->imagesPath . '/ptc-master-color_small.png" alt="ptc.com"/>' . EOF_LINE;
+                $tag .= '            </a>' . EOF_LINE;
+                $tag .= '        </div>' . EOF_LINE;
+
+                if($enableNav == true)
+                {
+                    $tag .= '        <div class="admin-nav display-table-cell">' . EOF_LINE;
+                    $tag .= '            <ul>' . EOF_LINE;
+
+                    if((isset($_SESSION['project-managment-username'])) && ($_SESSION['project-managment-username'] != ""))
+                    {
+                        $fname = $cipherObj->decrypt(getItemFromTable("first_name", "user", "user_name = '".$_SESSION['project-managment-username']."'"));
+                        $lname = $cipherObj->decrypt(getItemFromTable("last_name", "user", "user_name = '".$_SESSION['project-managment-username']."'"));
+
+                        if($this->isAdmin())
+                        {
+                            $tag .= '                <li>' . EOF_LINE;
+                            $tag .= '                    <a href="" target="_top">ADMIN &#9660;</a>' . EOF_LINE;
+                            $tag .= '                    <ul style="text-align: left;">' . EOF_LINE;
+                            $tag .= '                        <li><a href="'. $this->getNavURL($currentDir, $this->adminDir, $this->overviewURL) .'" target="_top">Overview</a></li>' . EOF_LINE;
+                            $tag .= '                        <li><a href="'. $this->getNavURL($currentDir, $this->adminDir, $this->projectsURL) .'" target="_top">Projects</a></li>' . EOF_LINE;
+                            $tag .= '                        <li><a href="'. $this->getNavURL($currentDir, $this->adminDir, $this->membersURL) .'" target="_top">Members</a></li>' . EOF_LINE;
+                            $tag .= '                        <li><a href="'. $this->getNavURL($currentDir, $this->adminDir, $this->teamsURL) .'" target="_top">Teams</a></li>' . EOF_LINE;
+                            $tag .= '                        <li><a href="'. $this->getNavURL($currentDir, $this->adminDir, $this->configurationURL) .'" target="_top">Configuration</a></li>' . EOF_LINE;
+                            $tag .= '                    </ul>' . EOF_LINE;
+                            $tag .= '                </li>' . EOF_LINE;
+                        }
+
+                        $tag .= '                <li>' . EOF_LINE;
+                        $tag .= '                    <a href="" target="_top">'.$fname.' '.$lname.' &#9660;</a>' . EOF_LINE;
+                        $tag .= '                    <ul style="text-align: left;">' . EOF_LINE;
+                        $tag .= '                        <li><a href="'. $this->getNavURL($currentDir, $this->userDir, $this->profileURL) .'" target="_top">Profile</a></li>' . EOF_LINE;
+                        $tag .= '                        <li><a href="'. $this->getNavURL($currentDir, $this->userDir, $this->changePasswordURL) .'" target="_top">Change Password</a></li>' . EOF_LINE;
+                        $tag .= '                        <li><a href="'. $this->getNavURL($currentDir, $this->baseDir, $this->logoutURL) .'" target="_top">Logout</a></li>' . EOF_LINE;
+                        $tag .= '                    </ul>' . EOF_LINE;
+                        $tag .= '                </li>' . EOF_LINE;
+                    }
+                    else
+                    {
+                        $tag .= '                <li><a href="'. $this->getNavURL($currentDir, $this->userDir, $this->loginURL) .'" target="_top">Login</a></li>' . EOF_LINE . EOF_LINE;
+                        $tag .= '                <li><a href="'. $this->getNavURL($currentDir, $this->userDir, $this->signinURL) .'" target="_top">Sign Up</a></li>' . EOF_LINE;
+                    }
+
+                    $tag .= '                <li><a href="#" target="_top">HELP</a></li>' . EOF_LINE;
+                    $tag .= '            </ul>' . EOF_LINE;
+                    $tag .= '        </div>' . EOF_LINE;
+                }
+
+                $tag .= '    </div>' . EOF_LINE;*/
+
+                /*if($enableNav == true)
+                {
+                    $tag .= '    <div class="nav display-table">' . EOF_LINE;
+
+                    if($currentDir === "admin")
+                        $tag .= $this->getAdminNavigators($selNav);
+                    else
+                        $tag .= $this->getGeneralNavigators($currentDir, $selNav);
+
+                    $tag .= '    </div>' . EOF_LINE;
+                }*/
+
+                /// header nav for initial page, means before login.
+                $tag .= '    <div class="nav display-table">' . EOF_LINE;
+
+                if($enableNav == true)
+                {
+                    $tag .= '<div class="main-nav display-table-row">' . EOF_LINE;
+                    $tag .= '        <div class="main-nav display-table-cell">' . EOF_LINE;
+                    $tag .= '            <a href="'. $this->getNavURL($currentDir, $this->baseDir, $this->homeURL) .'">' . EOF_LINE;
+                    $tag .= '                <img src="' . $this->imagesPath . '/pm.png" alt="ptc.com" style="width: 40px; height: 40px;"/>' . EOF_LINE;
+                    $tag .= '            </a>' . EOF_LINE;
+                    $tag .= '        </div>' . EOF_LINE;
+
+                    if((isset($_SESSION['project-managment-username'])) && ($_SESSION['project-managment-username'] != ""))
+                    {
+                        $fname = $cipherObj->decrypt(getItemFromTable("first_name", "user", "user_name = '".$_SESSION['project-managment-username']."'"));
+                        $lname = $cipherObj->decrypt(getItemFromTable("last_name", "user", "user_name = '".$_SESSION['project-managment-username']."'"));
+
+                        if($currentDir === 'scrum')
+                        {
+                            $tag .= '        <div class="main-nav display-table-cell" style="width: 77%">' . EOF_LINE;
+                            $tag .= '           <ul class ="navbox">' . EOF_LINE;
+                            $tag .= '               <li>' . EOF_LINE;
+                            $tag .= '                   <a title="Product Planning" href="'. $this->getNavURL($currentDir, $this->scrumDir, $this->scrumBacklogURL) .'" target="_top">' . EOF_LINE;
+                            $tag .= '                       <span>Product Planning</span>' . EOF_LINE;
+                            //$tag .= addRightPointAngleQuotationSVG();
+                            $tag .= '                   </a>' . EOF_LINE;
+                            $tag .= '                   <ul>' . EOF_LINE;
+                            $tag .= '                       <li><a href="'. $this->getNavURL($currentDir, $this->scrumDir, $this->scrumBacklogURL) .'" target="_top">Backlog</a></li>' . EOF_LINE;
+                            $tag .= '                       <li><a href="'. $this->getNavURL($currentDir, $this->scrumDir, $this->scrumBacklogImport) .'" target="_top">Import</a></li>' . EOF_LINE;
+                            $tag .= '                   </ul>' . EOF_LINE;
+                            $tag .= '               </li>' . EOF_LINE;
+                            $tag .= '               <li>' . EOF_LINE;
+                            $tag .= '                   <a title="Release Planning" href="'. $this->getNavURL($currentDir, $this->scrumDir, $this->scrumReleasePlanURL) .'" target="_top">' . EOF_LINE;
+                            $tag .= '                   <span>Release Planning</span>' . EOF_LINE;
+                            //$tag .= addRightPointAngleQuotationSVG();
+                            $tag .= '                   </a>' . EOF_LINE;
+                            $tag .= '               </li>' . EOF_LINE;
+                            $tag .= '               <li>' . EOF_LINE;
+                            $tag .= '                   <a href="'. $this->getNavURL($currentDir, $this->scrumDir, $this->scrumSprintPlanURL) .'" target="_top">' . EOF_LINE;
+                            $tag .= '                   <span>Sprint Planning</span>' . EOF_LINE;
+                            //$tag .= addRightPointAngleQuotationSVG();
+                            $tag .= '                   </a>' . EOF_LINE;
+                            $tag .= '               </li>' . EOF_LINE;
+                            $tag .= '               <li>' . EOF_LINE;
+                            $tag .= '                   <a href="'. $this->getNavURL($currentDir, $this->scrumDir, $this->scrumSprintTrackDetailedURL) .'" target="_top">' . EOF_LINE;
+                            $tag .= '                   <span>Sprint Tracking</span>' . EOF_LINE;
+                            //$tag .= addRightPointAngleQuotationSVG();
+                            $tag .= '                   </a>' . EOF_LINE;
+                            $tag .= '                   <ul>' . EOF_LINE;
+                            $tag .= '                       <li><a href="'. $this->getNavURL($currentDir, $this->scrumDir, $this->scrumSprintTrackDetailedURL) .'" target="_top">Detailed Tracking</a></li>' . EOF_LINE;
+                            $tag .= '                       <li><a href="'. $this->getNavURL($currentDir, $this->scrumDir, $this->scrumSprintTrackStoryboardURL) .'" target="_top">Storyboard</a></li>' . EOF_LINE;
+                            $tag .= '                       <li><a href="'. $this->getNavURL($currentDir, $this->scrumDir, $this->scrumSprintTrackTaskboardURL) .'" target="_top">Taskboard</a></li>' . EOF_LINE;
+                            $tag .= '                       <li><a href="'. $this->getNavURL($currentDir, $this->scrumDir, $this->scrumSprintTrackTestboardURL) .'" target="_top">Testboard</a></li>' . EOF_LINE;
+                            $tag .= '                   </ul>' . EOF_LINE;
+                            $tag .= '               </li>' . EOF_LINE;
+                            $tag .= '               <li><a href="'. $this->getNavURL($currentDir, $this->scrumDir, $this->scrumSprintReviewURL) .'" target="_top">Sprint Review</a></li>' . EOF_LINE;
+                            $tag .= '           </ul>' . EOF_LINE;
+                            $tag .= '       </div>' . EOF_LINE;
+                        }
+                        else
+                        {
+                            $tag .= '        <div class="main-nav display-table-cell" style="width: 77%">' . EOF_LINE;
+                            $tag .= '            <ul class ="navbox">' . EOF_LINE;
+                            $tag .= '                <li><a ' . ($selNav == "HOME" ? 'class="selected"' : '') . ' href="'. $this->getNavURL($currentDir, $this->baseDir, $this->homeURL) .'" target="_top">HOME</a></li>' . EOF_LINE;
+                            $tag .= '                <li>' . EOF_LINE;
+                            $tag .= '                    <a ' . ((($selNav == "SPR Tracking-Dashboard") || ($selNav == "SPR Tracking-Submit Status") || ($selNav == "SPR Tracking-Report")) ? 'class="selected"' : '') . ' href="">SPR Tracking</a>' . EOF_LINE;
+                            $tag .= '                    <ul>' . EOF_LINE;
+                            $tag .= '                        <li><a ' . ($selNav == "SPR Tracking-Dashboard" ? 'class="selected"' : '') . ' href="'. $this->getNavURL($currentDir, $this->sprTrackingDir, $this->sprTrackingDashboardURL) .'" target="_top">Dashboard</a></li>' . EOF_LINE;
+                            $tag .= '                        <li><a ' . ($selNav == "SPR Tracking-Submit Status" ? 'class="selected"' : '') . ' href="'. $this->getNavURL($currentDir, $this->sprTrackingDir, $this->sprTrackingSubmitStatusURL) .'" target="_top">Submit Status</a></li>' . EOF_LINE;
+                            $tag .= '                        <li><a ' . ($selNav == "SPR Tracking-Report" ? 'class="selected"' : '') . ' href="'. $this->getNavURL($currentDir, $this->sprTrackingDir, $this->sprTrackingReportURL) .'" target="_top">Report</a></li>' . EOF_LINE;
+                            $tag .= '                    </ul>' . EOF_LINE;
+                            $tag .= '                </li>' . EOF_LINE;
+                            $tag .= '                <li><a ' . ($selNav == "Work Tracker" ? 'class="selected"' : '') . ' href="'. $this->getNavURL($currentDir, $this->workTrackerDir, $this->workTrackerDashboardURL) .'" target="_top">Work Tracker</a></li>' . EOF_LINE;
+                            $tag .= '                <li>' . EOF_LINE;
+                            $tag .= '                    <a ' . ((($selNav === "Scrum-Product-Planning-Backlog") || ($selNav === "Scrum-Release-Planning") || ($selNav === "Scrum-Sprint-Planning") || ($selNav === "Scrum-Sprint-Tracking-Taskboard") || ($selNav === "Scrum-Sprint-Review")) ? 'class="selected"' : '') . ' href="">Scrum</a>' . EOF_LINE;
+                            $tag .= '                    <ul>' . EOF_LINE;
+                            $tag .= '                        <li><a ' . ($selNav == "Scrum-Product-Planning-Backlog" ? 'class="selected"' : '') . ' href="'. $this->getNavURL($currentDir, $this->scrumDir, $this->scrumBacklogURL) .'" target="_top">Product Planning</a></li>' . EOF_LINE;
+                            $tag .= '                        <li><a ' . ($selNav == "Scrum-Release-Planning" ? 'class="selected"' : '') . ' href="'. $this->getNavURL($currentDir, $this->scrumDir, $this->scrumReleasePlanURL) .'" target="_top">Release Planning</a></li>' . EOF_LINE;
+                            $tag .= '                        <li><a ' . ($selNav == "Scrum-Sprint-Planning" ? 'class="selected"' : '') . ' href="'. $this->getNavURL($currentDir, $this->scrumDir, $this->scrumSprintPlanURL) .'" target="_top">Sprint Planning</a></li>' . EOF_LINE;
+                            $tag .= '                        <li><a ' . ($selNav == "Scrum-Sprint-Tracking-Taskboard" ? 'class="selected"' : '') . ' href="'. $this->getNavURL($currentDir, $this->scrumDir, $this->scrumSprintTrackDetailedURL) .'" target="_top">Sprint Tracking</a></li>' . EOF_LINE;
+                            $tag .= '                        <li><a ' . ($selNav == "Scrum-Sprint-Review" ? 'class="selected"' : '') . ' href="'. $this->getNavURL($currentDir, $this->scrumDir, $this->scrumSprintReviewURL) .'" target="_top">Sprint Review</a></li>' . EOF_LINE;
+                            $tag .= '                    </ul>' . EOF_LINE;
+                            $tag .= '                </li>' . EOF_LINE;
+                            $tag .= '                <li><a href="'. $this->getNavURL($currentDir, $this->baseDir, $this->aboutURL) .'" target="_top">About</a></li>' . EOF_LINE;
+                            $tag .= '                <li><a href="'. $this->getNavURL($currentDir, $this->baseDir, $this->contactURL) .'" target="_top">Contact us</a></li>' . EOF_LINE;
+                            $tag .= '            </ul>' . EOF_LINE;
+                            $tag .= '        </div>' . EOF_LINE;
+                        }
+
+
+                        $tag .= '        <div class="main-nav display-table-cell">' . EOF_LINE;
+                        $tag .= '            <ul class ="navbox">' . EOF_LINE;
+                        $tag .= '                <li>' . EOF_LINE;
+                        $tag .= '                    <a href="" target="_top">ADMIN</a>' . EOF_LINE;
+                        $tag .= '                    <ul style="text-align: left;">' . EOF_LINE;
+                        $tag .= '                        <li><a href="'. $this->getNavURL($currentDir, $this->adminDir, $this->overviewURL) .'" target="_top">Overview</a></li>' . EOF_LINE;
+                        $tag .= '                        <li><a href="'. $this->getNavURL($currentDir, $this->adminDir, $this->projectsURL) .'" target="_top">Projects</a></li>' . EOF_LINE;
+                        $tag .= '                        <li><a href="'. $this->getNavURL($currentDir, $this->adminDir, $this->membersURL) .'" target="_top">Members</a></li>' . EOF_LINE;
+                        $tag .= '                        <li><a href="'. $this->getNavURL($currentDir, $this->adminDir, $this->teamsURL) .'" target="_top">Teams</a></li>' . EOF_LINE;
+                        $tag .= '                        <li><a href="'. $this->getNavURL($currentDir, $this->adminDir, $this->configurationURL) .'" target="_top">Configuration</a></li>' . EOF_LINE;
+                        $tag .= '                    </ul>' . EOF_LINE;
+                        $tag .= '                </li>' . EOF_LINE;
+                        $tag .= '                <li>' . EOF_LINE;
+                        $tag .= '                    <a href="" target="_top">'.$fname.' '.$lname.'</a>' . EOF_LINE;
+                        $tag .= '                    <ul style="text-align: left;">' . EOF_LINE;
+                        $tag .= '                        <li><a href="'. $this->getNavURL($currentDir, $this->userDir, $this->profileURL) .'" target="_top">Profile</a></li>' . EOF_LINE;
+                        $tag .= '                        <li><a href="'. $this->getNavURL($currentDir, $this->userDir, $this->changePasswordURL) .'" target="_top">Change Password</a></li>' . EOF_LINE;
+                        $tag .= '                        <li><a href="'. $this->getNavURL($currentDir, $this->baseDir, $this->logoutURL) .'" target="_top">Logout</a></li>' . EOF_LINE;
+                        $tag .= '                    </ul>' . EOF_LINE;
+                        $tag .= '                </li>' . EOF_LINE;
+                        $tag .= '            </ul>' . EOF_LINE;
+                        $tag .= '        </div>' . EOF_LINE;
+                    }
+                    else
+                    {
+                        /*$tag .= '        <div class="main-nav display-table-cell" style="width: 80%">' . EOF_LINE;
+                        $tag .= '            <ul class ="navbox">' . EOF_LINE;
+                        $tag .= '                <li><a ' . ($selNav == "HOME" ? 'class="selected"' : '') . ' href="'. $this->getNavURL($currentDir, $this->baseDir, $this->homeURL) .'" target="_top">HOME</a></li>' . EOF_LINE;
+                        $tag .= '            </ul>' . EOF_LINE;
+                        $tag .= '        </div>' . EOF_LINE;*/
+                        $tag .= '<div class="main-nav display-table-cell" style="width: 80%"></div>' . EOF_LINE;
+                        $tag .= '        <div class="main-nav display-table-cell" style="text-align: center;">' . EOF_LINE;
+                        $tag .= '            <ul class ="navbox">' . EOF_LINE;
+                        $tag .= '                <li><a href="'. $this->getNavURL($currentDir, $this->userDir, $this->loginURL) .'" target="_top">Login</a></li>' . EOF_LINE . EOF_LINE;
+                        $tag .= '                <li><a href="'. $this->getNavURL($currentDir, $this->userDir, $this->signinURL) .'" target="_top">Sign Up</a></li>' . EOF_LINE;
+                        $tag .= '            </ul>' . EOF_LINE;
+                        $tag .= '        </div>' . EOF_LINE;
+                    }
+                    $tag .= '   </div>' . EOF_LINE;
+
+                    //if($currentDir === 'scrum')
+                        //$tag .= $this->getScrumNavigators($currentDir, $selNav);
+
+                    $tag .= '    </div>' . EOF_LINE;
+                }
+                $tag .= '</div>' . EOF_LINE;
+            }
+
+            return($tag);
+        }
+
         public function footer($currentDir, $hrTagFlag = true)
         {
             $tag = "";
