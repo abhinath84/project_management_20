@@ -8,7 +8,7 @@ html, body {
 body {
     margin: 0px;
     padding:0px;
-    font-family: "Proxima Nova", "Montserrat Light", monaco, verdana, arial;
+    font-family: "Open Sans", "Proxima Nova", "Montserrat Light", monaco, verdana, arial;
     font-size: 14px;
     background-color: #dde2e9;
 }
@@ -584,25 +584,26 @@ h1,h2,h3,h4,h5,h6 {
     margin-left: 6px;
 }
 
-.main-article-nav a{
+.main-article-nav a {
     color: #494d53;
-    padding-left: 10px;
-    padding-right: 10px;
+    padding-left: 15px;
+    padding-right: 15px;
     padding-top: 5px;
     padding-bottom: 5px;
 }
 
 .main-article-nav li:first-child a {
-    padding-left: 10px;
+    padding-left: 15px;
 }
 
-.main-article-nav li:hover > a{
+.main-article-nav li:hover > a {
     background-color: #e5e2e2;
 }
 
 .main-article-nav .selected-tab {
     border-top: 1px solid #ccc8c8;
-    border-left: 1px solid #ccc8c8;
+    //border-left: 1px solid #ccc8c8;
+    border-left: 3px solid #9dce0a; //#86f543; //#330fed;
     border-right: 1px solid #ccc8c8;
     color: #61666e;
     background-color: #fff;
@@ -614,11 +615,11 @@ h1,h2,h3,h4,h5,h6 {
 }
 
 .widgetbox {
-    border: 1px solid #dde2e9;
+    border: 1px solid #444; #515756; //#dde2e9;
 }
 
 .widgetbox .titlebar {
-    background-color: #dde2e9;
+    background-color: #444; //#515756; //#dde2e9;
 }
 
 .widgetbox .titlebar .header-tag{
@@ -631,6 +632,7 @@ h1,h2,h3,h4,h5,h6 {
     font-size: 1.714em;
     letter-spacing: -.025em;
     padding: 10px .5em;
+    color: #9dce0a; //#86f543;
 }
 
 .widgetbox .content {

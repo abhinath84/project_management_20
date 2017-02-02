@@ -53,18 +53,34 @@ require_once ('mysql_functions.inc.php');
  */
 abstract class HTMLTemplate
 {
+    /******************************************
+        Member Variables Block
+    ******************************************/
     private $currentDir = null;
-    private $enableNav = null;
+    private $enableNav  = null;
     private $currentNav = null;
+    private $tabItems   = null;
+    private $currentTab = null;
+
     protected $EOF_LINE = "\n";
 
-    public function __construct($curNav = null, $curDir = null, $enableNav = false)
+
+    /******************************************
+        Constructor/Destructor block
+    ******************************************/
+    public function __construct($curNav = null, $curDir = null, $enableNav = false, $tabItems = null, $currentTab = null)
     {
-        $this->currentDir  = $curDir;
-        $this->enableNav   = $enableNav;
+        $this->currentDir   = $curDir;
+        $this->enableNav    = $enableNav;
         $this->currentNav   = $curNav;
+        $this->tabItems     = $tabItems;
+        $this->currentTab   = $currentTab;
     }
 
+
+    /******************************************
+        Public methods block
+    ******************************************/
     public function generateBody()
     {
         $tag = "";
@@ -81,7 +97,47 @@ abstract class HTMLTemplate
         return($tag);
     }
 
+    public function setTabItems($tabItems)
+    {
+        $this->tabItems = $tabItems;
+    }
+
+    public function setCurrentTab($curTab)
+    {
+        $this->currentTab = $curTab;
+    }
+
+    public function getTabMenu()
+    {
+        $tag = '';
+        if(($this->tabItems != null) && (count($this->tabItems) > 0) &&
+            ($this->currentTab != null) && ($this->currentTab != ''))
+        {
+            $tag .= '<div class="main-article-nav-container display-table-row">' . $this->EOF_LINE;
+            $tag .= '    <ul class="float-box-nav main-article-nav">' . $this->EOF_LINE;
+
+            foreach($this->tabItems as $tab)
+            {
+                $tag .= '        <li><a ' . (($this->currentTab === $tab[0]) ? 'class="selected-tab"' : '') . 'href="'. $tab[1] .'" target="_top">'. $tab[0] .'</a></li>' . $this->EOF_LINE;
+            }
+
+            $tag .= '    </ul>' . $this->EOF_LINE;
+            $tag .= '</div>' . $this->EOF_LINE;
+        }
+
+        return($tag);
+    }
+
+
+    /******************************************
+        Protected methods block
+    ******************************************/
     abstract protected function addDashboard();
+
+
+    /******************************************
+        Private methods block
+    *******************************************/
 
     /**
     * Add header block.
@@ -131,19 +187,15 @@ abstract class HTMLTemplate
 
 abstract class SPRTrackHTML extends HTMLTemplate
 {
-    public function __construct($curNav = null, $curDir = null, $enableNav = false)
+    public function __construct($curNav = null, $curDir = null, $enableNav = false, $currentTab = null)
     {
-        parent::__construct($curNav, $curDir, $enableNav);
-    }
+        $tabs = array
+                      (
+                        array('Dashboard', 'dashboard.php'), array('Submission Status', 'submit_status.php'),
+                        array('Report', 'report.php'), array('Import', 'spr_import.php')
+                      );
 
-    protected function getTabMenu($currentTab)
-    {
-        $lists = array(array('Dashboard', 'dashboard.php'), array('Submission Status', 'submit_status.php'),
-                        array('Report', 'report.php'), array('Import', 'spr_import.php'));
-
-        $tag = Utility::getTabMenu($currentTab, $lists);
-
-        return($tag);
+        parent::__construct($curNav, $curDir, $enableNav, $tabs, $currentTab);
     }
 }
 
@@ -1171,14 +1223,14 @@ class SPRTrackDashboardHTML extends SPRTrackHTML
 {
     public function __construct($curNav = null, $curDir = null, $enableNav = false)
     {
-        parent::__construct("SPR Tracking-Dashboard", "spr_tracking", true);
+        parent::__construct("SPR Tracking-Dashboard", "spr_tracking", true, "Dashboard");
     }
 
     protected function addDashboard()
     {
         $tag = '';
         $tag .= '<div class="main-article display-table article-container">' . $this->EOF_LINE;
-        $tag .=     parent::getTabMenu("Dashboard");
+        $tag .=     parent::getTabMenu();
 
         $tag .= '   <div class="main-article-tab-container display-table-row">' . $this->EOF_LINE;
         $tag .= '       <div class="main-article-tab-info-container">' . $this->EOF_LINE;
@@ -1286,7 +1338,7 @@ class SPRTrackSubmitStatusHTML extends SPRTrackHTML
 {
     public function __construct($curNav = null, $curDir = null, $enableNav = false)
     {
-        parent::__construct("SPR Tracking-Submit Status", "spr_tracking", true);
+        parent::__construct("SPR Tracking-Submit Status", "spr_tracking", true, "Submission Status");
     }
 
     protected function addDashboard()
@@ -1294,7 +1346,7 @@ class SPRTrackSubmitStatusHTML extends SPRTrackHTML
         $tag = '';
         $tag .= '<div class="main-article display-table article-container">' . $this->EOF_LINE;
 
-        $tag .=     parent::getTabMenu("Submission Status");
+        $tag .=     parent::getTabMenu();
 
         $tag .= '   <div class="main-article-tab-container display-table-row">' . $this->EOF_LINE;
         $tag .= '       <div class="main-article-tab-info-container">' . $this->EOF_LINE;
@@ -1438,7 +1490,13 @@ class ScrumPPBHTML extends HTMLTemplate
 {
     public function __construct($curNav = null, $curDir = null, $enableNav = false)
     {
-    parent::__construct("Scrum-Product-Planning-Backlog", "scrum", true);
+        $tabs = array
+                      (
+                        array('Backlog', 'product_plan_backlog.php'),
+                        array('Import', 'product_plan_backlog_import.php')
+                      );
+
+        parent::__construct("Scrum-Product-Planning-Backlog", "scrum", true, $tabs, 'Backlog');
     }
 
     protected function addDashboard()
@@ -1467,7 +1525,7 @@ class ScrumPPBHTML extends HTMLTemplate
         $tag .= '    </div>'. $this->EOF_LINE;
         $tag .= '    <div class="main-article display-table">'. $this->EOF_LINE;
 
-        $tag .=         $this->getTabMenu('Backlog');
+        $tag .=         parent::getTabMenu();
 
         $tag .= '        <div class="main-article-tab-container display-table-row">'. $this->EOF_LINE;
         $tag .= '            <div class="main-article-tab-info-container">'. $this->EOF_LINE;
@@ -1526,15 +1584,6 @@ class ScrumPPBHTML extends HTMLTemplate
         $tag .= '        </div>'. $this->EOF_LINE;
         $tag .= '    </div>'. $this->EOF_LINE;
         $tag .= '</div>'. $this->EOF_LINE;
-
-        return($tag);
-    }
-
-    protected function getTabMenu($currentTab)
-    {
-        $lists = array(array('Backlog', 'product_plan_backlog.php'), array('Import', 'product_plan_backlog_import.php'));
-
-        $tag = Utility::getTabMenu($currentTab, $lists);
 
         return($tag);
     }
@@ -1637,7 +1686,14 @@ class SprintTrackTaskboardHTML extends HTMLTemplate
 {
     public function __construct($curNav = null, $curDir = null, $enableNav = false)
     {
-    parent::__construct("Scrum-Sprint-Tracking-Taskboard", "scrum", true);
+        $tabs = array
+                      (
+                        array('Detailed Tracking', 'sprint_track_detail.php'),
+                        array('Storyboard', 'sprint_track_storyboard.php'),
+                        array('Taskboard', 'sprint_track_taskboard.php'), array('Testboard', 'sprint_track_testboard.php')
+                      );
+
+        parent::__construct("Scrum-Sprint-Tracking-Taskboard", "scrum", true, $tabs, 'Taskboard');
     }
 
     protected function addDashboard()
@@ -1645,7 +1701,7 @@ class SprintTrackTaskboardHTML extends HTMLTemplate
         $tag = '';
         $tag .= '<div class="main-article display-table">' . $this->EOF_LINE;
 
-        $tag .= $this->getTabMenu('Taskboard');
+        $tag .= parent::getTabMenu();
 
         $tag .= '<div class="main-article-tab-container display-table-row">' . $this->EOF_LINE;
         $tag .= '   <div class="main-article-tab-info-container">' . $this->EOF_LINE;
@@ -1928,16 +1984,6 @@ class SprintTrackTaskboardHTML extends HTMLTemplate
         $tag .= '</div>' . $this->EOF_LINE;
         $tag .= '</div>' . $this->EOF_LINE;
         $tag .= '</div>' . $this->EOF_LINE;
-
-        return($tag);
-    }
-
-    protected function getTabMenu($currentTab)
-    {
-        $lists = array(array('Detailed Tracking', 'sprint_track_detail.php'), array('Storyboard', 'sprint_track_storyboard.php'),
-                        array('Taskboard', 'sprint_track_taskboard.php'), array('Testboard', 'sprint_track_testboard.php'));
-
-        $tag = Utility::getTabMenu($currentTab, $lists);
 
         return($tag);
     }

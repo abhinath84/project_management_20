@@ -2,70 +2,59 @@
     /* include header file */
     require_once ('htmltemplate.php');
 
-    abstract class adminHTML extends HTMLTemplate
+    abstract class AdminHTML extends HTMLTemplate
     {
-        protected $tabItems = null;
-        protected $table = null;
+        protected $table        = null;
         protected $dropdownList = null;
-        protected $currentTab = null;
 
-        public function __construct($curNav = null, $curDir = null, $enableNav = false, $currentTab = null)
+        public function __construct($curNav = null, $curDir = null, $enableNav = false, $tabItems = null, $currentTab = null)
         {
-            parent::__construct($curNav, $curDir, $enableNav);
-
-            $this->currentTab = $currentTab;
+            parent::__construct($curNav, $curDir, $enableNav, $tabItems, $currentTab);
         }
 
         abstract protected function fillDashboard();
 
         protected function addDashboard()
         {
-            $tag = "";
+            $tag = '';
             $tag .= '<div class="main-article display-table article-container">' . $this->EOF_LINE;
-            $tag .=     $this->getTabMenu();
+            $tag .=     parent::getTabMenu();
             $tag .=     $this->fillDashboard();
             $tag .= '</div>' . $this->EOF_LINE;
 
             return($tag);
         }
-
-        private function getTabMenu()
-        {
-            $tag = Utility::getTabMenu($this->currentTab, $this->tabItems);
-
-            return($tag);
-        }
     }
 
-    abstract class ProjectHTML extends adminHTML
+    abstract class ProjectHTML extends AdminHTML
     {
         public function __construct($curNav = null, $curDir = null, $enableNav = false, $currentTab = null)
         {
-            parent::__construct($curNav, $curDir, $enableNav, $currentTab);
+            $tabs = array
+                            (
+                                array('Projects', 'projects.php'),
+                                array('Sprint Schedules', 'sprint_schedules.php'),
+                                array('Member Roles', 'member_roles.php'),
+                                array('Programs', 'programs.php')
+                            );
 
-            $this->tabItems = array
-                                (
-                                    array('Projects', 'projects.php'),
-                                    array('Sprint Schedules', 'sprint_schedules.php'),
-                                    array('Member Roles', 'member_roles.php'),
-                                    array('Programs', 'programs.php')
-                                );
+            parent::__construct($curNav, $curDir, $enableNav, $tabs, $currentTab);
         }
     }
 
-    abstract class MemberHTML extends adminHTML
+    abstract class MemberHTML extends AdminHTML
     {
         public function __construct($curNav = null, $curDir = null, $enableNav = false, $currentTab = null)
         {
-            parent::__construct($curNav, $curDir, $enableNav, $currentTab);
+            $tabItems = array
+                            (
+                                array('Members', 'members.php'),
+                                array('Project Assignmemnt', 'projecct_assignment.php'),
+                                array('Project Roles', 'project_roles.php')/*,
+                                array('Member Groups', 'member_groups.php')*/
+                            );
 
-            $this->tabItems = array
-                                (
-                                    array('Members', 'members.php'),
-                                    array('Project Assignmemnt', 'projecct_assignment.php'),
-                                    array('Project Roles', 'project_roles.php')/*,
-                                    array('Member Groups', 'member_groups.php')*/
-                                );
+            parent::__construct($curNav, $curDir, $enableNav, $tabItems, $currentTab);
         }
     }
 
