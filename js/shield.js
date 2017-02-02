@@ -486,6 +486,242 @@ var shieldProject = {
     }
 };
 
+var shieldMembers = {
+    info : {
+        member_id       : "",
+        privilage       : "",
+        privilageList   : Array(),
+        projects        : "",
+
+        setDefult: function() {
+            this.member_id      = "";
+            this.privilage      = "Team Member";
+            this.projects       = "";
+
+            this.privilageList.length = 0;
+            var enums = utility.getEnumOptions('scrum_member', 'privilage');
+            for(var i in enums)
+                this.privilageList.push([enums[i], enums[i]]);
+        }
+    },
+
+    getUsers: function(inputObj) {
+        if(inputObj != null) {
+            var memberListContainer = document.getElementById('member-list-container');
+            if(memberListContainer != null) {
+                document.getElementById('member-form-container').onclick= function() { shieldMembers.showHideMemberList(false); }
+
+                // reset div values.
+                utility.clearTag('member-list-container');
+
+                // show the div in proper place.
+                memberListContainer.style.position = "absolute";
+                memberListContainer.style.display = "none";
+                memberListContainer.style.backgroundColor = "white";
+                memberListContainer.style.width = "150px";
+
+                // get input value
+                var userName = inputObj.value;
+                if((userName != null) && (userName != '')) {
+                    // get users from server.
+                    var users = utility.getUsers(userName);
+                    if((users != null) && (users.length > 0)) {
+                        var userListTag = '';
+
+                        // update user display div
+                        userListTag += '<ul>' + utility.EOF_LINE;
+                        for(var i in users)
+                            userListTag += '<li onclick="shieldMembers.setUserFromOptions(this)">' + users[i] + '</li>' + utility.EOF_LINE;
+                        userListTag += '</ul>' + utility.EOF_LINE;
+
+                        memberListContainer.innerHTML = userListTag;
+                        // show the div in proper place.
+                        memberListContainer.style.display = "block";
+                    }
+                }
+            }
+        }
+    },
+
+    showHideMemberList: function(show) {
+        /// show/hide member list container
+        if(show)
+            document.getElementById('member-list-container').style.display = "block";
+        else
+            document.getElementById('member-list-container').style.display = "none";
+    },
+
+    setUserFromOptions: function(selectOptionsObj) {
+        if(selectOptionsObj != null) {
+
+            var userName = selectOptionsObj.innerHTML;
+            if((userName != null) && (userName != '')) {
+                document.getElementById('member_id-input').value = userName;
+            }
+
+            /// hide member list container.
+            this.showHideMemberList(false);
+        }
+    },
+
+    fillTitle: function () {
+        // fill all the toolbar related infomation before move on.
+        shieldDialog.toolBar.title = "Members";
+        shieldDialog.toolBar.imgIconClass = "sprint-schedule-icon-img";
+    },
+
+    fillTable: function () {
+        var inputTag = '';
+
+        // fill all infomation of dialog form.
+        // reset before use.
+        shieldDialog.formTable.clear();
+
+        /// Member field
+        inputTag += '<input style="width: 400px;" type="text" id="member_id-input" name="member_id" value="' + this.info.member_id + '" onkeyup="shieldMembers.getUsers(this)"/>';
+        inputTag += '<span class="red-asterisk">*</span>';
+        inputTag += '<div class="retro-style-errmsg" id="member_id-errmsg"></div>';
+        inputTag += '<div id="member-list-container"></div>';
+        shieldDialog.formTable.add('Member', inputTag);
+
+        /// Assign member to Project field
+        var selectProjects = Array();
+        selectProjects.push(['', '']);
+
+        var projects = utility.getScrumProject();
+        for(var i in projects){
+            if(projects[i] != 'System(All Projects)')
+                selectProjects.push([projects[i], projects[i]]);
+        }
+
+        inputTag = utility.getRetroSelect('project-select', selectProjects, this.info.privilage, '', 'session-select', 'session-container');
+        shieldDialog.formTable.add('Assign member to Project', inputTag);
+
+        /// Admin Privilage field
+        inputTag = utility.getRetroSelect('privilage-select', this.info.privilageList, this.info.privilage, '', 'session-select', 'session-container');
+        shieldDialog.formTable.add('Admin Privilage', inputTag);
+    },
+
+    getFormData: function () {
+        return({
+                'member_id'     : $('#member_id-input').val(),
+                'project'       : $('#project-select').val(),
+                'privilage'     : $('#privilage-select').val()
+        });
+    },
+
+    onclickSaveSuccessFunc: function (data) {
+        // hide the dialog
+        shield.show(false);
+
+        // update sprint schedule list.
+        utility.updateDashboradTable('member-tbody', 'fillMembersTable', '');
+    },
+
+    onclickSaveErrorFunc: function (data) {
+        // reset error msg container.
+        utility.clearTag('member_id-errmsg');
+
+        var memberErrMsg = document.getElementById('member_id-errmsg');
+        memberErrMsg.innerHTML = '<span>'+ data['errors'][0] +'</span>' + utility.EOF_LINE;
+        memberErrMsg.style.display = 'block';
+    },
+
+    onclickSave: function (tbodyId) {
+        var memberErrMsg = document.getElementById('member_id-errmsg');
+        if(memberErrMsg != null) {
+            // reset 'member_id-errmsg' div.
+            utility.clearTag('member_id-errmsg');
+            memberErrMsg.style.display = 'none';
+
+            // check member field is blank or not?
+            var memberId = document.getElementById('member_id-input').value;
+            if((memberId != null) && (memberId != '')) {
+
+                var formData = this.getFormData();
+                var data = {
+                    url             : "../ajax/default.php",
+                    callbackFunc    : 'addMemberCallback',
+                    formData        : formData,
+                    successFunc     : shieldMembers.onclickSaveSuccessFunc,
+                    errorFunc       : shieldMembers.onclickSaveErrorFunc,
+                    failFunc        : null
+                };
+
+                // Update DB according to the input and also update sprint schedule list in the display.
+                utility.ajax.serverRespond(data);
+            }
+            else {
+                memberErrMsg.innerHTML = '<span>Please enter member.</span>' + utility.EOF_LINE;
+                memberErrMsg.style.display = 'block';
+            }
+        }
+    },
+
+    onclickCancel: function() {
+        shield.show(false);
+    },
+
+    openAddDialog: function (tbodyId) {
+        this.info.setDefult();
+
+        // fill all infomation of dialog title(toolBar).
+        this.fillTitle();
+
+        // reset and add button for dialog
+        shieldDialog.toolBar.toolbarBtns.clear();
+        shieldDialog.toolBar.toolbarBtns.add('submit-btns', 'retro-style red add-spr', 'Cancel', 'onclick="shieldMembers.onclickCancel()"');
+        shieldDialog.toolBar.toolbarBtns.add('submit-btns', 'retro-style green-bg add-spr', 'Save', 'onclick="shieldMembers.onclickSave()"');
+
+        // fill all infomation of dialog form.
+        this.fillTable();
+
+        shield.openDialog(this, false, 'member-form-container', shieldDialog.getTag);
+    },
+
+    openEditDialog: function (Id, tbodyId, isCallingFromDropMenu) {
+
+        /*var key = '';
+        var divObj = document.getElementById(Id).children[0];
+
+        if(isCallingFromDropMenu) {
+            key = document.getElementById(divObj.innerHTML).children[0].innerHTML;
+            document.getElementById(Id).style.display = "none";
+        } else {
+            key = divObj.innerHTML;
+        }
+
+        if((key != null) && (key != "")) {
+            // update this.info and open dialog with updated infomsg
+            this.info.title = document.getElementById(key + "-title").innerHTML;
+
+            var lenStr = document.getElementById(key + "-length").innerHTML;
+            var res = lenStr.split(" ");
+            this.info.length = res[0]; //"1";
+            this.info.length_unit = res[1];
+
+            lenStr = document.getElementById(key + "-gap").innerHTML;
+            res = lenStr.split(" ");
+            this.info.gap = res[0]; //"2";
+            this.info.gap_unit = res[1];
+            this.info.description = document.getElementById(key + "-description").innerHTML; //"Base Sprint Schedule";
+
+            // reset and add button for dialog
+            shieldDialog.toolBar.toolbarBtns.clear();
+            shieldDialog.toolBar.toolbarBtns.add('submit-btns', 'retro-style red add-spr', 'Cancel', 'onclick="shieldSprintSchedule.onclickCancel(\''+ tbodyId +'\')"');
+            shieldDialog.toolBar.toolbarBtns.add('submit-btns', 'retro-style green-bg add-spr', 'Save', 'onclick="shieldSprintSchedule.onclickSave(\''+ tbodyId +'\')"');
+
+            // fill all infomation of dialog title(toolBar).
+            this.fillTitle();
+
+            // fill all infomation of dialog form.
+            this.fillTable();*/
+
+            shield.openDialog(this, false, 'member-form-container', this.createDialog);
+        //}
+    }
+}
+
 /* object to create dialog for shield popup. */
 var shieldDialog = {
     toolBar : {

@@ -10,6 +10,7 @@
     {
         private static $EOF_LINE = "\n";
         private static $cipher; //= new Cipher($key);
+
         /*
             $lists = array(array(<val>, <href>), ...)
         */
@@ -81,8 +82,7 @@
             if(
                 (($selectId != null) && ($selectId != '')) &&
                 (($selectOptions != null) && (count($selectOptions) > 0)) &&
-                (($selectedItem != null) && ($selectedItem != '')) &&
-                (($selectEvent != null) && ($selectEvent != ''))
+                (($selectedItem != null) && ($selectedItem != ''))
               )
             {
                 $tag .= '<div class="retro-style-select-container '. $containerClass .'">' . self::$EOF_LINE;

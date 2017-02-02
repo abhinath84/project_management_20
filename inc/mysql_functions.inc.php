@@ -207,6 +207,24 @@
         return($result);
     }
 
+    function getUsers($like)
+    {
+        global $conn;
+        global $cipherObj;
+        $users = array();
+
+        $qry = "SELECT user_name FROM user ORDER BY user_name DESC";
+        $rows = $conn->result_fetch_array($qry);
+        foreach($rows as $row)
+        {
+            $userName = $cipherObj->decrypt($row[0]);
+            if (strpos($userName, $like) !== false)
+                array_push($users, $userName);
+        }
+
+        return($users);
+    }
+
     function getItemFromTable($item, $table, $clause)
     {
         global $conn;
@@ -436,5 +454,52 @@
             return(true);
         else
             return(false);
+    }
+
+    function getScrumProjects()
+    {
+        global $conn;
+        $projectList = array();
+
+        $qry = "SELECT title FROM scrum_project  WHERE parent = 'System(All Projects)' AND owner = '". $_SESSION['project-managment-username'] ."'";
+
+        $rows = $conn->result_fetch_array($qry);
+        foreach($rows as $row)
+            array_push($projectList, $row[0]);
+
+        return($projectList);
+    }
+
+    /*
+        Return member information in decrypted form and return format as follows.
+        return = array(
+                        array(first name, last name, email, privilage), ...
+                      )
+    */
+    function getScrumMembers($member)
+    {
+        global $conn;
+        global $cipherObj;
+        $users = array();
+
+        $qry = "SELECT user.first_name, user.last_name, user.user_name, user.email, scrum_member.privilage FROM user INNER JOIN scrum_member ON scrum_member.member_id = user.user_name";
+        if(($member != null) && ($member != ''))
+            $qry .=" AND scrum_member.member_id = '" . $cipherObj->encrypt($member) . "'";
+        $qry .=" ORDER BY user.user_name DESC";
+
+        $rows = $conn->result_fetch_array($qry);
+        foreach($rows as $row)
+        {
+            $each = array (
+                            $cipherObj->decrypt($row[0]),
+                            $cipherObj->decrypt($row[1]),
+                            $cipherObj->decrypt($row[2]),
+                            $cipherObj->decrypt($row[3]),
+                            $row[4]
+                        );
+            array_push($users, $each);
+        }
+
+        return($users);
     }
 ?>

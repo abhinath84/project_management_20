@@ -581,9 +581,41 @@
             $tag .= $table->getTBodyElementHTML();
         }
 
-        //echo $tag;
-
         return(utf8_encode($tag));
+    }
+
+    function fillMembersTable()
+    {
+        $table = new HTMLTable("member-table", "grippy-table");
+        $table->tbody("member-tbody");
+
+        $rows = getScrumMembers('');
+        if(!empty($rows))
+        {
+            // loop over the result and fill the rows
+            $inx = 1;
+            foreach($rows as $row)
+            {
+                $name = $row[0] . ' ' .$row[1];
+                $table->tr("{$inx}-project-tr");
+                    $table->td(getGreppyDotTag(), "1-greppy", "hasGrippy", "text-align:center;", "width=\"1%\"");
+                    $table->td($name, "{$inx}-name", "project-title-td", null, "width=\"34%\"");
+                    $table->td($row[2], "{$inx}-username", null, null, "width=\"20%\"");
+                    $table->td("{$row[4]}", "{$inx}-privilage", null, null, "width=\"20%\"");
+                    $table->td($row[3], "{$inx}-end_date", null, null, "width=\"20%\"");
+                    $table->td('&nbsp;', "{$inx}-member-edit", null, null, "width=\"2%\"");
+                    //$table->td(Utility::getQuickActionBtn("{$inx}-member-edit-btn", "Edit", "project-td-btn", "onclick=\"shieldProject.openEditDialog('{$inx}-member-edit-btn', 'member-tbody', false)\"", "{$inx}", "member-edit-dropdown"), "{$inx}-member-edit", null, null, "width=\"2%\"");
+
+                $inx++;
+            }
+        }
+        else
+        {
+            $table->tr(null, null, null, "align=\"center\"");
+                $table->td("<p>No result !!!</p>", "no-result", null, null, null);
+        }
+
+        return(utf8_encode($table->getTBodyElementHTML()));
     }
 
     function getWorkTrackerCount($day)

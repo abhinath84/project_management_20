@@ -22,7 +22,7 @@
         {
             $tag = "";
             $tag .= '<div class="main-article display-table article-container">' . $this->EOF_LINE;
-            $tag .=     $this->getTabMenu("Projects");
+            $tag .=     $this->getTabMenu();
             $tag .=     $this->fillDashboard();
             $tag .= '</div>' . $this->EOF_LINE;
 
@@ -216,7 +216,7 @@
         {
             $str = "";
 
-            $qry = "SELECT title, owner, begin_date, end_date, sprint_schedule, parent, description, status, target_estimate, test_suit, target_swag, reference FROM scrum_project  WHERE (owner = '". $_SESSION['project-managment-username'] ."') OR (title IN (SELECT project_title FROM scrum_project_member WHERE member_id='". $_SESSION['project-managment-username'] ."'))";
+            $qry = "SELECT title, owner, begin_date, end_date, sprint_schedule, parent, description, status, target_estimate, test_suit, target_swag, reference FROM scrum_project  WHERE parent = 'System(All Projects)' AND ((owner = '". $_SESSION['project-managment-username'] ."') OR (title IN (SELECT project_title FROM scrum_project_member WHERE member_id='". $_SESSION['project-managment-username'] ."')))";
 
             // fill table components to display Sprint Schedule.
             // add table header
@@ -263,25 +263,28 @@
                     $inx = 1;
                     foreach($rows as $row)
                     {
-                        $this->table->tr(null, null, null, "align=\"center\"");
-                            $this->table->td(getGreppyDotTag(), "1-greppy", "hasGrippy", "text-align:center;", "width=\"1%\"");
-                            $this->table->td($this->getProjectTitle($inx, $row[0], false), "{$inx}-title", "project-title-td", null, "width=\"25%\"");
-                            $this->table->td(Utility::decode($row[1]), "{$inx}-owner", null, null, "width=\"18%\"");
-                            $this->table->td("{$row[2]}", "{$inx}-begin_date", null, null, "width=\"10%\"");
-                            $this->table->td("{$row[3]}", "{$inx}-end_date", null, null, "width=\"10%\"");
-                            $this->table->td("{$row[4]}", "{$inx}-sprint_schedule", null, null, "width=\"25%\"");
+                        if($row[0] != 'System(All Projects)')
+                        {
+                            $this->table->tr(null, null, null, "align=\"center\"");
+                                $this->table->td(getGreppyDotTag(), "1-greppy", "hasGrippy", "text-align:center;", "width=\"1%\"");
+                                $this->table->td($this->getProjectTitle($inx, $row[0], false), "{$inx}-title", "project-title-td", null, "width=\"25%\"");
+                                $this->table->td(Utility::decode($row[1]), "{$inx}-owner", null, null, "width=\"18%\"");
+                                $this->table->td("{$row[2]}", "{$inx}-begin_date", null, null, "width=\"10%\"");
+                                $this->table->td("{$row[3]}", "{$inx}-end_date", null, null, "width=\"10%\"");
+                                $this->table->td("{$row[4]}", "{$inx}-sprint_schedule", null, null, "width=\"25%\"");
 
-                            $this->table->td("{$row[5]}", "{$inx}-parent", null, "display: none;");
-                            $this->table->td("{$row[6]}", "{$inx}-description", null, "display: none;");
-                            $this->table->td("{$row[7]}", "{$inx}-status", null, "display: none;");
-                            $this->table->td("{$row[8]}", "{$inx}-target_estimate", null, "display: none;");
-                            $this->table->td("{$row[9]}", "{$inx}-test_suit", null, "display: none;");
-                            $this->table->td("{$row[10]}", "{$inx}-target_swag", null, "display: none;");
-                            $this->table->td("{$row[11]}", "{$inx}-reference", null, "display: none;");
+                                $this->table->td("{$row[5]}", "{$inx}-parent", null, "display: none;");
+                                $this->table->td("{$row[6]}", "{$inx}-description", null, "display: none;");
+                                $this->table->td("{$row[7]}", "{$inx}-status", null, "display: none;");
+                                $this->table->td("{$row[8]}", "{$inx}-target_estimate", null, "display: none;");
+                                $this->table->td("{$row[9]}", "{$inx}-test_suit", null, "display: none;");
+                                $this->table->td("{$row[10]}", "{$inx}-target_swag", null, "display: none;");
+                                $this->table->td("{$row[11]}", "{$inx}-reference", null, "display: none;");
 
-                            $this->table->td(Utility::getQuickActionBtn("{$inx}-project-edit-btn", "Add Child Project", "project-td-btn", "onclick=\"shieldProject.openAddDialog('{$inx}-project-edit-btn', 'project-tbody', false)\"", "{$inx}", "project-table-dropdown"), "project-edit", null, null, "width=\"5%\"");
+                                $this->table->td(Utility::getQuickActionBtn("{$inx}-project-edit-btn", "Add Child Project", "project-td-btn", "onclick=\"shieldProject.openAddDialog('{$inx}-project-edit-btn', 'project-tbody', false)\"", "{$inx}", "project-table-dropdown"), "project-edit", null, null, "width=\"5%\"");
 
-                        $inx++;
+                            $inx++;
+                        }
                     }
                 }
                 else
@@ -465,7 +468,7 @@
             $str = "";
             $this->table = new HTMLTable("project-table", "grippy-table");
 
-            $qry = "SELECT title, owner, begin_date, end_date FROM scrum_project  WHERE (owner = '". $_SESSION['project-managment-username'] ."') OR (title IN (SELECT project_title FROM scrum_project_member WHERE member_id='". $_SESSION['project-managment-username'] ."'))";
+            $qry = "SELECT title, owner, begin_date, end_date, sprint_schedule, parent, description, status, target_estimate, test_suit, target_swag, reference FROM scrum_project  WHERE parent = 'System(All Projects)' AND ((owner = '". $_SESSION['project-managment-username'] ."') OR (title IN (SELECT project_title FROM scrum_project_member WHERE member_id='". $_SESSION['project-managment-username'] ."')))";
 
             // fill table components to display Sprint Schedule.
             // add table header
@@ -541,15 +544,18 @@
                     $inx = 1;
                     foreach($rows as $row)
                     {
-                        $this->table->tr("{$inx}-project-tr");
-                            $this->table->td(getGreppyDotTag(), "1-greppy", "hasGrippy", "text-align:center;", "width=\"1%\"");
-                            $this->table->td($this->getProjectTitle($inx, $row[0], false), "{$inx}-title", "project-title-td", null, "width=\"32%\"");
-                            $this->table->td(Utility::decode($row[1]), "{$inx}-owner", null, null, "width=\"20%\"");
-                            $this->table->td("{$row[2]}", "{$inx}-begin_date", null, null, "width=\"20%\"");
-                            $this->table->td("{$row[3]}", "{$inx}-end_date", null, null, "width=\"20%\"");
-                            $this->table->td(Utility::getRetroButton('Manage', 'iris-blue', 'onclick="memberRoles.showMemberTable(\''.$inx. '\')"'), null, null, null, "width=\"6%\"");
+                        if($row[0] != 'System(All Projects)')
+                        {
+                            $this->table->tr("{$inx}-project-tr");
+                                $this->table->td(getGreppyDotTag(), "1-greppy", "hasGrippy", "text-align:center;", "width=\"1%\"");
+                                $this->table->td($this->getProjectTitle($inx, $row[0], false), "{$inx}-title", "project-title-td", null, "width=\"32%\"");
+                                $this->table->td(Utility::decode($row[1]), "{$inx}-owner", null, null, "width=\"20%\"");
+                                $this->table->td("{$row[2]}", "{$inx}-begin_date", null, null, "width=\"20%\"");
+                                $this->table->td("{$row[3]}", "{$inx}-end_date", null, null, "width=\"20%\"");
+                                $this->table->td(Utility::getRetroButton('Manage', 'iris-blue', 'onclick="memberRoles.showMemberTable(\''.$inx. '\')"'), null, null, null, "width=\"6%\"");
 
-                        $inx++;
+                            $inx++;
+                        }
                     }
                 }
                 else
@@ -616,38 +622,111 @@
         public function __construct($curNav = null, $curDir = null, $enableNav = false)
         {
             parent::__construct("Members", "admin", true, "Members");
+
+            $this->dropdownList = array
+                                  (
+                                      array("Edit", ""),
+                                      array("Inactive", "")
+                                  );
         }
 
         protected function fillDashboard()
         {
-            $tag = "";
+            $tag = '';
 
-            $tag .= '   <div class="main-article-tab-container display-table-row">' . $this->EOF_LINE;
-            $tag .= '       <div class="main-article-tab-info-container">' . $this->EOF_LINE;
-
-            $tag .=             Utility::getArticleTitle('Members');
-
-            $tag .= '               <div id="project-table-container" class="project-container">' . $this->EOF_LINE;
-            $tag .= '                   <div style="float: right; margin-right: 25px;">' . $this->EOF_LINE;
-            $tag .=                         Utility::getRetroButton('Add Member', 'green', 'onclick="members.addMembers();"');
-            $tag .= '                   </div>' . $this->EOF_LINE;
-            $tag .= '                   <div id="member-table-container" style="clear: both;">' . $this->EOF_LINE;
-            $tag .=                         $this->getMemberTable();
-            $tag .= '                   </div>' . $this->EOF_LINE;
-            $tag .= '               </div>' . $this->EOF_LINE;
-            $tag .= '       </div>' . $this->EOF_LINE;
+            $tag .= '<div class="main-article-tab-container display-table-row">' . $this->EOF_LINE;
+            $tag .= '   <div class="main-article-tab-info-container member-role-info-container">' . $this->EOF_LINE;
+            $tag .=         Utility::getWidgetBox('Members', 'member-div', '', '', '', $this->getWidgetContent());
             $tag .= '   </div>' . $this->EOF_LINE;
+            $tag .= '</div>' . $this->EOF_LINE;
+
+            return($tag);
+        }
+
+        private function getWidgetContent()
+        {
+            $tag = '';
+
+            $tag .= '<div id="member-form-container"></div>' . $this->EOF_LINE;
+            $tag .= Utility::getQuickActionBtnDropdown('member-edit-dropdown', $this->dropdownList);
+            $tag .= '<div style="float: right; margin-right: 25px;">' . $this->EOF_LINE;
+            $tag .=     Utility::getRetroButton('Add Member', 'green', 'onclick="shieldMembers.openAddDialog(\'member-tbody\');"');
+            $tag .= '</div>' . $this->EOF_LINE;
+            $tag .= '<div id="member-table-container" style="clear: both;">' . $this->EOF_LINE;
+            $tag .=     $this->getMemberTable();
+            $tag .= '</div>' . $this->EOF_LINE;
 
             return($tag);
         }
 
         private function getMemberTable()
         {
-            $tag = '';
+            $str = "";
 
-            $tag .= '                       <p>#block for Table</p>' . $this->EOF_LINE;
+            $this->table = new HTMLTable("member-table", "grippy-table");
+            // fill table components to display Sprint Schedule.
+            // add table header
+            $this->fillTableHead();
+            // add Table body
+            $this->fillTableBody();
 
-            return($tag);
+            return(utf8_encode($this->table->toHTML()));
+        }
+
+        public function fillTableHead()
+        {
+            if($this->table != null)
+            {
+                $thList = array
+                                (
+                                    array("&nbsp;", null, null, null, null),
+                                    array('Name', null, null, null, 'data-sort="string"'),
+                                    array("Username", null,  null, null, 'data-sort="string"'),
+                                    array("Admin Privilage", null, null, null, null),
+                                    array("Email", null, null, null, null),
+                                    array("&nbsp;", null, null, null, null)
+                                );
+
+                // add table header
+                $this->table->thead('member-thead');
+                foreach($thList as $th)
+                    $this->table->th($th[0], $th[1], $th[2], $th[3], $th[4]);
+            }
+        }
+
+        public function fillTableBody()
+        {
+            if($this->table != null)
+            {
+                // add Table body
+                $this->table->tbody("member-tbody");
+
+                $rows = getScrumMembers('');
+                if(!empty($rows))
+                {
+                    // loop over the result and fill the rows
+                    $inx = 1;
+                    foreach($rows as $row)
+                    {
+                        $name = $row[0] . ' ' .$row[1];
+                        $this->table->tr("{$inx}-project-tr");
+                            $this->table->td(getGreppyDotTag(), "1-greppy", "hasGrippy", "text-align:center;", "width=\"1%\"");
+                            $this->table->td($name, "{$inx}-name", "project-title-td", null, "width=\"34%\"");
+                            $this->table->td($row[2], "{$inx}-username", null, null, "width=\"20%\"");
+                            $this->table->td("{$row[4]}", "{$inx}-privilage", null, null, "width=\"20%\"");
+                            $this->table->td($row[3], "{$inx}-end_date", null, null, "width=\"20%\"");
+                            $this->table->td('&nbsp;', "{$inx}-member-edit", null, null, "width=\"2%\"");
+                            //$this->table->td(Utility::getQuickActionBtn("{$inx}-member-edit-btn", "Edit", "project-td-btn", "onclick=\"shieldProject.openEditDialog('{$inx}-member-edit-btn', 'member-tbody', false)\"", "{$inx}", "member-edit-dropdown"), "{$inx}-member-edit", null, null, "width=\"2%\"");
+
+                        $inx++;
+                    }
+                }
+                else
+                {
+                    $this->table->tr(null, null, null, "align=\"center\"");
+                        $this->table->td("<p>No result !!!</p>", "no-result", null, null, null);
+                }
+            }
         }
     }
 
@@ -695,7 +774,7 @@
     {
         public function __construct($curNav = null, $curDir = null, $enableNav = false)
         {
-            parent::__construct("Members", "admin", true, "Members");
+            parent::__construct("Members", "admin", true, "Project Roles");
         }
 
         protected function fillDashboard()
@@ -725,7 +804,7 @@
         {
             $tag = '';
 
-            $tag .= '                       <p>#block for Table</p>' . $this->EOF_LINE;
+            $tag .= '<p>#block for Table</p>' . $this->EOF_LINE;
 
             return($tag);
         }

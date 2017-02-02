@@ -16,6 +16,8 @@ var utility = {
     *   All objects should be written in below section.
     ***************************************************/
 
+    EOF_LINE : '\n',
+
     ajax : {
         input : {
             url             : "",
@@ -95,6 +97,23 @@ var utility = {
     *   All methods should be written in below section.
     ***************************************************/
 
+    getEnumOptions: function(tableName, colName){
+        var enums = null;
+
+        if(
+            (tableName != null) && (tableName != "") &&
+            (colName != null) && (colName != "")
+          ) {
+            var formData = {
+              'tableName'   : tableName,
+              'colName'     : colName
+            }
+            enums = getServerResponseViaAJAX("../ajax/default.php", "getEnumOptionsCallback", formData, "")
+        }
+
+        return(enums);
+    },
+
     /**
     * This function get width of the window independent of browser.
     * @namespace    uitlity
@@ -125,6 +144,30 @@ var utility = {
         return actualWidth;
     },
 
+    getRetroSelect: function (selectId, selectOptions, selectedItem, selectEvent, selectClass, containerClass) {
+        var tag ='';
+
+        if(
+            ((selectId != null) && (selectId != '')) &&
+            ((selectOptions != null) && (selectOptions.length > 0)) &&
+            ((selectedItem != null) && (selectedItem != ''))
+          )
+        {
+            tag += '<div class="retro-style-select-container '+ containerClass +'">' + this.EOF_LINE;
+            tag += '   <select id="'+ selectId +'" class="retro-style '+ selectClass +'" '+ selectEvent +'>' + this.EOF_LINE;
+
+            for(var inx in selectOptions)
+            {
+                tag += '   <option value="'+ selectOptions[inx][0] +'" '+ ((selectOptions[inx][0] == selectedItem) ? 'selected' : '') +'>'+ selectOptions[inx][0] +'</option>' + this.EOF_LINE;
+            }
+
+            tag += '   </select>' + this.EOF_LINE;
+            tag += '</div>' + this.EOF_LINE;
+        }
+
+        return(tag);
+    },
+
     updateDashboradTable: function (tagBodyId, fillTableFunc, clause) {
         var formData = {
             'fillTableFunc' : fillTableFunc,
@@ -139,8 +182,8 @@ var utility = {
             var namespaces = functionName.split(".");
             var func = namespaces.pop();
             for(var i = 0; i < namespaces.length; i++) {
-            context = context[namespaces[i]];
-        }
+                context = context[namespaces[i]];
+            }
 
         return context[func].apply(context, args);
     },
@@ -168,5 +211,34 @@ var utility = {
         }
 
         return(getServerResponseViaAJAX("../ajax/default.php", "getSessionValueCallback", formData, ""));
+    },
+
+    getUsers: function(hints) {
+        var formData = {
+          'user_hints'  : hints
+        }
+
+        return(getServerResponseViaAJAX("../ajax/default.php", "getUsersCallback", formData, ""));
+    },
+
+    getScrumProject: function() {
+        return(getServerResponseViaAJAX("../ajax/default.php", "getProjectListCallback", null, ""));
+    },
+
+    clearTag: function(tagId) {
+        var status = false;
+
+        if((tagId != null) && (tagId != '')) {
+            var obj = document.getElementById(tagId);
+            if(obj != null) {
+                while (obj.firstChild) {
+                    obj.removeChild(obj.firstChild);
+                }
+
+                status = true;
+            }
+        }
+
+        return(status);
     }
 };

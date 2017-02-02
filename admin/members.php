@@ -11,6 +11,10 @@
 
     // Initialize session data
     session_start();
+
+    // if not log in then redirect to login page.
+    if(!isset($_SESSION['project-managment-username']))
+        header("Location: ../user/login.php?redirect=../admin/members.php");
 ?>
 
 <!DOCTYPE HTML>
@@ -19,6 +23,7 @@
         <title>Scrum-Product Planning</title>
         <link rel="stylesheet" type="text/css" href="../css/retro_style.css">
         <link rel="stylesheet" type="text/css" href="../css/grippy_table.css">
+        <link rel="stylesheet" type="text/css" href="../css/shield.css">
         <link rel="stylesheet" type="text/css" href="../css/global.css">
         <link rel="stylesheet" type="text/css" href="../css/admin.css">
         <script type="text/javascript" src="../js/jquery-2.1.3.min.js"></script>

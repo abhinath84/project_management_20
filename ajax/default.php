@@ -919,4 +919,115 @@ function deleteSprintScheduleCallback()
     echo(json_encode($data));
 }
 
+/*function addMemberCallback()
+{
+    $errors     = array();      // array to hold validation errors
+    $data       = array();      // array to pass back data
+
+    $member_id = $_POST['member_id'];
+    $project = $_POST['project'];
+    $privilage = $_POST['privilage'];
+
+    // create object of mysqlDB class to add data into mysql database.
+    $mysqlDBObj = new mysqlDB('scrum_member');
+    $mysqlDBObj->appendData('member_id', $member_id);
+    $mysqlDBObj->appendData('privilage', $privilage);
+
+    $msg = $mysqlDBObj->insert();
+    if($msg == false)
+    {
+        $errors[0] = ['qry', $msg];
+
+        $data['success'] = false;
+        $data['errors']  = $errors;
+    }
+    else
+    {
+        $data['success'] = true;
+
+        /// assign member to the project
+        if($project != '')
+        {
+            $mysqlDBObj = new mysqlDB('scrum_project_member');
+            $mysqlDBObj->appendData('project_title', $member_id);
+            $mysqlDBObj->appendData('member_id', $member_id);
+            $mysqlDBObj->appendData('privilage', $privilage);
+
+            $msg = $mysqlDBObj->insert();
+        }
+    }
+
+    echo(json_encode($data));
+}*/
+
+function getProjectListCallback()
+{
+    echo(json_encode(getScrumProjects()));
+}
+
+function getUsersCallback()
+{
+    echo(json_encode(getUsers($_POST['user_hints'])));
+}
+
+function getEnumOptionsCallback()
+{
+    echo(json_encode(getEnumOptions($_POST['tableName'], $_POST['colName'])));
+}
+
+function addMemberCallback()
+{
+    $errors     = array();  	// array to hold validation errors
+    $data       = array(); 		// array to pass back data
+
+    $memberId   = $_POST['member_id'];
+    $project    = $_POST['project'];
+    $privilage  = $_POST['privilage'];
+
+    // check member is exists or not.
+    $member = getScrumMembers($memberId);
+    if(!empty($member))
+    {
+        $errors[0] = 'Member already listed.';
+
+        // display error msg.
+        $data['success'] = false;
+        $data['errors']  = $errors;
+    }
+    else
+    {
+        // Add member.
+        // create object of mysqlDB class to add data into mysql database.
+        $mysqlDBObj = new mysqlDB('scrum_member');
+        $mysqlDBObj->appendData('member_id', Utility::encode($memberId));
+        $mysqlDBObj->appendData('privilage', $privilage);
+
+        $msg = $mysqlDBObj->insert();
+        if($msg == false)
+        {
+            $errors[0] = ['qry', $msg];
+
+            $data['success'] = false;
+            $data['errors']  = $errors;
+        }
+        else
+        {
+            $data['success'] = true;
+
+            /// assign member to the project
+            if($project != '')
+            {
+                $mysqlDBObj = new mysqlDB('scrum_project_member');
+                $mysqlDBObj->appendData('project_title', $project);
+                $mysqlDBObj->appendData('member_id', Utility::encode($memberId));
+                $mysqlDBObj->appendData('privilage', $privilage);
+
+                $msg = $mysqlDBObj->insert();
+            }
+        }
+    }
+
+    echo(json_encode($data));
+}
+
 ?>
