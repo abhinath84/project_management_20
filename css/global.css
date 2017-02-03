@@ -462,14 +462,14 @@ h1,h2,h3,h4,h5,h6 {
 }
 
 .main-nav {
-    background-color: #111212; //#31363e;
+    background-color: #31363e;
 }
 
 .main-nav .selected {
     font-weight: bold;
-    //background-color:#228B22;
-    color: #228B22;
-    background-color: black;
+    background-color:#228B22;
+    //color: #228B22;
+    //background-color: black;
 }
 
 .sub-nav-container {
@@ -733,6 +733,17 @@ all the pages.
 /*
     Another nav format
 */
+.nav-container {
+    background-color: #49524e; //#111212; //#31363e;
+}
+
+.nav-container .selected {
+    font-weight: bold;
+    //background-color:#228B22;
+    color: #228B22;
+    background-color: black;
+}
+
 .navbox{
     width: 100%;
     margin: 0;
@@ -754,9 +765,23 @@ all the pages.
     text-decoration: none;
 }
 
+.navbox .svg-icon {
+    padding-bottom: 0;
+}
+
+.navbox .svg-icon svg {
+    fill: #e2e4e4;
+    width: 40px;
+    height: 40px;
+}
+
+.navbox .svg-icon:hover svg {
+    fill: #228B22;
+}
+
 .navbox li:hover > a{
     color: #228B22;
-    background-color: black;
+    background-color: #3b423f; //black;
 }
 
 *html .navbox li a:hover{ /* IE6 */
@@ -775,7 +800,7 @@ all the pages.
     padding: 0;
     display: none;
     position: absolute;
-    top: 39px;
+    top: 53px;
     left: 0;
     z-index: 99999;
 }
@@ -817,4 +842,13 @@ all the pages.
 
 .navbox li:first-child a {
     padding-left: 25px;
+}
+
+.logo-nav {
+    width: 55px;
+    background-color: #3b423f;
+}
+
+.logo-nav a {
+    margin-left: 5px;
 }
