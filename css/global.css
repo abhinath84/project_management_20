@@ -771,17 +771,17 @@ all the pages.
 
 .navbox .svg-icon svg {
     fill: #e2e4e4;
-    width: 40px;
-    height: 40px;
+    width: 35px;
+    height: 35px;
 }
 
-.navbox .svg-icon:hover svg {
+.navbox .svg-icon:hover svg, .nav-container .selected svg {
     fill: #228B22;
 }
 
-.navbox li:hover > a{
+.navbox li:hover, .nav-container .selected{
     color: #228B22;
-    background-color: #3b423f; //black;
+    background-color: #3b423f;
 }
 
 *html .navbox li a:hover{ /* IE6 */
@@ -851,4 +851,49 @@ all the pages.
 
 .logo-nav a {
     margin-left: 5px;
+}
+
+
+/*
+    Side navigator bar
+*/
+.side-nav {
+    width:55px;
+    height: 100%;
+    background-color: #49524e;
+    padding-top: 20px;
+    vertical-align: top;
+}
+
+.side-nav ul{
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.side-nav ul li{
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.side-nav ul a{
+    min-height: 25px;
+    color:white;
+    text-decoration: none;
+}
+
+.side-nav ul svg {
+    fill: #e2e4e4;
+    width: 50px;
+    height: 50px;
+}
+
+.side-nav ul li:hover, .side-nav .selected{
+    color: #228B22;
+    background-color: #3b423f;
+}
+
+.side-nav ul li:hover svg, .side-nav .selected svg {
+    fill: #228B22;
 }

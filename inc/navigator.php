@@ -215,7 +215,6 @@
                     $tag .= '                <img src="' . $this->imagesPath . '/pm.png" alt="ptc.com" style="width: 40px; height: 40px;"/>' . EOF_LINE;
                     $tag .= '            </a>' . EOF_LINE;
                     $tag .= '        </div>' . EOF_LINE;
-                    $tag .= '        <div class="display-table-cell" style="width: 60%"></div>' . EOF_LINE;
 
                     if((isset($_SESSION['project-managment-username'])) && ($_SESSION['project-managment-username'] != ""))
                     {
@@ -224,10 +223,11 @@
 
                         if($currentDir === 'scrum')
                         {
-                            $tag .= '        <div class="nav-container display-table-cell" style="width: 22%">' . EOF_LINE;
+                            $tag .= '        <div class="display-table-cell" style="width: 40%"></div>' . EOF_LINE;
+                            $tag .= '        <div class="nav-container display-table-cell" style="width: 35%">' . EOF_LINE;
                             $tag .= '           <ul class ="navbox">' . EOF_LINE;
 
-                            $tag .= '               <li>' . EOF_LINE;
+                            $tag .= '               <li class="selected">' . EOF_LINE;
                             $tag .= '                   <a class="svg-icon" title="Product Planning" href="'. $this->getNavURL($currentDir, $this->scrumDir, $this->scrumBacklogURL) .'" target="_top">' . EOF_LINE;
                             //$tag .= '                   <span>Product Planning</span>' . EOF_LINE;
                             $tag .= '<svg x="0px" y="0px" viewBox="0 0 100 100" enable-background="new 0 0 100 100" xml:space="preserve"><path d="M73.75,35h-12.5C60.56,35,60,35.56,60,36.25s0.56,1.25,1.25,1.25h12.5c0.69,0,1.25-0.56,1.25-1.25S74.44,35,73.75,35z"/><path d="M73.75,40h-12.5C60.56,40,60,40.56,60,41.25s0.56,1.25,1.25,1.25h12.5c0.69,0,1.25-0.56,1.25-1.25S74.44,40,73.75,40z"/><path d="M20,8.75v15c0,0.69,0.56,1.25,1.25,1.25H30v57.5c0,1.381,1.119,2.5,2.5,2.5H55v6.25c0,0.69,0.56,1.25,1.25,1.25h22.5  c0.69,0,1.25-0.56,1.25-1.25v-15c0-0.69-0.56-1.25-1.25-1.25h-22.5C55.56,75,55,75.56,55,76.25V80H35V62.5h20v6.25  c0,0.69,0.56,1.25,1.25,1.25h22.5c0.69,0,1.25-0.56,1.25-1.25v-15c0-0.69-0.56-1.25-1.25-1.25h-22.5c-0.69,0-1.25,0.56-1.25,1.25  v3.75H35V40h20v6.25c0,0.69,0.56,1.25,1.25,1.25h22.5c0.69,0,1.25-0.56,1.25-1.25v-15c0-0.69-0.56-1.25-1.25-1.25h-22.5  C55.56,30,55,30.56,55,31.25V35H35V25h8.75c0.69,0,1.25-0.56,1.25-1.25v-15c0-0.69-0.56-1.25-1.25-1.25h-22.5  C20.56,7.5,20,8.06,20,8.75z M57.5,77.5h20V90h-20V77.5z M57.5,55h20v12.5h-20V55z M57.5,32.5h20V45h-20V32.5z M22.5,10h20v12.5h-20  V10z"/><path d="M38.75,12.5h-12.5c-0.69,0-1.25,0.56-1.25,1.25S25.56,15,26.25,15h12.5c0.69,0,1.25-0.56,1.25-1.25S39.44,12.5,38.75,12.5z"/><path d="M38.75,17.5h-12.5c-0.69,0-1.25,0.56-1.25,1.25S25.56,20,26.25,20h12.5c0.69,0,1.25-0.56,1.25-1.25S39.44,17.5,38.75,17.5z"/><path d="M73.75,57.5h-12.5c-0.69,0-1.25,0.56-1.25,1.25S60.56,60,61.25,60h12.5c0.69,0,1.25-0.56,1.25-1.25S74.44,57.5,73.75,57.5z"/><path d="M73.75,62.5h-12.5c-0.69,0-1.25,0.56-1.25,1.25S60.56,65,61.25,65h12.5c0.69,0,1.25-0.56,1.25-1.25S74.44,62.5,73.75,62.5z"/><path d="M73.75,80h-12.5C60.56,80,60,80.56,60,81.25s0.56,1.25,1.25,1.25h12.5c0.69,0,1.25-0.56,1.25-1.25S74.44,80,73.75,80z"/></svg>' . EOF_LINE;
