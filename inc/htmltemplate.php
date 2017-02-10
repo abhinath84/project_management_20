@@ -1684,7 +1684,7 @@ class SprintTrackDetailHTML extends HTMLTemplate
 {
     public function __construct($curNav = null, $curDir = null, $enableNav = false)
     {
-    parent::__construct("Scrum-Sprint-Tracking-Taskboard", "scrum", true);
+    parent::__construct("Scrum-Sprint-Tracking-Detail", "scrum", true);
     }
 
     protected function addDashboard()
