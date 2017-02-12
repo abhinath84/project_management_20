@@ -3,20 +3,16 @@
     border-collapse: collapse;
 }
 
-.grippy-table td {
-    text-align: left;
-    border: 1px solid #dde2e9;
-    border-width: 1px 0;
-    border-color: transparent transparent #dde2e9;
-    border-bottom: 1px solid #dde2e9;
-    padding: .25em .25em .25em .3em;
+.grippy-table thead {
+    border-top: 3px solid #767676;
+    background: #f5f5f5;
 }
 
 .grippy-table thead th {
-    padding: .25em .25em .25em .3em;
+    padding: .5em .5em .25em .3em;
     vertical-align: middle;
     text-align: left;
-    border-bottom: 1px solid #b7bcc4;
+    //border-bottom: 1px solid #b7bcc4;
     font-size: 16px;
     color: #272c34;
 }
@@ -27,6 +23,15 @@
 
 .grippy-table th a {
     //color: #272c34;
+}
+
+.grippy-table td {
+    text-align: left;
+    border: 1px solid #dde2e9;
+    border-width: 1px 0;
+    border-color: transparent transparent #dde2e9;
+    border-bottom: 1px solid #dde2e9;
+    padding: .25em .25em .25em .3em;
 }
 
 .grippy-table td.hasGrippy {

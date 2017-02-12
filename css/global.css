@@ -630,30 +630,6 @@ h1,h2,h3,h4,h5,h6 {
     border: 1px solid #dde2e9;
 }
 
-.widgetbox {
-    border: 1px solid #444; #515756; //#dde2e9;
-}
-
-.widgetbox .titlebar {
-    background-color: #444; //#515756; //#dde2e9;
-}
-
-.widgetbox .titlebar .header-tag{
-    display: inline-block;
-}
-
-.widgetbox .titlebar h1 {
-    margin: 0;
-    font-weight: 300;
-    font-size: 1.714em;
-    letter-spacing: -.025em;
-    padding: 10px .5em;
-    color: #9dce0a; //#86f543;
-}
-
-.widgetbox .content {
-    margin-top: 30px;
-}
 
 /****************************************************
 Note: remove main-article-info-header related class
@@ -674,6 +650,43 @@ all the pages.
     font-size: 1.714em;
     letter-spacing: -.025em;
     padding: 10px .5em;
+}
+
+.widgetbox {
+    width: 95%;
+    margin-top: 50px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.widgetbox .titlebar {
+    background-color: #444; //#515756; //#dde2e9;
+}
+
+.widgetbox .titlebar .header-tag {
+    //display: inline-block;
+}
+
+.widgetbox .titlebar h1 {
+    margin: 0;
+    font-weight: 300;
+    font-size: 1.714em;
+    letter-spacing: -.025em;
+    padding: 10px .5em;
+    color: white;
+}
+
+.widgetbox .titlebar .title {
+    margin-right: 35px;
+    color: #9dce0a; //#86f543;
+}
+
+.widgetbox .content {
+    margin-top: 30px;
+}
+
+.widgetbox .content .wtable {
+    margin-top: 30px;
 }
 
 /*********************************
@@ -899,7 +912,7 @@ all the pages.
 }
 
 .side-nav ul li:hover svg, .side-nav .selected svg {
-    fill: #228B22;
+    fill: #37F608; //#228B22;
 }
 
 
@@ -943,7 +956,7 @@ all the pages.
 }
 
 .h-navigator li a:hover, .h-navigator .has-dropdown-manu:hover .dropbtn, .h-navigator .selected {
-    color: #9dce0a; //#228B22;
+    color: #37F608; //#9dce0a; //#228B22;
     background-color: #3b423f;
 }
 
@@ -973,7 +986,7 @@ all the pages.
 
 .h-navigator .dropdown-menu-content a:hover {
     //background-color: #f1f1f1
-    color: #9dce0a; //#228B22;
+    color: #37F608; //#9dce0a; //#228B22;
     background-color: #1a1919;
 }
 
@@ -984,7 +997,6 @@ all the pages.
 .h-navigator ul li svg {
     fill: #e2e4e4;
     stroke: #e2e4e4;
-    //fill: #9dce0a; //#228B22;
     width: 35px;
     height: 35px;
 }
@@ -996,8 +1008,8 @@ all the pages.
 }
 
 .h-navigator ul li:hover svg, .h-navigator .selected svg {
-    fill: #9dce0a; //#228B22;
-    stroke: #9dce0a;
+    fill: #37F608; //#9dce0a; //#228B22;
+    stroke: #37F608; //#9dce0a;
 }
 
 .scrum-nav, .admin-nav, .general-nav {
