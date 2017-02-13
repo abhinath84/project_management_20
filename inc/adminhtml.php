@@ -32,10 +32,9 @@
         {
             $tabs = array
                             (
-                                array('Projects', 'projects.php'),
-                                array('Sprint Schedules', 'sprint_schedules.php'),
-                                array('Member Roles', 'member_roles.php'),
-                                array('Programs', 'programs.php')
+                                array('Projects', 'projects.php', SVG::getProject()),
+                                array('Sprint Schedules', 'sprint_schedules.php', SVG::getSprintSchedule()),
+                                array('Member Roles', 'member_roles.php', SVG::getMemberRoles())
                             );
 
             parent::__construct($curNav, $curDir, $enableNav, $tabs, $currentTab);
@@ -48,9 +47,9 @@
         {
             $tabItems = array
                             (
-                                array('Members', 'members.php'),
-                                array('Project Assignmemnt', 'projecct_assignment.php'),
-                                array('Project Roles', 'project_roles.php')/*,
+                                array('Members', 'members.php', SVG::getMember()),
+                                array('Project Assignment', 'projecct_assignment.php', SVG::getProjectAssignment()),
+                                array('Project Roles', 'project_roles.php', SVG::getProjectRoles())/*,
                                 array('Member Groups', 'member_groups.php')*/
                             );
 
@@ -723,7 +722,7 @@
     {
         public function __construct($curNav = null, $curDir = null, $enableNav = false)
         {
-            parent::__construct("Members", "admin", true, "Project Assignmemnt");
+            parent::__construct("Members", "admin", true, "Project Assignment");
         }
 
         protected function fillDashboard()

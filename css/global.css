@@ -44,7 +44,21 @@ h1,h2,h3,h4,h5,h6 {
 }
 
 .display-flex {
-    display:flex;
+    display: flex;
+}
+
+.display-flex-row {
+    display: flex;
+    flex-flow: row wrap;
+}
+
+.display-flex-col {
+    display: flex;
+    flex-flow: column wrap;
+}
+
+.flex-full {
+    flex: 0 1 100%;
 }
 
 .display-table{
@@ -367,6 +381,30 @@ h1,h2,h3,h4,h5,h6 {
     margin: 2em auto;
     width: 500px;
 }*/
+
+/*  Set flex property for direct child of first div-tag of body. */
+body > div > header {
+    order: 1;
+}
+
+body > div > nav {
+    order: 2;
+    flex: 0 1 55px;
+}
+
+body > div > article {
+    order: 3;
+    flex: 1;
+    min-height: 750px;
+}
+
+body > div > footer {
+    order: 4;
+}
+
+body > div > article {
+    background-color: white;
+}
 
 /*********************************
             Header Block
@@ -693,7 +731,7 @@ all the pages.
             Footer Block
 **********************************/
 .footer {
-    color: back;
+    color: black;
     border-top: 1px solid #ccc8c8;
     //background-color: #CBC8C8;
     height:50px;
@@ -876,9 +914,8 @@ all the pages.
 */
 .side-nav {
     width:55px;
-    height: 100%;
     background-color: #49524e;
-    padding-top: 20px;
+    padding-top: 50px;
     vertical-align: top;
 }
 
@@ -890,8 +927,8 @@ all the pages.
 }
 
 .side-nav ul li{
-    padding-top: 5px;
-    padding-bottom: 5px;
+    padding-top: 15px;
+    padding-bottom: 15px;
 }
 
 .side-nav ul a{
@@ -901,9 +938,11 @@ all the pages.
 }
 
 .side-nav ul svg {
+    padding-left: 7px;
     fill: #e2e4e4;
-    width: 50px;
-    height: 50px;
+    stroke: #e2e4e4;
+    width: 35px;
+    height: 35px;
 }
 
 .side-nav ul li:hover, .side-nav .selected{
@@ -913,6 +952,7 @@ all the pages.
 
 .side-nav ul li:hover svg, .side-nav .selected svg {
     fill: #37F608; //#228B22;
+    stroke: #37F608;
 }
 
 

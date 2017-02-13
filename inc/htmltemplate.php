@@ -56,13 +56,15 @@ abstract class HTMLTemplate
     /******************************************
         Member Variables Block
     ******************************************/
-    private $currentDir = null;
-    private $enableNav  = null;
-    private $currentNav = null;
-    private $tabItems   = null;
-    private $currentTab = null;
+    private $currentDir     = null;
+    private $enableNav      = null;
+    private $currentNav     = null;
+    private $tabItems       = null;
+    private $currentTab     = null;
 
-    protected $EOF_LINE = "\n";
+    protected $showSideNav  = false;
+    //protected $sideNavItems = array();
+    protected $EOF_LINE     = "\n";
 
 
     /******************************************
@@ -87,11 +89,14 @@ abstract class HTMLTemplate
 
         if(($this->currentDir != null) && ($this->currentNav != null))
         {
-            $tag = '    <div class="wrapper display-table">' . $this->EOF_LINE;
-            $tag .= $this->addHeader($this->currentDir, $this->currentNav, $this->enableNav) . $this->EOF_LINE;
-            $tag .= $this->addArticle() . $this->EOF_LINE;
-            $tag .= $this->addFooter($this->currentDir) . $this->EOF_LINE;
-            $tag .= '    </div>' . $this->EOF_LINE;
+            $tag = '';
+
+            $tag .= '<div class="display-flex-row">' . $this->EOF_LINE;
+            $tag .=     $this->addHeader($this->currentDir, $this->currentNav, $this->enableNav) . $this->EOF_LINE;
+            $tag .=     $this->addSideNav() . $this->EOF_LINE;
+            $tag .=     $this->addArticle() . $this->EOF_LINE;
+            $tag .=     $this->addFooter($this->currentDir) . $this->EOF_LINE;
+            $tag .= '</div>' . $this->EOF_LINE;
         }
 
         return($tag);
@@ -171,8 +176,42 @@ abstract class HTMLTemplate
     */
     private function addHeader($currentDir, $selNav, $enableNav)
     {
+        $tag = '';
+
         $nav = new Navigator();
-        $tag = $nav->header_new($currentDir, $selNav, $enableNav);
+        if($nav != null)
+        {
+            $tag .= '<header class="flex-full">' . EOF_LINE;
+            $tag .=     $nav->header_new($currentDir, $selNav, $enableNav);
+            $tag .= '</header>' . EOF_LINE;
+        }
+
+        return($tag);
+    }
+
+    private function addSideNav()
+    {
+        $tag = '';
+
+        if((count($this->tabItems) > 0) && ($this->enableNav))
+        {
+            $tag .= '<nav class="side-nav">' . $this->EOF_LINE;
+            $tag .= '   <ul>';
+            foreach($this->tabItems as $item)
+            {
+                $tag .= '       <li ' .(($item[0] == $this->currentTab) ? 'class="selected"' : '') .'>';
+                $tag .= '           <a title="'. $item[0] .'" href="'. $item[1] .'">';
+
+                /* display the svg icon */
+                if($item[2] != null)
+                    $tag .=                 $item[2];
+
+                $tag .= '           </a>';
+                $tag .= '       </li>';
+            }
+            $tag .= '   </ul>';
+            $tag .= '</nav>' . $this->EOF_LINE;
+        }
 
         return($tag);
     }
@@ -181,11 +220,11 @@ abstract class HTMLTemplate
     {
         $tag = "";
 
-        $tag = '<div class="article display-table-row">' . $this->EOF_LINE;
-        $tag .= '    <div class="display-table" style="height: 100%;">' . $this->EOF_LINE;
-        $tag .= $this->addDashboard() . $this->EOF_LINE;
-        $tag .= '    </div>' . $this->EOF_LINE;
-        $tag .= '</div>' . $this->EOF_LINE;
+        $tag = '<article>' . $this->EOF_LINE;
+        //$tag .= '    <div class="display-table" style="height: 100%;">' . $this->EOF_LINE;
+        $tag .=         $this->addDashboard() . $this->EOF_LINE;
+        //$tag .= '    </div>' . $this->EOF_LINE;
+        $tag .= '</article>' . $this->EOF_LINE;
 
         return($tag);
     }
@@ -200,8 +239,15 @@ abstract class HTMLTemplate
     */
     private function addFooter($currentDir, $hrTagFlag = true)
     {
+        $tag = '';
+
         $nav = new Navigator();
-        $tag = $nav->footer($currentDir, $hrTagFlag);
+        if($nav != null)
+        {
+            $tag .= '<footer class="flex-full">' . EOF_LINE;
+            $tag .=     $nav->footer($currentDir, $hrTagFlag);
+            $tag .= '</footer>' . EOF_LINE;
+        }
 
         return($tag);
     }
@@ -213,8 +259,10 @@ abstract class SPRTrackHTML extends HTMLTemplate
     {
         $tabs = array
                       (
-                        array('Dashboard', 'dashboard.php'), array('Submission Status', 'submit_status.php'),
-                        array('Report', 'report.php'), array('Import', 'spr_import.php')
+                        array('Dashboard', 'dashboard.php', SVG::getSPRTrack()),
+                        array('Submission Status', 'submit_status.php', SVG::getSPRTrack()),
+                        array('Report', 'report.php', SVG::getSPRTrack()),
+                        array('Import', 'spr_import.php', SVG::getSPRTrack())
                       );
 
         parent::__construct($curNav, $curDir, $enableNav, $tabs, $currentTab);
@@ -1514,11 +1562,13 @@ class ScrumPPBHTML extends HTMLTemplate
     {
         $tabs = array
                       (
-                        array('Backlog', 'product_plan_backlog.php'),
-                        array('Import', 'product_plan_backlog_import.php')
+                        array('Backlog', 'product_plan_backlog.php', SVG::getBacklog()),
+                        array('Import', 'product_plan_backlog_import.php', SVG::getImport())
                       );
 
         parent::__construct("Scrum-Product-Planning-Backlog", "scrum", true, $tabs, 'Backlog');
+
+        $this->showSideNav = true;
     }
 
     protected function addDashboard()
@@ -1527,9 +1577,9 @@ class ScrumPPBHTML extends HTMLTemplate
 
         $tag  = '';
 
-        $tag .= parent::getSideNavigator();
+        //$tag .= parent::getSideNavigator();
 
-        $tag .= '<div class="display-table-cell" style="background-color: white;">';
+        //$tag .= '<div class="display-table-cell" style="background-color: white;">';
         /*$tag .= '    <div class="project-item display-table">'. $this->EOF_LINE;
         $tag .= '        <button class="project-selector asset-hover" type="button">'. $this->EOF_LINE;
         $tag .= '            <h3>Product Backlog</h3>'. $this->EOF_LINE;
@@ -1548,7 +1598,7 @@ class ScrumPPBHTML extends HTMLTemplate
         $tag .= '            </span>'. $this->EOF_LINE;
         $tag .= '        </button>'. $this->EOF_LINE;
         $tag .= '    </div>'. $this->EOF_LINE;*/
-        $tag .= '    <div class="display-table" style="margin-bottom: 50px;">'. $this->EOF_LINE;
+        //$tag .= '    <div class="display-table" style="background-color: white; margin-bottom: 50px;">'. $this->EOF_LINE;
 
         //$tag .=         parent::getTabMenu();
 
@@ -1607,9 +1657,9 @@ class ScrumPPBHTML extends HTMLTemplate
         $tag .= '                    </div>'. $this->EOF_LINE;
         $tag .= '                </div>'. $this->EOF_LINE;
         $tag .= '            </div>'. $this->EOF_LINE;
-        $tag .= '        </div>'. $this->EOF_LINE;
+        //$tag .= '        </div>'. $this->EOF_LINE;
         //$tag .= '    </div>'. $this->EOF_LINE;
-        $tag .= '   </div>'. $this->EOF_LINE;
+        //$tag .= '   </div>'. $this->EOF_LINE;
         //$tag .= '</div>'. $this->EOF_LINE;
 
         return($tag);

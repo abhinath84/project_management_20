@@ -140,8 +140,6 @@
             {
                 $this->imagesPath = ($currentDir === "base") ? "images" : "../images";
 
-                $tag .= '<div class="display-table-row">' . EOF_LINE;
-
                 if($enableNav == true)
                 {
                     /// header nav for initial page, means before login.
@@ -351,8 +349,6 @@
                     }
                     $tag .= '</div>';
                 }
-
-                $tag .= '</div>';
             }
 
             return($tag);
@@ -366,7 +362,7 @@
             {
                 $this->imagesPath = ($currentDir === "base") ? "images" : "../images";
 
-                $tag .= '<div class="footer display-table-row">' . EOF_LINE;
+                $tag .= '<div class="footer">' . EOF_LINE;
                 $tag .= '    <div class="banner display-table">' . EOF_LINE;
                 $tag .= '        <div class="logo display-table-cell">';
                 $tag .= '            <a id="footer-logo" class="footer-logo" href="' . $this->getNavURL($currentDir, "base", $this->homeURL) . '">' . EOF_LINE;
