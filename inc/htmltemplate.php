@@ -59,24 +59,22 @@ abstract class HTMLTemplate
     private $currentDir     = null;
     private $enableNav      = null;
     private $currentNav     = null;
-    private $tabItems       = null;
-    private $currentTab     = null;
+    private $sideNavItems       = null;
+    private $currentSideNav     = null;
 
-    protected $showSideNav  = false;
-    //protected $sideNavItems = array();
     protected $EOF_LINE     = "\n";
 
 
     /******************************************
         Constructor/Destructor block
     ******************************************/
-    public function __construct($curNav = null, $curDir = null, $enableNav = false, $tabItems = null, $currentTab = null)
+    public function __construct($curNav = null, $curDir = null, $enableNav = false, $sideNavItems = null, $currentSideNav = null)
     {
         $this->currentDir   = $curDir;
         $this->enableNav    = $enableNav;
         $this->currentNav   = $curNav;
-        $this->tabItems     = $tabItems;
-        $this->currentTab   = $currentTab;
+        $this->sideNavItems     = $sideNavItems;
+        $this->currentSideNav   = $currentSideNav;
     }
 
 
@@ -102,28 +100,28 @@ abstract class HTMLTemplate
         return($tag);
     }
 
-    public function setTabItems($tabItems)
+    public function setTabItems($sideNavItems)
     {
-        $this->tabItems = $tabItems;
+        $this->sideNavItems = $sideNavItems;
     }
 
     public function setCurrentTab($curTab)
     {
-        $this->currentTab = $curTab;
+        $this->currentSideNav = $curTab;
     }
 
     public function getTabMenu()
     {
         $tag = '';
-        if(($this->tabItems != null) && (count($this->tabItems) > 0) &&
-            ($this->currentTab != null) && ($this->currentTab != ''))
+        if(($this->sideNavItems != null) && (count($this->sideNavItems) > 0) &&
+            ($this->currentSideNav != null) && ($this->currentSideNav != ''))
         {
             $tag .= '<div class="main-article-nav-container display-table-row">' . $this->EOF_LINE;
             $tag .= '    <ul class="float-box-nav main-article-nav">' . $this->EOF_LINE;
 
-            foreach($this->tabItems as $tab)
+            foreach($this->sideNavItems as $tab)
             {
-                $tag .= '        <li><a ' . (($this->currentTab === $tab[0]) ? 'class="selected-tab"' : '') . 'href="'. $tab[1] .'" target="_top">'. $tab[0] .'</a></li>' . $this->EOF_LINE;
+                $tag .= '        <li><a ' . (($this->currentSideNav === $tab[0]) ? 'class="selected-tab"' : '') . 'href="'. $tab[1] .'" target="_top">'. $tab[0] .'</a></li>' . $this->EOF_LINE;
             }
 
             $tag .= '    </ul>' . $this->EOF_LINE;
@@ -138,6 +136,9 @@ abstract class HTMLTemplate
         Protected methods block
     ******************************************/
     abstract protected function addDashboard();
+
+    protected function getWidgetboxContent() { return(''); }
+    protected function getWidgetTitlebarContent() { return(''); }
 
     protected function getSideNavigator()
     {
@@ -157,6 +158,29 @@ abstract class HTMLTemplate
         $tag .= '   </li>';
         $tag .= '</ul>';
         $tag .= '</div>';
+
+        return($tag);
+    }
+
+    protected function getWidgetbox()
+    {
+        $tag = '';
+
+        if(($this->currentSideNav != null) && ($this->currentSideNav != ''))
+        {
+            $tag .= '<div class="widgetbox">'. $this->EOF_LINE;
+            $tag .= '   <div class="titlebar">'. $this->EOF_LINE;
+            $tag .= '       <h1>'. $this->EOF_LINE;
+            $tag .= '           <span class="title">'. strtoupper($this->currentSideNav) .'</span>'. $this->EOF_LINE;
+            $tag .=             $this->getWidgetTitlebarContent();
+            $tag .= '       </h1>'. $this->EOF_LINE;
+            $tag .= '   </div>'. $this->EOF_LINE;
+
+            $tag .= '   <div class="content">'. $this->EOF_LINE;
+            $tag .=         $this->getWidgetboxContent();
+            $tag .= '   </div>'. $this->EOF_LINE;
+            $tag .= '</div>'. $this->EOF_LINE;
+        }
 
         return($tag);
     }
@@ -193,13 +217,13 @@ abstract class HTMLTemplate
     {
         $tag = '';
 
-        if((count($this->tabItems) > 0) && ($this->enableNav))
+        if((count($this->sideNavItems) > 0) && ($this->enableNav))
         {
             $tag .= '<nav class="side-nav">' . $this->EOF_LINE;
             $tag .= '   <ul>';
-            foreach($this->tabItems as $item)
+            foreach($this->sideNavItems as $item)
             {
-                $tag .= '       <li ' .(($item[0] == $this->currentTab) ? 'class="selected"' : '') .'>';
+                $tag .= '       <li ' .(($item[0] == $this->currentSideNav) ? 'class="selected"' : '') .'>';
                 $tag .= '           <a title="'. $item[0] .'" href="'. $item[1] .'">';
 
                 /* display the svg icon */
@@ -255,7 +279,7 @@ abstract class HTMLTemplate
 
 abstract class SPRTrackHTML extends HTMLTemplate
 {
-    public function __construct($curNav = null, $curDir = null, $enableNav = false, $currentTab = null)
+    public function __construct($curNav = null, $curDir = null, $enableNav = false, $currentSideNav = null)
     {
         $tabs = array
                       (
@@ -265,7 +289,7 @@ abstract class SPRTrackHTML extends HTMLTemplate
                         array('Import', 'spr_import.php', SVG::getSPRTrack())
                       );
 
-        parent::__construct($curNav, $curDir, $enableNav, $tabs, $currentTab);
+        parent::__construct($curNav, $curDir, $enableNav, $tabs, $currentSideNav);
     }
 }
 
@@ -1567,50 +1591,20 @@ class ScrumPPBHTML extends HTMLTemplate
                       );
 
         parent::__construct("Scrum-Product-Planning-Backlog", "scrum", true, $tabs, 'Backlog');
-
-        $this->showSideNav = true;
     }
 
-    protected function addDashboard()
+    protected function getWidgetTitlebarContent()
+    {
+        $tag = '<span>PROJECT 2017</span>'. $this->EOF_LINE;
+
+        return($tag);
+    }
+
+    protected function getWidgetboxContent()
     {
         $dropdownList = null;
+        $tag = '';
 
-        $tag  = '';
-
-        //$tag .= parent::getSideNavigator();
-
-        //$tag .= '<div class="display-table-cell" style="background-color: white;">';
-        /*$tag .= '    <div class="project-item display-table">'. $this->EOF_LINE;
-        $tag .= '        <button class="project-selector asset-hover" type="button">'. $this->EOF_LINE;
-        $tag .= '            <h3>Product Backlog</h3>'. $this->EOF_LINE;
-        $tag .= '            <span class="ps-icon">'. $this->EOF_LINE;
-        $tag .= '                <svg class="project-selector-icon" viewBox="0 0 250 250" width="20" height="20">'. $this->EOF_LINE;
-        $tag .= '                   <rect x="50" y="20" rx="10" ry="10" width="60" height="60"
-                            style="fill:black;stroke:#00a9e0;stroke-width:25;" />'. $this->EOF_LINE;
-        $tag .= '                  <line x1="80" y1="80" x2="80" y2="150"
-                              stroke-width="25" stroke="#00a9e0"/>'. $this->EOF_LINE;
-        $tag .= '                  <line x1="67" y1="150" x2="150" y2="150"
-                              stroke-width="25" stroke="#00a9e0"/>'. $this->EOF_LINE;
-        $tag .= '                  <rect x="150" y="120" rx="10" ry="10" width="60" height="60"
-                            style="fill:black;stroke:#00a9e0;stroke-width:25;" />'. $this->EOF_LINE;
-        $tag .= '                Sorry, your browser does not support inline SVG.'. $this->EOF_LINE;
-        $tag .= '                </svg>'. $this->EOF_LINE;
-        $tag .= '            </span>'. $this->EOF_LINE;
-        $tag .= '        </button>'. $this->EOF_LINE;
-        $tag .= '    </div>'. $this->EOF_LINE;*/
-        //$tag .= '    <div class="display-table" style="background-color: white; margin-bottom: 50px;">'. $this->EOF_LINE;
-
-        //$tag .=         parent::getTabMenu();
-
-        //$tag .= '        <div class="main-article-tab-container display-table-row">'. $this->EOF_LINE;
-        $tag .= '            <div class="widgetbox">'. $this->EOF_LINE;
-        $tag .= '                <div class="titlebar">'. $this->EOF_LINE;
-        $tag .= '                   <h1>'. $this->EOF_LINE;
-        $tag .= '                       <span class="title">BACKLOG</span>'. $this->EOF_LINE;
-        $tag .= '                       <span>PROJECT 2017</span>'. $this->EOF_LINE;
-        $tag .= '                   </h1>'. $this->EOF_LINE;
-        $tag .= '                </div>'. $this->EOF_LINE;
-        $tag .= '                <div class="content">'. $this->EOF_LINE;
         $tag .= '                    <div class="project-backlog-container">'. $this->EOF_LINE;
         $tag .= '                       <div class="session-button">'. $this->EOF_LINE;
 
@@ -1656,13 +1650,13 @@ class ScrumPPBHTML extends HTMLTemplate
         $tag .= '                        </div>'. $this->EOF_LINE;
         $tag .= '                    </div>'. $this->EOF_LINE;
         $tag .= '                </div>'. $this->EOF_LINE;
-        $tag .= '            </div>'. $this->EOF_LINE;
-        //$tag .= '        </div>'. $this->EOF_LINE;
-        //$tag .= '    </div>'. $this->EOF_LINE;
-        //$tag .= '   </div>'. $this->EOF_LINE;
-        //$tag .= '</div>'. $this->EOF_LINE;
 
         return($tag);
+    }
+
+    protected function addDashboard()
+    {
+        return( parent::getWidgetbox() );
     }
 
     private function createDasboardTable()

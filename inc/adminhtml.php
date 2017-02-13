@@ -14,15 +14,20 @@
 
         abstract protected function fillDashboard();
 
+        protected function getWidgetboxContent()
+        {
+
+        }
+
         protected function addDashboard()
         {
-            $tag = '';
+            /*$tag = '';
             $tag .= '<div class="main-article display-table article-container">' . $this->EOF_LINE;
             $tag .=     parent::getTabMenu();
             $tag .=     $this->fillDashboard();
-            $tag .= '</div>' . $this->EOF_LINE;
+            $tag .= '</div>' . $this->EOF_LINE;*/
 
-            return($tag);
+            return( parent::getWidgetbox() );
         }
     }
 
@@ -189,7 +194,7 @@
             return($tag);
         }
 
-        private function getWidgetContent()
+        protected function getWidgetboxContent()
         {
             $tag = '               <div id="project-add-form-container"></div>' . $this->EOF_LINE;
             $tag .=                 Utility::getQuickActionBtnDropdown('project-table-dropdown', $this->dropdownList);
@@ -333,7 +338,7 @@
             return($tag);
         }
 
-        private function getWidgetContent()
+        protected function getWidgetboxContent()
         {
             $content = '               <div id="sprint-schedule-add-form-container">' . $this->EOF_LINE;
             $content .= '               </div>' . $this->EOF_LINE;
@@ -429,24 +434,42 @@
 
         protected function fillDashboard()
         {
-            $memberContent = '                   <div style="float: right; margin-right: 25px;">' . $this->EOF_LINE;
-            $memberContent .=                         Utility::getRetroButton('Close', 'red', 'onclick="memberRoles.close();"');
-            $memberContent .= '                   </div>' . $this->EOF_LINE;
-            $memberContent .= '                   <div style="float: right; margin-right: 25px;">' . $this->EOF_LINE;
-            $memberContent .=                         Utility::getRetroButton('Save', 'green', 'onclick="memberRoles.save();"');
-            $memberContent .= '                   </div>' . $this->EOF_LINE;
-            $memberContent .=                     $this->getMemberTable();
+
+        }
+
+        protected function getWidgetboxContent()
+        {
+            $memberContent = '';
+
+            $memberContent .= '<div id="member-div" class="member-role-member-content">';
+            $memberContent .= ' <div class="doom-line">';
+            $memberContent .= '     <span>MEMBERS</span>';
+            $memberContent .= ' </div>';
+            $memberContent .= ' <div style="float: right;">' . $this->EOF_LINE;
+            $memberContent .=       Utility::getRetroButton('Close', 'red', 'onclick="memberRoles.close();"');
+            $memberContent .= ' </div>' . $this->EOF_LINE;
+            $memberContent .= ' <div style="float: right; margin-right: 25px;">' . $this->EOF_LINE;
+            $memberContent .=       Utility::getRetroButton('Save', 'green', 'onclick="memberRoles.save();"');
+            $memberContent .= ' </div>' . $this->EOF_LINE;
+            $memberContent .= ' <div style="clear:both; padding-top: 10px;">';
+            $memberContent .=       $this->getMemberTable();
+            $memberContent .= ' </div>';
+            $memberContent .= '</div>';
+
 
             $tag = '';
 
-            $tag .= '   <div class="main-article-tab-container display-table-row">' . $this->EOF_LINE;
-            $tag .= '       <div class="main-article-tab-info-container member-role-info-container">' . $this->EOF_LINE;
+            $tag .= '<div id="project-div">';
+            $tag .= '   <div class="doom-line">';
+            $tag .= '       <span>PROJECTS</span>';
+            $tag .= '   </div>';
+            $tag .=     $this->getProjectTable();
+            $tag .= '</div>';
 
-            $tag .=             Utility::getWidgetBox('Projects', 'project-div', '', '', '', $this->getProjectTable());
-            $tag .=             Utility::getWidgetBox('Members', 'member-div', 'member-role-member-content', '', '', $memberContent);
+            $tag .= $memberContent;
 
-            $tag .= '       </div>' . $this->EOF_LINE;
-            $tag .= '   </div>' . $this->EOF_LINE;
+            //$tag .=             Utility::getWidgetBox('Projects', 'project-div', '', '', '', $this->getProjectTable());
+            //$tag .=             Utility::getWidgetBox('Members', 'member-div', 'member-role-member-content', '', '', $memberContent);
 
             return($tag);
         }
