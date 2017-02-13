@@ -182,7 +182,7 @@ abstract class HTMLTemplate
         $tag = "";
 
         $tag = '<div class="article display-table-row">' . $this->EOF_LINE;
-        $tag .= '    <div class="display-table">' . $this->EOF_LINE;
+        $tag .= '    <div class="display-table" style="height: 100%;">' . $this->EOF_LINE;
         $tag .= $this->addDashboard() . $this->EOF_LINE;
         $tag .= '    </div>' . $this->EOF_LINE;
         $tag .= '</div>' . $this->EOF_LINE;

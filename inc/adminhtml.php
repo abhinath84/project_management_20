@@ -136,7 +136,7 @@
                                         <div class="step-link">
                                             <div class="display-table-row">
                                                 <img alt="three" src="../images/three.png" title="three" class="display-table-cell">
-                                                <a href="members.php" class="display-table-cell">
+                                                <a href="projecct_assignment.php" class="display-table-cell">
                                                     <span>Assign Member to Project</span>
                                                 </a>
                                             </div>
