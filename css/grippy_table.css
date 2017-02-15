@@ -27,9 +27,9 @@
 
 .grippy-table td {
     text-align: left;
-    border: 1px solid #dde2e9;
-    border-width: 1px 0;
-    border-color: transparent transparent #dde2e9;
+    //border: 1px solid #dde2e9;
+    //border-width: 1px 0;
+    //border-color: transparent transparent #dde2e9;
     border-bottom: 1px solid #dde2e9;
     padding: .25em .25em .25em .3em;
 }
@@ -79,7 +79,7 @@
 }
 
 .grippy-table tbody tr:last-child td {
-    border-bottom: 0;
+    //border-bottom: 0;
 }
 
 .grippy-table .backlog-title-container * {

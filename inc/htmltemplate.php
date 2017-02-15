@@ -140,7 +140,7 @@ abstract class HTMLTemplate
     protected function getWidgetboxContent() { return(''); }
     protected function getWidgetTitlebarContent() { return(''); }
 
-    protected function getSideNavigator()
+    /*protected function getSideNavigator()
     {
         $tag = '';
 
@@ -160,7 +160,7 @@ abstract class HTMLTemplate
         $tag .= '</div>';
 
         return($tag);
-    }
+    }*/
 
     protected function getWidgetbox()
     {

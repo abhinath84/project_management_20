@@ -951,8 +951,8 @@ all the pages.
 }
 
 .side-nav ul li:hover svg, .side-nav .selected svg {
-    fill: #37F608; //#228B22;
-    stroke: #37F608;
+    fill: #5BB73B; //#228B22;
+    stroke: #5BB73B;
 }
 
 
@@ -996,7 +996,7 @@ all the pages.
 }
 
 .h-navigator li a:hover, .h-navigator .has-dropdown-manu:hover .dropbtn, .h-navigator .selected {
-    color: #37F608; //#9dce0a; //#228B22;
+    color: #5BB73B; //#9dce0a; //#228B22;
     background-color: #3b423f;
 }
 
@@ -1026,7 +1026,7 @@ all the pages.
 
 .h-navigator .dropdown-menu-content a:hover {
     //background-color: #f1f1f1
-    color: #37F608; //#9dce0a; //#228B22;
+    color: #5BB73B; //#9dce0a; //#228B22;
     background-color: #1a1919;
 }
 
@@ -1048,8 +1048,8 @@ all the pages.
 }
 
 .h-navigator ul li:hover svg, .h-navigator .selected svg {
-    fill: #37F608; //#9dce0a; //#228B22;
-    stroke: #37F608; //#9dce0a;
+    fill: #5BB73B; //#37F608; //#9dce0a; //#228B22;
+    stroke: #5BB73B; //#37F608; //#9dce0a;
 }
 
 .scrum-nav, .admin-nav, .general-nav {

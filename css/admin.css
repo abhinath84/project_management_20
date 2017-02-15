@@ -86,11 +86,20 @@
 }
 
 .doom-line span {
-    font-size: 1.2rem;
-    font-family: OpenSans-Regular,Arial,Helvetica,sans-serif;
+    font-size: 1.0rem;
+    //font-family: OpenSans-Regular,Arial,Helvetica,sans-serif;
     color: #fff;
 }
 
 #project-div .doom-line {
-    background: rgb(255, 204, 0); //#ff8282;
+    background: #009688; //rgb(255, 204, 0); //#ff8282;
+}
+
+#add-member-btn-container {
+    float: right;
+    margin-bottom: 30px;
+}
+
+.add-padding {
+    padding: 0 50px;
 }

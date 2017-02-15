@@ -150,6 +150,7 @@
                     $tag .= '        </a>' . EOF_LINE;
                     $tag .= '    </div>' . EOF_LINE;
                     $tag .= '    <div class="display-flex" style="margin-left: auto;">';
+
                     if((isset($_SESSION['project-managment-username'])) && ($_SESSION['project-managment-username'] != ""))
                     {
                         $fname = $cipherObj->decrypt(getItemFromTable("first_name", "user", "user_name = '".$_SESSION['project-managment-username']."'"));
@@ -209,7 +210,7 @@
                         }
                         else if($currentDir === 'admin')
                         {
-                            $tag .= '<div class="h-navigator admin-nav">
+                            $tag .= '<div class="h-navigator" style="margin-right: 30px;">
                                     <ul>
                                       <li class="' . ($selNav == "Scrum" ? 'selected' : '') . '">
                                         <a title="Scrum" href="'. $this->getNavURL("admin", $this->scrumDir, $this->scrumBacklogURL) .'" target="_top">
@@ -218,6 +219,11 @@
                             $tag .= '       </span>
                                         </a>
                                       </li>
+                                    </ul>
+                                    </div>';
+
+                            $tag .= '<div class="h-navigator admin-nav">
+                                    <ul>
                                       <li class="' . ($selNav == "Overview" ? 'selected' : '') . '">
                                         <a title="Overview" href="'. $this->getNavURL("admin", $this->adminDir, $this->overviewURL) .'" target="_top">
                                             <span>';

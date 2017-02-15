@@ -291,7 +291,7 @@ var shieldProject = {
     fillInfo: function (key, isAdding = true) {
         if((key != null) && (key != "")) {
             if(isAdding == true) {
-                this.info.parent             = document.getElementById(key + "-title-span").innerHTML;
+                this.info.parent             = 'System(All Projects)';
                 this.info.begin_date         = utility.getCurrentDate('-');
                 this.info.owner              = utility.getSessionValue('project-managment-username');
             } else {
@@ -331,8 +331,8 @@ var shieldProject = {
         shieldDialog.formTable.add('Title', inputTag);
 
         // Parent Project
-        inputTag = '<label id="parent-label" for="parent_project" style="color: black;">' + this.info.parent + '</label>';
-        shieldDialog.formTable.add('Parent Project', inputTag);
+        //inputTag = '<label id="parent-label" for="parent_project" style="color: black;">' + this.info.parent + '</label>';
+        //shieldDialog.formTable.add('Parent Project', inputTag);
 
         // Sprint Schedule
         inputTag = ' <select id="sprint_schedule-select" class="retro-style unit-select">';
@@ -457,13 +457,18 @@ var shieldProject = {
         this.info.setDefult();
 
         var key = '';
-        var divObj = document.getElementById(Id).children[0];
 
-        if(isCallingFromDropMenu) {
-            key = document.getElementById(divObj.innerHTML).children[0].innerHTML;
-            document.getElementById(Id).style.display = "none";
-        } else {
-            key = divObj.innerHTML;
+        if(Id == '')
+            key = 'System(All Projects)';
+        else {
+            var divObj = document.getElementById(Id).children[0];
+
+            if(isCallingFromDropMenu) {
+                key = document.getElementById(divObj.innerHTML).children[0].innerHTML;
+                document.getElementById(Id).style.display = "none";
+            } else {
+                key = divObj.innerHTML;
+            }
         }
 
         if((key != null) && (key != "")) {

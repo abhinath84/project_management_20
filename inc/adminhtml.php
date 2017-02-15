@@ -12,8 +12,6 @@
             parent::__construct($curNav, $curDir, $enableNav, $tabItems, $currentTab);
         }
 
-        abstract protected function fillDashboard();
-
         protected function getWidgetboxContent()
         {
 
@@ -21,12 +19,6 @@
 
         protected function addDashboard()
         {
-            /*$tag = '';
-            $tag .= '<div class="main-article display-table article-container">' . $this->EOF_LINE;
-            $tag .=     parent::getTabMenu();
-            $tag .=     $this->fillDashboard();
-            $tag .= '</div>' . $this->EOF_LINE;*/
-
             return( parent::getWidgetbox() );
         }
     }
@@ -173,7 +165,6 @@
             $this->table = new HTMLTable("project-table", "grippy-table");
             $this->dropdownList = array
                                   (
-                                      array("Add Child Project", ""),
                                       array("Edit", ""),
                                       array("Move Project", ""),
                                       array("Close Project", ""),
@@ -181,23 +172,13 @@
                                   );
         }
 
-        protected function fillDashboard()
-        {
-            $tag = "";
-
-            $tag .= '   <div class="main-article-tab-container display-table-row">' . $this->EOF_LINE;
-            $tag .= '       <div class="main-article-tab-info-container">' . $this->EOF_LINE;
-            $tag .=             Utility::getWidgetBox('Projects', 'project-div', '', '', '', $this->getWidgetContent());
-            $tag .= '       </div>' . $this->EOF_LINE;
-            $tag .= '   </div>' . $this->EOF_LINE;
-
-            return($tag);
-        }
-
         protected function getWidgetboxContent()
         {
             $tag = '               <div id="project-add-form-container"></div>' . $this->EOF_LINE;
             $tag .=                 Utility::getQuickActionBtnDropdown('project-table-dropdown', $this->dropdownList);
+            $tag .= '               <div style="float: right; margin-bottom: 30px;">' . $this->EOF_LINE;
+            $tag .=                     Utility::getRetroButton('Add Project', 'green add-padding', 'onclick="shieldProject.openAddDialog(\'\', \'project-tbody\', false)"');
+            $tag .= '               </div>' . $this->EOF_LINE;
             $tag .= '               <div id="project-table-container">' . $this->EOF_LINE;
             $tag .=                     $this->getProjectTable();
             $tag .= '               </div>' . $this->EOF_LINE;
@@ -260,7 +241,7 @@
                         {
                             $this->table->tr(null, null, null, "align=\"center\"");
                                 $this->table->td(getGreppyDotTag(), "1-greppy", "hasGrippy", "text-align:center;", "width=\"1%\"");
-                                $this->table->td($this->getProjectTitle($inx, $row[0], false), "{$inx}-title", "project-title-td", null, "width=\"25%\"");
+                                $this->table->td($this->getProjectTitle($inx, $row[0], false), "{$inx}-title", "project-title-td", null, "width=\"30%\"");
                                 $this->table->td(Utility::decode($row[1]), "{$inx}-owner", null, null, "width=\"18%\"");
                                 $this->table->td("{$row[2]}", "{$inx}-begin_date", null, null, "width=\"10%\"");
                                 $this->table->td("{$row[3]}", "{$inx}-end_date", null, null, "width=\"10%\"");
@@ -274,7 +255,7 @@
                                 $this->table->td("{$row[10]}", "{$inx}-target_swag", null, "display: none;");
                                 $this->table->td("{$row[11]}", "{$inx}-reference", null, "display: none;");
 
-                                $this->table->td(Utility::getQuickActionBtn("{$inx}-project-edit-btn", "Add Child Project", "project-td-btn", "onclick=\"shieldProject.openAddDialog('{$inx}-project-edit-btn', 'project-tbody', false)\"", "{$inx}", "project-table-dropdown"), "project-edit", null, null, "width=\"5%\"");
+                                $this->table->td(Utility::getQuickActionBtn("{$inx}-project-edit-btn", "Edit", "project-td-btn", "onclick=\"shieldProject.openEditDialog('{$inx}-project-edit-btn', 'project-tbody', false)\"", "{$inx}", "project-table-dropdown"), "project-edit", null, null, "width=\"5%\"");
 
                             $inx++;
                         }
@@ -325,26 +306,13 @@
                                   );
         }
 
-        protected function fillDashboard()
-        {
-            $tag = '';
-
-            $tag .= '   <div class="main-article-tab-container display-table-row">' . $this->EOF_LINE;
-            $tag .= '       <div class="main-article-tab-info-container">' . $this->EOF_LINE;
-            $tag .=             Utility::getWidgetBox('Sprint Schedules', 'sprint-schedule-div', '', '', '', $this->getWidgetContent());
-            $tag .= '       </div>' . $this->EOF_LINE;
-            $tag .= '   </div>' . $this->EOF_LINE;
-
-            return($tag);
-        }
-
         protected function getWidgetboxContent()
         {
             $content = '               <div id="sprint-schedule-add-form-container">' . $this->EOF_LINE;
             $content .= '               </div>' . $this->EOF_LINE;
 
-            $content .= '               <div style="float: right; margin-right: 25px;">' . $this->EOF_LINE;
-            $content .=                     Utility::getRetroButton('Add Sprint Schedule', 'green add-spr', 'onclick="shieldSprintSchedule.openAddDialog(\'sprint-schedule-tbody\');"');
+            $content .= '               <div style="float: right; margin-bottom: 30px;">' . $this->EOF_LINE;
+            $content .=                     Utility::getRetroButton('Add Sprint Schedule', 'green add-padding', 'onclick="shieldSprintSchedule.openAddDialog(\'sprint-schedule-tbody\');"');
             $content .= '               </div>' . $this->EOF_LINE;
 
             $content .=                 Utility::getQuickActionBtnDropdown('sprint-schedule-table-dropdown', $this->dropdownList);
@@ -432,11 +400,6 @@
             parent::__construct("Projects", "admin", true, "Member Roles");
         }
 
-        protected function fillDashboard()
-        {
-
-        }
-
         protected function getWidgetboxContent()
         {
             $memberContent = '';
@@ -445,13 +408,15 @@
             $memberContent .= ' <div class="doom-line">';
             $memberContent .= '     <span>MEMBERS</span>';
             $memberContent .= ' </div>';
-            $memberContent .= ' <div style="float: right;">' . $this->EOF_LINE;
-            $memberContent .=       Utility::getRetroButton('Close', 'red', 'onclick="memberRoles.close();"');
-            $memberContent .= ' </div>' . $this->EOF_LINE;
-            $memberContent .= ' <div style="float: right; margin-right: 25px;">' . $this->EOF_LINE;
+            $memberContent .= ' <div style="margin: 20px 0; display: flex;">';
+            $memberContent .= ' <div style="margin-left: auto">' . $this->EOF_LINE;
             $memberContent .=       Utility::getRetroButton('Save', 'green', 'onclick="memberRoles.save();"');
             $memberContent .= ' </div>' . $this->EOF_LINE;
-            $memberContent .= ' <div style="clear:both; padding-top: 10px;">';
+            $memberContent .= ' <div style="margin-left: 25px;">' . $this->EOF_LINE;
+            $memberContent .=       Utility::getRetroButton('Close', 'red', 'onclick="memberRoles.close();"');
+            $memberContent .= ' </div>' . $this->EOF_LINE;
+            $memberContent .= ' </div>';
+            $memberContent .= ' <div style="clear:both;">';
             $memberContent .=       $this->getMemberTable();
             $memberContent .= ' </div>';
             $memberContent .= '</div>';
@@ -515,7 +480,7 @@
                                 array("&nbsp;", null, null, null, null),
                                 array('Name', null, null, null, 'data-sort="string"'),
                                 array("Username", null,  null, null, 'data-sort="string"'),
-                                array("Project Role", null, null, null, null),
+                                array("Project Role", null, null, null, 'data-sort="string"'),
                                 array("New Project Role", null, null, null, null)
                             );
             $this->fillTableHead("member-thead", $thList);
@@ -601,32 +566,13 @@
         }
     }
 
-    class ProgramsHTML extends ProjectHTML
+    /*class ProgramsHTML extends ProjectHTML
     {
         public function __construct($curNav = null, $curDir = null, $enableNav = false)
         {
             parent::__construct("Projects", "admin", true, "Programs");
         }
-
-        protected function fillDashboard()
-        {
-            $tag = "";
-
-            $tag .= '   <div class="main-article-tab-container display-table-row">' . $this->EOF_LINE;
-            $tag .= '       <div class="main-article-tab-info-container">' . $this->EOF_LINE;
-
-            $tag .=             Utility::getArticleTitle('Programs');
-
-            $tag .= '           <div class="project-container">' . $this->EOF_LINE;
-            //$tag .=                 $this->getProjectTable();
-            $tag .= '           </div>' . $this->EOF_LINE;
-
-            $tag .= '       </div>' . $this->EOF_LINE;
-            $tag .= '   </div>' . $this->EOF_LINE;
-
-            return($tag);
-        }
-    }
+    }*/
 
     class MembersHTML extends MemberHTML
     {
@@ -641,27 +587,14 @@
                                   );
         }
 
-        protected function fillDashboard()
-        {
-            $tag = '';
-
-            $tag .= '<div class="main-article-tab-container display-table-row">' . $this->EOF_LINE;
-            $tag .= '   <div class="main-article-tab-info-container member-role-info-container">' . $this->EOF_LINE;
-            $tag .=         Utility::getWidgetBox('Members', 'member-div', '', '', '', $this->getWidgetContent());
-            $tag .= '   </div>' . $this->EOF_LINE;
-            $tag .= '</div>' . $this->EOF_LINE;
-
-            return($tag);
-        }
-
-        private function getWidgetContent()
+        protected function getWidgetboxContent()
         {
             $tag = '';
 
             $tag .= '<div id="member-form-container"></div>' . $this->EOF_LINE;
             $tag .= Utility::getQuickActionBtnDropdown('member-edit-dropdown', $this->dropdownList);
-            $tag .= '<div style="float: right; margin-right: 25px;">' . $this->EOF_LINE;
-            $tag .=     Utility::getRetroButton('Add Member', 'green', 'onclick="shieldMembers.openAddDialog(\'member-tbody\');"');
+            $tag .= '<div id="add-member-btn-container">' . $this->EOF_LINE;
+            $tag .=     Utility::getRetroButton('Add Member', 'green add-padding', 'onclick="shieldMembers.openAddDialog(\'member-tbody\');"');
             $tag .= '</div>' . $this->EOF_LINE;
             $tag .= '<div id="member-table-container" style="clear: both;">' . $this->EOF_LINE;
             $tag .=     $this->getMemberTable();
@@ -693,8 +626,8 @@
                                     array("&nbsp;", null, null, null, null),
                                     array('Name', null, null, null, 'data-sort="string"'),
                                     array("Username", null,  null, null, 'data-sort="string"'),
-                                    array("Admin Privilage", null, null, null, null),
-                                    array("Email", null, null, null, null),
+                                    array("Admin Privilage", null, null, null, 'data-sort="string"'),
+                                    array("Email", null, null, null, 'data-sort="string"'),
                                     array("&nbsp;", null, null, null, null)
                                 );
 
@@ -748,36 +681,178 @@
             parent::__construct("Members", "admin", true, "Project Assignment");
         }
 
-        protected function fillDashboard()
+        protected function getWidgetboxContent()
         {
-            $tag = "";
+            $tag = '';
 
-            $tag .= '   <div class="main-article-tab-container display-table-row">' . $this->EOF_LINE;
-            $tag .= '       <div class="main-article-tab-info-container">' . $this->EOF_LINE;
+            $tag .= '<div id="project-div" style="padding-bottom: 50px;">';
+            $tag .= '   <div class="doom-line">';
+            $tag .= '       <span>PROJECTS</span>';
+            $tag .= '   </div>';
+            $tag .=     $this->getProjectTable();
+            $tag .= '</div>';
 
-            $tag .=             Utility::getArticleTitle('Projects');
-
-            $tag .= '               <div id="project-table-container" class="project-container">' . $this->EOF_LINE;
-            $tag .= '                   <div style="float: right; margin-right: 25px;">' . $this->EOF_LINE;
-            $tag .=                         Utility::getRetroButton('Add Member', 'green', 'onclick="members.addMembers();"');
-            $tag .= '                   </div>' . $this->EOF_LINE;
-            $tag .= '                   <div id="member-table-container" style="clear: both;">' . $this->EOF_LINE;
-            $tag .=                         $this->getMemberTable();
-            $tag .= '                   </div>' . $this->EOF_LINE;
+            $tag .= '<div id="member-div">';
+            $tag .= ' <div class="doom-line">';
+            $tag .= '     <span>MEMBERS</span>';
+            $tag .= ' </div>';
+            $tag .= '               <div style="margin: 30px 0;">' . $this->EOF_LINE;
+            $tag .=                     Utility::getRetroButton('Assign to Project', 'green add-padding', 'onclick=""');
             $tag .= '               </div>' . $this->EOF_LINE;
-            $tag .= '       </div>' . $this->EOF_LINE;
-            $tag .= '   </div>' . $this->EOF_LINE;
+            $tag .= ' <div>';
+            $tag .=       $this->getMemberTable();
+            $tag .= ' </div>';
+            $tag .= '</div>';
 
             return($tag);
         }
 
+        private function getProjectTable()
+        {
+            $str = "";
+            $this->table = new HTMLTable("project-table", "grippy-table");
+
+            $qry = "SELECT title, owner, begin_date, end_date, sprint_schedule, parent, description, status, target_estimate, test_suit, target_swag, reference FROM scrum_project  WHERE parent = 'System(All Projects)' AND ((owner = '". $_SESSION['project-managment-username'] ."') OR (title IN (SELECT project_title FROM scrum_project_member WHERE member_id='". $_SESSION['project-managment-username'] ."')))";
+
+            // fill table components to display Sprint Schedule.
+            // add table header
+            $title_th = '<a href="javascript:void(0);"><span class="icon plus-icon"></span></a>
+                        <a href="javascript:void(0);"><span class="icon minus-icon"></span></a>
+                        Title';
+            $thList = array
+                            (
+                                array("&nbsp;", null, null, null, null),
+                                array($title_th, null, null, null, 'data-sort="string"'),
+                                array("Owner", null,  null, null, 'data-sort="string"'),
+                                array("Begin Date", null, null, null, 'data-sort="string"'),
+                                array("End Date", null, null, null, 'data-sort="string"')
+                            );
+            $this->fillTableHead("project-thead", $thList);
+
+            // add Table body
+            $this->fillTableBody("project-tbody", $qry);
+
+            return(utf8_encode($this->table->toHTML()));
+        }
+
         private function getMemberTable()
+        {
+            $str = "";
+            $this->table = new HTMLTable("member-table", "grippy-table");
+
+            // fill table components to display Sprint Schedule.
+            // add table header
+            $thList = array
+                            (
+                                array("&nbsp;", null, null, null, null),
+                                array('<input type="checkbox" id="select_all" clickhandler="V1.Gadgets.Grid.MultiSelect.ToggleAll(\'_fjvevqi\');">', null, null, null, null),
+                                array('Name', null, null, null, 'data-sort="string"'),
+                                array("Username", null,  null, null, 'data-sort="string"'),
+                                array("Admin Privilage", null, null, null, 'data-sort="string"'),
+                                array("Project Membership", null, null, null, null)
+                            );
+            $this->fillTableHead("member-thead", $thList);
+
+            $qry = "SELECT user.first_name, user.last_name, user.user_name, scrum_member.privilage FROM user INNER JOIN scrum_member ON scrum_member.member_id = user.user_name ORDER BY user.user_name DESC";
+            // add Table body
+            $this->fillTableBody("member-tbody", $qry);
+
+            /*$this->table->tbody("member-tbody");
+                $this->table->tr(null, null, null, "align=\"center\"");
+                    $this->table->td("<p>No result !!!</p>", "no-result", null, null, null);*/
+
+            return(utf8_encode($this->table->toHTML()));
+        }
+
+        public function fillTableHead($title, $thList)
+        {
+            // add table header
+            $this->table->thead($title);
+            foreach($thList as $th)
+                $this->table->th($th[0], $th[1], $th[2], $th[3], $th[4]);
+        }
+
+        public function fillTableBody($tbody, $qry)
+        {
+            global $conn;
+            $status = false;
+
+            if($this->table != null)
+            {
+                $status = true;
+
+                // add Table body
+                $this->table->tbody($tbody);
+
+                $rows = $conn->result_fetch_array($qry);
+                if(!empty($rows))
+                {
+                    // loop over the result and fill the rows
+                    $inx = 1;
+                    foreach($rows as $row)
+                    {
+                        if($row[0] != 'System(All Projects)')
+                        {
+                            if($tbody == "project-tbody")
+                                $this->addProjectRow($inx, $row);
+                            else
+                                $this->addMemberRow($inx, $row);
+                            $inx++;
+                        }
+                    }
+                }
+                else
+                {
+                    $this->table->tr(null, null, null, "align=\"center\"");
+                        $this->table->td("<p>No result !!!</p>", "no-result", null, null, null);
+                }
+            }
+
+            return($status);
+        }
+
+        private function addProjectRow($inx, $row)
+        {
+            $this->table->tr("{$inx}-project-tr");
+                $this->table->td(getGreppyDotTag(), "1-greppy", "hasGrippy", "text-align:center;", "width=\"1%\"");
+                $this->table->td($this->getProjectTitle($inx, $row[0], false), "{$inx}-title", "project-title-td", null, "width=\"35%\"");
+                $this->table->td(Utility::decode($row[1]), "{$inx}-owner", null, null, "width=\"25%\"");
+                $this->table->td("{$row[2]}", "{$inx}-begin_date", null, null, "width=\"20%\"");
+                $this->table->td("{$row[3]}", "{$inx}-end_date", null, null, "width=\"20%\"");
+        }
+
+        private function addMemberRow($inx, $row)
+        {
+            $name = Utility::decode($row[0]) . ' ' . Utility::decode($row[1]);
+
+            $this->table->tr(null, null, null, "align=\"center\"");
+                $this->table->td(getGreppyDotTag(), "1-greppy", "hasGrippy", "text-align:center;", "width=\"1%\"");
+                $this->table->td('<input type="checkbox" clickhandler="V1.Gadgets.Grid.MultiSelect.ToggleAll(\'_fjvevqi\');" class="checkbox">', "{$inx}", null, "width: 2%", "text-align=\"center\"");
+                $this->table->td($name, "{$inx}-name", "project-title-td", null, "width=\"20%\"");
+                $this->table->td(Utility::decode($row[2]), "{$inx}-member_id", null, null, "width=\"20%\"");
+                $this->table->td("{$row[3]}", "{$inx}-old-privilage", null, null, "width=\"20%\"");
+                $this->table->td("{$row[3]}", "{$inx}-old-privilage", null, null, "width=\"40%\"");
+        }
+
+        private function getProjectTitle($id, $val, $isChild)
         {
             $tag = '';
 
-            $tag .= '                       <p>#block for Table</p>' . $this->EOF_LINE;
+            if($isChild)
+                $tag .= '<span>&nbsp;&nbsp;&nbsp;&nbsp;</span>';
+
+            $tag .= '   <a class = "project-title-plus-icon" href="javascript:void(0);"><span class="icon plus-icon"></span></a>';
+            /*$tag .= '   <span class="project-title-image">' . EOF_LINE;
+            $tag .= '       <img alt="backlog" src="../images/project_folder.png" title="backlog">'. EOF_LINE;
+            $tag .= '   </span>'.EOF_LINE;*/
+            $tag .= '   <span id="'. $id .'-title-span">' . $val . '</span>'.EOF_LINE;
 
             return($tag);
+        }
+
+        public function getTBodyElementHTML()
+        {
+            return($this->table->getTBodyElementHTML());
         }
     }
 
@@ -788,14 +863,9 @@
             parent::__construct("Members", "admin", true, "Project Roles");
         }
 
-        protected function fillDashboard()
+        protected function getWidgetboxContent()
         {
-            $tag = "";
-
-            $tag .= '   <div class="main-article-tab-container display-table-row">' . $this->EOF_LINE;
-            $tag .= '       <div class="main-article-tab-info-container">' . $this->EOF_LINE;
-
-            $tag .=             Utility::getArticleTitle('Members');
+            $tag = '';
 
             $tag .= '               <div id="project-table-container" class="project-container">' . $this->EOF_LINE;
             $tag .= '                   <div style="float: right; margin-right: 25px;">' . $this->EOF_LINE;
@@ -805,8 +875,6 @@
             $tag .=                         $this->getMemberTable();
             $tag .= '                   </div>' . $this->EOF_LINE;
             $tag .= '               </div>' . $this->EOF_LINE;
-            $tag .= '       </div>' . $this->EOF_LINE;
-            $tag .= '   </div>' . $this->EOF_LINE;
 
             return($tag);
         }

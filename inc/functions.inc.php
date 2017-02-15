@@ -530,7 +530,7 @@
         global $conn;
         $tag = "";
 
-        $qry = "SELECT title, owner, begin_date, end_date, sprint_schedule, parent, description, status, target_estimate, test_suit, target_swag, reference FROM scrum_project  WHERE (owner = '". $_SESSION['project-managment-username'] ."') OR (title IN (SELECT project_title FROM scrum_project_member WHERE member_id='". $_SESSION['project-managment-username'] ."'))";
+        $qry = "SELECT title, owner, begin_date, end_date, sprint_schedule, parent, description, status, target_estimate, test_suit, target_swag, reference FROM scrum_project  WHERE parent = 'System(All Projects)' AND ((owner = '". $_SESSION['project-managment-username'] ."') OR (title IN (SELECT project_title FROM scrum_project_member WHERE member_id='". $_SESSION['project-managment-username'] ."')))";
 
         $projectsHTMLObj = new ProjectsHTML();
 
@@ -570,7 +570,7 @@
 
                 $table->tr(null, null, null, "align=\"center\"");
                     $table->td(getGreppyDotTag(), "1-greppy", "hasGrippy", "text-align:center;", "width=\"1%\"");
-                    $table->td($name, "{$inx}-name", "project-title-td", null, "width=\"32%\"");
+                    $table->td($name, "{$inx}-name", "project-title-td", null, "width=\"38%\"");
                     $table->td(Utility::decode($row[2]), "{$inx}-member_id", null, null, "width=\"20%\"");
                     $table->td("{$row[3]}", "{$inx}-old-privilage", null, null, "width=\"20%\"");
                     $table->td("{$newProjectRoleSelect}", "{$inx}-new-privilage", null, null, "width=\"20%\"");
