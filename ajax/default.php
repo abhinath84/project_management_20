@@ -837,6 +837,12 @@ function shortDescriptionCallback($comment, $limit)
     echo(json_encode($shortDesc));
 }
 
+function deleteProjectCallback()
+{
+    // delete corresponding project from 'scrum_project' Table
+    // and all the table element which are department on project.
+}
+
 function addSprintScheduleCallback()
 {
     $errors     = array();      // array to hold validation errors

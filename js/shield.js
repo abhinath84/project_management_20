@@ -445,14 +445,6 @@ var shieldProject = {
         this.onclickSaveSuccessFunc();
     },
 
-    openAddDialog: function(Id, tbodyId, isCallingFromDropMenu) {
-        this.openDialog(Id, tbodyId, isCallingFromDropMenu, true);
-    },
-
-    openEditDialog: function(Id, tbodyId, isCallingFromDropMenu) {
-        this.openDialog(Id, tbodyId, isCallingFromDropMenu, false);
-    },
-
     openDialog: function (Id, tbodyId, isCallingFromDropMenu, isAdding) {
         this.info.setDefult();
 
@@ -460,16 +452,8 @@ var shieldProject = {
 
         if(Id == '')
             key = 'System(All Projects)';
-        else {
-            var divObj = document.getElementById(Id).children[0];
-
-            if(isCallingFromDropMenu) {
-                key = document.getElementById(divObj.innerHTML).children[0].innerHTML;
-                document.getElementById(Id).style.display = "none";
-            } else {
-                key = divObj.innerHTML;
-            }
-        }
+        else
+            key = Id;
 
         if((key != null) && (key != "")) {
             this.fillInfo(key, isAdding);
@@ -487,6 +471,50 @@ var shieldProject = {
             shieldDialog.toolBar.toolbarBtns.add('submit-btns', 'retro-style green-bg add-spr', 'Save', 'onclick="shieldProject.onclickSave(\''+ tbodyId +'\')"');
 
             shield.openDialog(this, false, 'project-add-form-container', shieldDialog.getTag);
+        }
+    },
+
+    openAddDialog: function(Id, tbodyId, isCallingFromDropMenu) {
+        this.openDialog(Id, tbodyId, isCallingFromDropMenu, true);
+    },
+
+    openEditDialog: function(Id, tbodyId, isCallingFromDropMenu) {
+        if(Id == '')
+            Id = document.getElementById('project-table-dropdown').children[0].innerHTML;
+
+        this.openDialog(Id, tbodyId, isCallingFromDropMenu, false);
+    },
+
+    closeProject: function() {
+
+    },
+
+    delete: function() {
+        var key     = document.getElementById('project-table-dropdown').children[0].innerHTML;
+        var title   = document.getElementById(key + "-title").innerHTML;
+        var parent  = document.getElementById(key + "-parent").innerHTML;
+
+        document.getElementById('project-table-dropdown').style.display = "none";
+
+        var r = confirm("Do you want to delete '" + title + "' ?");
+        if (r == true) {
+            var formData = {
+                    'clause'    : "title = '" + title + "' and parent = '" + parent + "'"
+            };
+
+            var data = {
+                url             : "../ajax/default.php",
+                callbackFunc    : "deleteProjectCallback",
+                formData        : formData,
+                successFunc     : function () {
+                    utility.updateDashboradTable('project-tbody', 'fillProjectTable', '');
+                },
+                errorFunc       : null,
+                failFunc        : null
+            };
+
+            // Update DB according to the input and also update sprint schedule list in the display.
+            utility.ajax.serverRespond(data);
         }
     }
 };

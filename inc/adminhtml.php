@@ -165,16 +165,16 @@
             $this->table = new HTMLTable("project-table", "grippy-table");
             $this->dropdownList = array
                                   (
-                                      array("Edit", ""),
-                                      array("Close Project", ""),
-                                      array("Delete", "")
+                                      array("Edit", 'onclick="shieldProject.openEditDialog(\'\', \'project-tbody\', true)"'),
+                                      array("Close Project", 'onclick="shieldProject.closeProject()"'),
+                                      array("Delete", 'onclick="shieldProject.delete()"')
                                   );
         }
 
         protected function getWidgetboxContent()
         {
             $tag = '               <div id="project-add-form-container"></div>' . $this->EOF_LINE;
-            $tag .=                 Utility::getQuickActionBtnDropdown('project-table-dropdown', $this->dropdownList);
+            $tag .=                Utility::getQuickActionBtnDropdown('project-table-dropdown', $this->dropdownList);
             $tag .= '               <div style="float: right; margin-bottom: 30px;">' . $this->EOF_LINE;
             $tag .=                     Utility::getRetroButton('Add Project', 'green add-padding', 'onclick="shieldProject.openAddDialog(\'\', \'project-tbody\', false)"');
             $tag .= '               </div>' . $this->EOF_LINE;
@@ -254,7 +254,7 @@
                                 $this->table->td("{$row[10]}", "{$inx}-target_swag", null, "display: none;");
                                 $this->table->td("{$row[11]}", "{$inx}-reference", null, "display: none;");
 
-                                $this->table->td(Utility::getQuickActionBtn("{$inx}-project-edit-btn", "Edit", "project-td-btn", "onclick=\"shieldProject.openEditDialog('{$inx}-project-edit-btn', 'project-tbody', false)\"", "{$inx}", "project-table-dropdown"), "project-edit", null, null, "width=\"5%\"");
+                                $this->table->td(Utility::getQuickActionBtn("{$inx}", "Edit", "project-td-btn", "onclick=\"shieldProject.openEditDialog('{$inx}', 'project-tbody', false)\"", "{$inx}", "project-table-dropdown"), "project-edit", null, null, "width=\"5%\"");
 
                             $inx++;
                         }
