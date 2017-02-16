@@ -166,7 +166,6 @@
             $this->dropdownList = array
                                   (
                                       array("Edit", ""),
-                                      array("Move Project", ""),
                                       array("Close Project", ""),
                                       array("Delete", "")
                                   );
@@ -203,14 +202,14 @@
 
         public function fillTableHead()
         {
-            $title_th = '<a href="javascript:void(0);"><span class="icon plus-icon"></span></a>
+            /*$title_th = '<a href="javascript:void(0);"><span class="icon plus-icon"></span></a>
                         <a href="javascript:void(0);"><span class="icon minus-icon"></span></a>
-                        Title';
+                        Title';*/
 
             // add table header
             $this->table->thead("project-thead");
                 $this->table->th("&nbsp;", null, null, null, null);
-                $this->table->th($title_th, null, null, null, "data-sort=\"string\"");
+                $this->table->th("Title", null, null, null, "data-sort=\"string\"");
                 $this->table->th("Owner", null,  null, null, "data-sort=\"string\"");
                 $this->table->th("Begin Date", null, null, null, "data-sort=\"string\"");
                 $this->table->th("End Date", null, null, null, "data-sort=\"string\"");
@@ -241,7 +240,7 @@
                         {
                             $this->table->tr(null, null, null, "align=\"center\"");
                                 $this->table->td(getGreppyDotTag(), "1-greppy", "hasGrippy", "text-align:center;", "width=\"1%\"");
-                                $this->table->td($this->getProjectTitle($inx, $row[0], false), "{$inx}-title", "project-title-td", null, "width=\"30%\"");
+                                $this->table->td("{$row[0]}", "{$inx}-title", "project-title-td", null, "width=\"30%\"");
                                 $this->table->td(Utility::decode($row[1]), "{$inx}-owner", null, null, "width=\"18%\"");
                                 $this->table->td("{$row[2]}", "{$inx}-begin_date", null, null, "width=\"10%\"");
                                 $this->table->td("{$row[3]}", "{$inx}-end_date", null, null, "width=\"10%\"");
@@ -271,7 +270,7 @@
             return($status);
         }
 
-        private function getProjectTitle($id, $val, $isChild)
+        /*private function getProjectTitle($id, $val, $isChild)
         {
             $tag = '';
 
@@ -282,10 +281,10 @@
             /*$tag .= '   <span class="project-title-image">' . EOF_LINE;
             $tag .= '       <img alt="backlog" src="../images/project_folder.png" title="backlog">'. EOF_LINE;
             $tag .= '   </span>'.EOF_LINE;*/
-            $tag .= '   <span id="'. $id .'-title-span">' . $val . '</span>'.EOF_LINE;
+            /*$tag .= '   <span id="'. $id .'-title-span">' . $val . '</span>'.EOF_LINE;
 
             return($tag);
-        }
+        }*/
 
         public function getTBodyElementHTML() {
             return($this->table->getTBodyElementHTML());
