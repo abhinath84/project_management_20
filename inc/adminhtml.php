@@ -432,9 +432,6 @@
 
             $tag .= $memberContent;
 
-            //$tag .=             Utility::getWidgetBox('Projects', 'project-div', '', '', '', $this->getProjectTable());
-            //$tag .=             Utility::getWidgetBox('Members', 'member-div', 'member-role-member-content', '', '', $memberContent);
-
             return($tag);
         }
 
@@ -447,13 +444,10 @@
 
             // fill table components to display Sprint Schedule.
             // add table header
-            $title_th = '<a href="javascript:void(0);"><span class="icon plus-icon"></span></a>
-                        <a href="javascript:void(0);"><span class="icon minus-icon"></span></a>
-                        Title';
             $thList = array
                             (
                                 array("&nbsp;", null, null, null, null),
-                                array($title_th, null, null, null, 'data-sort="string"'),
+                                array("Title", null, null, null, 'data-sort="string"'),
                                 array("Owner", null,  null, null, 'data-sort="string"'),
                                 array("Begin Date", null, null, null, 'data-sort="string"'),
                                 array("End Date", null, null, null, 'data-sort="string"'),
@@ -523,7 +517,7 @@
                         {
                             $this->table->tr("{$inx}-project-tr");
                                 $this->table->td(getGreppyDotTag(), "1-greppy", "hasGrippy", "text-align:center;", "width=\"1%\"");
-                                $this->table->td($this->getProjectTitle($inx, $row[0], false), "{$inx}-title", "project-title-td", null, "width=\"32%\"");
+                                $this->table->td("{$row[0]}", "{$inx}-title", null, null, "width=\"32%\"");
                                 $this->table->td(Utility::decode($row[1]), "{$inx}-owner", null, null, "width=\"20%\"");
                                 $this->table->td("{$row[2]}", "{$inx}-begin_date", null, null, "width=\"20%\"");
                                 $this->table->td("{$row[3]}", "{$inx}-end_date", null, null, "width=\"20%\"");
@@ -543,35 +537,11 @@
             return($status);
         }
 
-        private function getProjectTitle($id, $val, $isChild)
-        {
-            $tag = '';
-
-            if($isChild)
-                $tag .= '<span>&nbsp;&nbsp;&nbsp;&nbsp;</span>';
-
-            $tag .= '   <a class = "project-title-plus-icon" href="javascript:void(0);"><span class="icon plus-icon"></span></a>';
-            /*$tag .= '   <span class="project-title-image">' . EOF_LINE;
-            $tag .= '       <img alt="backlog" src="../images/project_folder.png" title="backlog">'. EOF_LINE;
-            $tag .= '   </span>'.EOF_LINE;*/
-            $tag .= '   <span id="'. $id .'-title-span">' . $val . '</span>'.EOF_LINE;
-
-            return($tag);
-        }
-
         public function getTBodyElementHTML()
         {
             return($this->table->getTBodyElementHTML());
         }
     }
-
-    /*class ProgramsHTML extends ProjectHTML
-    {
-        public function __construct($curNav = null, $curDir = null, $enableNav = false)
-        {
-            parent::__construct("Projects", "admin", true, "Programs");
-        }
-    }*/
 
     class MembersHTML extends MemberHTML
     {
@@ -715,13 +685,10 @@
 
             // fill table components to display Sprint Schedule.
             // add table header
-            $title_th = '<a href="javascript:void(0);"><span class="icon plus-icon"></span></a>
-                        <a href="javascript:void(0);"><span class="icon minus-icon"></span></a>
-                        Title';
             $thList = array
                             (
                                 array("&nbsp;", null, null, null, null),
-                                array($title_th, null, null, null, 'data-sort="string"'),
+                                array("Title", null, null, null, 'data-sort="string"'),
                                 array("Owner", null,  null, null, 'data-sort="string"'),
                                 array("Begin Date", null, null, null, 'data-sort="string"'),
                                 array("End Date", null, null, null, 'data-sort="string"')
@@ -814,7 +781,7 @@
         {
             $this->table->tr("{$inx}-project-tr");
                 $this->table->td(getGreppyDotTag(), "1-greppy", "hasGrippy", "text-align:center;", "width=\"1%\"");
-                $this->table->td($this->getProjectTitle($inx, $row[0], false), "{$inx}-title", "project-title-td", null, "width=\"35%\"");
+                $this->table->td("{$row[0]}", "{$inx}-title", "project-title-td", null, "width=\"35%\"");
                 $this->table->td(Utility::decode($row[1]), "{$inx}-owner", null, null, "width=\"25%\"");
                 $this->table->td("{$row[2]}", "{$inx}-begin_date", null, null, "width=\"20%\"");
                 $this->table->td("{$row[3]}", "{$inx}-end_date", null, null, "width=\"20%\"");
@@ -831,22 +798,6 @@
                 $this->table->td(Utility::decode($row[2]), "{$inx}-member_id", null, null, "width=\"20%\"");
                 $this->table->td("{$row[3]}", "{$inx}-old-privilage", null, null, "width=\"20%\"");
                 $this->table->td("{$row[3]}", "{$inx}-old-privilage", null, null, "width=\"40%\"");
-        }
-
-        private function getProjectTitle($id, $val, $isChild)
-        {
-            $tag = '';
-
-            if($isChild)
-                $tag .= '<span>&nbsp;&nbsp;&nbsp;&nbsp;</span>';
-
-            $tag .= '   <a class = "project-title-plus-icon" href="javascript:void(0);"><span class="icon plus-icon"></span></a>';
-            /*$tag .= '   <span class="project-title-image">' . EOF_LINE;
-            $tag .= '       <img alt="backlog" src="../images/project_folder.png" title="backlog">'. EOF_LINE;
-            $tag .= '   </span>'.EOF_LINE;*/
-            $tag .= '   <span id="'. $id .'-title-span">' . $val . '</span>'.EOF_LINE;
-
-            return($tag);
         }
 
         public function getTBodyElementHTML()

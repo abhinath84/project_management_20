@@ -295,7 +295,7 @@ var shieldProject = {
                 this.info.begin_date         = utility.getCurrentDate('-');
                 this.info.owner              = utility.getSessionValue('project-managment-username');
             } else {
-                this.info.title              = document.getElementById(key + "-title-span").innerHTML;
+                this.info.title              = document.getElementById(key + "-title").innerHTML;
                 this.info.parent             = document.getElementById(key + "-parent").innerHTML;
                 this.info.sprint_schedule    = document.getElementById(key + "-sprint_schedule").innerHTML;
                 this.info.description        = document.getElementById(key + "-description").innerHTML;

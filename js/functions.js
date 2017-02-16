@@ -1273,7 +1273,7 @@ var memberRoles = {
                 // set bg-color for selected color.
                 $('#' + rowId + '-project-tr').addClass('alice-blue-bg');
 
-                var projectName = document.getElementById(rowId + '-title-span').innerHTML;
+                var projectName = document.getElementById(rowId + '-title').innerHTML;
                 // get members for the selected project.
                 utility.updateDashboradTable('member-tbody', 'fillMemberRolesMemberTable', projectName);
 
