@@ -467,7 +467,10 @@ var shieldProject = {
             shieldDialog.toolBar.toolbarBtns.clear();
 
             shieldDialog.toolBar.toolbarBtns.add('submit-btns', 'retro-style red add-spr', 'Cancel', 'onclick="shieldProject.onclickCancel(\''+ tbodyId +'\')"');
-            shieldDialog.toolBar.toolbarBtns.add('submit-btns', 'retro-style green-bg add-spr', 'Save & New', 'onclick="shieldProject.onclickSaveNew(\''+ tbodyId +'\')"');
+
+            if(isAdding)
+                shieldDialog.toolBar.toolbarBtns.add('submit-btns', 'retro-style green-bg add-spr', 'Save & New', 'onclick="shieldProject.onclickSaveNew(\''+ tbodyId +'\')"');
+            
             shieldDialog.toolBar.toolbarBtns.add('submit-btns', 'retro-style green-bg add-spr', 'Save', 'onclick="shieldProject.onclickSave(\''+ tbodyId +'\')"');
 
             shield.openDialog(this, false, 'project-add-form-container', shieldDialog.getTag);
@@ -483,6 +486,10 @@ var shieldProject = {
             Id = document.getElementById('project-table-dropdown').children[0].innerHTML;
 
         this.openDialog(Id, tbodyId, isCallingFromDropMenu, false);
+
+        // hide project-table-dropdown' menu if it's open.
+        if(isCallingFromDropMenu)
+            document.getElementById('project-table-dropdown').style.display = "none";
     },
 
     closeProject: function() {

@@ -166,7 +166,6 @@
             $this->dropdownList = array
                                   (
                                       array("Edit", 'onclick="shieldProject.openEditDialog(\'\', \'project-tbody\', true)"'),
-                                      array("Close Project", 'onclick="shieldProject.closeProject()"'),
                                       array("Delete", 'onclick="shieldProject.delete()"')
                                   );
         }

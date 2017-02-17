@@ -839,8 +839,17 @@ function shortDescriptionCallback($comment, $limit)
 
 function deleteProjectCallback()
 {
-    // delete corresponding project from 'scrum_project' Table
+    // delete corresponding project from 'scrum_project' Table.
+    
     // and all the table element which are department on project.
+    // Following tables are depending on 'project'
+    // - scrum_release_planning
+    // - scrum_project_member
+    // - scrum_backlog
+    // - scrum_task
+    // - scrum_sprint
+
+    // 'scrum_release_planning' also have backlog & task, those are also needs to delete.
 }
 
 function addSprintScheduleCallback()
