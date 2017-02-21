@@ -1275,7 +1275,7 @@ var memberRoles = {
 
                 var projectName = document.getElementById(rowId + '-title').innerHTML;
                 // get members for the selected project.
-                utility.updateDashboradTable('member-tbody', 'fillMemberRolesMemberTable', projectName);
+                utility.updateDashboradTable('member-tbody', 'getMemberTableElement', 'MemberRolesHTML', projectName);
 
                 // display member for changing role.
                 $('#' + this.info.memberDiv).css('display', 'block');

@@ -36,26 +36,33 @@ class GrippyTable
     {
         global $conn;
 
-        if(
-            (($tbodyName != null) && ($tbodyName != '')) &&
-            (($qry != null) && ($qry != '')) &&
-            ($callback != null)
-          )
+        if(($tbodyName != null) && ($tbodyName != ''))
         {
             // add Table body
             $this->table->tbody($tbodyName);
 
-            $rows = $conn->result_fetch_array($qry);
-            if(!empty($rows))
+            if(
+                (($qry != null) && ($qry != '')) &&
+                ($callback != null)
+            )
             {
-                // loop over the result and fill the rows
-                $this->inx = 1;
-                foreach($rows as $row)
+                $rows = $conn->result_fetch_array($qry);
+                if(!empty($rows))
                 {
-                    call_user_func($callback, $this->table, $row, $this->inx);
-                    //$this->addBodyRow($row);
+                    // loop over the result and fill the rows
+                    $this->inx = 1;
+                    foreach($rows as $row)
+                    {
+                        call_user_func($callback, $this->table, $row, $this->inx);
+                        //$this->addBodyRow($row);
 
-                    $this->inx++;
+                        $this->inx++;
+                    }
+                }
+                else
+                {
+                    $this->table->tr(null, null, null, "align=\"center\"");
+                        $this->table->td("<p>No result !!!</p>", "no-result", null, null, null);
                 }
             }
             else

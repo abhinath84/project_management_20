@@ -108,10 +108,17 @@ function updateDashboradTableCallback()
 
     if(!empty($_POST["fillTableFunc"]))
     {
-        if(empty($_POST["clause"]))
-            $tag .= $_POST["fillTableFunc"]();
+        $callback = null;
+
+        if(empty($_POST["fillTableFuncClass"]))
+          $callback = $_POST["fillTableFunc"];
         else
-            $tag .= $_POST["fillTableFunc"]($_POST["clause"]);
+          $callback = array($_POST["fillTableFuncClass"], $_POST["fillTableFunc"]);
+
+        if(empty($_POST["clause"]))
+            $tag .= call_user_func($callback);
+        else
+            $tag .= call_user_func($callback, ($_POST["clause"]));
     }
 
     echo(json_encode($tag));

@@ -89,7 +89,7 @@ var shieldSprintSchedule = {
         shield.show(false);
 
         // update sprint schedule list.
-        utility.updateDashboradTable('sprint-schedule-tbody', 'fillSprintSheduleTable', '');
+        utility.updateDashboradTable('sprint-schedule-tbody', 'getTableBodyElement', 'SprintScheduleHTML', '');
     },
 
     onclickSaveErrorFunc: function (data) {
@@ -385,7 +385,7 @@ var shieldProject = {
         shield.show(false);
 
         // update sprint schedule list.
-        utility.updateDashboradTable('project-tbody', 'fillProjectTable', '');
+        utility.updateDashboradTable('project-tbody', 'getTableBodyElement', 'ProjectsHTML', '');
     },
 
     onclickSaveErrorFunc: function (data) {
@@ -514,7 +514,7 @@ var shieldProject = {
                 callbackFunc    : "deleteProjectCallback",
                 formData        : formData,
                 successFunc     : function () {
-                    utility.updateDashboradTable('project-tbody', 'fillProjectTable', '');
+                    utility.updateDashboradTable('project-tbody', 'fillProjectTable', '', '');
                 },
                 errorFunc       : null,
                 failFunc        : null
@@ -655,7 +655,7 @@ var shieldMembers = {
         shield.show(false);
 
         // update sprint schedule list.
-        utility.updateDashboradTable('member-tbody', 'fillMembersTable', '');
+        utility.updateDashboradTable('member-tbody', 'fillMembersTable', '', '');
     },
 
     onclickSaveErrorFunc: function (data) {

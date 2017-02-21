@@ -168,9 +168,10 @@ var utility = {
         return(tag);
     },
 
-    updateDashboradTable: function (tagBodyId, fillTableFunc, clause) {
+    updateDashboradTable: function (tagBodyId, fillTableFunc, fillTableFuncClass, clause) {
         var formData = {
             'fillTableFunc' : fillTableFunc,
+            'fillTableFuncClass' : fillTableFuncClass,
             'clause'        : clause
         };
 
