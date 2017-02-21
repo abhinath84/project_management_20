@@ -52,11 +52,14 @@
 }
 
 .shield-dialog-form {
+    max-height: 500px;
     margin-right: 25px;
     padding-top: 25px;
     padding-bottom: 25px;
-    text-align:center;
-    background:white;
+    text-align: center;
+    background: white;
+    overflow-x: hidden;
+    overflow-y: scroll;
 }
 
 .shield-dialog-table {
@@ -80,6 +83,7 @@
 
 .shield-dialog-table .unit-select {
     height: 23px;
+    margin-left: 5px;
 }
 
 .red-asterisk {

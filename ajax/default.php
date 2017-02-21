@@ -865,24 +865,64 @@ function addSprintScheduleCallback()
     $errors     = array();      // array to hold validation errors
     $data       = array();      // array to pass back data
 
-    // create object of mysqlDB class to add data into mysql database.
-    $mysqlDBObj = new mysqlDB('scrum_sprint_schedule');
 
-    $keys = array('title', 'length', 'length_unit', 'gap', 'gap_unit', 'description', 'key_title');
-    foreach($keys as $each)
-        $mysqlDBObj->appendData($each, $_POST[$each]);
-
-    $msg = $mysqlDBObj->insert();
-    if($msg == false)
+    // check for invalid/empty/duplicate sprint schedule title.
+    if($_POST['title'] == '')
+        $errors['title'] = 'Please enter title.';
+    else
     {
-        $errors[0] = ['qry', $msg];
+        // check for duplicate title
+        $exists = false;
+        if($exists == true)
+            $errors['title'] = 'Sprint Schedule already exists, Please enter another title.';
+    }
 
-        $data['success'] = false;
-        $data['errors']  = $errors;
+    // check for empty/non-numeric len value.
+    if($_POST['length'] == '')
+        $errors['len'] = 'Please enter Sprint Length.';
+    else
+    {
+        // check numeric value
+        if( !(is_numeric($_POST['length'])) )
+            $errors['len'] = 'Please enter numeric value.';
+    }
+
+    // check for empty/non-numeric gap value.
+    if($_POST['gap'] == '')
+        $errors['gap'] = 'Please enter Sprint Gap.';
+    else
+    {
+        // check numeric value
+        if( !(is_numeric($_POST['gap'])) )
+            $errors['gap'] = 'Please enter numeric value.';
+    }
+
+    if(count($errors) == 0)
+    {
+        // create object of mysqlDB class to add data into mysql database.
+        $mysqlDBObj = new mysqlDB('scrum_sprint_schedule');
+
+        $keys = array('title', 'length', 'length_unit', 'gap', 'gap_unit', 'description', 'key_title');
+        foreach($keys as $each)
+            $mysqlDBObj->appendData($each, $_POST[$each]);
+
+        $msg = $mysqlDBObj->insert();
+        if($msg == false)
+        {
+            $errors[0] = ['qry', $msg];
+
+            $data['success'] = false;
+            $data['errors']  = $errors;
+        }
+        else
+        {
+            $data['success'] = true;
+        }
     }
     else
     {
-        $data['success'] = true;
+        $data['success'] = false;
+        $data['errors']  = $errors;
     }
 
     echo(json_encode($data));

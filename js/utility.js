@@ -236,6 +236,7 @@ var utility = {
                     obj.removeChild(obj.firstChild);
                 }
 
+                obj.style.display = 'none';
                 status = true;
             }
         }

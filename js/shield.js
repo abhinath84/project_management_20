@@ -52,20 +52,24 @@ var shieldSprintSchedule = {
         inputTag += '<div class="retro-style-errmsg" id="title-errmsg"></div>';
         shieldDialog.formTable.add('Title', inputTag);
 
-        inputTag = '                <input style="width: 50px;" type="text" id="length-input" name="len" value="' + this.info.length + '" />';
-        inputTag += '               <select id="length_unit-select" class="retro-style unit-select">';
-        inputTag += '                   <option value="days"'+ ((this.info.length_unit == "days") ? 'selected' : '') +'>days</option>';
-        inputTag += '                   <option value="weeks"'+ ((this.info.length_unit == "weeks") ? 'selected' : '') +'>weeks</option>';
-        inputTag += '                   <option value="months"'+ ((this.info.length_unit == "months") ? 'selected' : '') +'>months</option>';
-        inputTag += '               </select>';
+        inputTag = ' <input style="width: 50px;" type="text" id="length-input" name="len" value="' + this.info.length + '" />';
+        inputTag += '<select id="length_unit-select" class="retro-style unit-select">';
+        inputTag += '   <option value="days"'+ ((this.info.length_unit == "days") ? 'selected' : '') +'>days</option>';
+        inputTag += '   <option value="weeks"'+ ((this.info.length_unit == "weeks") ? 'selected' : '') +'>weeks</option>';
+        inputTag += '   <option value="months"'+ ((this.info.length_unit == "months") ? 'selected' : '') +'>months</option>';
+        inputTag += '</select>';
+        inputTag += '<span class="red-asterisk">*</span>';
+        inputTag += '<div class="retro-style-errmsg" id="len-errmsg"></div>';
         shieldDialog.formTable.add('Sprint Length', inputTag);
 
-        inputTag = '                <input style="width: 50px;" type="text" id="gap-input" name="gap" value="' + this.info.gap + '" />';
-        inputTag += '               <select id="gap_unit-select" class="retro-style unit-select">';
-        inputTag += '                   <option value="days"'+ ((this.info.gap_unit == "days") ? 'selected' : '') +'>days</option>';
-        inputTag += '                   <option value="weeks"'+ ((this.info.gap_unit == "weeks") ? 'selected' : '') +'>weeks</option>';
-        inputTag += '                   <option value="months"'+ ((this.info.gap_unit == "months") ? 'selected' : '') +'>months</option>';
-        inputTag += '               </select>';
+        inputTag = ' <input style="width: 50px;" type="text" id="gap-input" name="gap" value="' + this.info.gap + '" />';
+        inputTag += '<select id="gap_unit-select" class="retro-style unit-select">';
+        inputTag += '   <option value="days"'+ ((this.info.gap_unit == "days") ? 'selected' : '') +'>days</option>';
+        inputTag += '   <option value="weeks"'+ ((this.info.gap_unit == "weeks") ? 'selected' : '') +'>weeks</option>';
+        inputTag += '   <option value="months"'+ ((this.info.gap_unit == "months") ? 'selected' : '') +'>months</option>';
+        inputTag += '</select>';
+        inputTag += '<span class="red-asterisk">*</span>';
+        inputTag += '<div class="retro-style-errmsg" id="gap-errmsg"></div>';
         shieldDialog.formTable.add('Sprint Gap', inputTag);
 
         inputTag = '<textarea id="description-textarea" name="description" rows="15" cols="120" spellcheck="false">' + this.info.description + '</textarea>';
@@ -93,8 +97,34 @@ var shieldSprintSchedule = {
     },
 
     onclickSaveErrorFunc: function (data) {
-        // update sprint schedule list.
-        //utility.updateDashboradTable('sprint-schedule-tbody', 'fillSprintSheduleTable', '');
+        // reset error msg container.
+        utility.clearTag('title-errmsg');
+        utility.clearTag('len-errmsg');
+        utility.clearTag('gap-errmsg');
+
+        // wrtie title error
+        if((data['errors']['title'] != null) && (data['errors']['title'] != ''))
+        {
+            var titleErrMsg = document.getElementById('title-errmsg');
+            titleErrMsg.innerHTML = '<span>'+ data['errors']['title'] +'</span>' + utility.EOF_LINE;
+            titleErrMsg.style.display = 'block';
+        }
+
+        // wrtie len error
+        if((data['errors']['len'] != null) && (data['errors']['len'] != ''))
+        {
+            var lenErrMsg = document.getElementById('len-errmsg');
+            lenErrMsg.innerHTML = '<span>'+ data['errors']['len'] +'</span>' + utility.EOF_LINE;
+            lenErrMsg.style.display = 'block';
+        }
+
+        // wrtie gap error
+        if((data['errors']['gap'] != null) && (data['errors']['gap'] != ''))
+        {
+            var gapErrMsg = document.getElementById('gap-errmsg');
+            gapErrMsg.innerHTML = '<span>'+ data['errors']['gap'] +'</span>' + utility.EOF_LINE;
+            gapErrMsg.style.display = 'block';
+        }
     },
 
     onclickSave: function (tbodyId) {
@@ -230,7 +260,7 @@ var shieldSprintSchedule = {
                 callbackFunc    : "deleteSprintScheduleCallback",
                 formData        : formData,
                 successFunc     : function () {
-                    utility.updateDashboradTable('sprint-schedule-tbody', 'fillSprintSheduleTable', '');
+                    utility.updateDashboradTable('sprint-schedule-tbody', 'getTableBodyElement', 'SprintScheduleHTML', '');
                 },
                 errorFunc       : null,
                 failFunc        : null
