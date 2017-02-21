@@ -160,6 +160,11 @@ var shieldSprintSchedule = {
             callbackFunc    : "addSprintScheduleCallback",
             formData        : formData,
             successFunc     : function () {
+                // reset error msg container.
+                utility.clearTag('title-errmsg');
+                utility.clearTag('len-errmsg');
+                utility.clearTag('gap-errmsg');
+
                 $("#title-input").val(shieldSprintSchedule.info.title);
                 $("#length-input").val(shieldSprintSchedule.info.length);
                 $("#length_unit-select").val(shieldSprintSchedule.info.length_unit);
@@ -365,11 +370,7 @@ var shieldProject = {
         //shieldDialog.formTable.add('Parent Project', inputTag);
 
         // Sprint Schedule
-        inputTag = ' <select id="sprint_schedule-select" class="retro-style unit-select">';
-        inputTag += '   <option value="Base Sprint Schedule">Base Sprint Schedule</option>';
-        inputTag += '   <option value="Default Schedule">Default Schedule</option>';
-        inputTag += '   <option value="Project(2017) Sprint Schedule">Project(2017) Sprint Schedule</option>';
-        inputTag += '</select>';
+        inputTag = utility.getSprintScheduleSelect();
         inputTag += '<span class="red-asterisk">*</span>';
         shieldDialog.formTable.add('Sprint Schedule', inputTag);
 

@@ -838,10 +838,7 @@ function getRespondBy($rbd)
 
 function shortDescriptionCallback($comment, $limit)
 {
-    $shortDesc  = "";
-
     $shortDesc 	= shortDescription($comment, $limit);
-
     echo(json_encode($shortDesc));
 }
 
@@ -860,11 +857,31 @@ function deleteProjectCallback()
     // 'scrum_release_planning' also have backlog & task, those are also needs to delete.
 }
 
+function getSprintScheduleSelectCallback()
+{
+    $tag = '';
+
+    $qry = "SELECT title FROM scrum_sprint_schedule";
+    $mysqlDBObj = new mysqlDB('scrum_sprint_schedule');
+    $rows = $mysqlDBObj->select($qry);
+    if(!empty($rows))
+    {
+        $tag .= ' <select id="sprint_schedule-select" class="retro-style unit-select">';
+        foreach($rows as $row)
+            $tag .= '   <option value="'. $row[0] .'">'. $row[0] .'</option>';
+        $tag .= '</select>';
+    }
+
+    echo(json_encode($tag));
+}
+
 function addSprintScheduleCallback()
 {
     $errors     = array();      // array to hold validation errors
     $data       = array();      // array to pass back data
 
+
+    $mysqlDBObj = new mysqlDB('scrum_sprint_schedule');
 
     // check for invalid/empty/duplicate sprint schedule title.
     if($_POST['title'] == '')
@@ -872,8 +889,9 @@ function addSprintScheduleCallback()
     else
     {
         // check for duplicate title
-        $exists = false;
-        if($exists == true)
+        $qry = "SELECT `title` FROM `scrum_sprint_schedule` WHERE title = '" . $_POST['title'] . "'";
+        $row = $mysqlDBObj->select($qry);
+        if(!empty($row))
             $errors['title'] = 'Sprint Schedule already exists, Please enter another title.';
     }
 
@@ -900,7 +918,7 @@ function addSprintScheduleCallback()
     if(count($errors) == 0)
     {
         // create object of mysqlDB class to add data into mysql database.
-        $mysqlDBObj = new mysqlDB('scrum_sprint_schedule');
+        //$mysqlDBObj = new mysqlDB('scrum_sprint_schedule');
 
         $keys = array('title', 'length', 'length_unit', 'gap', 'gap_unit', 'description', 'key_title');
         foreach($keys as $each)
@@ -936,22 +954,65 @@ function updateSprintScheduleCallback()
     // create object of mysqlDB class to add data into mysql database.
     $mysqlDBObj = new mysqlDB('scrum_sprint_schedule');
 
-    $keys = array('title', 'length', 'length_unit', 'gap', 'gap_unit', 'description');
-    foreach($keys as $each)
-        $mysqlDBObj->appendData($each, $_POST[$each]);
-    $mysqlDBObj->appendClause("title = '" . $_POST['key_title'] . "'");
-
-    $msg = $mysqlDBObj->update();
-    if($msg == false)
+    // check for invalid/empty/duplicate sprint schedule title.
+    if($_POST['title'] == '')
+        $errors['title'] = 'Please enter title.';
+    else
     {
-        $errors[0] = ['qry', $msg];
+        if($_POST['title'] != $_POST['key_title'])
+        {
+            // check for duplicate title
+            $qry = "SELECT `title` FROM `scrum_sprint_schedule` WHERE title = '" . $_POST['title'] . "'";
+            $row = $mysqlDBObj->select($qry);
+            if(!empty($row))
+                $errors['title'] = 'Sprint Schedule already exists, Please enter another title.';
+        }
+    }
 
-        $data['success'] = false;
-        $data['errors']  = $errors;
+    // check for empty/non-numeric len value.
+    if($_POST['length'] == '')
+        $errors['len'] = 'Please enter Sprint Length.';
+    else
+    {
+        // check numeric value
+        if( !(is_numeric($_POST['length'])) )
+            $errors['len'] = 'Please enter numeric value.';
+    }
+
+    // check for empty/non-numeric gap value.
+    if($_POST['gap'] == '')
+        $errors['gap'] = 'Please enter Sprint Gap.';
+    else
+    {
+        // check numeric value
+        if( !(is_numeric($_POST['gap'])) )
+            $errors['gap'] = 'Please enter numeric value.';
+    }
+
+    if(count($errors) == 0)
+    {
+        $keys = array('title', 'length', 'length_unit', 'gap', 'gap_unit', 'description');
+        foreach($keys as $each)
+            $mysqlDBObj->appendData($each, $_POST[$each]);
+        $mysqlDBObj->appendClause("title = '" . $_POST['key_title'] . "'");
+
+        $msg = $mysqlDBObj->update();
+        if($msg == false)
+        {
+            $errors[0] = ['qry', $msg];
+
+            $data['success'] = false;
+            $data['errors']  = $errors;
+        }
+        else
+        {
+            $data['success'] = true;
+        }
     }
     else
     {
-        $data['success'] = true;
+        $data['success'] = false;
+        $data['errors']  = $errors;
     }
 
     echo(json_encode($data));

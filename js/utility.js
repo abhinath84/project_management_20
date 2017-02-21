@@ -170,12 +170,16 @@ var utility = {
 
     updateDashboradTable: function (tagBodyId, fillTableFunc, fillTableFuncClass, clause) {
         var formData = {
-            'fillTableFunc' : fillTableFunc,
-            'fillTableFuncClass' : fillTableFuncClass,
-            'clause'        : clause
+            'fillTableFunc'         : fillTableFunc,
+            'fillTableFuncClass'    : fillTableFuncClass,
+            'clause'                : clause
         };
 
         document.getElementById(tagBodyId).innerHTML = getServerResponseViaAJAX("../ajax/default.php", "updateDashboradTableCallback", formData, "");
+    },
+
+    getSprintScheduleSelect: function() {
+        return(getServerResponseViaAJAX("../ajax/default.php", "getSprintScheduleSelectCallback", null, ""));
     },
 
     executeFunctionByName: function (functionName, context /*, args */) {

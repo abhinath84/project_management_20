@@ -153,11 +153,11 @@
 
         public function select($qry)
         {
-            $row = array();
+            $rows = array();
             if(($qry != null) && ($qry != ""))
-                $rows = $conn->result_fetch_array($qry);
+                $rows = $this->conn->result_fetch_array($qry);
 
-            return($row);
+            return($rows);
         }
     }
 ?>
