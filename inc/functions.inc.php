@@ -527,17 +527,10 @@
 
     function fillProjectTable()
     {
-        global $conn;
-        $tag = "";
 
-        $qry = "SELECT title, owner, begin_date, end_date, sprint_schedule, parent, description, status, target_estimate, test_suit, target_swag, reference FROM scrum_project  WHERE parent = 'System(All Projects)' AND ((owner = '". $_SESSION['project-managment-username'] ."') OR (title IN (SELECT project_title FROM scrum_project_member WHERE member_id='". $_SESSION['project-managment-username'] ."')))";
+        //$qry = "SELECT title, owner, begin_date, end_date, sprint_schedule, parent, description, status, target_estimate, test_suit, target_swag, reference FROM scrum_project  WHERE parent = 'System(All Projects)' AND ((owner = '". $_SESSION['project-managment-username'] ."') OR (title IN (SELECT project_title FROM scrum_project_member WHERE member_id='". $_SESSION['project-managment-username'] ."')))";
 
-        $projectsHTMLObj = new ProjectsHTML();
-
-        $projectsHTMLObj->fillTableBody($qry);
-        $tag .= $projectsHTMLObj->getTBodyElementHTML();
-
-        return(utf8_encode($tag));
+        return(ProjectsHTML::getTBodyElementHTML());
     }
 
     function fillMemberRolesMemberTable($clause)
@@ -1281,4 +1274,31 @@
 
         return($tag);
     }
+
+    /*function addProjectBodyRow($table, $row, $inx)
+    {
+        if(($row != null) && (count($row) > 0))
+        {
+            if($row[0] != 'System(All Projects)')
+            {
+                $table->tr(null, null, null, "align=\"center\"");
+                    $table->td(getGreppyDotTag(), "1-greppy", "hasGrippy", "text-align:center;", "width=\"1%\"");
+                    $table->td("{$row[0]}", "{$inx}-title", "project-title-td", null, "width=\"30%\"");
+                    $table->td(Utility::decode($row[1]), "{$inx}-owner", null, null, "width=\"18%\"");
+                    $table->td("{$row[2]}", "{$inx}-begin_date", null, null, "width=\"10%\"");
+                    $table->td("{$row[3]}", "{$inx}-end_date", null, null, "width=\"10%\"");
+                    $table->td("{$row[4]}", "{$inx}-sprint_schedule", null, null, "width=\"25%\"");
+
+                    $table->td("{$row[5]}", "{$inx}-parent", null, "display: none;");
+                    $table->td("{$row[6]}", "{$inx}-description", null, "display: none;");
+                    $table->td("{$row[7]}", "{$inx}-status", null, "display: none;");
+                    $table->td("{$row[8]}", "{$inx}-target_estimate", null, "display: none;");
+                    $table->td("{$row[9]}", "{$inx}-test_suit", null, "display: none;");
+                    $table->td("{$row[10]}", "{$inx}-target_swag", null, "display: none;");
+                    $table->td("{$row[11]}", "{$inx}-reference", null, "display: none;");
+
+                    $table->td(Utility::getQuickActionBtn("{$inx}", "Edit", "project-td-btn", "onclick=\"shieldProject.openEditDialog('{$inx}', 'project-tbody', false)\"", "{$inx}", "project-table-dropdown"), "project-edit", null, null, "width=\"5%\"");
+            }
+        }
+    }*/
 ?>

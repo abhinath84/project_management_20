@@ -37,6 +37,7 @@
 require_once ('utility.php');
 require_once ('navigator.php');
 require_once ('htmltable.php');
+require_once ('grippytable.php');
 require_once ('functions.inc.php');
 require_once ('mysql_functions.inc.php');
 
@@ -171,7 +172,7 @@ abstract class HTMLTemplate
             $tag .= '<div class="widgetbox">'. $this->EOF_LINE;
             $tag .= '   <div class="titlebar">'. $this->EOF_LINE;
             $tag .= '       <h1>'. $this->EOF_LINE;
-            $tag .= '           <span class="title">'. strtoupper($this->currentSideNav) .'</span>'. $this->EOF_LINE;
+            $tag .= '           <span class="title">'. $this->currentSideNav .'</span>'. $this->EOF_LINE;
             $tag .=             $this->getWidgetTitlebarContent();
             $tag .= '       </h1>'. $this->EOF_LINE;
             $tag .= '   </div>'. $this->EOF_LINE;

@@ -717,6 +717,7 @@ all the pages.
 .widgetbox .titlebar .title {
     margin-right: 35px;
     color: #9dce0a; //#86f543;
+    text-transform: uppercase;
 }
 
 .widgetbox .content {

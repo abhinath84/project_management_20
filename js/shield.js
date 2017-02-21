@@ -470,7 +470,7 @@ var shieldProject = {
 
             if(isAdding)
                 shieldDialog.toolBar.toolbarBtns.add('submit-btns', 'retro-style green-bg add-spr', 'Save & New', 'onclick="shieldProject.onclickSaveNew(\''+ tbodyId +'\')"');
-            
+
             shieldDialog.toolBar.toolbarBtns.add('submit-btns', 'retro-style green-bg add-spr', 'Save', 'onclick="shieldProject.onclickSave(\''+ tbodyId +'\')"');
 
             shield.openDialog(this, false, 'project-add-form-container', shieldDialog.getTag);

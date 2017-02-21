@@ -5,7 +5,7 @@ require_once ('utility.php');
 require_once ('htmltable.php');
 require_once ('mysql_functions.inc.php');
 
-class grippyTable
+class GrippyTable
 {
     protected $table    = null;
     protected $inx      = 1;
@@ -14,7 +14,7 @@ class grippyTable
     public function __construct($name, $class)
     {
         $this->table    = new HTMLTable($name, $class);
-        $this->$inx     = 1;
+        $this->inx     = 1;
     }
 
     /* public methods */
@@ -32,11 +32,14 @@ class grippyTable
         }
     }
 
-    public function fillBody($tbodyName, $qry)
+    public function fillBody($tbodyName, $qry, $callback)
     {
+        global $conn;
+
         if(
             (($tbodyName != null) && ($tbodyName != '')) &&
-            (($qry != null) && ($qry != '')
+            (($qry != null) && ($qry != '')) &&
+            ($callback != null)
           )
         {
             // add Table body
@@ -46,12 +49,13 @@ class grippyTable
             if(!empty($rows))
             {
                 // loop over the result and fill the rows
-                $this->$inx = 1;
+                $this->inx = 1;
                 foreach($rows as $row)
                 {
-                    $this->addBodyRow($row);
+                    call_user_func($callback, $this->table, $row, $this->inx);
+                    //$this->addBodyRow($row);
 
-                    $this->$inx++;
+                    $this->inx++;
                 }
             }
             else
@@ -73,17 +77,17 @@ class grippyTable
     }
 
     /* protected methods */
-    abstract protected function addBodyRow($row);
+    //abstract protected function addBodyRow($row);
 }
 
-class projectGrippyTable extends grippyTable
+/*class ProjectGrippyTable extends GrippyTable
 {
     public function __construct($name = null, $class = null)
     {
         parent::__construct("project-table", "grippy-table");
     }
 
-    protected function addBodyRow($row)
+    protected function addBodyRow($row, $inx)
     {
         if(($row != null) && (count($row) > 0))
         {
@@ -91,24 +95,24 @@ class projectGrippyTable extends grippyTable
             {
                 $this->table->tr(null, null, null, "align=\"center\"");
                     $this->table->td(getGreppyDotTag(), "1-greppy", "hasGrippy", "text-align:center;", "width=\"1%\"");
-                    $this->table->td("{$row[0]}", "{$this->$inx}-title", "project-title-td", null, "width=\"30%\"");
-                    $this->table->td(Utility::decode($row[1]), "{$this->$inx}-owner", null, null, "width=\"18%\"");
-                    $this->table->td("{$row[2]}", "{$this->$inx}-begin_date", null, null, "width=\"10%\"");
-                    $this->table->td("{$row[3]}", "{$this->$inx}-end_date", null, null, "width=\"10%\"");
-                    $this->table->td("{$row[4]}", "{$this->$inx}-sprint_schedule", null, null, "width=\"25%\"");
+                    $this->table->td("{$row[0]}", "{$inx}-title", "project-title-td", null, "width=\"30%\"");
+                    $this->table->td(Utility::decode($row[1]), "{$inx}-owner", null, null, "width=\"18%\"");
+                    $this->table->td("{$row[2]}", "{$inx}-begin_date", null, null, "width=\"10%\"");
+                    $this->table->td("{$row[3]}", "{$inx}-end_date", null, null, "width=\"10%\"");
+                    $this->table->td("{$row[4]}", "{$inx}-sprint_schedule", null, null, "width=\"25%\"");
 
-                    $this->table->td("{$row[5]}", "{$this->$inx}-parent", null, "display: none;");
-                    $this->table->td("{$row[6]}", "{$this->$inx}-description", null, "display: none;");
-                    $this->table->td("{$row[7]}", "{$this->$inx}-status", null, "display: none;");
-                    $this->table->td("{$row[8]}", "{$this->$inx}-target_estimate", null, "display: none;");
-                    $this->table->td("{$row[9]}", "{$this->$inx}-test_suit", null, "display: none;");
-                    $this->table->td("{$row[10]}", "{$this->$inx}-target_swag", null, "display: none;");
-                    $this->table->td("{$row[11]}", "{$this->$inx}-reference", null, "display: none;");
+                    $this->table->td("{$row[5]}", "{$inx}-parent", null, "display: none;");
+                    $this->table->td("{$row[6]}", "{$inx}-description", null, "display: none;");
+                    $this->table->td("{$row[7]}", "{$inx}-status", null, "display: none;");
+                    $this->table->td("{$row[8]}", "{$inx}-target_estimate", null, "display: none;");
+                    $this->table->td("{$row[9]}", "{$inx}-test_suit", null, "display: none;");
+                    $this->table->td("{$row[10]}", "{$inx}-target_swag", null, "display: none;");
+                    $this->table->td("{$row[11]}", "{$inx}-reference", null, "display: none;");
 
-                    $this->table->td(Utility::getQuickActionBtn("{$this->$inx}", "Edit", "project-td-btn", "onclick=\"shieldProject.openEditDialog('{$this->$inx}', 'project-tbody', false)\"", "{$this->$inx}", "project-table-dropdown"), "project-edit", null, null, "width=\"5%\"");
+                    $this->table->td(Utility::getQuickActionBtn("{$inx}", "Edit", "project-td-btn", "onclick=\"shieldProject.openEditDialog('{$inx}', 'project-tbody', false)\"", "{$inx}", "project-table-dropdown"), "project-edit", null, null, "width=\"5%\"");
             }
         }
     }
-}
+}*/
 
 ?>

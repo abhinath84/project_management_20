@@ -22,6 +22,7 @@ require_once ('../inc/functions.inc.php');
 require_once ('../inc/mysql_functions.inc.php');
 require_once ('../inc/utility.php');
 require_once ('../inc/mysqldb.php');
+require_once ('../inc/adminhtml.php');
 
 
 // Initialize session data
@@ -840,7 +841,7 @@ function shortDescriptionCallback($comment, $limit)
 function deleteProjectCallback()
 {
     // delete corresponding project from 'scrum_project' Table.
-    
+
     // and all the table element which are department on project.
     // Following tables are depending on 'project'
     // - scrum_release_planning
