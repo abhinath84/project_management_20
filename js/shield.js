@@ -365,13 +365,10 @@ var shieldProject = {
         inputTag += '<div class="retro-style-errmsg" id="title-errmsg"></div>';
         shieldDialog.formTable.add('Title', inputTag);
 
-        // Parent Project
-        //inputTag = '<label id="parent-label" for="parent_project" style="color: black;">' + this.info.parent + '</label>';
-        //shieldDialog.formTable.add('Parent Project', inputTag);
-
         // Sprint Schedule
         inputTag = utility.getSprintScheduleSelect();
         inputTag += '<span class="red-asterisk">*</span>';
+        inputTag += '<div class="retro-style-errmsg" id="sprint_schedule-errmsg"></div>';
         shieldDialog.formTable.add('Sprint Schedule', inputTag);
 
         // Description
@@ -387,7 +384,7 @@ var shieldProject = {
         // End Date
         inputTag = '<input type="date" id="end_date-input" name="end_date" value="' + this.info.end_date + '"/>';
         inputTag += '<span class="red-asterisk">*</span>';
-        inputTag += '<div class="retro-style-errmsg" id="begin_date-errmsg"></div>';
+        inputTag += '<div class="retro-style-errmsg" id="end_date-errmsg"></div>';
         shieldDialog.formTable.add('End Date', inputTag);
 
         // Status
@@ -395,20 +392,39 @@ var shieldProject = {
         shieldDialog.formTable.add('Status', inputTag);
 
         // Owner
-        inputTag = '<input type="text" id="owner-input" name="owner" value="' + this.info.owner + '"/>';
+        inputTag = '<input type="text" id="owner-input" name="owner" value="' + this.info.owner + '" ' + ((this.info.title != '') ? 'disabled' : '') + '/>';
         inputTag += '<span class="red-asterisk">*</span>';
         inputTag += '<div class="retro-style-errmsg" id="owner-errmsg"></div>';
+        inputTag += '<div id="owner-list-container"></div>';
         shieldDialog.formTable.add('Owner', inputTag);
 
         // Target Estimate Pts.
         inputTag = '<input type="text" id="target_estimate-input" name="target_estimate" value="' + this.info.target_estimate + '"/>';
-        inputTag += '<span class="red-asterisk">*</span>';
-        inputTag += '<div class="retro-style-errmsg" id="target_estimate-errmsg"></div>';
+        /*inputTag += '<span class="red-asterisk">*</span>';
+        inputTag += '<div class="retro-style-errmsg" id="target_estimate-errmsg"></div>';*/
         shieldDialog.formTable.add('Target Estimate Pts.', inputTag);
 
         // Target Swag
-        inputTag = '<input type="text" id="target_estimate-input" name="target_estimate" value="' + this.info.target_swag + '"/>';
+        inputTag = '<input type="text" id="target_swag-input" name="target_estimate" value="' + this.info.target_swag + '"/>';
         shieldDialog.formTable.add('Target Swag', inputTag);
+    },
+
+    getFormData: function () {
+        return({
+            'title'               : $('#title-input').val(),
+            'parent'              : this.info.parent,
+            'sprint_schedule'     : $('#sprint_schedule-select').val(),
+            'description'         : $('#description-textarea').val(),
+            'begin_date'          : $('#begin_date-input').val(),
+            'end_date'            : $('#end_date-input').val(),
+            'owner'               : $('#owner-input').val(),
+            'status'              : $('#status-input').val(),
+            'target_estimate'     : $('#target_estimate-input').val(),
+            'test_suit'           : '',
+            'target_swag'         : $('#target_swag-input').val(),
+            'reference'           : '',
+            'key_title'           : this.info.title
+        });
     },
 
     onclickSaveSuccessFunc: function (data) {
@@ -420,8 +436,52 @@ var shieldProject = {
     },
 
     onclickSaveErrorFunc: function (data) {
-        // update sprint schedule list.
-        //utility.updateDashboradTable('sprint-schedule-tbody', 'fillSprintSheduleTable', '');
+        // reset error msg container.
+        utility.clearTag('title-errmsg');
+        utility.clearTag('sprint_schedule-errmsg');
+        utility.clearTag('begin_date-errmsg');
+        utility.clearTag('end_date-errmsg');
+        utility.clearTag('owner-errmsg');
+
+        // wrtie title error
+        if((data['errors']['title'] != null) && (data['errors']['title'] != ''))
+        {
+            var titleErrMsg = document.getElementById('title-errmsg');
+            titleErrMsg.innerHTML = '<span>'+ data['errors']['title'] +'</span>' + utility.EOF_LINE;
+            titleErrMsg.style.display = 'block';
+        }
+
+        // wrtie sprint_schedule error
+        if((data['errors']['sprint_schedule'] != null) && (data['errors']['sprint_schedule'] != ''))
+        {
+            var lenErrMsg = document.getElementById('sprint_schedule-errmsg');
+            lenErrMsg.innerHTML = '<span>'+ data['errors']['sprint_schedule'] +'</span>' + utility.EOF_LINE;
+            lenErrMsg.style.display = 'block';
+        }
+
+        // wrtie begin_date error
+        if((data['errors']['begin_date'] != null) && (data['errors']['begin_date'] != ''))
+        {
+            var gapErrMsg = document.getElementById('begin_date-errmsg');
+            gapErrMsg.innerHTML = '<span>'+ data['errors']['begin_date'] +'</span>' + utility.EOF_LINE;
+            gapErrMsg.style.display = 'block';
+        }
+
+        // wrtie end_date error
+        if((data['errors']['end_date'] != null) && (data['errors']['end_date'] != ''))
+        {
+            var gapErrMsg = document.getElementById('end_date-errmsg');
+            gapErrMsg.innerHTML = '<span>'+ data['errors']['end_date'] +'</span>' + utility.EOF_LINE;
+            gapErrMsg.style.display = 'block';
+        }
+
+        // wrtie owner error
+        if((data['errors']['owner'] != null) && (data['errors']['owner'] != ''))
+        {
+            var gapErrMsg = document.getElementById('owner-errmsg');
+            gapErrMsg.innerHTML = '<span>'+ data['errors']['owner'] +'</span>' + utility.EOF_LINE;
+            gapErrMsg.style.display = 'block';
+        }
     },
 
     onclickSave: function (tbodyId) {
@@ -431,8 +491,8 @@ var shieldProject = {
             url             : "../ajax/default.php",
             callbackFunc    : "",
             formData        : formData,
-            successFunc     : shieldSprintSchedule.onclickSaveSuccessFunc,
-            errorFunc       : shieldSprintSchedule.onclickSaveErrorFunc,
+            successFunc     : shieldProject.onclickSaveSuccessFunc,
+            errorFunc       : shieldProject.onclickSaveErrorFunc,
             failFunc        : null
         };
 
