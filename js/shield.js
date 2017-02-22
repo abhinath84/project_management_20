@@ -597,7 +597,9 @@ var shieldProject = {
         var r = confirm("Do you want to delete '" + title + "' ?");
         if (r == true) {
             var formData = {
-                    'clause'    : "title = '" + title + "' and parent = '" + parent + "'"
+                'title'     : title,
+                'parent'    : parent
+                //    'clause'    : "title = '" + title + "' and parent = '" + parent + "'"
             };
 
             var data = {

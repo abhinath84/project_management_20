@@ -842,19 +842,63 @@ function shortDescriptionCallback($comment, $limit)
     echo(json_encode($shortDesc));
 }
 
+function deleteTableElement($tableName, $clause)
+{
+    $status = false;
+
+    if(
+        ($tableName != null) && ($tableName != '') &&
+        ($clause != null) && ($clause != '')
+      )
+    {
+        // create object of mysqlDB class to add data into mysql database.
+        $mysqlDBObj = new mysqlDB($tableName);
+        $mysqlDBObj->appendClause($clause);
+
+        $msg = $mysqlDBObj->delete();
+        if($msg == true)
+            $status = true;
+    }
+
+    return($status)
+}
+
+function deleteProjectRelatedTableElement($project, $parent)
+{
+    if(
+        ($project != null) && ($project != '') &&
+        ($parent != null) && ($parent != '')
+      )
+    {
+        // - scrum_project_member
+        deleteTableElement('scrum_project_member', 'project = "'. $project .'"');
+
+        // - scrum_sprint
+        deleteTableElement('scrum_sprint', 'project = "'. $project .'"');
+
+        // - scrum_backlog
+        deleteTableElement('scrum_backlog', 'project = "'. $project .'"');
+
+        // - scrum_task
+        deleteTableElement('scrum_backlog', 'project = "'. $project .'"');
+    }
+}
+
 function deleteProjectCallback()
 {
-    // delete corresponding project from 'scrum_project' Table.
+    // get all the child project of the selected project.
+    // delete below table element from child project(scrum_release_planning) first and
+    // then delete below table element for selected project.
 
     // and all the table element which are department on project.
     // Following tables are depending on 'project'
-    // - scrum_release_planning
     // - scrum_project_member
+    // - scrum_sprint
     // - scrum_backlog
     // - scrum_task
     // - scrum_sprint
 
-    // 'scrum_release_planning' also have backlog & task, those are also needs to delete.
+    // delete corresponding project from 'scrum_project' Table.
 }
 
 function getSprintScheduleSelectCallback()
