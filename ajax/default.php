@@ -842,7 +842,7 @@ function shortDescriptionCallback($comment, $limit)
     echo(json_encode($shortDesc));
 }
 
-function deleteTableElement($tableName, $clause)
+/*function deleteTableElement($tableName, $clause)
 {
     $status = false;
 
@@ -860,8 +860,8 @@ function deleteTableElement($tableName, $clause)
             $status = true;
     }
 
-    return($status)
-}
+    return($status);
+}*/
 
 function deleteProjectRelatedTableElement($project, $parent)
 {
@@ -880,7 +880,7 @@ function deleteProjectRelatedTableElement($project, $parent)
         deleteTableElement('scrum_backlog', 'project = "'. $project .'"');
 
         // - scrum_task
-        deleteTableElement('scrum_backlog', 'project = "'. $project .'"');
+        deleteTableElement('scrum_task', 'project = "'. $project .'"');
     }
 }
 

@@ -305,7 +305,7 @@ class HomeHTML extends HTMLTemplate
     {
         $tag = "";
 
-        $tag .= '<div class="home-article article-container">' . $this->EOF_LINE;
+        $tag .= '<div class="home-article">' . $this->EOF_LINE;
 
         if((isset($_SESSION["project-managment-username"])) && ($_SESSION["project-managment-username"] != ""))
         {
@@ -328,36 +328,32 @@ class HomeHTML extends HTMLTemplate
 
         if(!empty($nc))
         {
-            $tag .= '   <div class="display-table" style="height: 650px;">' . $this->EOF_LINE;
-            $tag .= '       <div class="display-table-cell" style="width: 50%; border-right: 1px solid #d4d4d4;">' . $this->EOF_LINE;
-            $tag .= '           <div class="display-table">' . $this->EOF_LINE;
+            $tag .= '   <div class="user-info-container">' . $this->EOF_LINE;
+            $tag .= '       <div class="spr-info-container">' . $this->EOF_LINE;
 
             // get Next Cutoff info.
-            $tag .= '               <div id="nextCutOff-container" class="display-table-cell" style="width:12%;">' . $this->EOF_LINE;
-            $tag .=                     $this->getNextCutOffDiv($nc);
-            $tag .= '               </div>' . $this->EOF_LINE;
+            $tag .= '           <div id="nextCutOff-container" style="flex: 2; margin-right: 25px;">' . $this->EOF_LINE;
+            $tag .=                 $this->getNextCutOffDiv($nc);
+            $tag .= '           </div>' . $this->EOF_LINE;
 
             // get upcoming Respond by date (next 2 months).
-            $tag .= '               <div id="respondBy-container" class="display-table-cell" style="width: 12%">' . $this->EOF_LINE;
-            $tag .=                     $this->getRespondByDiv();
-            $tag .= '               </div>' . $this->EOF_LINE;
+            $tag .= '           <div id="respondBy-container" style="flex: 2;">' . $this->EOF_LINE;
+            $tag .=                 $this->getRespondByDiv();
+            $tag .= '           </div>' . $this->EOF_LINE;
 
             // get upcoming Commit Build information.
-            $tag .= '               <div id="commit-build-container" class="display-table-cell" style="width:22%;">' . $this->EOF_LINE;
-            $tag .= $this->getCommitBuildDiv([$nc[0][0], $nc[1][0], $nc[2][0], $nc[3][0]]);
-            $tag .= '               </div>' . $this->EOF_LINE;
+            $tag .= '           <div id="commit-build-container" style="flex: 3;">' . $this->EOF_LINE;
+            $tag .=                 $this->getCommitBuildDiv([$nc[0][0], $nc[1][0], $nc[2][0], $nc[3][0]]);
+            $tag .= '           </div>' . $this->EOF_LINE;
 
             // get Submission Status Information.
-            $tag .= '               <div id="submission-status-container" class="display-table-cell" style="width: 15%;">' . $this->EOF_LINE;
-            $tag .=                     $this->getSubmissionStatusDiv();
-            $tag .= '               </div>' . $this->EOF_LINE;
+            $tag .= '           <div id="submission-status-container" style="flex: 2;">' . $this->EOF_LINE;
+            $tag .=                 $this->getSubmissionStatusDiv();
+            $tag .= '           </div>' . $this->EOF_LINE;
 
-            $tag .= '           </div>' . $this->EOF_LINE;
             $tag .= '       </div>' . $this->EOF_LINE;
-            $tag .= '       <div class="display-table-cell">' . $this->EOF_LINE;
-            $tag .= '           <div class="display-table" style="margin-left: 25px;">' . $this->EOF_LINE;
-            $tag .= '               <p>#Scrum Section</p>' . $this->EOF_LINE;
-            $tag .= '           </div>' . $this->EOF_LINE;
+            $tag .= '       <div class="display-flex" style="margin-left: 25px;">' . $this->EOF_LINE;
+            $tag .= '           <p>#Scrum Section</p>' . $this->EOF_LINE;
             $tag .= '       </div>' . $this->EOF_LINE;
             $tag .= '    </div>' . $this->EOF_LINE;
         }
@@ -374,7 +370,7 @@ class HomeHTML extends HTMLTemplate
         $tag .= '       <table>' . $this->EOF_LINE;
         $tag .= '           <thead>' . $this->EOF_LINE;
         $tag .= '               <tr>' . $this->EOF_LINE;
-        $tag .= '                   <th colspan="2"><h2 style="text-align:center;">Respond By</h2></th>' . $this->EOF_LINE;
+        $tag .= '                   <th colspan="2"><h3 style="text-align:center;">Respond By</h3></th>' . $this->EOF_LINE;
         $tag .= '               </tr>' . $this->EOF_LINE;
         $tag .= '           </thead>' . $this->EOF_LINE;
         $tag .= '           <tbody>' . $this->EOF_LINE;
@@ -453,7 +449,7 @@ class HomeHTML extends HTMLTemplate
             $tag .= '   <table style="width:100%;">' . $this->EOF_LINE;
             $tag .= '       <thead>' . $this->EOF_LINE;
             $tag .= '           <tr>' . $this->EOF_LINE;
-            $tag .= '               <th colspan="2"><h2 style="text-align:center;">SPRs having Commit Build</h2></th>' . $this->EOF_LINE;
+            $tag .= '               <th colspan="2"><h3 style="text-align:center;">SPRs having Commit Build</h3></th>' . $this->EOF_LINE;
             $tag .= '           </tr>' . $this->EOF_LINE;
             $tag .= '       </thead>' . $this->EOF_LINE;
             $tag .= '       <tbody>' . $this->EOF_LINE;
@@ -483,7 +479,7 @@ class HomeHTML extends HTMLTemplate
         $tag .= '   <table style="width:100%;">' . $this->EOF_LINE;
         $tag .= '       <thead>' . $this->EOF_LINE;
         $tag .= '           <tr>' . $this->EOF_LINE;
-        $tag .= '               <th colspan="2"><h2 style="text-align:center;">Submission/Port</h2></th>' . $this->EOF_LINE;
+        $tag .= '               <th colspan="2"><h3 style="text-align:center;">Submission/Port</h3></th>' . $this->EOF_LINE;
         $tag .= '           </tr>' . $this->EOF_LINE;
         $tag .= '       </thead>' . $this->EOF_LINE;
         $tag .= '       <tbody>' . $this->EOF_LINE;
@@ -519,12 +515,11 @@ class HomeHTML extends HTMLTemplate
 
         if(!empty($nc))
         {
-            $tag .= '   <div style="margin-top: 25px; margin-right: 25px; margin-left: 25px;">' . $this->EOF_LINE;
             $tag .= '       <table>' . $this->EOF_LINE;
             $tag .= '           <thead>' . $this->EOF_LINE;
             $tag .= '               <tr>' . $this->EOF_LINE;
             $tag .= '                   <th colspan="2">' . $this->EOF_LINE;
-            $tag .= '                       <h2 style="text-align:center;"><strong>Build Status</strong></h2>' . $this->EOF_LINE;
+            $tag .= '                       <h3 style="text-align:center;"><strong>Build Status</strong></h3>' . $this->EOF_LINE;
             $tag .= '                   </th>' . $this->EOF_LINE;
             $tag .= '               </tr>' . $this->EOF_LINE;
             $tag .= '           </thead>' . $this->EOF_LINE;
@@ -539,7 +534,6 @@ class HomeHTML extends HTMLTemplate
 
             $tag .= '           </tbody>' . $this->EOF_LINE;
             $tag .= '       </table>' . $this->EOF_LINE;
-            $tag .= '   </div>' . $this->EOF_LINE;
         }
 
         return($tag);
@@ -1596,7 +1590,7 @@ class ScrumPPBHTML extends HTMLTemplate
 
     protected function getWidgetTitlebarContent()
     {
-        $tag = '<span>PROJECT 2017</span>'. $this->EOF_LINE;
+        $tag = '<span id="project-title" class="project-title" onclick="shieldProjectPlanBacklog.showProject(this)">PROJECT 2017</span>'. $this->EOF_LINE;
 
         return($tag);
     }
@@ -1606,6 +1600,7 @@ class ScrumPPBHTML extends HTMLTemplate
         $dropdownList = null;
         $tag = '';
 
+        $tag .= '                    <div id="project-form-container"></div>'. $this->EOF_LINE;
         $tag .= '                    <div class="project-backlog-container">'. $this->EOF_LINE;
         $tag .= '                       <div class="session-button">'. $this->EOF_LINE;
 

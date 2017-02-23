@@ -43,6 +43,7 @@ var shieldSprintSchedule = {
 
         // fill all infomation of dialog form.
         // reset before use.
+        shieldDialog.formTable.enable = true;
         shieldDialog.formTable.clear();
 
         //, owner, begin_date, end_date, sprint_schedule, parent, description, status, target_estimate, test_suit, target_swag, reference
@@ -305,21 +306,6 @@ var shieldProject = {
             this.test_suit          = "";
             this.target_swag        = "";
             this.reference          = "";
-        },
-
-        fillFromTable: function($row) {
-            this.title              = $('#-title').innerHTML;
-            this.parent             = "";
-            this.sprint_schedule    = "";
-            this.description        = "";
-            this.begin_date         = utility.getCurrentDate('-');
-            this.end_date           = "";
-            this.owner              = utility.getSessionValue('project-managment-username');
-            this.status             = "";
-            this.target_estimate    = "";
-            this.test_suit          = "";
-            this.target_swag        = "";
-            this.reference          = "";
         }
     },
 
@@ -357,6 +343,7 @@ var shieldProject = {
 
         // fill all infomation of dialog form.
         // reset before use.
+        shieldDialog.formTable.enable = true;
         shieldDialog.formTable.clear();
 
         // Title
@@ -708,6 +695,7 @@ var shieldMembers = {
 
         // fill all infomation of dialog form.
         // reset before use.
+        shieldDialog.formTable.enable = true;
         shieldDialog.formTable.clear();
 
         /// Member field
@@ -855,6 +843,99 @@ var shieldMembers = {
     }
 }
 
+var shieldProjectPlanBacklog = {
+    member : {
+        selObject   : null
+    },
+
+    fillTitle: function () {
+        // fill all the toolbar related infomation before move on.
+        shieldDialog.toolBar.title = "Projects";
+        shieldDialog.toolBar.imgIconClass = "project-icon-img";
+    },
+
+    fillDiv: function() {
+        // fill all infomation of dialog form.
+        // reset before use.
+        shieldDialog.formDiv.enable = true;
+        shieldDialog.formDiv.clear();
+
+        var inputTag = '';
+
+        inputTag += '<input type="hidden" id="selected-project-input" name="selected-project-input" value="' + this.member.selObject.innerHTML + '"/>';
+        shieldDialog.formDiv.add(inputTag);
+
+        // Title
+        inputTag = '<div style="margin-bottom: 20px;">';
+        inputTag += '   <span>Select Project from following list:</span>';
+        inputTag += '</div>';
+        shieldDialog.formDiv.add(inputTag);
+
+        // Title
+        inputTag = '<div class="project-backlog-project">';
+        inputTag += '   <a class="project-backlog-project-anchor '+ ((this.member.selObject.innerHTML === 'New Project') ? 'selected' : '') +'" onclick="shieldProjectPlanBacklog.onSelect(this)">New Project</a>';
+        inputTag += '</div>';
+        shieldDialog.formDiv.add(inputTag);
+
+        // Sprint Schedule
+        inputTag = '<div class="project-backlog-project">';
+        inputTag += '   <a class="project-backlog-project-anchor '+ ((this.member.selObject.innerHTML === 'PROJECT 2017') ? 'selected' : '') +'" onclick="shieldProjectPlanBacklog.onSelect(this)">Project 2017</a>';
+        inputTag += '</div>';
+        shieldDialog.formDiv.add(inputTag);
+
+        // Sprint Schedule
+        inputTag = '<div class="project-backlog-project">';
+        inputTag += '   <a class="project-backlog-project-anchor '+ ((this.member.selObject.innerHTML === 'PROJECT 2018') ? 'selected' : '') +'" onclick="shieldProjectPlanBacklog.onSelect(this)">Project 2018</a>';
+        inputTag += '</div>';
+        shieldDialog.formDiv.add(inputTag);
+    },
+
+    onclickApply: function() {
+        // change the project and backlog table elements.
+        document.getElementById('project-title').innerHTML = document.getElementById('selected-project-input').value;
+        //alert(document.getElementById('selected-project-input').value);
+
+        // hide the dialog
+        shield.show(false);
+    },
+
+    onclickCancel: function() {
+        // hide the dialog
+        shield.show(false);
+    },
+
+    onSelect: function(obj) {
+        // reset all project.
+        var anchorTag = document.getElementsByClassName('project-backlog-project-anchor');
+        for (i = 0; i < anchorTag.length; i++) {
+            anchorTag[i].className = "project-backlog-project-anchor";
+        }
+        // set class for selected item
+        obj.className = "project-backlog-project-anchor selected";
+
+        // fill hidden text with selected project title.
+        document.getElementById('selected-project-input').value = obj.innerHTML;
+    },
+
+    showProject: function(obj) {
+        //var selObj = document.getElementsByClassName('titlebar')[0];
+        this.member.selObject = obj;
+
+        // fill all infomation of dialog title(toolBar).
+        this.fillTitle();
+
+        // reset and add button for dialog
+        shieldDialog.toolBar.toolbarBtns.clear();
+        shieldDialog.toolBar.toolbarBtns.add('submit-btns', 'retro-style red add-spr', 'Cancel', 'onclick="shieldProjectPlanBacklog.onclickCancel()"');
+        shieldDialog.toolBar.toolbarBtns.add('submit-btns', 'retro-style green-bg add-spr', 'Apply', 'onclick="shieldProjectPlanBacklog.onclickApply()"');
+
+        // fill all infomation of dialog form.
+        this.fillDiv();
+
+        shield.openDialog(this.member.selObject, true, 'project-form-container', shieldDialog.getTag);
+    }
+};
+
 /* object to create dialog for shield popup. */
 var shieldDialog = {
     toolBar : {
@@ -932,7 +1013,8 @@ var shieldDialog = {
     },
 
     formTable : {
-        tr: [],
+        enable  : false,
+        tr      : [],
 
         add: function(label, inputTag) {
             this.tr.push({
@@ -996,6 +1078,36 @@ var shieldDialog = {
         }
     },
 
+    formDiv : {
+        enable      : false,
+        elemList    :[],
+
+        add: function(tag) {
+            this.elemList.push(tag);
+        },
+
+        clear: function() {
+            while(this.elemList.length > 0) {
+                this.elemList.pop();
+            }
+        },
+
+        getTag: function() {
+            var tag = '';
+
+            tag += '<div class="shield-dialog-div">';
+
+            // Add rows according to the input (formTable.tr).
+            for(var inx in this.elemList) {
+                tag += this.elemList[inx];
+            }
+
+            tag += '</div>';
+
+            return(tag);
+        }
+    },
+
     getTag: function () {
         var tag = '';
 
@@ -1009,8 +1121,13 @@ var shieldDialog = {
         */
         tag += shieldDialog.toolBar.getTag();
 
-        //  Added field for input.
-        tag += shieldDialog.formTable.getTag();
+        if(shieldDialog.formTable.enable) {
+            //  Added field for input.
+            tag += shieldDialog.formTable.getTag();
+        }
+        else if(shieldDialog.formDiv.enable) {
+            tag += shieldDialog.formDiv.getTag();
+        }
 
         return(tag);
     }
@@ -1055,7 +1172,7 @@ var shield = {
             if(takeSelPos == true) {
                 var offsets = $(selObj).position();
 
-                o_top = offsets.top + 22;
+                o_top = offsets.top + selObj.offsetHeight + 2; //getBoundingClientRect().height;
                 o_left = offsets.left;
 
             } else {

@@ -63,3 +63,12 @@
     float: right;
     margin-top: 5px;
 }
+
+.project-title {
+    text-transform: uppercase;
+}
+
+.project-title:hover {
+    color: #47cefa;
+    cursor: pointer;
+}

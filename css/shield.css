@@ -160,6 +160,44 @@
     cursor: pointer;
 }
 
+.shield-dialog-div {
+    max-height: 500px;
+    padding-top: 25px;
+    padding-bottom: 25px;
+    padding-left: 25px;
+    background: white;
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+
+.project-backlog-project {
+    width: 500px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.project-backlog-project a {
+    text-decoration: none;
+    color: #05354E;
+    font-size: 16px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.project-backlog-project a:hover {
+    border: 1px solid #878c94;
+    cursor: pointer;
+}
+
+.project-backlog-project .selected {
+    border: 1px solid #878c94;
+    background-color: #D6EFFC;
+}
+
+.project-backlog-project-anchor {
+
+}
+
 /*.close {
     background:url("../prod/images/fkart/compare-cart-sprite-6d5e187e.png") no-repeat scroll -177px -2px transparent;
     cursor:pointer;

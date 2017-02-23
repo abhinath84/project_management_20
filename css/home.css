@@ -84,22 +84,35 @@
     color: #000;
 }
 
-.home-article table {
+.user-info-container {
+    height: 750px;
+    display: flex;
+}
+
+.user-info-container table {
     width:100%;
     border-collapse: collapse;
     border: 1px solid #d4d4d4;
 }
 
-.home-article table tr th{
+.user-info-container table tr th{
     text-align: center;
     border: 1px solid #d4d4d4;
 }
 
-.home-article .td-border {
+.user-info-container .td-border {
     border: 1px solid #d4d4d4;
 }
 
-.home-article tbody tr td a {
+.user-info-container tbody tr td a {
     text-decoration: none;
     color: #0096e0;
+}
+
+.spr-info-container {
+    width: 50%;
+    border-right: 1px solid #d4d4d4;
+    display: flex;
+    flex-direction: row;
+    padding-top: 25px;
 }
