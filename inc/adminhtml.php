@@ -12,11 +12,6 @@
             parent::__construct($curNav, $curDir, $enableNav, $tabItems, $currentTab);
         }
 
-        /*protected function getWidgetboxContent()
-        {
-
-        }*/
-
         protected function addDashboard()
         {
             return( parent::getWidgetbox() );
@@ -199,7 +194,9 @@
                                 array("&nbsp;", null, null, null, null)
                             );
 
-            $qry = "SELECT title, owner, begin_date, end_date, sprint_schedule, parent, description, status, target_estimate, test_suit, target_swag, reference FROM scrum_project  WHERE parent = 'System(All Projects)' AND ((owner = '". $_SESSION['project-managment-username'] ."') OR (title IN (SELECT project_title FROM scrum_project_member WHERE member_id='". $_SESSION['project-managment-username'] ."')))";
+            //$qry = "SELECT title, owner, begin_date, end_date, sprint_schedule, parent, description, status, target_estimate, test_suit, target_swag, reference FROM scrum_project  WHERE parent = 'System(All Projects)' AND ((owner = '". $_SESSION['project-managment-username'] ."') OR (title IN (SELECT project_title FROM scrum_project_member WHERE member_id='". $_SESSION['project-managment-username'] ."')))";
+
+            $qry = "SELECT title, owner, begin_date, end_date, sprint_schedule, parent, description, status, target_estimate, test_suit, target_swag, reference, privilage FROM scrum_project, scrum_project_member WHERE scrum_project.parent = 'System(All Projects)' AND scrum_project.title = scrum_project_member.project_title AND scrum_project_member.member_id='". $_SESSION['project-managment-username'] ."'";
 
             // fill table components to display Projects.
             $grippyTable = new GrippyTable("project-table", "grippy-table");
@@ -232,14 +229,19 @@
                         $table->td("{$row[10]}", "{$inx}-target_swag", null, "display: none;");
                         $table->td("{$row[11]}", "{$inx}-reference", null, "display: none;");
 
-                        $table->td(Utility::getQuickActionBtn("{$inx}", "Edit", "project-td-btn", "onclick=\"shieldProject.openEditDialog('{$inx}', 'project-tbody', false)\"", "{$inx}", "project-table-dropdown"), "project-edit", null, null, "width=\"5%\"");
+                        if(($row[12] == 'System Admin') || ($row[12] == 'Project Admin'))
+                        {
+                            $table->td(Utility::getQuickActionBtn("{$inx}", "Edit", "project-td-btn", "onclick=\"shieldProject.openEditDialog('{$inx}', 'project-tbody', false)\"", "{$inx}", "project-table-dropdown"), "project-edit", null, null, "width=\"5%\"");
+                        }
+                        else
+                            $table->td("&nbsp;", "project-edit", null, null, "width=\"10%\"");
                 }
             }
         }
 
         static function getTableBodyElement()
         {
-            $qry = "SELECT title, owner, begin_date, end_date, sprint_schedule, parent, description, status, target_estimate, test_suit, target_swag, reference FROM scrum_project  WHERE parent = 'System(All Projects)' AND ((owner = '". $_SESSION['project-managment-username'] ."') OR (title IN (SELECT project_title FROM scrum_project_member WHERE member_id='". $_SESSION['project-managment-username'] ."')))";
+            $qry = "SELECT title, owner, begin_date, end_date, sprint_schedule, parent, description, status, target_estimate, test_suit, target_swag, reference, privilage FROM scrum_project, scrum_project_member WHERE scrum_project.parent = 'System(All Projects)' AND scrum_project.title = scrum_project_member.project_title AND scrum_project_member.member_id='". $_SESSION['project-managment-username'] ."'";
 
             // fill table components to display Projects.
             $grippyTable = new GrippyTable("project-table", "grippy-table");

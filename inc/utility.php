@@ -4,6 +4,7 @@
     require_once ('navigator.php');
     require_once ('htmltable.php');
     require_once ('cipher.inc.php');
+    require_once ('mysqldb.php');
 
 
     class Utility
@@ -138,6 +139,110 @@
             }
 
             return($tag);
+        }
+
+        // Check passing user have admin privilage or not.
+        static function isAdmin($user)
+        {
+            $status = false;
+
+            // check privillage of the member.
+            $qry = "SELECT member_id FROM scrum_member WHERE (member_id = $user) AND (privilage='System Admin' OR privilage='Project Admin' OR privilage='Member Admin')";
+
+            $mysqlDBObj = new mysqlDB('scrum_member');
+            $rows = $mysqlDBObj->select($qry);
+            if(!empty($rows))
+            {
+                // if not having admin provilage then, check project_member table.
+                $qry = "SELECT `project_title` FROM scrum_project_member WHERE (member_id = $user) AND (privilage='System Admin' OR privilage='Project Admin' OR privilage='Member Admin')";
+
+                $mysqlDBObj = new mysqlDB('scrum_project_member');
+                $rows = $mysqlDBObj->select($qry);
+                if(!empty($rows))
+                    $status = true;
+            }
+            else
+                $status = true;
+
+            return($status);
+        }
+
+        // Check passing user have System Admin privilage or not.
+        static function isSystemAdmin($user)
+        {
+            $status = false;
+
+            // check privillage of the member.
+            $qry = "SELECT member_id FROM scrum_member WHERE (member_id = $user) AND (privilage = 'System Admin')";
+
+            $mysqlDBObj = new mysqlDB('scrum_member');
+            $rows = $mysqlDBObj->select($qry);
+            if(!empty($rows))
+            {
+                // if not having admin provilage then, check project_member table.
+                $qry = "SELECT `project_title` FROM scrum_project_member WHERE (member_id = $user) AND (privilage = 'System Admin')";
+
+                $mysqlDBObj = new mysqlDB('scrum_project_member');
+                $rows = $mysqlDBObj->select($qry);
+                if(!empty($rows))
+                    $status = true;
+            }
+            else
+                $status = true;
+
+            return($status);
+        }
+
+        // Check passing user have Project Admin privilage or not.
+        static function isProjectAdmin($user)
+        {
+            $status = false;
+
+            // check privillage of the member.
+            $qry = "SELECT member_id FROM scrum_member WHERE (member_id = $user) AND (privilage = 'Project Admin')";
+
+            $mysqlDBObj = new mysqlDB('scrum_member');
+            $rows = $mysqlDBObj->select($qry);
+            if(!empty($rows))
+            {
+                // if not having admin provilage then, check project_member table.
+                $qry = "SELECT `project_title` FROM scrum_project_member WHERE (member_id = $user) AND (privilage = 'Project Admin')";
+
+                $mysqlDBObj = new mysqlDB('scrum_project_member');
+                $rows = $mysqlDBObj->select($qry);
+                if(!empty($rows))
+                    $status = true;
+            }
+            else
+                $status = true;
+
+            return($status);
+        }
+
+        // Check passing user have Member Admin privilage or not.
+        static function isMemberAdmin($user)
+        {
+            $status = false;
+
+            // check privillage of the member.
+            $qry = "SELECT member_id FROM scrum_member WHERE (member_id = $user) AND (privilage = 'Member Admin')";
+
+            $mysqlDBObj = new mysqlDB('scrum_member');
+            $rows = $mysqlDBObj->select($qry);
+            if(!empty($rows))
+            {
+                // if not having admin provilage then, check project_member table.
+                $qry = "SELECT `project_title` FROM scrum_project_member WHERE (member_id = $user) AND (privilage = 'Member Admin')";
+
+                $mysqlDBObj = new mysqlDB('scrum_project_member');
+                $rows = $mysqlDBObj->select($qry);
+                if(!empty($rows))
+                    $status = true;
+            }
+            else
+                $status = true;
+
+            return($status);
         }
     }
 ?>

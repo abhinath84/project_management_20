@@ -942,15 +942,15 @@ var shieldDialog = {
         title           : "",
         imgIconClass    : "",
         toolbarBtns     : {
-        buttons         : [],
+            buttons : [],
 
-        setDefult: function() {
-            this.title = "";
-            this.imgIconClass = "";
-            this.toolbarBtns.clear();
-        },
+            setDefult: function() {
+                this.title = "";
+                this.imgIconClass = "";
+                this.toolbarBtns.clear();
+            },
 
-        add: function (divClass, btnClass, btnTitle, btnEvent) {
+            add: function (divClass, btnClass, btnTitle, btnEvent) {
               this.buttons.push({
                 divClass: divClass,
                 btnClass: btnClass,
@@ -959,7 +959,7 @@ var shieldDialog = {
               });
             },
 
-        clear: function () {
+            clear: function () {
                 while(this.buttons.length > 0) {
                     this.buttons.pop();
                 }

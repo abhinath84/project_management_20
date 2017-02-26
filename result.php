@@ -37,28 +37,13 @@
         <div id="wrapper" class="wrapper">
             <?php
                 $nav = new Navigator();
-                echo $nav->header("base", "Login", false);
+                echo $nav->header_new("base", "Login", false);
             ?>
             <!-- Create login form -->
             <div id="result-main" class="result-main">
                 <div class="congratulation">
                     <?php
-                        /*if(isset($_POST['page']))
-                        {
-                            if($_POST['page'] == "spr-tracking-add")
-                            {
-                                $status = add_spr();
-                                if($status == "exists")
-                                    echo "<p>SPR already exists.</P>";
-                                else
-                                    echo "<p>SPR " . $status ." successfully.</P>";
-
-                                echo "<p>To go back main page click <a href='index.php'>here</a></p>";
-                                echo "<p>If you wish to add another SPR click <a href='" .$sprTrackingNewSPRURL. "'>here</a></p>";
-                            }
-
-                        }
-                        else */if((isset($_GET['action'])) && ($_GET['action'] == "logout"))
+                        if((isset($_GET['action'])) && ($_GET['action'] == "logout"))
                         {
                             // or this would remove all the variables in the session, but not the session itself
                             session_unset();
