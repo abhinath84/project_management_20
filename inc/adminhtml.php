@@ -41,8 +41,7 @@
                             (
                                 array('Members', 'members.php', SVG::getMember()),
                                 array('Project Assignment', 'projecct_assignment.php', SVG::getProjectAssignment()),
-                                array('Project Roles', 'project_roles.php', SVG::getProjectRoles())/*,
-                                array('Member Groups', 'member_groups.php')*/
+                                array('Project Roles', 'project_roles.php', SVG::getProjectRoles())
                             );
 
             parent::__construct($curNav, $curDir, $enableNav, $tabItems, $currentTab);
@@ -375,7 +374,9 @@
             $str = "";
             $this->table = new HTMLTable("project-table", "grippy-table");
 
-            $qry = "SELECT title, owner, begin_date, end_date, sprint_schedule, parent, description, status, target_estimate, test_suit, target_swag, reference FROM scrum_project  WHERE parent = 'System(All Projects)' AND ((owner = '". $_SESSION['project-managment-username'] ."') OR (title IN (SELECT project_title FROM scrum_project_member WHERE member_id='". $_SESSION['project-managment-username'] ."')))";
+            //$qry = "SELECT title, owner, begin_date, end_date, sprint_schedule, parent, description, status, target_estimate, test_suit, target_swag, reference FROM scrum_project  WHERE parent = 'System(All Projects)' AND ((owner = '". $_SESSION['project-managment-username'] ."') OR (title IN (SELECT project_title FROM scrum_project_member WHERE member_id='". $_SESSION['project-managment-username'] ."')))";
+
+            $qry = "SELECT title, owner, begin_date, end_date, privilage FROM scrum_project, scrum_project_member WHERE scrum_project.parent = 'System(All Projects)' AND scrum_project.title = scrum_project_member.project_title AND scrum_project_member.member_id='". $_SESSION['project-managment-username'] ."'";
 
             // fill table components to display Sprint Schedule.
             // add table header
@@ -410,7 +411,12 @@
                         $table->td(Utility::decode($row[1]), "{$inx}-owner", null, null, "width=\"20%\"");
                         $table->td("{$row[2]}", "{$inx}-begin_date", null, null, "width=\"20%\"");
                         $table->td("{$row[3]}", "{$inx}-end_date", null, null, "width=\"20%\"");
-                        $table->td(Utility::getRetroButton('Manage', 'iris-blue', 'onclick="memberRoles.showMemberTable(\''.$inx. '\')"'), null, null, null, "width=\"6%\"");
+                        if(($row[4] == 'System Admin') || ($row[4] == 'Project Admin'))
+                        {
+                            $table->td(Utility::getRetroButton('Manage', 'iris-blue', 'onclick="memberRoles.showMemberTable(\''.$inx. '\')"'), null, null, null, "width=\"6%\"");
+                        }
+                        else
+                            $table->td("&nbsp;", "project-edit", null, null, "width=\"10%\"");
                 }
             }
         }
@@ -609,7 +615,7 @@
             $tag .= '     <span>MEMBERS</span>';
             $tag .= ' </div>';
             $tag .= '               <div style="margin: 30px 0;">' . $this->EOF_LINE;
-            $tag .=                     Utility::getRetroButton('Assign to Project', 'green add-padding', 'onclick=""');
+            $tag .=                     Utility::getRetroButton('Assign to Project', 'green add-padding', 'onclick="projectAssignment.assign()"');
             $tag .= '               </div>' . $this->EOF_LINE;
             $tag .= ' <div>';
             $tag .=       $this->getMemberTable();
@@ -654,7 +660,7 @@
             $thList = array
                             (
                                 array("&nbsp;", null, null, null, null),
-                                array('<input type="checkbox" id="select_all" clickhandler="V1.Gadgets.Grid.MultiSelect.ToggleAll(\'_fjvevqi\');">', null, null, null, null),
+                                array('<input type="checkbox" id="member-th-checkbox" onclick="projectAssignment.selectAllMembers()">', null, null, null, null),
                                 array('Name', null, null, null, 'data-sort="string"'),
                                 array("Username", null,  null, null, 'data-sort="string"'),
                                 array("Admin Privilage", null, null, null, 'data-sort="string"'),
@@ -736,7 +742,7 @@
 
             $this->table->tr(null, null, null, "align=\"center\"");
                 $this->table->td(getGreppyDotTag(), "1-greppy", "hasGrippy", "text-align:center;", "width=\"1%\"");
-                $this->table->td('<input type="checkbox" clickhandler="V1.Gadgets.Grid.MultiSelect.ToggleAll(\'_fjvevqi\');" class="checkbox">', "{$inx}", null, "width: 2%", "text-align=\"center\"");
+                $this->table->td('<input id="'. $inx .'-checkbox" type="checkbox" class="checkbox" onclick="projectAssignment.selectMember()">', "{$inx}-checkbox-td", null, "width: 2%", "text-align=\"center\"");
                 $this->table->td($name, "{$inx}-name", "project-title-td", null, "width=\"20%\"");
                 $this->table->td(Utility::decode($row[2]), "{$inx}-member_id", null, null, "width=\"20%\"");
                 $this->table->td("{$row[3]}", "{$inx}-old-privilage", null, null, "width=\"20%\"");
@@ -760,25 +766,149 @@
         {
             $tag = '';
 
-            $tag .= '               <div id="project-table-container" class="project-container">' . $this->EOF_LINE;
-            $tag .= '                   <div style="float: right; margin-right: 25px;">' . $this->EOF_LINE;
-            $tag .=                         Utility::getRetroButton('Add Member', 'green', 'onclick="members.addMembers();"');
-            $tag .= '                   </div>' . $this->EOF_LINE;
-            $tag .= '                   <div id="member-table-container" style="clear: both;">' . $this->EOF_LINE;
-            $tag .=                         $this->getMemberTable();
-            $tag .= '                   </div>' . $this->EOF_LINE;
-            $tag .= '               </div>' . $this->EOF_LINE;
+            $tag .= '<div id="member-div">';
+            $tag .= '   <div class="doom-line">';
+            $tag .= '       <span>MEMBERS</span>';
+            $tag .= '   </div>';
+            $tag .=     $this->getMemberTable();
+            $tag .= '</div>';
+
+            $tag .= '<div id="project-div" class="member-role-member-content">';
+            $tag .= '   <div class="doom-line">';
+            $tag .= '       <span>PROJECTS</span>';
+            $tag .= '   </div>';
+            $tag .= '   <div style="margin: 20px 0; display: flex;">';
+            $tag .= '       <div style="margin-left: auto">' . $this->EOF_LINE;
+            $tag .=             Utility::getRetroButton('Save', 'green', 'onclick="projectRoles.save();"');
+            $tag .= '       </div>' . $this->EOF_LINE;
+            $tag .= '       <div style="margin-left: 25px;">' . $this->EOF_LINE;
+            $tag .=             Utility::getRetroButton('Close', 'red', 'onclick="projectRoles.close();"');
+            $tag .= '       </div>' . $this->EOF_LINE;
+            $tag .= '   </div>';
+            $tag .= '   <div>';
+            $tag .=         $this->getProjectTable();
+            $tag .= '   </div>';
+            $tag .= '</div>';
 
             return($tag);
         }
 
         private function getMemberTable()
         {
-            $tag = '';
+            //$this->table = new HTMLTable("member-table", "grippy-table");
 
-            $tag .= '<p>#block for Table</p>' . $this->EOF_LINE;
+            $qry = "SELECT user.first_name, user.last_name, user.user_name, scrum_member.privilage FROM user INNER JOIN scrum_member ON scrum_member.member_id = user.user_name ORDER BY user.user_name DESC";
 
-            return($tag);
+            // fill table components to display Sprint Schedule.
+            // add table header
+            $thList = array
+                            (
+                                array("&nbsp;", null, null, null, null),
+                                array('Name', null, null, null, 'data-sort="string"'),
+                                array("Username", null,  null, null, 'data-sort="string"'),
+                                array("Admin Privilage", null, null, null, 'data-sort="string"'),
+                                array("&nbsp;", null, null, null, null)
+                            );
+
+
+            // fill table components to display Members.
+            $grippyTable = new GrippyTable("member-table", "grippy-table");
+
+            $grippyTable->fillHead("member-thead", $thList);
+            $grippyTable->fillBody("member-tbody", $qry, array("ProjectRolesHTML", "addMemberTableRow"));
+
+            return(utf8_encode($grippyTable->toHTML()));
+        }
+
+        static function addMemberTableRow($table, $row, $inx)
+        {
+            if(($row != null) && (count($row) > 0))
+            {
+                $name = Utility::decode($row[0]) . ' ' . Utility::decode($row[1]);
+
+                $table->tr(null, null, null, "align=\"center\"");
+                    $table->td(getGreppyDotTag(), "1-greppy", "hasGrippy", "text-align:center;", "width=\"1%\"");
+                    $table->td($name, "{$inx}-name", "project-title-td", null, "width=\"45%\"");
+                    $table->td(Utility::decode($row[2]), "{$inx}-member_id", null, null, "width=\"35%\"");
+                    $table->td("{$row[3]}", "{$inx}-old-privilage", null, null, "width=\"20%\"");
+                    $table->td(Utility::getRetroButton('Manage', 'iris-blue', 'onclick="projectRoles.showProjectTable(\''.$inx. '\')"'), null, null, null, "width=\"6%\"");
+            }
+        }
+
+        private function getProjectTable()
+        {
+            //$this->table = new HTMLTable("project-table", "grippy-table");
+
+            // fill table components to display Sprint Schedule.
+            // add table header
+            $thList = array
+                            (
+                                array("&nbsp;", null, null, null, null),
+                                array("Title", null, null, null, 'data-sort="string"'),
+                                array("Owner", null,  null, null, 'data-sort="string"'),
+                                array("Begin Date", null, null, null, 'data-sort="string"'),
+                                array("End Date", null, null, null, 'data-sort="string"'),
+                                array("Project Role", null, null, null, 'data-sort="string"'),
+                                array("New Project Role", null, null, null, null)
+                            );
+
+            // fill table components to display Projects.
+            $grippyTable = new GrippyTable("project-table", "grippy-table");
+
+            $grippyTable->fillHead("project-thead", $thList);
+            $grippyTable->fillBody("project-tbody", '', null);
+
+            return(utf8_encode($grippyTable->toHTML()));
+        }
+
+        static function addProjectTableRow($table, $row, $inx)
+        {
+            if(($row != null) && (count($row) > 0))
+            {
+                if($row[0] != 'System(All Projects)')
+                {
+                    $newProjectRoleSelect = '<select id="'. $inx .'-privilage-select" class="retro-style session-select">
+                                                <option value="none"></option>
+                                                <option value="system admin">system admin</option>
+                                                <option value="member admin">member admin</option>
+                                                <option value="project admin">project admin</option>
+                                                <option value="team member">team member</option>
+                                                <option value="developer">developer</option>
+                                                <option value="tester">tester</option>
+                                                <option value="customer">customer</option>
+                                            </select>';
+
+                    $table->tr("{$inx}-project-tr");
+                        $table->td(getGreppyDotTag(), "1-greppy", "hasGrippy", "text-align:center;", "width=\"1%\"");
+                        $table->td("{$row[0]}", "{$inx}-title", null, null, "width=\"32%\"");
+                        $table->td(Utility::decode($row[1]), "{$inx}-owner", null, null, "width=\"20%\"");
+                        $table->td("{$row[2]}", "{$inx}-begin_date", null, null, "width=\"20%\"");
+                        $table->td("{$row[3]}", "{$inx}-end_date", null, null, "width=\"20%\"");
+                        $table->td("{$row[4]}", "{$inx}-old_privilage", null, null, "width=\"20%\"");
+                        $table->td("{$newProjectRoleSelect}", "{$inx}-new_privilage", null, null, "width=\"20%\"");
+                }
+            }
+        }
+
+        static function getProjectTableElement($clause)
+        {
+            //global $conn;
+            $tag = "";
+
+            if(($clause != null) && ($clause != ''))
+            {
+                $qry = "SELECT title, owner, begin_date, end_date, privilage FROM scrum_project, scrum_project_member WHERE scrum_project.parent = 'System(All Projects)' AND scrum_project.title = scrum_project_member.project_title AND scrum_project_member.member_id='". Utility::encode($clause) ."'";
+
+                //$qry = "SELECT user.first_name, user.last_name, user.user_name, scrum_member.privilage FROM user INNER JOIN scrum_member ON scrum_member.member_id = user.user_name ORDER BY user.user_name DESC";
+
+                // fill table components to display Projects.
+                $grippyTable = new GrippyTable("project-table", "grippy-table");
+                $grippyTable->fillBody("project-tbody", $qry, array("ProjectRolesHTML", "addProjectTableRow"));
+
+                $tag = $grippyTable->getBodyElement();
+            }
+
+            return(utf8_encode($tag));
         }
     }
 

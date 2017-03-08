@@ -11,6 +11,10 @@
 
     // Initialize session data
     session_start();
+
+    // if not log in then redirect to login page.
+    if(!isset($_SESSION['project-managment-username']))
+        header("Location: ../user/login.php?redirect=../admin/project_roles.php");
 ?>
 
 <!DOCTYPE HTML>

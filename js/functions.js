@@ -1244,8 +1244,7 @@ var memberRoles = {
     info: {
         rowid           : '',
         projectTBody    : 'project-tbody',
-        memberDiv       : 'member-div',
-        memberTBody     : 'member-thead'
+        memberDiv       : 'member-div'
     },
 
     showMemberTable: function(rowId) {
@@ -1289,6 +1288,107 @@ var memberRoles = {
         $('#' + this.info.rowid + '-project-tr').removeClass('alice-blue-bg');
         // hide member table.
         $('#' + this.info.memberDiv).css('display', 'none');
+        // reset row id for further use.
+        this.info.rowid = '';
+    },
+
+    save: function() {
+        // check all the inputs are proper or not?
+        // if not then display the error
+        // otherwise save information and close the member table.
+        this.close();
+    }
+};
+
+
+var projectAssignment = {
+    info : {
+        memberTBodyId : 'member-tbody',
+        selUserList : []
+    },
+
+    selectAllMembers: function() {
+        // check check box is selected or not.
+        var status = document.getElementById("member-th-checkbox").checked;
+
+        // update all checkbox in the table according to the input.
+        var len = document.getElementById(this.info.memberTBodyId).getElementsByTagName("tr").length;
+
+        for(var i = 1; i <= len; i++) {
+            document.getElementById(i + "-checkbox").checked = status;
+        }
+    },
+
+    selectMember: function() {
+        var status = true;
+
+        // check all rows are checked or not.
+        var len = document.getElementById(this.info.memberTBodyId).getElementsByTagName("tr").length;
+
+        for(var i = 1; i <= len; i++) {
+            if(document.getElementById(i + "-checkbox").checked == false) {
+                status = false;
+                break;
+            }
+        }
+
+        document.getElementById("member-th-checkbox").checked = status;
+    },
+
+    assign: function() {
+        // collect all the selected user name in the list.
+        // open shield having project list.
+    }
+};
+
+var projectRoles = {
+    info: {
+        rowid           : '',
+        memberTBody     : 'member-tbody',
+        projectDiv      : 'project-div'
+    },
+
+    showProjectTable: function(rowId) {
+        if((rowId != null) && (rowId != '')) {
+            var isOpen = false;
+
+            // check member table is already shown or not.
+            // if not then open it.
+            // else show warning and ask user whether they want's to change member table without saving current change.
+            var memberDivDisplay = $('#' + this.info.projectDiv).css('display');
+            if((memberDivDisplay != null) && (memberDivDisplay != '') & (memberDivDisplay != 'none')) {
+                var r = confirm("Do you want to close unsaved Member Table?");
+                if (r == false) {
+                    isOpen = true;
+                }
+            }
+
+            if(isOpen == false) {
+                // change background-color of selected row of Project table.
+                // reset bg-color for all the tr.
+                $('#' + this.info.memberTBody).find('tr').each(function () {
+                    $(this).removeClass('alice-blue-bg');
+                });
+
+                // set bg-color for selected color.
+                $('#' + rowId + '-project-tr').addClass('alice-blue-bg');
+
+                var memberId = document.getElementById(rowId + '-member_id').innerHTML;
+                // get members for the selected project.
+                utility.updateDashboradTable('project-tbody', 'getProjectTableElement', 'ProjectRolesHTML', memberId);
+
+                // display member for changing role.
+                $('#' + this.info.projectDiv).css('display', 'block');
+                this.info.rowid = rowId;
+            }
+        }
+    },
+
+    close: function() {
+        // unselect the row by removing 'alice-blue-bg' from selected tr element.
+        $('#' + this.info.rowid + '-project-tr').removeClass('alice-blue-bg');
+        // hide member table.
+        $('#' + this.info.projectDiv).css('display', 'none');
         // reset row id for further use.
         this.info.rowid = '';
     },
