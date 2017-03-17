@@ -871,21 +871,18 @@ var shieldProjectPlanBacklog = {
         inputTag += '</div>';
         shieldDialog.formDiv.add(inputTag);
 
-        // Title
         inputTag = '<div class="project-backlog-project">';
-        inputTag += '   <a class="project-backlog-project-anchor '+ ((this.member.selObject.innerHTML === 'New Project') ? 'selected' : '') +'" onclick="shieldProjectPlanBacklog.onSelect(this)">New Project</a>';
+        inputTag += '   <a class="project-backlog-project-anchor '+ ((this.member.selObject.innerHTML.toUpperCase() === 'NEW PROJECT') ? 'selected' : '') +'" onclick="shieldProjectPlanBacklog.onSelect(this)">New Project</a>';
         inputTag += '</div>';
         shieldDialog.formDiv.add(inputTag);
 
-        // Sprint Schedule
         inputTag = '<div class="project-backlog-project">';
-        inputTag += '   <a class="project-backlog-project-anchor '+ ((this.member.selObject.innerHTML === 'PROJECT 2017') ? 'selected' : '') +'" onclick="shieldProjectPlanBacklog.onSelect(this)">Project 2017</a>';
+        inputTag += '   <a class="project-backlog-project-anchor '+ ((this.member.selObject.innerHTML.toUpperCase() === 'PROJECT 2017') ? 'selected' : '') +'" onclick="shieldProjectPlanBacklog.onSelect(this)">Project 2017</a>';
         inputTag += '</div>';
         shieldDialog.formDiv.add(inputTag);
 
-        // Sprint Schedule
         inputTag = '<div class="project-backlog-project">';
-        inputTag += '   <a class="project-backlog-project-anchor '+ ((this.member.selObject.innerHTML === 'PROJECT 2018') ? 'selected' : '') +'" onclick="shieldProjectPlanBacklog.onSelect(this)">Project 2018</a>';
+        inputTag += '   <a class="project-backlog-project-anchor '+ ((this.member.selObject.innerHTML.toUpperCase() === 'PROJECT 2018') ? 'selected' : '') +'" onclick="shieldProjectPlanBacklog.onSelect(this)">Project 2018</a>';
         inputTag += '</div>';
         shieldDialog.formDiv.add(inputTag);
     },
