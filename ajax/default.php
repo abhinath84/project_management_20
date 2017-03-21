@@ -842,63 +842,72 @@ function shortDescriptionCallback($comment, $limit)
     echo(json_encode($shortDesc));
 }
 
-/*function deleteTableElement($tableName, $clause)
+// Following tables are depending on 'project'
+// - scrum_project_member
+// - scrum_sprint
+// - scrum_backlog
+// - scrum_task
+// - scrum_sprint
+function deleteProjectRelatedTableElement($project)
 {
-    $status = false;
-
-    if(
-        ($tableName != null) && ($tableName != '') &&
-        ($clause != null) && ($clause != '')
-      )
-    {
-        // create object of mysqlDB class to add data into mysql database.
-        $mysqlDBObj = new mysqlDB($tableName);
-        $mysqlDBObj->appendClause($clause);
-
-        $msg = $mysqlDBObj->delete();
-        if($msg == true)
-            $status = true;
-    }
-
-    return($status);
-}*/
-
-function deleteProjectRelatedTableElement($project, $parent)
-{
-    if(
-        ($project != null) && ($project != '') &&
-        ($parent != null) && ($parent != '')
-      )
+    if(($project != null) && ($project != ''))
     {
         // - scrum_project_member
-        deleteTableElement('scrum_project_member', 'project = "'. $project .'"');
+        deleteTableElement('scrum_project_member', 'project_title = "'. $project .'"');
 
         // - scrum_sprint
         deleteTableElement('scrum_sprint', 'project = "'. $project .'"');
 
+        // get backlog title for passing project.
+        $backlogs = getTableElements('scrum_backlog', ['title'], 'project = "'. $project .'"');
+        // delete tasks for each selected backlog.
+        foreach($backlogs as $backlog)
+        {
+            // - scrum_task - based on backlog title.
+            deleteTableElement('scrum_task', 'backlog = "'. $backlog[0] .'"');
+        }
+
         // - scrum_backlog
         deleteTableElement('scrum_backlog', 'project = "'. $project .'"');
-
-        // - scrum_task
-        deleteTableElement('scrum_task', 'project = "'. $project .'"');
     }
 }
 
+
+// delete below table element from child project(scrum_release_planning) first and
+// then delete below table element for selected project.
+
+// and all the table element which are department on project.
+// Following tables are depending on 'project'
+// - scrum_project_member
+// - scrum_sprint
+// - scrum_backlog
+// - scrum_task
+// - scrum_sprint
 function deleteProjectCallback()
 {
-    // get all the child project of the selected project.
-    // delete below table element from child project(scrum_release_planning) first and
-    // then delete below table element for selected project.
+    $data       = array();      // array to pass back data
+    $data       = array();      // array to pass back data
+    $project    = $_POST['project'];
 
-    // and all the table element which are department on project.
-    // Following tables are depending on 'project'
-    // - scrum_project_member
-    // - scrum_sprint
-    // - scrum_backlog
-    // - scrum_task
-    // - scrum_sprint
+    // get all the child project of the selected project.
+    $releaseProjects = getTableElements('scrum_project', ['title'], 'parent = "'. $project .'"');
+    // delete release project related table elements.
+    foreach($releaseProjects as $releaseProject)
+    {
+        deleteProjectRelatedTableElement($releaseProject[0]);
+
+        // delete release project.
+        deleteTableElement('scrum_project', 'title = "'. $releaseProject[0] .'"');
+    }
+
+    // delete project related table elements.
+    deleteProjectRelatedTableElement($project);
 
     // delete corresponding project from 'scrum_project' Table.
+    deleteTableElement('scrum_project', 'title = "'. $project .'"');
+
+    $data['success'] = true;
+    echo(json_encode($data));
 }
 
 function getSprintScheduleSelectCallback()
