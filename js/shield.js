@@ -501,15 +501,17 @@ var shieldProject = {
 
         var data = {
             url             : "../ajax/default.php",
-            callbackFunc    : "addSprintScheduleCallback",
+            callbackFunc    : "addProjectCallback",
             formData        : formData,
             successFunc     : function () {
-                /*$("#title-input").val(shieldSprintSchedule.info.title);
-                $("#length-input").val(shieldSprintSchedule.info.length);
-                $("#length_unit-select").val(shieldSprintSchedule.info.length_unit);
-                $("#gap-input").val(shieldSprintSchedule.info.gap);
-                $("#gap_unit-select").val(shieldSprintSchedule.info.gap_unit);
-                $("#description-textarea").val(shieldSprintSchedule.info.description);*/
+                $("#title-input").val('');
+                $("#description-textarea").val('');
+                $("#begin_date-input").val(this.info.begin_date);
+                $("#end_date-input").val('');
+                $("#status-input").val('');
+                $("#owner-input").val(this.info.owner);
+                $("#target_estimate-input").val('');
+                $("#target_swag-input").val('');
             },
             errorFunc       : shieldSprintSchedule.onclickSaveErrorFunc,
             failFunc        : null
@@ -584,7 +586,7 @@ var shieldProject = {
         var r = confirm("Do you want to delete '" + title + "' ?");
         if (r == true) {
             var formData = {
-                'title'     : title,
+                'project'     : title,
                 'parent'    : parent
                 //    'clause'    : "title = '" + title + "' and parent = '" + parent + "'"
             };
@@ -594,7 +596,7 @@ var shieldProject = {
                 callbackFunc    : "deleteProjectCallback",
                 formData        : formData,
                 successFunc     : function () {
-                    utility.updateDashboradTable('project-tbody', 'fillProjectTable', '', '');
+                    utility.updateDashboradTable('project-tbody', 'getTableBodyElement', 'ProjectsHTML', '');
                 },
                 errorFunc       : null,
                 failFunc        : null

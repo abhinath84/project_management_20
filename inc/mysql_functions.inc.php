@@ -441,6 +441,31 @@
         return($msg);
     }
 
+    function getTableElements($table, $elementList, $clause)
+    {
+        global $conn;
+        $rows = null;
+
+        // check tableName and elementList are black or not.
+        if(
+            (($table != null) && ($table != '')) &&
+            (($elementList != null) && (count($elementList) > 0))
+          )
+        {
+            // build select query.
+            $qry = 'SELECT';
+            foreach($elementList as $element)
+                $qry .= ' ' . $element;
+            $qry .= ' FROM ' . $table;
+            if(($clause != null) && ($clause != ''))
+                $qry .= ' WHERE ' . $clause;
+
+            $rows = $conn->result_fetch_array($qry);
+        }
+
+        return($rows);
+    }
+
     function deleteTableElement($table, $where)
     {
         global $conn;
