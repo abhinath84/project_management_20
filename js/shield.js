@@ -506,14 +506,14 @@ var shieldProject = {
             successFunc     : function () {
                 $("#title-input").val('');
                 $("#description-textarea").val('');
-                $("#begin_date-input").val(this.info.begin_date);
+                $("#begin_date-input").val(shieldProject.info.begin_date);
                 $("#end_date-input").val('');
                 $("#status-input").val('');
-                $("#owner-input").val(this.info.owner);
+                $("#owner-input").val(shieldProject.info.owner);
                 $("#target_estimate-input").val('');
                 $("#target_swag-input").val('');
             },
-            errorFunc       : shieldSprintSchedule.onclickSaveErrorFunc,
+            errorFunc       : shieldProject.onclickSaveErrorFunc,
             failFunc        : null
         };
 
