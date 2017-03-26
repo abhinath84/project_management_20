@@ -22,8 +22,7 @@
     {
         public function __construct($curNav = null, $curDir = null, $enableNav = false, $currentTab = null)
         {
-            $tabs = array
-                            (
+            $tabs = array  (
                                 array('Projects', 'projects.php', SVG::getProject()),
                                 array('Sprint Schedules', 'sprint_schedules.php', SVG::getSprintSchedule()),
                                 array('Member Roles', 'member_roles.php', SVG::getMemberRoles())

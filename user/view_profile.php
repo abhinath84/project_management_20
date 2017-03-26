@@ -4,7 +4,7 @@
 
     require_once ('../inc/functions.inc.php');
     require_once ('../inc/mysql_functions.inc.php');
-    require_once ('../inc/adminhtml.php');
+    require_once ('../inc/userhtml.php');
 
     // Create Database and required tables
     build_db();
@@ -14,7 +14,7 @@
 
     // if not log in then redirect to login page.
     if(!isset($_SESSION['project-managment-username']))
-        header("Location: ../user/login.php?redirect=../admin/projects.php");
+        header("Location: ../user/login.php?redirect=../user/view_profile.php");
 ?>
 
 <!DOCTYPE HTML>
@@ -25,11 +25,11 @@
         <link rel="stylesheet" type="text/css" href="../css/grippy_table.css">
         <link rel="stylesheet" type="text/css" href="../css/shield.css">
         <link rel="stylesheet" type="text/css" href="../css/global.css">
-        <link rel="stylesheet" type="text/css" href="../css/admin.css">
+        <link rel="stylesheet" type="text/css" href="../css/user.css">
     </head>
     <body>
         <?php
-            $htmlBody = new ProjectsHTML();
+            $htmlBody = new ViewProfileHTML();
             echo $htmlBody->generateBody();
         ?>
 

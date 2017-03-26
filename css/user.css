@@ -1,0 +1,38 @@
+fieldset {
+    border: 0;
+    margin: 0;
+    padding: 0;
+    position: relative;
+    width: 100%;
+}
+
+.user-profile {
+    margin-bottom: 50px;
+}
+
+.user-profile fieldset {
+    margin-bottom: 1rem;
+    width: 50%;
+}
+
+.user-profile label {
+    display: block;
+    margin-bottom: .5rem;
+}
+
+.user-profile input[type=number],
+.user-profile input[type=text],
+.user-profile input[type=password],
+.user-profile input[type=url],
+.user-profile input[type=email],
+.user-profile input[type=date],
+.user-profile select,
+.user-profile textarea {
+    font-size: 16px;
+    background: #f5f5f5;
+    border: 1px solid #767676;
+    color: #444;
+    margin: 0;
+    padding: 8px;
+    width: 100%;
+}

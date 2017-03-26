@@ -146,8 +146,6 @@
                     $clause .= $each;
 
                $qry = "UPDATE ".$this->tableName." SET ". $sets ." WHERE ". $clause;
-               echo $qry;
-
                if($this->conn->execute_query($qry))
                    return(true);
                else

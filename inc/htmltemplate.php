@@ -141,28 +141,6 @@ abstract class HTMLTemplate
     protected function getWidgetboxContent() { return(''); }
     protected function getWidgetTitlebarContent() { return(''); }
 
-    /*protected function getSideNavigator()
-    {
-        $tag = '';
-
-        $tag .= '<div class="side-nav display-table-cell">';
-        $tag .= '<ul>';
-        $tag .= '   <li class="selected">';
-        $tag .= '       <a title="Backlog">';
-        $tag .=             SVG::getBacklog();
-        $tag .= '       </a>';
-        $tag .= '   </li>';
-        $tag .= '   <li>';
-        $tag .= '       <a title="Import">';
-        $tag .=             SVG::getImport();
-        $tag .= '       </a>';
-        $tag .= '   </li>';
-        $tag .= '</ul>';
-        $tag .= '</div>';
-
-        return($tag);
-    }*/
-
     protected function getWidgetbox()
     {
         $tag = '';
@@ -219,7 +197,7 @@ abstract class HTMLTemplate
         $tag = '';
 
         if((count($this->sideNavItems) > 0) && ($this->enableNav))
-        {
+        {    
             $tag .= '<nav class="side-nav">' . $this->EOF_LINE;
             $tag .= '   <ul>';
             foreach($this->sideNavItems as $item)
@@ -246,9 +224,7 @@ abstract class HTMLTemplate
         $tag = "";
 
         $tag = '<article>' . $this->EOF_LINE;
-        //$tag .= '    <div class="display-table" style="height: 100%;">' . $this->EOF_LINE;
-        $tag .=         $this->addDashboard() . $this->EOF_LINE;
-        //$tag .= '    </div>' . $this->EOF_LINE;
+        $tag .=     $this->addDashboard() . $this->EOF_LINE;
         $tag .= '</article>' . $this->EOF_LINE;
 
         return($tag);
