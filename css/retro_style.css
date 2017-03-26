@@ -248,7 +248,7 @@ input[type=submit].retro-style.active {
   text-shadow: none;
 }
 
-button.retro-style:active, .retro-style.active,
+button.retro-style:active,
 input[type=submit].retro-style.active {
   background-color: #222222;
   -webkit-box-shadow: inset 0 1px 8px rgba(0, 0, 0, 0.25);
@@ -256,6 +256,7 @@ input[type=submit].retro-style.active {
   box-shadow: inset 0 1px 8px rgba(0, 0, 0, 0.25);
 }
 
+/* Green Button*/
 button.retro-style.green,
 input[type=submit].retro-style.green {
   border-color: #35aa47;
@@ -265,18 +266,15 @@ button.retro-style.green:hover,
 button.retro-style.green:focus,
 button.retro-style.green:active,
 button.retro-style.green.active,
-button.retro-style.green.disabled,
-button.retro-style.green[disabled],
 input[type=submit].retro-style.green:hover,
 input[type=submit].retro-style.green:focus,
 input[type=submit].retro-style.green:active,
-input[type=submit].retro-style.green.active,
-input[type=submit].retro-style.green.disabled,
-input[type=submit].retro-style.green[disabled] {
+input[type=submit].retro-style.green.active {
   color: #FFFFFF;
   background-color: #35aa47;
 }
 
+/* Green Background Button */
 button.retro-style.green-bg,
 input[type=submit].retro-style.green-bg {
   border-color: #35aa47;
@@ -288,14 +286,10 @@ button.retro-style.green-bg:hover,
 button.retro-style.green-bg:focus,
 button.retro-style.green-bg:active,
 button.retro-style.green-bg.active,
-button.retro-style.green-bg.disabled,
-button.retro-style.green-bg[disabled],
 input[type=submit].retro-style.green-bg:hover,
 input[type=submit].retro-style.green-bg:focus,
 input[type=submit].retro-style.green-bg:active,
-input[type=submit].retro-style.green-bg.active,
-input[type=submit].retro-style.green-bg.disabled,
-input[type=submit].retro-style.green-bg[disabled] {
+input[type=submit].retro-style.green-bg.active {
   border-color: #257631;
   color: #FFFFFF;
   background-color: #257631;
@@ -311,14 +305,10 @@ button.retro-style.red:hover,
 button.retro-style.red:focus,
 button.retro-style.red:active,
 button.retro-style.red.active,
-button.retro-style.red.disabled,
-button.retro-style.red[disabled],
 input[type=submit].retro-style.red:hover,
 input[type=submit].retro-style.red:focus,
 input[type=submit].retro-style.red:active,
-input[type=submit].retro-style.red.active,
-input[type=submit].retro-style.red.disabled,
-input[type=submit].retro-style.red[disabled] {
+input[type=submit].retro-style.red.active {
   color: #FFFFFF;
   background-color: #d84a38;
 }
@@ -333,14 +323,10 @@ button.retro-style.royal-blue:hover,
 button.retro-style.royal-blue:focus,
 button.retro-style.royal-blue:active,
 button.retro-style.royal-blue.active,
-button.retro-style.royal-blue.disabled,
-button.retro-style.royal-blue[disabled],
 input[type=submit].retro-style.royal-blue:hover,
 input[type=submit].retro-style.royal-blue:focus,
 input[type=submit].retro-style.royal-blue:active,
-input[type=submit].retro-style.royal-blue.active,
-input[type=submit].retro-style.royal-blue.disabled,
-input[type=submit].retro-style.royal-blue[disabled] {
+input[type=submit].retro-style.royal-blue.active {
   color: #FFFFFF;
   background-color: #3876D8;
 }
@@ -355,14 +341,25 @@ button.retro-style.iris-blue:hover,
 button.retro-style.iris-blue:focus,
 button.retro-style.iris-blue:active,
 button.retro-style.iris-blue.active,
-button.retro-style.iris-blue.disabled,
-button.retro-style.iris-blue[disabled],
 input[type=submit].retro-style.iris-blue:hover,
 input[type=submit].retro-style.iris-blue:focus,
 input[type=submit].retro-style.iris-blue:active,
-input[type=submit].retro-style.iris-blue.active,
-input[type=submit].retro-style.iris-blue.disabled,
-input[type=submit].retro-style.iris-blue[disabled] {
+input[type=submit].retro-style.iris-blue.active {
   color: #FFFFFF;
   background-color: #00a9e0;
+}
+
+
+/* Disabled Button */
+button[disabled].retro-style,
+button[disabled].retro-style:hover,
+button[disabled].retro-style:focus,
+button[disabled].retro-style:active,
+input[type=submit][disabled].retro-style,
+input[type=submit][disabled].retro-style:hover,
+input[type=submit][disabled].retro-style:focus,
+input[type=submit][disabled].retro-style:active {
+    color: #bfb2b2;
+    border-color: #d9d9d9;
+    background-color: #FFFFFF;
 }

@@ -1293,9 +1293,46 @@ var memberRoles = {
     },
 
     save: function() {
-        // check all the inputs are proper or not?
-        // if not then display the error
-        // otherwise save information and close the member table.
+        var memberTBody = document.getElementById("member-tbody");
+        if(memberTBody != null) {
+            var owner = document.getElementById(this.info.rowid + '-owner').innerHTML;
+
+            var memberRoles = [];
+            var childSize = memberTBody.childElementCount;
+            // loop over all the members and save them into database.
+            for(var i = 1; i <= childSize; ++i) {
+                var memberId = document.getElementById(i + "-member_id").innerHTML;
+                // check it's owner or not.
+                if(memberId != owner) {
+                    var newRole = $('#'+ i +'-privilage-select').val();
+                    // If not then check 'New Project Role' is empty or not
+                    if(newRole != 'none'){
+                        var count = i-1;
+                        memberRoles[count] = Array(memberId, newRole);
+                    }
+                }
+            }
+
+            var formData = {
+                "memberRoles": JSON.stringify(memberRoles),
+                "project": document.getElementById(this.info.rowid + '-title').innerHTML
+            };
+
+            // If not update database.
+            var data = {
+                url             : "../ajax/default.php",
+                callbackFunc    : "updateMemberRolesCallback",
+                formData        : formData,
+                successFunc     : null,
+                errorFunc       : null,
+                failFunc        : null
+            };
+
+            // Update DB according to the input and also update sprint schedule list in the display.
+            utility.ajax.serverRespond(data);
+        }
+
+        // hide member table
         this.close();
     }
 };
@@ -1311,33 +1348,56 @@ var projectAssignment = {
         // check check box is selected or not.
         var status = document.getElementById("member-th-checkbox").checked;
 
+        // enable/disable 'assign-project-btn' button.
+        $('#assign-project-btn').prop('disabled', ((status) ? false : true));
+
         // update all checkbox in the table according to the input.
         var len = document.getElementById(this.info.memberTBodyId).getElementsByTagName("tr").length;
-
         for(var i = 1; i <= len; i++) {
             document.getElementById(i + "-checkbox").checked = status;
         }
     },
 
     selectMember: function() {
-        var status = true;
+        var check = true;
+        var disable = true;
 
-        // check all rows are checked or not.
+        // loop over all the checkbox of the table.
         var len = document.getElementById(this.info.memberTBodyId).getElementsByTagName("tr").length;
+        // to improve execution time, check from both side.
+        for(var i = 1, j=len; i <= j; i++, j--) {
+            var iCheck = $('#' + i + '-checkbox').prop('checked');
+            var jCheck = $('#' + j + '-checkbox').prop('checked');
 
-        for(var i = 1; i <= len; i++) {
-            if(document.getElementById(i + "-checkbox").checked == false) {
-                status = false;
-                break;
+            // check all the checkbox are checked or not.
+            if((check) && (iCheck == false)) {
+                check = false;
+            }
+            if((check) && (jCheck == false)) {
+                check = false;
+            }
+
+            // check atleast one checkbox is checked or not.
+            if((disable) && (iCheck == true)) {
+                disable = false;
+            }
+            if((disable) && (jCheck == true)) {
+                disable = false;
             }
         }
 
-        document.getElementById("member-th-checkbox").checked = status;
+        // check/uncheck 'member-th-checkbox' checkbox
+        $('#member-th-checkbox').prop('checked', check);
+        // enable/disable 'assign-project-btn' button.
+        $('#assign-project-btn').prop('disabled', disable);
     },
 
     assign: function() {
-        // collect all the selected user name in the list.
-        // open shield having project list.
+        // check button is enable or not
+        if($('#assign-project-btn').prop('disabled') == false) {
+            // collect all the selected user name in the list.
+            // open shield having project list.
+        }
     }
 };
 

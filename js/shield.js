@@ -296,17 +296,26 @@ var shieldProject = {
         setDefult: function() {
             this.title              = "";
             this.parent             = "";
-            this.sprint_schedule    = "";
+            this.sprint_schedule    = "Base Sprint Schedule";
             this.description        = "";
             this.begin_date         = utility.getCurrentDate('-');
             this.end_date           = "";
             this.owner              = utility.getSessionValue('project-managment-username');
-            this.status             = "";
+            this.status             = "Open";
             this.target_estimate    = "";
             this.test_suit          = "";
             this.target_swag        = "";
             this.reference          = "";
         }
+    },
+
+    clearErrMsgs: function() {
+        // reset error msg container.
+        utility.clearTag('title-errmsg');
+        utility.clearTag('sprint_schedule-errmsg');
+        utility.clearTag('begin_date-errmsg');
+        utility.clearTag('end_date-errmsg');
+        utility.clearTag('owner-errmsg');
     },
 
     fillInfo: function (key, isAdding = true) {
@@ -347,19 +356,19 @@ var shieldProject = {
         shieldDialog.formTable.clear();
 
         // Title
-        inputTag += '<input style="width: 400px;" type="text" id="title-input" name="title" value="' + this.info.title + '"/>';
+        inputTag += '<input style="width: 400px;" type="text" id="title-input" name="title" value="' + this.info.title + '"' + ((this.info.title != '') ? 'disabled' : '') + '/>';
         inputTag += '<span class="red-asterisk">*</span>';
         inputTag += '<div class="retro-style-errmsg" id="title-errmsg"></div>';
         shieldDialog.formTable.add('Title', inputTag);
 
         // Sprint Schedule
-        inputTag = utility.getSprintScheduleSelect();
+        inputTag = utility.getSprintScheduleSelect(this.info.sprint_schedule);
         inputTag += '<span class="red-asterisk">*</span>';
         inputTag += '<div class="retro-style-errmsg" id="sprint_schedule-errmsg"></div>';
         shieldDialog.formTable.add('Sprint Schedule', inputTag);
 
         // Description
-        inputTag = '<textarea id="description-textarea" name="description" rows="15" cols="120" spellcheck="false">' + this.info.description + '</textarea>';
+        inputTag = '<textarea id="description-textarea" name="description" rows="10" cols="100" spellcheck="false">' + this.info.description + '</textarea>';
         shieldDialog.formTable.add('Description', inputTag);
 
         // Begin Date
@@ -375,7 +384,11 @@ var shieldProject = {
         shieldDialog.formTable.add('End Date', inputTag);
 
         // Status
-        inputTag = '<input type="input" id="status-input" name="status" value="' + this.info.status + '"/>';
+        inputTag = ' <select id="status-select" style="height: 25px;">';
+        inputTag += '   <option value="Open" ' + ((this.info.status === 'Open') ? 'selected' : '') + '>Open</option>';
+        inputTag += '   <option value="In-progress" ' + ((this.info.status === 'In-progress') ? 'selected' : '') + '>In-progress</option>';
+        inputTag += '   <option value="Closed" ' + ((this.info.status === 'Closed') ? 'selected' : '') + '>Closed</option>';
+        inputTag += '</select>';
         shieldDialog.formTable.add('Status', inputTag);
 
         // Owner
@@ -405,7 +418,7 @@ var shieldProject = {
             'begin_date'          : $('#begin_date-input').val(),
             'end_date'            : $('#end_date-input').val(),
             'owner'               : $('#owner-input').val(),
-            'status'              : $('#status-input').val(),
+            'status'              : $('#status-select').val(),
             'target_estimate'     : $('#target_estimate-input').val(),
             'test_suit'           : '',
             'target_swag'         : $('#target_swag-input').val(),
@@ -424,11 +437,7 @@ var shieldProject = {
 
     onclickSaveErrorFunc: function (data) {
         // reset error msg container.
-        utility.clearTag('title-errmsg');
-        utility.clearTag('sprint_schedule-errmsg');
-        utility.clearTag('begin_date-errmsg');
-        utility.clearTag('end_date-errmsg');
-        utility.clearTag('owner-errmsg');
+        this.clearErrMsgs();
 
         // wrtie title error
         if((data['errors']['title'] != null) && (data['errors']['title'] != ''))
@@ -478,8 +487,8 @@ var shieldProject = {
             url             : "../ajax/default.php",
             callbackFunc    : "",
             formData        : formData,
-            successFunc     : shieldProject.onclickSaveSuccessFunc,
-            errorFunc       : shieldProject.onclickSaveErrorFunc,
+            successFunc     : shieldProject.onclickSaveSuccessFunc.bind(this),
+            errorFunc       : shieldProject.onclickSaveErrorFunc.bind(this),
             failFunc        : null
         };
 
@@ -503,22 +512,29 @@ var shieldProject = {
             url             : "../ajax/default.php",
             callbackFunc    : "addProjectCallback",
             formData        : formData,
-            successFunc     : function () {
-                $("#title-input").val('');
-                $("#description-textarea").val('');
-                $("#begin_date-input").val(shieldProject.info.begin_date);
-                $("#end_date-input").val('');
-                $("#status-input").val('');
-                $("#owner-input").val(shieldProject.info.owner);
-                $("#target_estimate-input").val('');
-                $("#target_swag-input").val('');
-            },
-            errorFunc       : shieldProject.onclickSaveErrorFunc,
+            successFunc     : shieldProject.successSaveNewFunc.bind(this),
+            errorFunc       : shieldProject.onclickSaveErrorFunc.bind(this),
             failFunc        : null
         };
 
         // Update DB according to the input and also update sprint schedule list in the display.
         utility.ajax.serverRespond(data);
+    },
+
+    successSaveNewFunc: function () {
+        // reset error msg container.
+        this.clearErrMsgs();
+
+        // reset field values
+        $("#title-input").val(this.info.title);
+        $("#sprint_schedule-select").val(this.info.sprint_schedule);
+        $("#description-textarea").val(this.info.description);
+        $("#begin_date-input").val(this.info.begin_date);
+        $("#end_date-input").val(this.info.end_date);
+        $("#status-select").val(this.info.status);
+        $("#owner-input").val(this.info.owner);
+        $("#target_estimate-input").val(this.info.target_estimate);
+        $("#target_swag-input").val(this.info.target_swag);
     },
 
     onclickCancel: function (tbodyId) {
@@ -570,10 +586,6 @@ var shieldProject = {
         // hide project-table-dropdown' menu if it's open.
         if(isCallingFromDropMenu)
             document.getElementById('project-table-dropdown').style.display = "none";
-    },
-
-    closeProject: function() {
-
     },
 
     delete: function() {
@@ -803,43 +815,6 @@ var shieldMembers = {
     },
 
     openEditDialog: function (Id, tbodyId, isCallingFromDropMenu) {
-
-        /*var key = '';
-        var divObj = document.getElementById(Id).children[0];
-
-        if(isCallingFromDropMenu) {
-            key = document.getElementById(divObj.innerHTML).children[0].innerHTML;
-            document.getElementById(Id).style.display = "none";
-        } else {
-            key = divObj.innerHTML;
-        }
-
-        if((key != null) && (key != "")) {
-            // update this.info and open dialog with updated infomsg
-            this.info.title = document.getElementById(key + "-title").innerHTML;
-
-            var lenStr = document.getElementById(key + "-length").innerHTML;
-            var res = lenStr.split(" ");
-            this.info.length = res[0]; //"1";
-            this.info.length_unit = res[1];
-
-            lenStr = document.getElementById(key + "-gap").innerHTML;
-            res = lenStr.split(" ");
-            this.info.gap = res[0]; //"2";
-            this.info.gap_unit = res[1];
-            this.info.description = document.getElementById(key + "-description").innerHTML; //"Base Sprint Schedule";
-
-            // reset and add button for dialog
-            shieldDialog.toolBar.toolbarBtns.clear();
-            shieldDialog.toolBar.toolbarBtns.add('submit-btns', 'retro-style red add-spr', 'Cancel', 'onclick="shieldSprintSchedule.onclickCancel(\''+ tbodyId +'\')"');
-            shieldDialog.toolBar.toolbarBtns.add('submit-btns', 'retro-style green-bg add-spr', 'Save', 'onclick="shieldSprintSchedule.onclickSave(\''+ tbodyId +'\')"');
-
-            // fill all infomation of dialog title(toolBar).
-            this.fillTitle();
-
-            // fill all infomation of dialog form.
-            this.fillTable();*/
-
             shield.openDialog(this, false, 'member-form-container', this.createDialog);
         //}
     }

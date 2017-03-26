@@ -171,7 +171,7 @@
             $tag .= '<div id="project-add-form-container"></div>' . $this->EOF_LINE;
             $tag .=  Utility::getQuickActionBtnDropdown('project-table-dropdown', $this->dropdownList);
             $tag .= '<div style="float: right; margin-bottom: 30px;">' . $this->EOF_LINE;
-            $tag .=     Utility::getRetroButton('Add Project', 'green add-padding', 'onclick="shieldProject.openAddDialog(\'\', \'project-tbody\', false)"');
+            $tag .=     Utility::getRetroButton('Add Project', 'add-project-btn', 'green add-padding', 'onclick="shieldProject.openAddDialog(\'\', \'project-tbody\', false)"');
             $tag .= '</div>' . $this->EOF_LINE;
             $tag .= '<div id="project-table-container">' . $this->EOF_LINE;
             $tag .=     $this->getProjectTable();
@@ -270,7 +270,7 @@
             $content .= '               </div>' . $this->EOF_LINE;
 
             $content .= '               <div style="float: right; margin-bottom: 30px;">' . $this->EOF_LINE;
-            $content .=                     Utility::getRetroButton('Add Sprint Schedule', 'green add-padding', 'onclick="shieldSprintSchedule.openAddDialog(\'sprint-schedule-tbody\');"');
+            $content .=                     Utility::getRetroButton('Add Sprint Schedule', 'add-sprintSchedule-btn', 'green add-padding', 'onclick="shieldSprintSchedule.openAddDialog(\'sprint-schedule-tbody\');"');
             $content .= '               </div>' . $this->EOF_LINE;
 
             $content .=                 Utility::getQuickActionBtnDropdown('sprint-schedule-table-dropdown', $this->dropdownList);
@@ -355,10 +355,10 @@
             $tag .= '   </div>';
             $tag .= '   <div style="margin: 20px 0; display: flex;">';
             $tag .= '       <div style="margin-left: auto">' . $this->EOF_LINE;
-            $tag .=             Utility::getRetroButton('Save', 'green', 'onclick="memberRoles.save();"');
+            $tag .=             Utility::getRetroButton('Save', 'save-btn', 'green', 'onclick="memberRoles.save();"');
             $tag .= '       </div>' . $this->EOF_LINE;
             $tag .= '       <div style="margin-left: 25px;">' . $this->EOF_LINE;
-            $tag .=             Utility::getRetroButton('Close', 'red', 'onclick="memberRoles.close();"');
+            $tag .=             Utility::getRetroButton('Close', 'close-btn', 'red', 'onclick="memberRoles.close();"');
             $tag .= '       </div>' . $this->EOF_LINE;
             $tag .= '   </div>';
             $tag .= '   <div>';
@@ -413,7 +413,7 @@
                         $table->td("{$row[3]}", "{$inx}-end_date", null, null, "width=\"20%\"");
                         if(($row[4] == 'System Admin') || ($row[4] == 'Project Admin'))
                         {
-                            $table->td(Utility::getRetroButton('Manage', 'iris-blue', 'onclick="memberRoles.showMemberTable(\''.$inx. '\')"'), null, null, null, "width=\"6%\"");
+                            $table->td(Utility::getRetroButton('Manage', 'manage-btn', 'iris-blue', 'onclick="memberRoles.showMemberTable(\''.$inx. '\')"'), null, null, null, "width=\"6%\"");
                         }
                         else
                             $table->td("&nbsp;", "project-edit", null, null, "width=\"10%\"");
@@ -454,13 +454,15 @@
                 $name = Utility::decode($row[0]) . ' ' . Utility::decode($row[1]);
                 $newProjectRoleSelect = '<select id="'. $inx .'-privilage-select" class="retro-style session-select">
                                             <option value="none"></option>
-                                            <option value="system admin">system admin</option>
-                                            <option value="member admin">member admin</option>
-                                            <option value="project admin">project admin</option>
-                                            <option value="team member">team member</option>
-                                            <option value="developer">developer</option>
-                                            <option value="tester">tester</option>
-                                            <option value="customer">customer</option>
+                                            <option value="System Admin">System Admin</option>
+                                            <option value="Member Admin">Member Admin</option>
+                                            <option value="Project Admin">Project Admin</option>
+                                            <option value="Project Lead">Project Lead</option>
+                                            <option value="Team Member">Team Member</option>
+                                            <option value="Developer">Developer</option>
+                                            <option value="Tester">Tester</option>
+                                            <option value="Customer">Customer</option>
+                                            <option value="Visitor">Visitor</option>
                                         </select>';
 
                 $table->tr(null, null, null, "align=\"center\"");
@@ -512,7 +514,7 @@
             $tag .= '<div id="member-form-container"></div>' . $this->EOF_LINE;
             $tag .= Utility::getQuickActionBtnDropdown('member-edit-dropdown', $this->dropdownList);
             $tag .= '<div id="add-member-btn-container">' . $this->EOF_LINE;
-            $tag .=     Utility::getRetroButton('Add Member', 'green add-padding', 'onclick="shieldMembers.openAddDialog(\'member-tbody\');"');
+            $tag .=     Utility::getRetroButton('Add Member', 'add-member-btn', 'green add-padding', 'onclick="shieldMembers.openAddDialog(\'member-tbody\');"');
             $tag .= '</div>' . $this->EOF_LINE;
             $tag .= '<div id="member-table-container" style="clear: both;">' . $this->EOF_LINE;
             $tag .=     $this->getMemberTable();
@@ -615,7 +617,7 @@
             $tag .= '     <span>MEMBERS</span>';
             $tag .= ' </div>';
             $tag .= '               <div style="margin: 30px 0;">' . $this->EOF_LINE;
-            $tag .=                     Utility::getRetroButton('Assign to Project', 'green add-padding', 'onclick="projectAssignment.assign()"');
+            $tag .=                     Utility::getRetroButton('Assign to Project', 'assign-project-btn', 'green add-padding', 'onclick="projectAssignment.assign()"', 'disabled');
             $tag .= '               </div>' . $this->EOF_LINE;
             $tag .= ' <div>';
             $tag .=       $this->getMemberTable();
@@ -779,10 +781,10 @@
             $tag .= '   </div>';
             $tag .= '   <div style="margin: 20px 0; display: flex;">';
             $tag .= '       <div style="margin-left: auto">' . $this->EOF_LINE;
-            $tag .=             Utility::getRetroButton('Save', 'green', 'onclick="projectRoles.save();"');
+            $tag .=             Utility::getRetroButton('Save', 'save-btn', 'green', 'onclick="projectRoles.save();"');
             $tag .= '       </div>' . $this->EOF_LINE;
             $tag .= '       <div style="margin-left: 25px;">' . $this->EOF_LINE;
-            $tag .=             Utility::getRetroButton('Close', 'red', 'onclick="projectRoles.close();"');
+            $tag .=             Utility::getRetroButton('Close', 'close-btn', 'red', 'onclick="projectRoles.close();"');
             $tag .= '       </div>' . $this->EOF_LINE;
             $tag .= '   </div>';
             $tag .= '   <div>';
@@ -831,7 +833,7 @@
                     $table->td($name, "{$inx}-name", "project-title-td", null, "width=\"45%\"");
                     $table->td(Utility::decode($row[2]), "{$inx}-member_id", null, null, "width=\"35%\"");
                     $table->td("{$row[3]}", "{$inx}-old-privilage", null, null, "width=\"20%\"");
-                    $table->td(Utility::getRetroButton('Manage', 'iris-blue', 'onclick="projectRoles.showProjectTable(\''.$inx. '\')"'), null, null, null, "width=\"6%\"");
+                    $table->td(Utility::getRetroButton('Manage', 'manage-btn', 'iris-blue', 'onclick="projectRoles.showProjectTable(\''.$inx. '\')"'), null, null, null, "width=\"6%\"");
             }
         }
 

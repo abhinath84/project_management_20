@@ -45,22 +45,44 @@
                 $this->data = $data;
         }
 
+        public function unsetData()
+        {
+            if(count($this->data) > 0)
+                array_splice($this->data, 0);
+        }
+
         public function setClause($clause)
         {
             if(($clause != null) && ($clause != ""))
                 $this->clause = $clause;
         }
 
+        public function unsetClause()
+        {
+            if(count($this->clause) > 0)
+                array_splice($this->clause, 0);
+        }
+
         public function appendData($key, $val)
         {
             if((($key != null) && ($key != "")) && ($val != null))
+            {
+                if($this->data == null)
+                    $this->data = array();
+
                 $this->data[$key] = $val;
+            }
         }
 
         public function appendClause($val)
         {
             if(($val != null) && ($val != ""))
+            {
+                if($this->clause == null)
+                    $this->clause = array();
+
                 array_push($this->clause, $val);
+            }
         }
 
         public function insert()
@@ -124,6 +146,8 @@
                     $clause .= $each;
 
                $qry = "UPDATE ".$this->tableName." SET ". $sets ." WHERE ". $clause;
+               echo $qry;
+
                if($this->conn->execute_query($qry))
                    return(true);
                else

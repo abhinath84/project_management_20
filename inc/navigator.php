@@ -34,7 +34,8 @@
 
         private $userDir = "user";
         private $adminURL = "admin.php";
-        private $profileURL = "profile.php";
+        private $viewProfileURL = "view_profile.php";
+        private $editProfileURL = "edit_profile.php";
         private $loginURL = "login.php";
         private $signinURL = "signUp.php";
         private $changePasswordURL = "changepwd.php";
@@ -50,8 +51,7 @@
 
         public function header_new($currentDir, $selNav, $enableNav = true)
         {
-            global $cipherObj;
-            $tag = "";
+            $tag = '';
 
             if(($currentDir <> "") && ($selNav <> ""))
             {
@@ -66,13 +66,10 @@
                     $tag .= '            <img src="' . $this->imagesPath . '/pm.png" alt="ptc.com"/>' . EOF_LINE;
                     $tag .= '        </a>' . EOF_LINE;
                     $tag .= '    </div>' . EOF_LINE;
-                    $tag .= '    <div class="display-flex" style="margin-left: auto;">';
 
+                    $tag .= '    <div class="display-flex" style="margin-left: auto;">';
                     if((isset($_SESSION['project-managment-username'])) && ($_SESSION['project-managment-username'] != ""))
                     {
-                        $fname = $cipherObj->decrypt(getItemFromTable("first_name", "user", "user_name = '".$_SESSION['project-managment-username']."'"));
-                        $lname = $cipherObj->decrypt(getItemFromTable("last_name", "user", "user_name = '".$_SESSION['project-managment-username']."'"));
-
                         if($currentDir === 'scrum')
                         {
                             $tag .= $this->getScrumNavigator($currentDir, $selNav);
@@ -86,73 +83,13 @@
                             $tag .= $this->getGeneralNavigator($currentDir, $selNav);
                         }
 
-                        $tag .= '<div id="administrator-nav" class="h-navigator administrator-nav">' . EOF_LINE;
-                        $tag .= '   <ul>' . EOF_LINE;
-
-                        if(
-                            ($currentDir === 'scrum') &&
-                            (Utility::isAdmin($_SESSION['project-managment-username']))
-                          )
-                        {
-                            $tag .= '       <li class="has-dropdown-manu">' . EOF_LINE;
-                            $tag .= '           <a class="svg-nav" title="Admin" href="javascript:void(0)" class="dropbtn">' . EOF_LINE;
-                            $tag .= '               <span>' . EOF_LINE;
-                            $tag .=                     SVG::getAdministrator();
-                            $tag .= '               </span>' . EOF_LINE;
-                            $tag .= '           </a>' . EOF_LINE;
-
-                            $tag .= '               <div class="dropdown-menu-content">' . EOF_LINE;
-                            $tag .= '                   <a href="'. $this->getNavURL($currentDir, $this->adminDir, $this->overviewURL) .'" target="_top">Overview</a>' . EOF_LINE;
-
-                            if(
-                                (Utility::isSystemAdmin($_SESSION['project-managment-username'])) ||
-                                (Utility::isProjectAdmin($_SESSION['project-managment-username']))
-                              )
-                            {
-                                $tag .= '                   <a href="'. $this->getNavURL($currentDir, $this->adminDir, $this->projectsURL) .'" target="_top">Projects</a>' . EOF_LINE;
-                            }
-
-                            if(
-                                (Utility::isSystemAdmin($_SESSION['project-managment-username'])) ||
-                                (Utility::isMemberAdmin($_SESSION['project-managment-username']))
-                              )
-                            {
-                                $tag .= '                   <a href="'. $this->getNavURL($currentDir, $this->adminDir, $this->membersURL) .'" target="_top">Members</a>' . EOF_LINE;
-                            }
-
-                            if(
-                                (Utility::isSystemAdmin($_SESSION['project-managment-username'])) ||
-                                (Utility::isProjectAdmin($_SESSION['project-managment-username']))
-                              )
-                            {
-                                $tag .= '                   <a href="'. $this->getNavURL($currentDir, $this->adminDir, $this->teamsURL) .'" target="_top">Teams</a>' . EOF_LINE;
-                            }
-
-                            if( (Utility::isSystemAdmin($_SESSION['project-managment-username'])) )
-                            {
-                                $tag .= '                   <a href="'. $this->getNavURL($currentDir, $this->adminDir, $this->configurationURL) .'" target="_top">Configuration</a>' . EOF_LINE;
-                            }
-
-                            $tag .= '               </div>' . EOF_LINE;
-                            $tag .= '       </li>' . EOF_LINE;
-                        }
-
-                        $tag .='            <li class="has-dropdown-manu">' . EOF_LINE;
-                        $tag .='                <a class="text-nav dropbtn"  href="javascript:void(0)" target="_top">'.$fname.' '.$lname.'</a>' . EOF_LINE;
-                        $tag .='                    <div class="dropdown-menu-content">' . EOF_LINE;
-                        $tag .='                        <a href="'. $this->getNavURL($currentDir, $this->userDir, $this->profileURL) .'" target="_top">Profile</a>' . EOF_LINE;
-                        $tag .='                        <a href="'. $this->getNavURL($currentDir, $this->userDir, $this->changePasswordURL) .'" target="_top">Change Password</a>' . EOF_LINE;
-                        $tag .='                        <a href="'. $this->getNavURL($currentDir, $this->baseDir, $this->logoutURL) .'" target="_top">Logout</a>' . EOF_LINE;
-                        $tag .='                    </div>' . EOF_LINE;
-                        $tag .='            </li>' . EOF_LINE;
-                        $tag .='        </ul>' . EOF_LINE;
-                        $tag .='    </div>' . EOF_LINE;
-                        $tag .='</div>' . EOF_LINE;
+                        $tag .= $this->getAdministratorNavigator($currentDir, $selNav);
                     }
                     else
                     {
                         $tag .= $this->getLoginNavigator($currentDir);
                     }
+                    $tag .='    </div>' . EOF_LINE;
                     $tag .= '</div>';
                 }
             }
@@ -425,6 +362,81 @@
 
             $tag .= '   </ul>' . EOF_LINE;
             $tag .= '</div>' . EOF_LINE;
+
+            return($tag);
+        }
+
+        private function getAdministratorNavigator($currentDir, $selNav)
+        {
+            global $cipherObj;
+            $tag ='';
+
+            $tag .= '<div id="administrator-nav" class="h-navigator administrator-nav">' . EOF_LINE;
+            $tag .= '   <ul>' . EOF_LINE;
+
+            if(
+                ($currentDir === 'scrum') &&
+                (Utility::isAdmin($_SESSION['project-managment-username']))
+              )
+            {
+                $tag .= '       <li class="has-dropdown-manu">' . EOF_LINE;
+                $tag .= '           <a class="svg-nav" title="Admin" href="javascript:void(0)" class="dropbtn">' . EOF_LINE;
+                $tag .= '               <span>' . EOF_LINE;
+                $tag .=                     SVG::getAdministrator();
+                $tag .= '               </span>' . EOF_LINE;
+                $tag .= '           </a>' . EOF_LINE;
+
+                $tag .= '               <div class="dropdown-menu-content">' . EOF_LINE;
+                $tag .= '                   <a href="'. $this->getNavURL($currentDir, $this->adminDir, $this->overviewURL) .'" target="_top">Overview</a>' . EOF_LINE;
+
+                if(
+                    (Utility::isSystemAdmin($_SESSION['project-managment-username'])) ||
+                    (Utility::isProjectAdmin($_SESSION['project-managment-username']))
+                  )
+                {
+                    $tag .= '                   <a href="'. $this->getNavURL($currentDir, $this->adminDir, $this->projectsURL) .'" target="_top">Projects</a>' . EOF_LINE;
+                }
+
+                if(
+                    (Utility::isSystemAdmin($_SESSION['project-managment-username'])) ||
+                    (Utility::isMemberAdmin($_SESSION['project-managment-username']))
+                  )
+                {
+                    $tag .= '                   <a href="'. $this->getNavURL($currentDir, $this->adminDir, $this->membersURL) .'" target="_top">Members</a>' . EOF_LINE;
+                }
+
+                if(
+                    (Utility::isSystemAdmin($_SESSION['project-managment-username'])) ||
+                    (Utility::isProjectAdmin($_SESSION['project-managment-username']))
+                  )
+                {
+                    $tag .= '                   <a href="'. $this->getNavURL($currentDir, $this->adminDir, $this->teamsURL) .'" target="_top">Teams</a>' . EOF_LINE;
+                }
+
+                if( (Utility::isSystemAdmin($_SESSION['project-managment-username'])) )
+                {
+                    $tag .= '                   <a href="'. $this->getNavURL($currentDir, $this->adminDir, $this->configurationURL) .'" target="_top">Configuration</a>' . EOF_LINE;
+                }
+
+                $tag .= '               </div>' . EOF_LINE;
+                $tag .= '       </li>' . EOF_LINE;
+            }
+
+            // User nagivator.
+            $fname = $cipherObj->decrypt(getItemFromTable("first_name", "user", "user_name = '".$_SESSION['project-managment-username']."'"));
+            $lname = $cipherObj->decrypt(getItemFromTable("last_name", "user", "user_name = '".$_SESSION['project-managment-username']."'"));
+
+            $tag .='            <li class="has-dropdown-manu">' . EOF_LINE;
+            $tag .='                <a class="text-nav dropbtn"  href="javascript:void(0)" target="_top">'.$fname.' '.$lname.'</a>' . EOF_LINE;
+            $tag .='                    <div class="dropdown-menu-content">' . EOF_LINE;
+            $tag .='                        <a href="'. $this->getNavURL($currentDir, $this->userDir, $this->viewProfileURL) .'" target="_top">View Profile</a>' . EOF_LINE;
+            $tag .='                        <a href="'. $this->getNavURL($currentDir, $this->userDir, $this->editProfileURL) .'" target="_top">Edit Profile</a>' . EOF_LINE;
+            $tag .='                        <a href="'. $this->getNavURL($currentDir, $this->userDir, $this->changePasswordURL) .'" target="_top">Change Password</a>' . EOF_LINE;
+            $tag .='                        <a href="'. $this->getNavURL($currentDir, $this->baseDir, $this->logoutURL) .'" target="_top">Logout</a>' . EOF_LINE;
+            $tag .='                    </div>' . EOF_LINE;
+            $tag .='            </li>' . EOF_LINE;
+            $tag .='        </ul>' . EOF_LINE;
+            $tag .='    </div>' . EOF_LINE;
 
             return($tag);
         }

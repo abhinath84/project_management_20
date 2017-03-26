@@ -178,8 +178,12 @@ var utility = {
         document.getElementById(tagBodyId).innerHTML = getServerResponseViaAJAX("../ajax/default.php", "updateDashboradTableCallback", formData, "");
     },
 
-    getSprintScheduleSelect: function() {
-        return(getServerResponseViaAJAX("../ajax/default.php", "getSprintScheduleSelectCallback", null, ""));
+    getSprintScheduleSelect: function(selectedSchedule) {
+        var formData = {
+            'selectedSchedule' : selectedSchedule
+        };
+
+        return(getServerResponseViaAJAX("../ajax/default.php", "getSprintScheduleSelectCallback", formData, ""));
     },
 
     executeFunctionByName: function (functionName, context /*, args */) {

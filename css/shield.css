@@ -16,7 +16,7 @@
 }
 
 .shield-window {
-    position:fixed;
+    position:absolute;
     z-index:1001;
     text-align:left;
     _position:absolute;
@@ -58,8 +58,8 @@
     padding-bottom: 25px;
     text-align: center;
     background: white;
-    overflow-x: hidden;
-    overflow-y: scroll;
+    //overflow-x: hidden;
+    //overflow-y: scroll;
 }
 
 .shield-dialog-table {
@@ -166,8 +166,8 @@
     padding-bottom: 25px;
     padding-left: 25px;
     background: white;
-    overflow-x: hidden;
-    overflow-y: scroll;
+    //overflow-x: hidden;
+    //overflow-y: scroll;
 }
 
 .project-backlog-project {

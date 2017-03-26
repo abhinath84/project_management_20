@@ -913,15 +913,16 @@ function deleteProjectCallback()
 function getSprintScheduleSelectCallback()
 {
     $tag = '';
+    $selectedSchedule = $_POST['selectedSchedule'];
 
     $qry = "SELECT title FROM scrum_sprint_schedule";
     $mysqlDBObj = new mysqlDB('scrum_sprint_schedule');
     $rows = $mysqlDBObj->select($qry);
     if(!empty($rows))
     {
-        $tag .= ' <select id="sprint_schedule-select" class="retro-style unit-select">';
+        $tag .= ' <select id="sprint_schedule-select" style="height: 25px;">';
         foreach($rows as $row)
-            $tag .= '   <option value="'. $row[0] .'">'. $row[0] .'</option>';
+            $tag .= '   <option value="'. $row[0] .'" ' . (($selectedSchedule == $row[0]) ? 'selected' : '') . '>'. $row[0] .'</option>';
         $tag .= '</select>';
     }
 
@@ -1343,6 +1344,31 @@ function addMemberCallback()
     }
 
     echo(json_encode($data));
+}
+
+function updateMemberRolesCallback()
+{
+    $project = $_POST['project'];
+    if($project != '')
+    {
+        $memberRoles = json_decode($_POST['memberRoles'], true);
+        if($memberRoles != null)
+        {
+            $mysqlDBObj = new mysqlDB('scrum_project_member');
+            foreach ($memberRoles as $memberRole)
+            {
+                // update database for member role.
+                $mysqlDBObj->unsetData();
+                $mysqlDBObj->unsetClause();
+
+                // append element
+                $mysqlDBObj->appendData('privilage', $memberRole[1]);
+                $mysqlDBObj->appendClause('member_id="'. Utility::encode($memberRole[0]) .'" AND project_title="'. $project .'"');
+
+                $msg = $mysqlDBObj->update();
+            }
+        }
+    }
 }
 
 ?>

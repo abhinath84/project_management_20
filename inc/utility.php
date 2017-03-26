@@ -43,13 +43,13 @@
                 return($cipher->decrypt($val));
         }
 
-        public static function getRetroButton($title, $class, $event)
+        public static function getRetroButton($title, $id, $class, $event, $prop = '')
         {
             $tag = '';
 
             if(($title != "") && ($event != ""))
             {
-                $tag .= '<button class="retro-style '. $class .'" type="button" '. $event .'>' . self::$EOF_LINE;
+                $tag .= '<button '.(($id != '') ? 'id="'.$id.'"' : '').' class="retro-style '. $class .'" type="button" '. $event . $prop. '>' . self::$EOF_LINE;
                 $tag .= '   <span>'. $title .'</span>' . self::$EOF_LINE;
                 $tag .= '</button>' . self::$EOF_LINE;
             }
