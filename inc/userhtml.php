@@ -35,12 +35,6 @@
         {
             $tag = '';
 
-            $tag .= '<div id="project-add-form-container"></div>' . $this->EOF_LINE;
-            $tag .=  Utility::getQuickActionBtnDropdown('project-table-dropdown', $this->dropdownList);
-            $tag .= '<div style="float: right; margin-bottom: 30px;">' . $this->EOF_LINE;
-            $tag .=     Utility::getRetroButton('Add Project', 'add-project-btn', 'green add-padding', 'onclick="shieldProject.openAddDialog(\'\', \'project-tbody\', false)"');
-            $tag .= '</div>' . $this->EOF_LINE;
-
             return($tag);
         }
     }
