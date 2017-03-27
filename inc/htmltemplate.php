@@ -197,7 +197,7 @@ abstract class HTMLTemplate
         $tag = '';
 
         if((count($this->sideNavItems) > 0) && ($this->enableNav))
-        {    
+        {
             $tag .= '<nav class="side-nav">' . $this->EOF_LINE;
             $tag .= '   <ul>';
             foreach($this->sideNavItems as $item)
@@ -279,20 +279,12 @@ class HomeHTML extends HTMLTemplate
 
     protected function addDashboard()
     {
-        $tag = "";
-
-        $tag .= '<div class="home-article">' . $this->EOF_LINE;
+        $tag = '';
 
         if((isset($_SESSION["project-managment-username"])) && ($_SESSION["project-managment-username"] != ""))
-        {
             $tag .= $this->getUserInfoContainer();
-        }
         else
-        {
             $tag .= $this->getProjectManagementInfo();
-        }
-
-        $tag .= '</div>' . $this->EOF_LINE;
 
         return($tag);
     }
@@ -304,72 +296,93 @@ class HomeHTML extends HTMLTemplate
 
         if(!empty($nc))
         {
-            $tag .= '   <div class="user-info-container">' . $this->EOF_LINE;
-            $tag .= '       <div class="spr-info-container">' . $this->EOF_LINE;
-
-            // get Next Cutoff info.
-            $tag .= '           <div id="nextCutOff-container" style="flex: 2; margin-right: 25px;">' . $this->EOF_LINE;
-            $tag .=                 $this->getNextCutOffDiv($nc);
-            $tag .= '           </div>' . $this->EOF_LINE;
+            $tag .= '<div class="user-info-container">' . $this->EOF_LINE;
+            $tag .= '   <div class="spr-info-container">' . $this->EOF_LINE;
+            $tag .= '       <div id="user-spr-container" style="flex: 2; margin: 0 20px;">' . $this->EOF_LINE;
 
             // get upcoming Respond by date (next 2 months).
-            $tag .= '           <div id="respondBy-container" style="flex: 2;">' . $this->EOF_LINE;
-            $tag .=                 $this->getRespondByDiv();
-            $tag .= '           </div>' . $this->EOF_LINE;
+            $tag .=             $this->getRespondByDiv();
 
             // get upcoming Commit Build information.
-            $tag .= '           <div id="commit-build-container" style="flex: 3;">' . $this->EOF_LINE;
-            $tag .=                 $this->getCommitBuildDiv([$nc[0][0], $nc[1][0], $nc[2][0], $nc[3][0]]);
-            $tag .= '           </div>' . $this->EOF_LINE;
+            $tag .=             $this->getCommitBuildDiv([$nc[0][0], $nc[1][0], $nc[2][0], $nc[3][0]]);
 
             // get Submission Status Information.
-            $tag .= '           <div id="submission-status-container" style="flex: 2;">' . $this->EOF_LINE;
             $tag .=                 $this->getSubmissionStatusDiv();
-            $tag .= '           </div>' . $this->EOF_LINE;
 
             $tag .= '       </div>' . $this->EOF_LINE;
-            $tag .= '       <div class="display-flex" style="margin-left: 25px;">' . $this->EOF_LINE;
-            $tag .= '           <p>#Scrum Section</p>' . $this->EOF_LINE;
+
+            // get Next Cutoff info.
+            $tag .= '       <div id="nextCutOff-container" style="flex: 1; margin-right: 25px;">' . $this->EOF_LINE;
+            $tag .=             $this->getNextCutOffDiv($nc);
             $tag .= '       </div>' . $this->EOF_LINE;
-            $tag .= '    </div>' . $this->EOF_LINE;
+
+            $tag .= '   </div>' . $this->EOF_LINE;
+            $tag .= '   <div id="scrum-container" class="display-flex" style="margin-left: 25px;">' . $this->EOF_LINE;
+            $tag .= '       <p>#Scrum Section</p>' . $this->EOF_LINE;
+            $tag .= '   </div>' . $this->EOF_LINE;
+            $tag .= '</div>' . $this->EOF_LINE;
         }
 
         return(utf8_encode($tag));
     }
 
+    private function getTitlebar($title)
+    {
+        $tag = '';
+
+        if(($title != null) && ($title != ''))
+        {
+            $tag .= '<div class="titlebar">' . $this->EOF_LINE;
+            $tag .= '   <h1>' . $this->EOF_LINE;
+            $tag .= '       <span class="title">'.$title.'</span>' . $this->EOF_LINE;
+            $tag .= '   </h1>' . $this->EOF_LINE;
+            $tag .= '</div>' . $this->EOF_LINE;
+        }
+
+        return($tag);
+    }
+
+    private function getContentbar($content)
+    {
+        $tag = '';
+
+        if(($content != null) && ($content != ''))
+        {
+            $tag .= '   <div class="contentbar">' . $this->EOF_LINE;
+            $tag .= '       <label>' . $this->EOF_LINE;
+            $tag .=             $content . $this->EOF_LINE;
+            $tag .= '       </label>' . $this->EOF_LINE;
+            $tag .= '   </div>' . $this->EOF_LINE;
+        }
+
+        return($tag);
+    }
+
     private function getRespondByDiv()
     {
         $NearByDate = 20;
-        $tag = "";
+        $tag = '';
+        $content = '';
 
-        $tag .= '<div>' . $this->EOF_LINE;
-        $tag .= '       <table>' . $this->EOF_LINE;
-        $tag .= '           <thead>' . $this->EOF_LINE;
-        $tag .= '               <tr>' . $this->EOF_LINE;
-        $tag .= '                   <th colspan="2"><h3 style="text-align:center;">Respond By</h3></th>' . $this->EOF_LINE;
-        $tag .= '               </tr>' . $this->EOF_LINE;
-        $tag .= '           </thead>' . $this->EOF_LINE;
-        $tag .= '           <tbody>' . $this->EOF_LINE;
+        $tag .= '<div id="respond-by-container" class="widgetbox no-widgetbox" style="margin-bottom: 30px;">' . $this->EOF_LINE;
+        $tag .= $this->getTitlebar('Respond By');
 
         $respond_by = $this->getSPRHavingNextRespondBy();
-        foreach($respond_by as $each)
+        if(count($respond_by) > 0)
         {
-            $tag .= '           <tr>' . $this->EOF_LINE;
-            $tag .= '               <td>' . $this->EOF_LINE;
-            $tag .= '                   <p style="text-align:center; margin-top:4px; margin-bottom:4px;">' . $this->EOF_LINE;
-            $tag .= '                       <strong>' . $this->EOF_LINE;
-            $tag .= '                           <a href="'.getSPRLink($each[0], $each[2]).'" target="_blank">'.$each[0].'</a>' . $this->EOF_LINE;
-            $tag .= '                       </strong>' . $this->EOF_LINE;
-            $tag .= '                   </p>' . $this->EOF_LINE;
-            $tag .= '               </td>' . $this->EOF_LINE;
-            $tag .= '               <td class="td-border">' . $this->EOF_LINE;
-            $tag .= '                   <p style="text-align:center; color: '.((isNearByDate($each[1], $NearByDate) == true) ? "red" : "black").'">'.$each[1].'</p>' . $this->EOF_LINE;
-            $tag .= '               </td>' . $this->EOF_LINE;
-            $tag .= '           </tr>' . $this->EOF_LINE;
-        }
+            foreach($respond_by as $each)
+            {
+                $content = '<a href="'.getSPRLink($each[0], $each[2]).'" target="_blank">'.$each[0].'</a>' . $this->EOF_LINE;
+                $content .= '<span> : </span><span style="text-align:center; color: '.((isNearByDate($each[1], $NearByDate) == true) ? "red" : "black").'">'.$each[1].'</span>' . $this->EOF_LINE;
 
-        $tag .= '           </tbody>' . $this->EOF_LINE;
-        $tag .= '       </table>' . $this->EOF_LINE;
+                $tag .= $this->getContentbar($content);
+            }
+        }
+        else
+        {
+            $content = '<span>No upcoming SPR to set Commit Build.</span>';
+            $tag .= $this->getContentbar($content);
+        }
         $tag .= '</div>' . $this->EOF_LINE;
 
         return($tag);
@@ -409,7 +422,7 @@ class HomeHTML extends HTMLTemplate
             foreach($rows as $row)
             {
                 if($row[2] == "")
-                array_push($sprs, [$row[0], $row[1], $row[3]]);
+                    array_push($sprs, [$row[0], $row[1], $row[3]]);
             }
         }
 
@@ -418,30 +431,52 @@ class HomeHTML extends HTMLTemplate
 
     private function getCommitBuildDiv($buildVersions)
     {
-        $tag = "";
+        $tag = '';
+        $content = '';
+
+        $tag .= '<div id="commit-build-container" class="widgetbox no-widgetbox" style="margin-bottom: 30px;">' . $this->EOF_LINE;
+        $tag .= $this->getTitlebar('SPR Having Commit Build');
+
         if(!empty($buildVersions))
         {
-            $tag .= '<div>' . $this->EOF_LINE;
-            $tag .= '   <table style="width:100%;">' . $this->EOF_LINE;
-            $tag .= '       <thead>' . $this->EOF_LINE;
-            $tag .= '           <tr>' . $this->EOF_LINE;
-            $tag .= '               <th colspan="2"><h3 style="text-align:center;">SPRs having Commit Build</h3></th>' . $this->EOF_LINE;
-            $tag .= '           </tr>' . $this->EOF_LINE;
-            $tag .= '       </thead>' . $this->EOF_LINE;
-            $tag .= '       <tbody>' . $this->EOF_LINE;
-
             foreach($buildVersions as $each)
             {
                 // get SPRs having Commit build equals to current build.
-                $tag .= getCommitBuildRows(getPrevBuildVersion($each));
+                $tag .= $this->getCommitBuildRows(getPrevBuildVersion($each));
 
                 // get SPRs having Commit build equals to next build.
-                $tag .= getCommitBuildRows($each);
+                $tag .= $this->getCommitBuildRows($each);
             }
+        }
+        else
+        {
+            $content = '<span>No Committed SPR for up-coming build</span>';
+            $tag .= $this->getContentbar($content);
+        }
+        $tag .= '</div>' . $this->EOF_LINE;
 
-            $tag .= '       </tbody>' . $this->EOF_LINE;
-            $tag .= '   </table>' . $this->EOF_LINE;
-            $tag .= '</div>' . $this->EOF_LINE;
+        return($tag);
+    }
+
+    private function getCommitBuildRows($version)
+    {
+        $tag = '';
+        $content = '';
+
+        if($version != '')
+        {
+            $sprList = getSPRsHavingCommitBuild($version);
+
+            if(!empty($sprList))
+            {
+                $content = '       <span>'. $version .'</span><span> : </span>' . $this->EOF_LINE;
+                foreach($sprList as $each)
+                {
+                    $content .= '   <a href="'.getSPRLink($each[0], $each[1]).'" target="_blank">'.$each[0].'</a>&nbsp;&nbsp;';
+                }
+
+                $tag .= $this->getContentbar($content);
+            }
         }
 
         return($tag);
@@ -449,36 +484,28 @@ class HomeHTML extends HTMLTemplate
 
     private function getSubmissionStatusDiv()
     {
-        $tag = "";
+        $tag = '';
+        $content = '';
 
-        $tag .= '   <div style="margin-right: 25px;">' . $this->EOF_LINE;
-        $tag .= '   <table style="width:100%;">' . $this->EOF_LINE;
-        $tag .= '       <thead>' . $this->EOF_LINE;
-        $tag .= '           <tr>' . $this->EOF_LINE;
-        $tag .= '               <th colspan="2"><h3 style="text-align:center;">Submission/Port</h3></th>' . $this->EOF_LINE;
-        $tag .= '           </tr>' . $this->EOF_LINE;
-        $tag .= '       </thead>' . $this->EOF_LINE;
-        $tag .= '       <tbody>' . $this->EOF_LINE;
+        $tag .= '<div id="port-container" class="widgetbox no-widgetbox" style="margin-bottom: 30px;">' . $this->EOF_LINE;
+        $tag .= $this->getTitlebar('Submission / Port');
 
         $submission_status = getSubmissionStatus();
-        foreach($submission_status as $each)
+        if(count($submission_status) > 0)
         {
-            $tag .= '       <tr>' . $this->EOF_LINE;
-            $tag .= '           <td class="td-border">' . $this->EOF_LINE;
-            $tag .= '               <p style="text-align:center;">' . $this->EOF_LINE;
-            $tag .= '                            <strong>' . $this->EOF_LINE;
-            $tag .= '                                <a href="'.getSPRLink($each[0], $each[2]).'" target="_blank">'.$each[0].'</a>' . $this->EOF_LINE;
-            $tag .= '                            </strong>' . $this->EOF_LINE;
-            $tag .= '                        </p>' . $this->EOF_LINE;
-            $tag .= '           </td>' . $this->EOF_LINE;
-            $tag .= '           <td class="td-border">' . $this->EOF_LINE;
-            $tag .= '               <p style="text-align:center;">'.$each[1].'</p>' . $this->EOF_LINE;
-            $tag .= '           </td>' . $this->EOF_LINE;
-            $tag .= '       </tr>' . $this->EOF_LINE;
-        }
+            foreach($submission_status as $each)
+            {
+                $content = '<a href="'.getSPRLink($each[0], $each[2]).'" target="_blank">'.$each[0].'</a>' . $this->EOF_LINE;
+                $content .= '<span> : </span><span>'. $each[1] .'</span>' . $this->EOF_LINE;
 
-        $tag .= '       </tbody>' . $this->EOF_LINE;
-        $tag .= '   </table>' . $this->EOF_LINE;
+                $tag .= $this->getContentbar($content);
+            }
+        }
+        else
+        {
+            $content = '<span>No SPR Porting is left.</span>';
+            $tag .= $this->getContentbar($content);
+        }
         $tag .= '</div>' . $this->EOF_LINE;
 
         return($tag);
@@ -491,25 +518,31 @@ class HomeHTML extends HTMLTemplate
 
         if(!empty($nc))
         {
-            $tag .= '       <table>' . $this->EOF_LINE;
-            $tag .= '           <thead>' . $this->EOF_LINE;
-            $tag .= '               <tr>' . $this->EOF_LINE;
-            $tag .= '                   <th colspan="2">' . $this->EOF_LINE;
-            $tag .= '                       <h3 style="text-align:center;"><strong>Build Status</strong></h3>' . $this->EOF_LINE;
-            $tag .= '                   </th>' . $this->EOF_LINE;
-            $tag .= '               </tr>' . $this->EOF_LINE;
-            $tag .= '           </thead>' . $this->EOF_LINE;
-            $tag .= '           <tbody>' . $this->EOF_LINE;
+            $tag .= '<table>' . $this->EOF_LINE;
+            $tag .= '   <thead style="background-color: #444;">' . $this->EOF_LINE;
+            $tag .= '       <tr>' . $this->EOF_LINE;
+            $tag .= '           <th colspan="2">' . $this->EOF_LINE;
+            $tag .= '               <h1 style="text-align:center; font-weight: 300; font-size: 1.714em; letter-spacing: -.025em; margin: 0; color: #9dce0a; padding: 10px .5em;"><span style="text-transform: uppercase;">Build Status</span></h1>' . $this->EOF_LINE;
+            $tag .= '           </th>' . $this->EOF_LINE;
+            $tag .= '       </tr>' . $this->EOF_LINE;
+            $tag .= '   </thead>' . $this->EOF_LINE;
 
+            $tag .= '   <tbody style="background-color: #80a219;">' . $this->EOF_LINE;
             foreach($nc as $each)
             {
-                $tag .= '               <tr>' . $this->EOF_LINE;
-                $tag .= '                   <td style="text-align: right;"><p style="margin:5px;"><strong>'.$each[0].'</strong> :</p></td>' . $this->EOF_LINE;
-                $tag .= '                   <td style="text-align: left;"><p style="margin:5px;"><label style="color: '.((isNearByDate($each[1], $nearByDateRange) == true) ? "red" : "black").';">'.((isBuildReleased($each[1]) == true) ? "<strong>Releashed</strong>" : $each[1]).'<label></p></td>' . $this->EOF_LINE;
+                $tag .= '       <tr>' . $this->EOF_LINE;
+                $tag .= '           <td style="text-align: right;">' . $this->EOF_LINE;
+                $tag .= '               <p style="margin:5px;"><strong>'.$each[0].'</strong> :</p>' . $this->EOF_LINE;
+                $tag .= '           </td>' . $this->EOF_LINE;
+                $tag .= '           <td style="text-align: left;">' . $this->EOF_LINE;
+                $tag .= '               <p style="margin:5px;">' . $this->EOF_LINE;
+                $tag .= '                   <label style="color: '.((isNearByDate($each[1], $nearByDateRange) == true) ? "red" : "black").';">'.((isBuildReleased($each[1]) == true) ? "<strong>Releashed</strong>" : $each[1]).'</label>' . $this->EOF_LINE;
+                $tag .= '               </p>' . $this->EOF_LINE;
+                $tag .= '           </td>' . $this->EOF_LINE;
+                $tag .= '       </tr>' . $this->EOF_LINE;
             }
-
-            $tag .= '           </tbody>' . $this->EOF_LINE;
-            $tag .= '       </table>' . $this->EOF_LINE;
+            $tag .= '   </tbody>' . $this->EOF_LINE;
+            $tag .= '</table>' . $this->EOF_LINE;
         }
 
         return($tag);
@@ -1141,16 +1174,42 @@ class HomeHTML extends HTMLTemplate
     }
 }
 
-class LoginHTML extends HTMLTemplate
+class LoginHTML
 {
+    protected $EOF_LINE     = "\n";
+
     public function __construct($curNav = null, $curDir = null, $enableNav = false)
     {
-        parent::__construct("Login", "user");
+        //parent::__construct("Login", "user");
     }
 
-    protected function addDashboard()
+    public function generateBody()
     {
-        $tag = '<div class="login-main display-table">';
+        $tag = '';
+
+        $tag .= '<div class="auth">' . $this->EOF_LINE;
+        $tag .= '   <div class="auth-container">' . $this->EOF_LINE;
+        $tag .= '       <div class="logo-svg"><!--?xml version="1.0" encoding="UTF-8" standalone="no"?-->' . $this->EOF_LINE;
+        $tag .= '           <svg preserveAspectRatio="xMidYMid meet" version="1.1" viewBox="0 0 267.204 267.245" xmlns:svg="http://www.w3.org/2000/svg">' . $this->EOF_LINE;
+        $tag .= '               <path d="M228.256 39.167l-11.755 82.74-82.74 11.756 11.756-82.74z" fill="#a295ae" opacity=".8"></path>' . $this->EOF_LINE;
+        $tag .= '               <path d="M39.19 228.134l11.755-82.74 82.74-11.756-11.755 82.74z" fill="#5d6f6d" opacity=".8"></path>' . $this->EOF_LINE;
+        $tag .= '               <path d="M39.19 39.277l82.74 11.755 11.756 82.74-82.74-11.755z" fill="#8cd592" opacity=".8"></path>' . $this->EOF_LINE;
+        $tag .= '               <path d="M228.16 228.144l-82.74-11.755-11.756-82.742 82.74 11.756z" fill="#665e74" opacity=".8"></path>' . $this->EOF_LINE;
+        $tag .= '               <path d="M133.738 267.245l-50.194-66.82 50.194-66.817 50.194 66.818z" fill="#3c3647" opacity=".8"></path>' . $this->EOF_LINE;
+        $tag .= '               <path d="M267.204 133.48l-66.82 50.195-66.817-50.194 66.818-50.193z" fill="#837193" opacity=".8"></path>' . $this->EOF_LINE;
+        $tag .= '               <path d="M133.616 0l50.194 66.82-50.194 66.817L83.422 66.82z" fill="#a2f4ac" opacity=".8"></path>' . $this->EOF_LINE;
+        $tag .= '               <path d="M0 133.706l66.82-50.194 66.817 50.194L66.82 183.9z" fill="#7ea685" opacity=".8"></path>' . $this->EOF_LINE;
+        $tag .= '               <path d="M133.602 101.85l31.772 31.772-31.772 31.772-31.772-31.772z" fill="#3c3647"></path>' . $this->EOF_LINE;
+        $tag .= '           </svg>' . $this->EOF_LINE;
+        $tag .= '       </div>' . $this->EOF_LINE;
+
+        $tag .= '<h2 class="logo">Project Management</h2>' . $this->EOF_LINE;
+        //$tag .= '<h2 translate="COMMON.TAG_LINE_2" class="tagline">LOVE YOUR PROJECT</h2>' . $this->EOF_LINE;
+
+        $tag .= '   </div>' . $this->EOF_LINE;
+        $tag .= '</div>' . $this->EOF_LINE;
+        
+        /*$tag .= '<div class="login-main display-table">';
         $tag .= '<div class="login display-table-cell">' . $this->EOF_LINE;
         $tag .= '    <div id="login-sub">' . $this->EOF_LINE;
         $tag .= '        <h3>Log In</h3>' . $this->EOF_LINE;
@@ -1172,7 +1231,7 @@ class LoginHTML extends HTMLTemplate
         $tag .= '        <p><a href="signUp.php">Sign up</a> today.</p>' . $this->EOF_LINE;
         $tag .= '    </div>' . $this->EOF_LINE;
         $tag .= '</div>' . $this->EOF_LINE;
-        $tag .='</div>' . $this->EOF_LINE;
+        $tag .='</div>' . $this->EOF_LINE;*/
 
         return($tag);
     }

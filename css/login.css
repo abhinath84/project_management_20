@@ -3,7 +3,7 @@
     padding:0px;
     font-family: "Proxima Nova", "Montserrat Light", monaco, verdana, arial;
     font-size: 14px;
-    background-color: white;
+    background-color: #7eb787;
 }
 
 .login-main {
@@ -73,4 +73,55 @@
 #signIn {
     width: 150px;
     margin-top: 20px;
+}
+
+
+.auth {
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    bottom: 0;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: row;
+    flex-direction: row;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    left: 0;
+    position: fixed;
+    right: 0;
+    top: 0;
+    z-index: 999;
+    height: 100%;
+}
+
+.auth .auth-container {
+    -ms-flex-preferred-size: 400px;
+    flex-basis: 400px;
+}
+
+.auth .logo-svg {
+    text-align: center;
+    width: 100%;
+}
+
+.auth .logo {
+    font-size: 3rem;
+}
+
+.auth .tagline {
+    font-size: 2rem;
+    line-height: 2rem;
+    text-transform: uppercase;
+}
+
+.auth .logo, .auth .tagline, .auth form {
+    margin-bottom: 1rem;
+}
+
+.auth .logo, .auth .tagline {
+    color: #fff;
+    text-align: center;
 }

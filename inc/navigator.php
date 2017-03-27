@@ -53,45 +53,42 @@
         {
             $tag = '';
 
-            if(($currentDir <> "") && ($selNav <> ""))
+            if(($currentDir <> "") && ($selNav <> "") && ($enableNav == true))
             {
                 $this->imagesPath = ($currentDir === "base") ? "images" : "../images";
 
-                if($enableNav == true)
+                /// header nav for initial page, means before login.
+                $tag .= '<div class="nav-container display-flex">' . EOF_LINE;
+                $tag .= '    <div class="logo-nav">' . EOF_LINE;
+                $tag .= '        <a href="'. $this->getNavURL($currentDir, $this->baseDir, $this->homeURL) .'">' . EOF_LINE;
+                $tag .= '            <img src="' . $this->imagesPath . '/pm.png" alt="ptc.com"/>' . EOF_LINE;
+                $tag .= '        </a>' . EOF_LINE;
+                $tag .= '    </div>' . EOF_LINE;
+
+                $tag .= '    <div class="display-flex" style="margin-left: auto;">';
+                if((isset($_SESSION['project-managment-username'])) && ($_SESSION['project-managment-username'] != ""))
                 {
-                    /// header nav for initial page, means before login.
-                    $tag .= '<div class="nav-container display-flex">' . EOF_LINE;
-                    $tag .= '    <div class="logo-nav">' . EOF_LINE;
-                    $tag .= '        <a href="'. $this->getNavURL($currentDir, $this->baseDir, $this->homeURL) .'">' . EOF_LINE;
-                    $tag .= '            <img src="' . $this->imagesPath . '/pm.png" alt="ptc.com"/>' . EOF_LINE;
-                    $tag .= '        </a>' . EOF_LINE;
-                    $tag .= '    </div>' . EOF_LINE;
-
-                    $tag .= '    <div class="display-flex" style="margin-left: auto;">';
-                    if((isset($_SESSION['project-managment-username'])) && ($_SESSION['project-managment-username'] != ""))
+                    if($currentDir === 'scrum')
                     {
-                        if($currentDir === 'scrum')
-                        {
-                            $tag .= $this->getScrumNavigator($currentDir, $selNav);
-                        }
-                        else if(($currentDir === 'admin') && (Utility::isAdmin($_SESSION['project-managment-username'])))
-                        {
-                            $tag .= $this->getAdminNavigator($currentDir, $selNav);
-                        }
-                        else
-                        {
-                            $tag .= $this->getGeneralNavigator($currentDir, $selNav);
-                        }
-
-                        $tag .= $this->getAdministratorNavigator($currentDir, $selNav);
+                        $tag .= $this->getScrumNavigator($currentDir, $selNav);
+                    }
+                    else if(($currentDir === 'admin') && (Utility::isAdmin($_SESSION['project-managment-username'])))
+                    {
+                        $tag .= $this->getAdminNavigator($currentDir, $selNav);
                     }
                     else
                     {
-                        $tag .= $this->getLoginNavigator($currentDir);
+                        $tag .= $this->getGeneralNavigator($currentDir, $selNav);
                     }
-                    $tag .='    </div>' . EOF_LINE;
-                    $tag .= '</div>';
+
+                    $tag .= $this->getAdministratorNavigator($currentDir, $selNav);
                 }
+                else
+                {
+                    $tag .= $this->getLoginNavigator($currentDir);
+                }
+                $tag .='    </div>' . EOF_LINE;
+                $tag .= '</div>';
             }
 
             return($tag);

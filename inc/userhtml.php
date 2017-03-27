@@ -78,35 +78,35 @@
             $tag .= '       </select>' . $this->EOF_LINE;
             $tag .= '   </fieldset>' . $this->EOF_LINE;
 
+            /* '', '', '', '', '', '',
+                                '', '', '', '', '', '') */
             $tag .= '   <fieldset>' . $this->EOF_LINE;
-            $tag .= '       <label for="title">Title<span class="red-asterisk">*</span></label>' . $this->EOF_LINE;
-            $tag .= '       <input type="text" id="title" placeholder="Title"></input>' . $this->EOF_LINE;
-            $tag .= '       <div class="retro-style-errmsg" id="title-errmsg"></div>';
+            $tag .= '       <label for="title">Title</label>' . $this->EOF_LINE;
+            $tag .= '       <select id="title-select" name="title" onblur="javascript:showErrorMsg(\'title\', \'select\', \'\')" style="width:102.5%;">' . $this->EOF_LINE;
+            $tag .= '           <option value="Software Specialist">Software Specialist</option>' . $this->EOF_LINE;
+            $tag .= '           <option value="Senior Software Specialist">Senior Software Specialist</option>' . $this->EOF_LINE;
+            $tag .= '           <option value="Tech Lead">Tech Lead</option>' . $this->EOF_LINE;
+            $tag .= '           <option value="Senior Tech Lead">Senior Tech Lead</option>' . $this->EOF_LINE;
+            $tag .= '           <option value="Technical Consultant">Technical Consultant</option>' . $this->EOF_LINE;
+            $tag .= '           <option value="Senior Technical Consultant">Senior Technical Consultant</option>' . $this->EOF_LINE;
+            $tag .= '           <option value="QA">QA</option>' . $this->EOF_LINE;
+            $tag .= '           <option value="Senior QA">Senior QA</option>' . $this->EOF_LINE;
+            $tag .= '           <option value="Tech Lead QA">Tech Lead QA</option>' . $this->EOF_LINE;
+            $tag .= '           <option value="Senior Tech Lead QA">Senior Tech Lead QA</option>' . $this->EOF_LINE;
+            $tag .= '           <option value="Consultant QA">Consultant QA</option>' . $this->EOF_LINE;
+            $tag .= '           <option value="Others">Others</option>' . $this->EOF_LINE;
+            $tag .= '       </select>' . $this->EOF_LINE;
             $tag .= '   </fieldset>' . $this->EOF_LINE;
 
             $tag .= '   <fieldset>' . $this->EOF_LINE;
             $tag .= '       <label for="department">Department</label>' . $this->EOF_LINE;
             $tag .= '       <select id="department-select" name="gender" onblur="javascript:showErrorMsg(\'gender\', \'select\', \'\')" style="width:102.5%;">' . $this->EOF_LINE;
-            $tag .= '           <option value="Assmbly">Assmbly</option>' . $this->EOF_LINE;
+            $tag .= '           <option value="Assembly">Assembly</option>' . $this->EOF_LINE;
             $tag .= '           <option value="Drawing">Drawing</option>' . $this->EOF_LINE;
             $tag .= '           <option value="QA">QA</option>' . $this->EOF_LINE;
             $tag .= '           <option value="Technical Writer">Technical Writer</option>' . $this->EOF_LINE;
             $tag .= '           <option value="Manufacturing">Manufacturing</option>' . $this->EOF_LINE;
             $tag .= '           <option value="Others">Others</option>' . $this->EOF_LINE;
-            $tag .= '       </select>' . $this->EOF_LINE;
-            $tag .= '   </fieldset>' . $this->EOF_LINE;
-
-            // 'none','','','','','','',''
-            $tag .= '   <fieldset>' . $this->EOF_LINE;
-            $tag .= '       <label for="privilage">Privilage</label>' . $this->EOF_LINE;
-            $tag .= '       <select id="privilage-select" name="gender" onblur="javascript:showErrorMsg(\'gender\', \'select\', \'\')" style="width:102.5%;">' . $this->EOF_LINE;
-            $tag .= '           <option value="system admin">system admin</option>' . $this->EOF_LINE;
-            $tag .= '           <option value="member admin">member admin</option>' . $this->EOF_LINE;
-            $tag .= '           <option value="project admin">project admin</option>' . $this->EOF_LINE;
-            $tag .= '           <option value="team member">team member</option>' . $this->EOF_LINE;
-            $tag .= '           <option value="developer">developer</option>' . $this->EOF_LINE;
-            $tag .= '           <option value="tester">tester</option>' . $this->EOF_LINE;
-            $tag .= '           <option value="customer">customer</option>' . $this->EOF_LINE;
             $tag .= '       </select>' . $this->EOF_LINE;
             $tag .= '   </fieldset>' . $this->EOF_LINE;
 

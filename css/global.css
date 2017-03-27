@@ -697,12 +697,25 @@ all the pages.
     margin-right: auto;
 }
 
-.widgetbox .titlebar {
-    background-color: #444; //#515756; //#dde2e9;
+/* use this class whenever you need to use titlebar class
+   but don't what to use widgetbox class. */
+.no-widgetbox {
+    width: 100%;
+    margin: 0;
 }
 
-.widgetbox .titlebar .header-tag {
-    //display: inline-block;
+.no-widgetbox a{
+    text-decoration: none;
+    color: #0096e0;
+}
+
+.no-widgetbox .contentbar{
+    border-bottom: 1px solid #e4e3e3;
+    padding: 10px 0;
+}
+
+.widgetbox .titlebar {
+    background-color: #444; //#515756; //#dde2e9;
 }
 
 .widgetbox .titlebar h1 {

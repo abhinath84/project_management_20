@@ -976,35 +976,6 @@
         return($sprs);
     }
 
-    function getCommitBuildRows($version)
-    {
-        $tag = "";
-
-        if($version != "")
-        {
-            $sprList = getSPRsHavingCommitBuild($version);
-
-            if(!empty($sprList))
-            {
-                $tag .= '<tr>';
-                $tag .= '   <td class="td-border"><p style="text-align:center;"><strong>'.$version.'</strong></p></td>';
-                $tag .= '   <td class="td-border">';
-                $tag .= '                <p style="text-align:center;">';
-
-                foreach($sprList as $each)
-                {
-                    $tag .= '   <a href="'.getSPRLink($each[0], $each[1]).'" target="_blank">'.$each[0].'</a>&nbsp;&nbsp;';
-                }
-
-                $tag .= '       </p>';
-                $tag .= '   </td>';
-                $tag .= '</tr>';
-            }
-        }
-
-        return($tag);
-    }
-
     function getCommitBuildInfo($versions)
     {
         $tag = "";
