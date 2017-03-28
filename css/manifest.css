@@ -1,0 +1,139 @@
+/*
+    Style for 'manifest' related pages means those pages having
+    user authentication.
+    Pages like: login.php, signUp.php, recovery.php etc
+*/
+.manifest-body {
+    margin: 0px;
+    padding:0px;
+    font-size: 16px;
+    background-color: #81b688; //#82bf8a; //#7eb787;
+
+    //background: #6f9078; //#81b688; /* For browsers that do not support gradients */
+    //background: -webkit-linear-gradient(#77b785, #7eb787, #7ab985, #6f9178, #667a6e); /* For Safari 5.1 to 6.0 */
+    //background: -o-linear-gradient(#77b785, #7eb787, #7ab985, #6f9178, #667a6e); /* For Opera 11.1 to 12.0 */
+    //background: -moz-linear-gradient(#77b785, #7eb787, #7ab985, #6f9178, #667a6e); /* For Firefox 3.6 to 15 */
+    //background: linear-gradient(#77b785, #7eb787, #7ab985, #6f9178, #667a6e); /* Standard syntax (must be last)*/
+}
+
+.manifest {
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: row;
+    flex-direction: row;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    //bottom: 0;
+    //left: 0;
+    //position: fixed;
+    //right: 0;
+    //top: 0;
+    //z-index: 999;
+    //height: 100%;
+    margin-top: 25px;
+}
+
+.manifest a {
+    text-decoration: none;
+}
+
+.manifest .manifest-container {
+    -ms-flex-preferred-size: 400px;
+    flex-basis: 400px;
+}
+
+.manifest .manifest-logo {
+    text-align: center;
+    width: 100%;
+}
+
+.manifest h2 a {
+    font-size: 2rem;
+    line-height: 2rem;
+    color: #fff;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+.manifest .tagline {
+    font-size: 2rem;
+    line-height: 2rem;
+    text-transform: uppercase;
+}
+
+.manifest h2, .manifest form {
+    margin-bottom: 1.5rem;
+}
+
+.manifest .login-text, .manifest .register-text {
+    text-align: center;
+}
+
+.manifest fieldset {
+    margin-bottom: .5rem;
+}
+
+.manifest input[type=number],
+.manifest input[type=text],
+.manifest input[type=password],
+.manifest input[type=url],
+.manifest input[type=email],
+.manifest input[type=date],
+.manifest select,
+.manifest textarea {
+    background: #f5f5f5;
+    border-color: #767676;
+    color: #444;
+    border: 1px solid;
+    margin: 0;
+    padding: 8px;
+    width: 100%;
+}
+
+.manifest .login-text span {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font: inherit;
+    vertical-align: baseline;
+}
+
+.manifest img {
+    width: 150px;
+    height: 150px;
+}
+
+.manifest-form-container a, .manifest-form-container a:visited {
+    text-decoration: none;
+    color: #444;
+}
+
+.manifest-form-container a:hover, .manifest-form-container a:active {
+    color: white; //#94be52; //#ee1c25; //#fe0000; //#35aa47; //#257631; //#8cc90a;
+}
+
+.manifest-form-container .login-password {
+    position: relative;
+}
+
+.manifest-form-container .forgot-pass {
+    font-size: .9rem;
+    color: #555;
+    opacity: 1;
+    position: absolute;
+    right: 1rem;
+    top: .6rem;
+    -webkit-transition: all .3s linear;
+    transition: all .3s linear;
+}
+
+button.submit-button {
+    width: 104.5%;
+    height: 40px;
+    text-transform: uppercase;
+}
