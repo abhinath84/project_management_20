@@ -1187,28 +1187,40 @@ class LoginHTML
     {
         $tag = '';
 
-        $tag .= '<div class="auth">' . $this->EOF_LINE;
-        $tag .= '   <div class="auth-container">' . $this->EOF_LINE;
-        $tag .= '       <div class="logo-svg"><!--?xml version="1.0" encoding="UTF-8" standalone="no"?-->' . $this->EOF_LINE;
-        $tag .= '           <svg preserveAspectRatio="xMidYMid meet" version="1.1" viewBox="0 0 267.204 267.245" xmlns:svg="http://www.w3.org/2000/svg">' . $this->EOF_LINE;
-        $tag .= '               <path d="M228.256 39.167l-11.755 82.74-82.74 11.756 11.756-82.74z" fill="#a295ae" opacity=".8"></path>' . $this->EOF_LINE;
-        $tag .= '               <path d="M39.19 228.134l11.755-82.74 82.74-11.756-11.755 82.74z" fill="#5d6f6d" opacity=".8"></path>' . $this->EOF_LINE;
-        $tag .= '               <path d="M39.19 39.277l82.74 11.755 11.756 82.74-82.74-11.755z" fill="#8cd592" opacity=".8"></path>' . $this->EOF_LINE;
-        $tag .= '               <path d="M228.16 228.144l-82.74-11.755-11.756-82.742 82.74 11.756z" fill="#665e74" opacity=".8"></path>' . $this->EOF_LINE;
-        $tag .= '               <path d="M133.738 267.245l-50.194-66.82 50.194-66.817 50.194 66.818z" fill="#3c3647" opacity=".8"></path>' . $this->EOF_LINE;
-        $tag .= '               <path d="M267.204 133.48l-66.82 50.195-66.817-50.194 66.818-50.193z" fill="#837193" opacity=".8"></path>' . $this->EOF_LINE;
-        $tag .= '               <path d="M133.616 0l50.194 66.82-50.194 66.817L83.422 66.82z" fill="#a2f4ac" opacity=".8"></path>' . $this->EOF_LINE;
-        $tag .= '               <path d="M0 133.706l66.82-50.194 66.817 50.194L66.82 183.9z" fill="#7ea685" opacity=".8"></path>' . $this->EOF_LINE;
-        $tag .= '               <path d="M133.602 101.85l31.772 31.772-31.772 31.772-31.772-31.772z" fill="#3c3647"></path>' . $this->EOF_LINE;
-        $tag .= '           </svg>' . $this->EOF_LINE;
+        $tag .= '<div class="user-reg">' . $this->EOF_LINE;
+        $tag .= '   <div class="user-reg-container">' . $this->EOF_LINE;
+        $tag .= '       <div class="user-reg-logo">' . $this->EOF_LINE;
+        $tag .= '           <a href="../index.php">' . $this->EOF_LINE;
+        $tag .= '               <img src="../images/pm.png" alt="ptc.com">' . $this->EOF_LINE;
+        $tag .= '           </a>' . $this->EOF_LINE;
+        $tag .= '           <h2><a href="../index.php">Project Management</a></h2>' . $this->EOF_LINE;
         $tag .= '       </div>' . $this->EOF_LINE;
 
-        $tag .= '<h2 class="logo">Project Management</h2>' . $this->EOF_LINE;
-        //$tag .= '<h2 translate="COMMON.TAG_LINE_2" class="tagline">LOVE YOUR PROJECT</h2>' . $this->EOF_LINE;
-
+        $tag .= '       <div class="user-reg-form-container">' . $this->EOF_LINE;
+        $tag .= '           <form id="login-form" class="user-reg-form" method="post">' . $this->EOF_LINE;
+        $tag .= '               <input type="hidden" name="page" id="page" value="login" class="retro-style">' . $this->EOF_LINE;
+        $tag .= '               <input type="hidden" name="redirect" id="redirect" value=' . (isset($_GET['redirect']) ? $_GET['redirect'] : '') . '>' . $this->EOF_LINE;
+        $tag .= '               <fieldset>' . $this->EOF_LINE;
+        $tag .= '                   <input id="username-input" type="text" required="" name="username" placeholder="Username or email (case sensitive)" class="checksley-validated">' . $this->EOF_LINE;
+        $tag .= '               </fieldset>' . $this->EOF_LINE;
+        $tag .= '               <fieldset class="login-password">' . $this->EOF_LINE;
+        $tag .= '                   <input id="password-input" type="password" name="password" required="" placeholder="Password (case sensitive)">' . $this->EOF_LINE;
+        $tag .= '                   <a id="forgot-pwd" href="recovery.php" title="Did you forget your password?" class="forgot-pass">Forgot it?</a>' . $this->EOF_LINE;
+        $tag .= '               </fieldset>' . $this->EOF_LINE;
+        $tag .= '               <fieldset>' . $this->EOF_LINE;
+        $tag .= '                   <button type="submit" title="Login" class="retro-style green-bg submit-button">Login</button>' . $this->EOF_LINE;
+        $tag .= '               </fieldset>' . $this->EOF_LINE;
+        $tag .= '           </form>' . $this->EOF_LINE;
+        $tag .= '           <div>' . $this->EOF_LINE;
+        $tag .= '               <p class="login-text">' . $this->EOF_LINE;
+        $tag .= '                   <span>Not registered yet?&nbsp;</span>' . $this->EOF_LINE;
+        $tag .= '                   <a href="signUp.php" title="Register">create your free account here</a>' . $this->EOF_LINE;
+        $tag .= '               </p>' . $this->EOF_LINE;
+        $tag .= '           </div>' . $this->EOF_LINE;
+        $tag .= '       </div>' . $this->EOF_LINE;
         $tag .= '   </div>' . $this->EOF_LINE;
         $tag .= '</div>' . $this->EOF_LINE;
-        
+
         /*$tag .= '<div class="login-main display-table">';
         $tag .= '<div class="login display-table-cell">' . $this->EOF_LINE;
         $tag .= '    <div id="login-sub">' . $this->EOF_LINE;

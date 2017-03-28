@@ -29,6 +29,24 @@
                 event.preventDefault();
             });
 
+            // event for 'password-input' while update
+            // visibility of 'forgot-pwd' link.
+            var $pwdInput = $('#password-input');
+
+            $pwdInput.click(function(event) {
+                    $('#forgot-pwd').css('display', 'none');
+            });
+
+            $pwdInput.blur(function(event) {
+                var pwdValue = $('#password-input').val();
+
+                // check empty or not, if so then don't show the 'forgot it' link.
+                if((pwdValue != null) && (pwdValue != ''))
+                    $('#forgot-pwd').css('display', 'none');
+                else
+                    $('#forgot-pwd').css('display', 'block');
+            });
+
             $(".up").click(function() {
                 $('html, body').animate({
                     scrollTop: 0
