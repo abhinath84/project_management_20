@@ -277,9 +277,9 @@ input[type=submit].retro-style.green.active {
 /* Green Background Button */
 button.retro-style.green-bg,
 input[type=submit].retro-style.green-bg {
-  border-color: #35aa47;
-  color: #FFFFFF;
-  background-color: #35aa47;
+    border-color: #257631;
+    color: #FFFFFF;
+    background-color: #257631;
 }
 
 button.retro-style.green-bg:hover,
@@ -290,9 +290,9 @@ input[type=submit].retro-style.green-bg:hover,
 input[type=submit].retro-style.green-bg:focus,
 input[type=submit].retro-style.green-bg:active,
 input[type=submit].retro-style.green-bg.active {
-  border-color: #257631;
-  color: #FFFFFF;
-  background-color: #257631;
+    border-color: #35aa47;
+    color: #FFFFFF;
+    background-color: #35aa47;
 }
 
 /* Red Button */

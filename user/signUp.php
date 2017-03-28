@@ -16,7 +16,7 @@
 
     require_once ('../inc/functions.inc.php');
     require_once ('../inc/mysql_functions.inc.php');
-    require_once ('../inc/htmltemplate.php');
+    require_once ('../inc/userhtml.php');
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -25,7 +25,7 @@
         <title>PTC:Project Management</title>
         <link rel="stylesheet" type="text/css" href="../css/retro_style.css">
         <link rel="stylesheet" type="text/css" href="../css/global.css" />
-        <link rel="stylesheet" type="text/css" href="../css/sign_up.css" />
+        <link rel="stylesheet" type="text/css" href="../css/manifest.css" />
         <script type="text/javascript" src="../js/jquery-2.1.3.min.js"></script>
         <script type="text/javascript" src="../js/functions.js"></script>
         <script type="text/javascript">
@@ -48,13 +48,11 @@
             });
         </script>
     </head>
-    <body class="signup-body">
-        <div class="middle-align">
-            <?php
-                $htmlBody = new SignupHTML();
+    <body class="manifest-body">
+        <?php
+            $htmlBody = new SignupHTML();
 
-                echo $htmlBody->generateBody();
-            ?>
-        </div>
+            echo $htmlBody->generateBody();
+        ?>
     </body>
 </html>

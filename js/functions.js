@@ -925,8 +925,6 @@ function signupSubmit() {
         'lastName'            : $('input[name=lastName]').val(),
         'username'            : $('input[name=username]').val(),
         'password'            : $('input[name=password]').val(),
-        'confirm-password'    : $('input[name=confirm-password]').val(),
-        'gender'            : $('select[name=gender]').val(),
         'title'                : $('select[name=title]').val(),
         'department'        : $('select[name=department]').val(),
         'manager'            : $('input[name=manager]').val(),

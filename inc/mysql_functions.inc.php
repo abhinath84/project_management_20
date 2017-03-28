@@ -164,17 +164,16 @@
         $conn->execute_query($qry);
     }
 
-    function create_user($username, $password, $firstName, $lastName, $gender, $title, $dept, $email, $altEmail, $manager)
+    function create_user($username, $password, $firstName, $lastName, $title, $dept, $email, $altEmail, $manager)
     {
         global $conn;
         global $cipherObj;
 
-        $qry = "INSERT INTO user (user_name, password, first_name, last_name, gender, title, department, email, alt_email, manager)
+        $qry = "INSERT INTO user (user_name, password, first_name, last_name, title, department, email, alt_email, manager)
                 VALUES ('".$cipherObj->encrypt($username)."',
                     '".$cipherObj->encrypt($password)."',
                     '".$cipherObj->encrypt($firstName)."',
                     '".$cipherObj->encrypt($lastName)."',
-                    '".$gender."',
                     '".$cipherObj->encrypt($title)."',
                     '".$cipherObj->encrypt($dept)."',
                     '".$cipherObj->encrypt($email)."',
@@ -453,9 +452,14 @@
           )
         {
             // build select query.
+            $coma = 0;
+
             $qry = 'SELECT';
             foreach($elementList as $element)
-                $qry .= ' ' . $element;
+            {
+                $qry .= (($coma > 0) ? ',' : '') . ' ' . $element;
+                $coma++;
+            }
             $qry .= ' FROM ' . $table;
             if(($clause != null) && ($clause != ''))
                 $qry .= ' WHERE ' . $clause;

@@ -407,9 +407,8 @@ function signupSubmitCallback()
 
     // validate the variables ======================================================
     $post_data = [['firstName', $_POST['firstName']], ['lastName', $_POST['lastName']], ['username', $_POST['username']],
-    ['password', $_POST['password']], ['confirm-password', $_POST['confirm-password']], ['gender', $_POST['gender']],
-    ['title', $_POST['title']], ['department', $_POST['department']], ['manager', $_POST['manager']],
-    ['email', $_POST['email']]];
+    ['password', $_POST['password']], ['title', $_POST['title']], ['department', $_POST['department']],
+    ['manager', $_POST['manager']], ['email', $_POST['email']]];
 
     //$errors = checkEmptyField($post_data);
 
@@ -417,7 +416,7 @@ function signupSubmitCallback()
     $errors = getErrorMsgs($post_data, $_POST['password']);
     if(empty($errors))
     {
-        if(create_user($_POST['username'], $_POST['password'], $_POST['firstName'], $_POST['lastName'], $_POST['gender'],
+        if(create_user($_POST['username'], $_POST['password'], $_POST['firstName'], $_POST['lastName'],
             $_POST['title'], $_POST['department'], $_POST['email'], $_POST['altEmail'], $_POST['manager']) == true)
         {
             $data['success'] = true;
@@ -458,10 +457,10 @@ function getErrorMsg($tag_id, $tag_val, $password_val)
         {
             $errMsg = 'Password does not match the format.(Password have atleast 8 Characters.)';
         }
-        else if($tag_id == "confirm-password")
+        /*else if($tag_id == "confirm-password")
         {
-            if((strlen($tag_val) < 8) || (!(preg_match('/[a-z]/', $tag_val)) /*|| !(preg_match('/[0-9]/', $tag_val)) || !(preg_match('/[A-Z]/', $tag_val))*/))
-            {
+            if((strlen($tag_val) < 8) || (!(preg_match('/[a-z]/', $tag_val)) /*|| !(preg_match('/[0-9]/', $tag_val)) || !(preg_match('/[A-Z]/', $tag_val))*//*))*/
+            /*{
                 $errMsg = 'Password does not match the format.(Password have atleast 8 Characters.)';
             }
             else if($password_val <> $tag_val)
@@ -472,7 +471,7 @@ function getErrorMsg($tag_id, $tag_val, $password_val)
         else if(($tag_id == "gender") && ($tag_val == "Select ..."))
         {
             $errMsg = 'Please Select your Gender';
-        }
+        }*/
         else  if (($tag_id == "email") && (!filter_var($tag_val, FILTER_VALIDATE_EMAIL)))
         {
             $errMsg = 'Please enter valid e-mail.';

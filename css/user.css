@@ -36,3 +36,17 @@ fieldset {
     padding: 8px;
     width: 100%;
 }
+
+.delete-account {
+    margin-top: 30px;
+}
+
+.delete-account a {
+    color: #444;
+    text-decoration: none;
+    font-size: 18px;
+}
+
+.delete-account a:hover {
+    color: red;
+}
