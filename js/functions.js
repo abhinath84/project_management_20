@@ -1394,7 +1394,46 @@ var projectAssignment = {
         // check button is enable or not
         if($('#assign-project-btn').prop('disabled') == false) {
             // collect all the selected user name in the list.
-            // open shield having project list.
+            var projectMembers = [];
+
+            // loop over all the checkbox of the table.
+            var len = document.getElementById(this.info.memberTBodyId).getElementsByTagName("tr").length;
+            var count = 0;
+            // to improve execution time, check from both side.
+            for(var i = 1, j=len; i <= j; i++, j--) {
+                var iCheck = $('#' + i + '-checkbox').prop('checked');
+                var jCheck = $('#' + j + '-checkbox').prop('checked');
+
+                if(iCheck) {
+                    projectMembers[count] = Array($('#' + i + '-member_id').html(), $('#' + i + '-privilage-select').val());
+                    count++;
+                }
+
+                if((i != j) && (jCheck)) {
+                    projectMembers[count] = Array($('#' + j + '-member_id').html(), $('#' + j + '-privilage-select').val());
+                    count++;
+                }
+            }
+
+            // open shield having project list and
+            // pass below data to update database
+            var formData = {
+                "projectMembers": JSON.stringify(projectMembers),
+                "projects": JSON.stringify(projects)
+            };
+
+            // If not update database.
+            var data = {
+                url             : "../ajax/default.php",
+                callbackFunc    : "addProjectMembersCallback",
+                formData        : formData,
+                successFunc     : null,
+                errorFunc       : null,
+                failFunc        : null
+            };
+
+            // Update DB according to the input and also update sprint schedule list in the display.
+            utility.ajax.serverRespond(data);
         }
     }
 };

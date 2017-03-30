@@ -665,17 +665,13 @@
                                 array('Name', null, null, null, 'data-sort="string"'),
                                 array("Username", null,  null, null, 'data-sort="string"'),
                                 array("Admin Privilage", null, null, null, 'data-sort="string"'),
-                                array("Project Membership", null, null, null, null)
+                                array("Project Privilage", null, null, null, null)
                             );
             $this->fillTableHead("member-thead", $thList);
 
             $qry = "SELECT user.first_name, user.last_name, user.user_name, scrum_member.privilage FROM user INNER JOIN scrum_member ON scrum_member.member_id = user.user_name ORDER BY user.user_name DESC";
             // add Table body
             $this->fillTableBody("member-tbody", $qry);
-
-            /*$this->table->tbody("member-tbody");
-                $this->table->tr(null, null, null, "align=\"center\"");
-                    $this->table->td("<p>No result !!!</p>", "no-result", null, null, null);*/
 
             return(utf8_encode($this->table->toHTML()));
         }
@@ -740,14 +736,25 @@
         private function addMemberRow($inx, $row)
         {
             $name = Utility::decode($row[0]) . ' ' . Utility::decode($row[1]);
+            $privilageSelect = '<select id="'. $inx .'-privilage-select" class="retro-style session-select">
+                                        <option value="System Admin"'.($row[3] === 'System Admin' ? ' selected' : '').'>System Admin</option>
+                                        <option value="Member Admin"'.($row[3] === 'Member Admin' ? ' selected' : '').'>Member Admin</option>
+                                        <option value="Project Admin"'.($row[3] === 'Project Admin' ? ' selected' : '').'>Project Admin</option>
+                                        <option value="Project Lead"'.($row[3] === 'Project Lead' ? ' selected' : '').'>Project Lead</option>
+                                        <option value="Team Member"'.($row[3] === 'Team Member' ? ' selected' : '').'>Team Member</option>
+                                        <option value="Developer"'.($row[3] === 'Developer' ? ' selected' : '').'>Developer</option>
+                                        <option value="Tester"'.($row[3] === 'Tester' ? ' selected' : '').'>Tester</option>
+                                        <option value="Customer"'.($row[3] === 'Customer' ? ' selected' : '').'>Customer</option>
+                                        <option value="Visitor"'.($row[3] === 'Visitor' ? ' selected' : '').'>Visitor</option>
+                                    </select>';
 
             $this->table->tr(null, null, null, "align=\"center\"");
                 $this->table->td(getGreppyDotTag(), "1-greppy", "hasGrippy", "text-align:center;", "width=\"1%\"");
                 $this->table->td('<input id="'. $inx .'-checkbox" type="checkbox" class="checkbox" onclick="projectAssignment.selectMember()">', "{$inx}-checkbox-td", null, "width: 2%", "text-align=\"center\"");
-                $this->table->td($name, "{$inx}-name", "project-title-td", null, "width=\"20%\"");
+                $this->table->td($name, "{$inx}-name", "project-title-td", null, "width=\"35%\"");
                 $this->table->td(Utility::decode($row[2]), "{$inx}-member_id", null, null, "width=\"20%\"");
-                $this->table->td("{$row[3]}", "{$inx}-old-privilage", null, null, "width=\"20%\"");
-                $this->table->td("{$row[3]}", "{$inx}-old-privilage", null, null, "width=\"40%\"");
+                $this->table->td("{$row[3]}", "{$inx}-old-privilage", null, null, "width=\"25%\"");
+                $this->table->td("{$privilageSelect}", "{$inx}-privilage", null, null, "width=\"25%\"");
         }
 
         public function getTBodyElementHTML()
