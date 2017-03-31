@@ -1670,9 +1670,10 @@ class SprintTrackTaskboardHTML extends HTMLTemplate
     {
         $tabs = array
                       (
-                        array('Detailed Tracking', 'sprint_track_detail.php'),
-                        array('Storyboard', 'sprint_track_storyboard.php'),
-                        array('Taskboard', 'sprint_track_taskboard.php'), array('Testboard', 'sprint_track_testboard.php')
+                        array('Detailed Tracking', 'sprint_track_detail.php', ''),
+                        array('Storyboard', 'sprint_track_storyboard.php', ''),
+                        array('Taskboard', 'sprint_track_taskboard.php', ''),
+                        array('Testboard', 'sprint_track_testboard.php', '')
                       );
 
         parent::__construct("Scrum-Sprint-Tracking-Taskboard", "scrum", true, $tabs, 'Taskboard');
