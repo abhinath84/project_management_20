@@ -27,6 +27,16 @@
         <link rel="stylesheet" type="text/css" href="../css/retro_style.css">
         <link rel="stylesheet" type="text/css" href="../css/global.css" />
         <link rel="stylesheet" type="text/css" href="../css/recovery.css" />
+    </head>
+    <body class="recovery-body">
+        <div class="middle-align">
+            <?php
+                $htmlBody = new RecoveryHTML();
+
+                echo $htmlBody->generateBody();
+            ?>
+        </div>
+
         <script type="text/javascript" src="../js/jquery-2.1.3.min.js"></script>
         <script type="text/javascript" src="../js/functions.js"></script>
         <script type="text/javascript">
@@ -45,14 +55,5 @@
 
             });
         </script>
-    </head>
-    <body class="recovery-body">
-        <div class="middle-align">
-            <?php
-                $htmlBody = new RecoveryHTML();
-
-                echo $htmlBody->generateBody();
-            ?>
-        </div>
     </body>
 </html>

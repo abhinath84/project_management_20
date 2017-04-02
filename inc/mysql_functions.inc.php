@@ -37,7 +37,6 @@
                     password VARBINARY(100),
                     first_name VARBINARY(100),
                     last_name VARBINARY(100),
-                    gender ENUM('Female', 'Male'),
                     title VARBINARY(100),
                     department VARBINARY(100),
                     email VARBINARY(100),
@@ -78,77 +77,6 @@
                 )";
         $conn->execute_query($qry);
 
-        $qry = "CREATE TABLE IF NOT EXISTS scrum
-                (
-                    name VARCHAR(50) NOT NULL,
-                    description VARCHAR(150),
-                    PRIMARY KEY (name)
-                )";
-        $conn->execute_query($qry);
-
-        $qry = "CREATE TABLE IF NOT EXISTS scrum_member
-                (
-                    id INT(10) NOT NULL AUTO_INCREMENT,
-                    user_name VARCHAR(50) NOT NULL,
-                    scrum_name VARCHAR(50) NOT NULL,
-                    PRIMARY KEY (id),
-                    INDEX (user_name),
-                    INDEX (scrum_name)
-                )";
-        $conn->execute_query($qry);
-
-        $qry = "CREATE TABLE IF NOT EXISTS sprint
-                (
-                    scrum_name VARCHAR(50) NOT NULL,
-                    name VARCHAR(50) NOT NULL,
-                    duration VARCHAR(45) NOT NULL,
-                    perday INT(10) NOT NULL,
-                    PRIMARY KEY (name, scrum_name),
-                    INDEX (scrum_name)
-                )";
-        $conn->execute_query($qry);
-
-        $qry = "CREATE TABLE IF NOT EXISTS sprint_member
-                (
-                    id INT(10) NOT NULL AUTO_INCREMENT,
-                    user_name VARCHAR(50) NOT NULL,
-                    sprint_name VARCHAR(50) NOT NULL,
-                    working_day    INT(10),
-                    buffer_time    INT(10),
-                    PRIMARY KEY (id),
-                    INDEX (user_name),
-                    INDEX (sprint_name)
-                )";
-        $conn->execute_query($qry);
-
-        $qry = "CREATE TABLE IF NOT EXISTS backlog
-                (
-                    name VARCHAR(50) NOT NULL,
-                    user_name VARCHAR(50) NOT NULL,
-                    sprint_name VARCHAR(50) NOT NULL,
-                    description VARCHAR(150),
-                    priority INT(10),
-                    comment VARCHAR(150),
-                    PRIMARY KEY (name, sprint_name),
-                    INDEX (user_name),
-                    INDEX (sprint_name)
-                )";
-        $conn->execute_query($qry);
-
-        $qry = "CREATE TABLE IF NOT EXISTS task
-                (
-                    id INT(10) NOT NULL AUTO_INCREMENT,
-                    name VARCHAR(50) NOT NULL,
-                    sprint_name VARCHAR(50) NOT NULL,
-                    estimated_time INT(10),
-                    spent_time INT(10),
-                    status ENUM('BLOCK', 'IN-PROCESS', 'COMPLETE'),
-                    comment VARCHAR(150),
-                    PRIMARY KEY (id),
-                    INDEX (sprint_name)
-                )";
-        $conn->execute_query($qry);
-
         $qry = "CREATE TABLE IF NOT EXISTS work_tracker
                 (
                     id INT(10) NOT NULL AUTO_INCREMENT,
@@ -162,6 +90,77 @@
                     INDEX (user_name)
                 )";
         $conn->execute_query($qry);
+
+        /*$qry = "CREATE TABLE IF NOT EXISTS scrum
+                (
+                    name VARCHAR(50) NOT NULL,
+                    description VARCHAR(150),
+                    PRIMARY KEY (name)
+                )";
+        $conn->execute_query($qry);*/
+
+        /*$qry = "CREATE TABLE IF NOT EXISTS scrum_member
+                (
+                    id INT(10) NOT NULL AUTO_INCREMENT,
+                    user_name VARCHAR(50) NOT NULL,
+                    scrum_name VARCHAR(50) NOT NULL,
+                    PRIMARY KEY (id),
+                    INDEX (user_name),
+                    INDEX (scrum_name)
+                )";
+        $conn->execute_query($qry);*/
+
+        /*$qry = "CREATE TABLE IF NOT EXISTS sprint
+                (
+                    scrum_name VARCHAR(50) NOT NULL,
+                    name VARCHAR(50) NOT NULL,
+                    duration VARCHAR(45) NOT NULL,
+                    perday INT(10) NOT NULL,
+                    PRIMARY KEY (name, scrum_name),
+                    INDEX (scrum_name)
+                )";
+        $conn->execute_query($qry);*/
+
+        /*$qry = "CREATE TABLE IF NOT EXISTS sprint_member
+                (
+                    id INT(10) NOT NULL AUTO_INCREMENT,
+                    user_name VARCHAR(50) NOT NULL,
+                    sprint_name VARCHAR(50) NOT NULL,
+                    working_day    INT(10),
+                    buffer_time    INT(10),
+                    PRIMARY KEY (id),
+                    INDEX (user_name),
+                    INDEX (sprint_name)
+                )";
+        $conn->execute_query($qry);*/
+
+        /*$qry = "CREATE TABLE IF NOT EXISTS backlog
+                (
+                    name VARCHAR(50) NOT NULL,
+                    user_name VARCHAR(50) NOT NULL,
+                    sprint_name VARCHAR(50) NOT NULL,
+                    description VARCHAR(150),
+                    priority INT(10),
+                    comment VARCHAR(150),
+                    PRIMARY KEY (name, sprint_name),
+                    INDEX (user_name),
+                    INDEX (sprint_name)
+                )";
+        $conn->execute_query($qry);*/
+
+        /*$qry = "CREATE TABLE IF NOT EXISTS task
+                (
+                    id INT(10) NOT NULL AUTO_INCREMENT,
+                    name VARCHAR(50) NOT NULL,
+                    sprint_name VARCHAR(50) NOT NULL,
+                    estimated_time INT(10),
+                    spent_time INT(10),
+                    status ENUM('BLOCK', 'IN-PROCESS', 'COMPLETE'),
+                    comment VARCHAR(150),
+                    PRIMARY KEY (id),
+                    INDEX (sprint_name)
+                )";
+        $conn->execute_query($qry);*/
     }
 
     function create_user($username, $password, $firstName, $lastName, $title, $dept, $email, $altEmail, $manager)

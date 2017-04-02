@@ -26,6 +26,13 @@
         <link rel="stylesheet" type="text/css" href="../css/shield.css">
         <link rel="stylesheet" type="text/css" href="../css/global.css">
         <link rel="stylesheet" type="text/css" href="../css/admin.css">
+    </head>
+    <body>
+        <?php
+            $htmlBody = new MembersHTML();
+            echo $htmlBody->generateBody();
+        ?>
+
         <script type="text/javascript" src="../js/jquery-2.1.3.min.js"></script>
         <script type="text/javascript" src="../js/jqry.js"></script>
         <script type="text/javascript" src="../js/stupidtable.min.js?dev"></script>
@@ -43,11 +50,5 @@
             });
 
         </script>
-    </head>
-    <body>
-        <?php
-            $htmlBody = new MembersHTML();
-            echo $htmlBody->generateBody();
-        ?>
     </body>
 </html>

@@ -1175,31 +1175,4 @@
 
         return($tag);
     }
-
-    /*function addProjectBodyRow($table, $row, $inx)
-    {
-        if(($row != null) && (count($row) > 0))
-        {
-            if($row[0] != 'System(All Projects)')
-            {
-                $table->tr(null, null, null, "align=\"center\"");
-                    $table->td(getGreppyDotTag(), "1-greppy", "hasGrippy", "text-align:center;", "width=\"1%\"");
-                    $table->td("{$row[0]}", "{$inx}-title", "project-title-td", null, "width=\"30%\"");
-                    $table->td(Utility::decode($row[1]), "{$inx}-owner", null, null, "width=\"18%\"");
-                    $table->td("{$row[2]}", "{$inx}-begin_date", null, null, "width=\"10%\"");
-                    $table->td("{$row[3]}", "{$inx}-end_date", null, null, "width=\"10%\"");
-                    $table->td("{$row[4]}", "{$inx}-sprint_schedule", null, null, "width=\"25%\"");
-
-                    $table->td("{$row[5]}", "{$inx}-parent", null, "display: none;");
-                    $table->td("{$row[6]}", "{$inx}-description", null, "display: none;");
-                    $table->td("{$row[7]}", "{$inx}-status", null, "display: none;");
-                    $table->td("{$row[8]}", "{$inx}-target_estimate", null, "display: none;");
-                    $table->td("{$row[9]}", "{$inx}-test_suit", null, "display: none;");
-                    $table->td("{$row[10]}", "{$inx}-target_swag", null, "display: none;");
-                    $table->td("{$row[11]}", "{$inx}-reference", null, "display: none;");
-
-                    $table->td(Utility::getQuickActionBtn("{$inx}", "Edit", "project-td-btn", "onclick=\"shieldProject.openEditDialog('{$inx}', 'project-tbody', false)\"", "{$inx}", "project-table-dropdown"), "project-edit", null, null, "width=\"5%\"");
-            }
-        }
-    }*/
 ?>

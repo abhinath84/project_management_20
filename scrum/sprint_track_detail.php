@@ -23,7 +23,6 @@
         <title>HTML - Holy Grail Layout with Sticky Footer</title>
         <link rel="stylesheet" type="text/css" href="../css/global.css">
         <link rel="stylesheet" type="text/css" href="../css/sprint_taskboard.css">
-        <script src="../js/addtable.js"></script>
     </head>
     <body>
         <?php
@@ -31,5 +30,7 @@
 
             echo $htmlBody->generateBody();
         ?>
+
+        <script src="../js/addtable.js"></script>
     </body>
 </html>

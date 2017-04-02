@@ -26,6 +26,14 @@
         <link rel="stylesheet" type="text/css" href="../css/retro_style.css">
         <link rel="stylesheet" type="text/css" href="../css/global.css" />
         <link rel="stylesheet" type="text/css" href="../css/manifest.css" />
+    </head>
+    <body class="manifest-body">
+        <?php
+            $htmlBody = new SignupHTML();
+
+            echo $htmlBody->generateBody();
+        ?>
+
         <script type="text/javascript" src="../js/jquery-2.1.3.min.js"></script>
         <script type="text/javascript" src="../js/functions.js"></script>
         <script type="text/javascript">
@@ -47,12 +55,5 @@
                 });
             });
         </script>
-    </head>
-    <body class="manifest-body">
-        <?php
-            $htmlBody = new SignupHTML();
-
-            echo $htmlBody->generateBody();
-        ?>
     </body>
 </html>

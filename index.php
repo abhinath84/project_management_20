@@ -19,6 +19,13 @@
         <title>Scrum-Product Planning</title>
         <link rel="stylesheet" type="text/css" href="css/global.css">
         <link rel="stylesheet" type="text/css" href="css/home.css">
+    </head>
+    <body>
+        <?php
+            $htmlBody = new HomeHTML();
+            echo $htmlBody->generateBody();
+        ?>
+
         <script type="text/javascript" src="js/jquery-2.1.3.min.js"></script>
         <script type="text/javascript" src="js/stupidtable.min.js?dev"></script>
         <script type="text/javascript" src="js/jqry.js"></script>
@@ -34,11 +41,5 @@
             });
 
         </script>
-    </head>
-    <body>
-        <?php
-            $htmlBody = new HomeHTML();
-            echo $htmlBody->generateBody();
-        ?>
     </body>
 </html>
