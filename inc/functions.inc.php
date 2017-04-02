@@ -490,7 +490,7 @@
                     $tag .=                     getGreppyDotTag();
                     $tag .= '              </td>';
 
-                    $tag .= '              <td id="'.$row[0].'-spr-no" width = 12%>';
+                    $tag .= '              <td id="'.$row[0].'-spr-no" width = 20%>';
                     $tag .= '                   <a href="#">' . getSPRString($row[1], $row[0]) . '</a>';
                     $tag .= '              </td>'."\n";
 
