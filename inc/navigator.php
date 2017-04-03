@@ -13,13 +13,13 @@
         private $scrumDir = "scrum";
         private $scrumBacklogURL = "product_plan_backlog.php";
         private $scrumBacklogImport = "product_plan_backlog_import.php";
-        private $scrumReleasePlanURL = "release_plan_dashboard.php";
-        private $scrumSprintPlanURL = "sprint_plan_dashboard.php";
-        private $scrumSprintTrackDetailedURL = "sprint_track_detail.php";
-        private $scrumSprintTrackStoryboardURL = "sprint_track_storyboard.php";
-        private $scrumSprintTrackTaskboardURL = "sprint_track_taskboard.php";
-        private $scrumSprintTrackTestboardURL = "sprint_track_testboard.php";
-        private $scrumSprintReviewURL = "sprint_review_dashboard.php";
+        private $scrumReleasePlanURL = "release_plan.php";
+        private $scrumSprintPlanURL = "sprint_plan.php";
+        private $scrumSprintTrackDetailedURL = "sprint_detailed.php";
+        private $scrumSprintTrackStoryboardURL = "sprint_storyboard.php";
+        private $scrumSprintTrackTaskboardURL = "sprint_taskboard.php";
+        private $scrumSprintTrackTestboardURL = "sprint_testboard.php";
+        private $scrumSprintReviewURL = "sprint_review.php";
 
         private $workTrackerDir = "work_tracker";
         private $workTrackerDashboardURL = "dashboard.php";
@@ -182,7 +182,7 @@
             $tag .= '           </a>' . EOF_LINE;
             $tag .= '       </li>' . EOF_LINE;
             $tag .= '       <li class="has-dropdown-manu ' . ((($selNav === "Scrum-Product-Planning-Backlog") || ($selNav === "Scrum-Release-Planning") || ($selNav === "Scrum-Sprint-Planning") || ($selNav === "Scrum-Sprint-Tracking-Taskboard") || ($selNav === "Scrum-Sprint-Review")) ? 'selected' : '') . '">' . EOF_LINE;
-            $tag .= '           <a class="bropbtn" title="Scrum"  href="" target="_top">' . EOF_LINE;
+            $tag .= '           <a class="bropbtn" title="Scrum" target="_top">' . EOF_LINE;
             $tag .= '               <span>' . EOF_LINE;
             $tag .=                     SVG::getScrum();
             $tag .= '               </span>' . EOF_LINE;
@@ -228,7 +228,7 @@
             $tag .= '<div class="h-navigator scrum-nav">' . EOF_LINE;
             $tag .= '        <ul>' . EOF_LINE;
             $tag .= '          <li class="has-dropdown-manu ' . ($selNav == "Scrum-Product-Planning-Backlog" ? 'selected' : '') . '">' . EOF_LINE;
-            $tag .= '              <a class="dropbtn" title="Product Planning" href="'. $this->getNavURL($currentDir, $this->scrumDir, $this->scrumBacklogURL) .'" target="_top">' . EOF_LINE;
+            $tag .= '              <a class="dropbtn" title="Product Planning" target="_top">' . EOF_LINE;
             $tag .= '                <span>' . EOF_LINE;
             $tag .=             SVG::getProductPlan();
             $tag .= '       </span>' . EOF_LINE;
@@ -253,7 +253,7 @@
             $tag .= '            </a>' . EOF_LINE;
             $tag .= '          </li>' . EOF_LINE;
             $tag .= '          <li class="has-dropdown-manu ' . ((($selNav === "Scrum-Sprint-Tracking-Detail") || ($selNav === "Scrum-Sprint-Tracking-Taskboard")) ? 'selected' : '') . '">' . EOF_LINE;
-            $tag .= '              <a class="dropbtn" title="Sprint Tracking" href="'. $this->getNavURL($currentDir, $this->scrumDir, $this->scrumSprintTrackDetailedURL) .'" target="_top">' . EOF_LINE;
+            $tag .= '              <a class="dropbtn" title="Sprint Tracking" target="_top">' . EOF_LINE;
             $tag .= '                  <span>' . EOF_LINE;
             $tag .=             SVG::getSprintTrack();
             $tag .= '         </span>' . EOF_LINE;

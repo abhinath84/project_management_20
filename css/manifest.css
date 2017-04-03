@@ -35,7 +35,8 @@
     //top: 0;
     //z-index: 999;
     //height: 100%;
-    margin-top: 25px;
+    //margin-top: 25px;
+    height:100%;
 }
 
 .manifest a {
@@ -110,7 +111,7 @@
 
 .manifest-form-container a, .manifest-form-container a:visited {
     text-decoration: none;
-    color: #444;
+    color: black;
 }
 
 .manifest-form-container a:hover, .manifest-form-container a:active {

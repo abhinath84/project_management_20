@@ -4,7 +4,7 @@
 
     require_once ('../inc/functions.inc.php');
     require_once ('../inc/mysql_functions.inc.php');
-    require_once ('../inc/htmltemplate.php');
+    require_once ('../inc/scrumhtml.php');
 
     // Create Database and required tables
     build_db();

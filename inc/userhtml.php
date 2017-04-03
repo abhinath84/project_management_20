@@ -197,7 +197,6 @@
 
         public function __construct()
         {
-            //parent::__construct("Login", "user");
         }
 
         public function generateBody()
@@ -436,6 +435,64 @@
             $tag .= '       </div>' . $this->EOF_LINE;
             $tag .= '   </div>' . $this->EOF_LINE;
             $tag .= '</div>' . $this->EOF_LINE;*/
+
+            return($tag);
+        }
+    }
+
+    class RecoveryHTML extends UserAuthenticateHTML
+    {
+        public function __construct($curNav = null, $curDir = null, $enableNav = false)
+        {
+            //parent::__construct("Login", "user");
+        }
+
+        protected function addManifestform()
+        {
+            $tag = '<div id="recovery-main" class="manifest-form-container">' . $this->EOF_LINE;
+            $tag .= '    <form id="recovery-form" class="manifest-form" method="post">' . $this->EOF_LINE;
+            $tag .= '       <h1>Having trouble loging in?</h1>' . $this->EOF_LINE;
+            $tag .= '        <input type="hidden" name="page" id="page" value="recovery">' . $this->EOF_LINE;
+            $tag .= '        <div class="retro-style-errmsg" id="recovery-errmsg"></div>' . $this->EOF_LINE;
+
+            //<!-- 1. I don't know my password (radio) and hidden input/text to provide username-->
+            $tag .= '        <div id="password-radio-contaioner" class="recovery-radio-container">' . $this->EOF_LINE;
+            $tag .= '            <input type="radio" class="retro-style" name="recovery" value="password" onclick="recoveryOptionSelected(\'password-radio-input-container\')">' . $this->EOF_LINE;
+            $tag .= '            <label id="password-radio-label" for="password">I don\'t know my password</label>' . $this->EOF_LINE;
+            $tag .= '            <div id="password-radio-input-container" class="recovery-radio-input-container">' . $this->EOF_LINE;
+            $tag .= '                <label id="username-radio-input-label">To reset your password, enter the username you use to sign in.</label>' . $this->EOF_LINE;
+            $tag .=                  addInputTag('input', 'text', 'username', 'username', '', '');
+            $tag .= '            </div>' . $this->EOF_LINE;
+            $tag .= '        </div>' . $this->EOF_LINE;
+
+            //<!-- 2. I don't know my username (radio) and hidden input/text to provide email id-->
+            $tag .= '        <div id="username-radio-contaioner" class="recovery-radio-container">' . $this->EOF_LINE;
+            $tag .= '            <input type="radio" class="retro-style" name="recovery" value="username" onclick="recoveryOptionSelected(\'username-radio-input-container\')">' . $this->EOF_LINE;
+            $tag .= '            <label id="username-radio-label" for="username">I don\'t know my username</label>' . $this->EOF_LINE;
+            $tag .= '            <div id="username-radio-input-container" class="recovery-radio-input-container">' . $this->EOF_LINE;
+            $tag .= '                <label id="email-radio-input-label">To know your username, enter the email address associated with your account.</label>' . $this->EOF_LINE;
+            $tag .=                  addInputTag('input', 'text', 'email', 'e-mail', '', '');
+            $tag .= '            </div>' . $this->EOF_LINE;
+            $tag .= '        </div>' . $this->EOF_LINE;
+
+            // Login fieldset
+            $tag .= '        <fieldset style="margin-top:20px">' . $this->EOF_LINE;
+            $tag .= '           <button id="continue" name="continue" type="submit" title="Continue" class="retro-style royal-blue submit-button">Continue</button>' . $this->EOF_LINE;
+            $tag .= '        </fieldset>' . $this->EOF_LINE;
+            $tag .= '    </form>' . $this->EOF_LINE;
+
+            // Login link
+            $tag .= '           <div>' . $this->EOF_LINE;
+            $tag .= '               <p class="login-text">' . $this->EOF_LINE;
+            $tag .= '                   <a href="login.php" title="login">Nah, take me back. I think I remember it.</a>' . $this->EOF_LINE;
+            $tag .= '               </p>' . $this->EOF_LINE;
+            $tag .= '           </div>' . $this->EOF_LINE;
+
+            $tag .= '</div>' . $this->EOF_LINE;
+            $tag .= '<div id="recovery-msg-container" class="side-align" style="display:none">' . $this->EOF_LINE;
+            $tag .= '    <p id="recovery-p"></p>' . $this->EOF_LINE;
+            $tag .= '    <p>To log in, please click <a href="login.php">here</a>.</p>' . $this->EOF_LINE;
+            $tag .= '</div>' . $this->EOF_LINE;
 
             return($tag);
         }
