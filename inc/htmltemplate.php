@@ -1183,15 +1183,15 @@ class SPRTrackDashboardHTML extends SPRTrackHTML
 
     protected function addDashboard()
     {
-        $tag = '';
-        $tag .= '<div class="main-article display-table article-container">' . $this->EOF_LINE;
-        $tag .=     parent::getTabMenu();
+        return( parent::getWidgetbox() );
+    }
 
-        $tag .= '   <div class="main-article-tab-container display-table-row">' . $this->EOF_LINE;
-        $tag .= '       <div class="main-article-tab-info-container">' . $this->EOF_LINE;
-        $tag .=             Utility::getWidgetBox('SPR Tracking Dashboard', 'spr-track-dashboard-div', '', '', '', $this->getWidgetContent());
-        $tag .= '       </div>' . $this->EOF_LINE;
-        $tag .= '   </div>' . $this->EOF_LINE;
+    protected function getWidgetboxContent()
+    {
+        $tag = '';
+
+        $tag .= '<div style="margin-bottom: 50px;">' . $this->EOF_LINE;
+        $tag .=     $this->getWidgetContent();
         $tag .= '</div>' . $this->EOF_LINE;
 
         return($tag);
@@ -1298,16 +1298,15 @@ class SPRTrackSubmitStatusHTML extends SPRTrackHTML
 
     protected function addDashboard()
     {
+        return( parent::getWidgetbox() );
+    }
+
+    protected function getWidgetboxContent()
+    {
         $tag = '';
-        $tag .= '<div class="main-article display-table article-container">' . $this->EOF_LINE;
 
-        $tag .=     parent::getTabMenu();
-
-        $tag .= '   <div class="main-article-tab-container display-table-row">' . $this->EOF_LINE;
-        $tag .= '       <div class="main-article-tab-info-container">' . $this->EOF_LINE;
-        $tag .=             Utility::getWidgetBox('SPR Submit Status', 'spr-submission-status-div', '', '', '', $this->getWidgetContent());
-        $tag .= '       </div>' . $this->EOF_LINE;
-        $tag .= '   </div>' . $this->EOF_LINE;
+        $tag .= '<div style="margin-bottom: 50px;">' . $this->EOF_LINE;
+        $tag .=     $this->getWidgetContent();
         $tag .= '</div>' . $this->EOF_LINE;
 
         return($tag);

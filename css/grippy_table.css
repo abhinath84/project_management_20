@@ -5,6 +5,7 @@
 
 .grippy-table thead {
     border-top: 3px solid #767676;
+    border-bottom: 1px solid #767676;
     background: #f5f5f5;
 }
 
