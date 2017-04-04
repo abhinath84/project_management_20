@@ -1141,33 +1141,30 @@ var shield = {
         var o_top = 0;
         var o_left = 0;
 
+        // create the dialog container and components before displaying them.
+        var tag = '<div id="shield-wrapper" class="shield-wrapper">';
+        tag += '    <div class="shield" onclick="shield.show(false)"></div>';
+        tag += '    <div id="shield-form-window" class="shield-window shield-window-position">';
+        tag +=          dialogCreateFunc();     // user specific function which creates inner component of the dialog.
+        tag += '    </div>';
+        tag += '</div>';
+
+        $("#" + destId).html(tag);
+
+        // calculate shield dialog's location and locate it.
+        var $shieldFormWindow = $('#shield-form-window');
         if((selObj != null) && (takeSelPos != null) && (destId != "") && (dialogCreateFunc != "")) {
             // collect the position of the dialog to be appired.
             if(takeSelPos == true) {
                 var offsets = $(selObj).position();
-
                 o_top = offsets.top + selObj.offsetHeight + 2; //getBoundingClientRect().height;
                 o_left = offsets.left;
-
             } else {
-                // get top 1/4 position of the screen to display the dialog.
-                var width = utility.getWindowWidth();
-                var height = utility.getWindowHeight();
-
-                o_top = height/8;
-                o_left = width/8;
+                // display shield dialog at the center of the window.
+                o_top = (utility.getWindowHeight() - $shieldFormWindow.height())/2;
+                o_left = (utility.getWindowWidth() - $shieldFormWindow.width())/2;
             }
-
-            // create the dialog container and components before displaying them.
-            var tag = '<div id="shield-wrapper" class="shield-wrapper">';
-            tag += '    <div class="shield" onclick="shield.show(false)"></div>';
-            tag += '    <div id="shield-form-window" class="shield-window shield-window-position">';
-            tag +=          dialogCreateFunc();     // user specific function which creates inner component of the dialog.
-            tag += '    </div>';
-            tag += '</div>';
-
-            $("#" + destId).html(tag);
-            $('#shield-form-window').offset({ top: o_top, left: o_left});
+            $shieldFormWindow.offset({ top: o_top, left: o_left});
 
             shield.show(true);
         }
