@@ -132,63 +132,52 @@
 
         private function createDasboardTable()
         {
-           /*global $conn;
-
-            $qry = "SELECT order_no, title, id, owner, priority, estimate, project  FROM `spr_tracking` WHERE user_name = '". $_SESSION['project-managment-username'] ."'";
-            */
-            $str = '';
-
             $Table = new HTMLTable("project-backlog-table", "grippy-table");
 
             $Table->thead("project-backlog-thead");
-            $Table->th("&nbsp;", null, null, null, null);
-            $Table->th('<input type="checkbox" id="select_all" clickhandler="V1.Gadgets.Grid.MultiSelect.ToggleAll(\'_fjvevqi\');">', null, null, null, null);
-            $Table->th("Order", null, null, null, "data-sort=\"int\"");
-            $Table->th("Title", null,  null, null, "data-sort=\"string\"");
-            $Table->th("ID", null,  null, null, "data-sort=\"string\"");
-            $Table->th("Owner", null,  null, null, "data-sort=\"string\"");
-            $Table->th("Priority", null,  null, null, "data-sort=\"string\"");
-            $Table->th("Estimate Pts", null,  null, null, "data-sort=\"int\"");
-            $Table->th("Project", null,  null, null, "data-sort=\"string\"");
-            $Table->th("&nbsp", null,  null, null, null);
+                $Table->th("&nbsp;", null, null, null, null);
+                $Table->th('<input type="checkbox" id="select_all" clickhandler="V1.Gadgets.Grid.MultiSelect.ToggleAll(\'_fjvevqi\');">', null, null, null, null);
+                $Table->th("Title", null,  null, null, "data-sort=\"string\"");
+                $Table->th("Owner", null,  null, null, "data-sort=\"string\"");
+                $Table->th("Priority", null,  null, null, "data-sort=\"string\"");
+                $Table->th("Status", null,  null, null, "data-sort=\"string\"");
+                $Table->th("Estimate Pts", null,  null, null, "data-sort=\"int\"");
+                $Table->th("Project", null,  null, null, "data-sort=\"string\"");
+                $Table->th("&nbsp", null,  null, null, null);
 
             $Table->tbody("project-backlog-tbody");
 
-          /* $rows = $conn->result_fetch_array($qry);
-           if(!empty($rows))
-           {*/
-             //loop over the result and fill the rows
-               for($i = 1; $i <= 10; $i++)
-               {
-                   $Table->tr(null, null, null, "align=\"center\"");
-                       $Table->td(getGreppyDotTag(), "{$i}-greppy", "hasGrippy", "text-align: center; width: 2%;");
+            $cols = Array('title','owner','priority','status',
+                        'estimated','project','sprint','description',
+                        'type','risk','etype','source','reference',
+                        'build','resolution');
+            $rows = getTableElements('scrum_backlog', $cols, ''/*'project="'.$project.'"'*/);
+            if(!empty($rows))
+            {
+                //loop over the result and fill the rows
+                $i = 1;
+                foreach($rows as $row)
+                {
+                    $Table->tr(null, null, null, "align=\"center\"");
+                        $Table->td(getGreppyDotTag(), "{$i}-greppy", "hasGrippy", "text-align: center; width: 2%;");
+                        $Table->td('<input type="checkbox" class="checkbox">', "{$i}", null, "width: 2%", "text-align=\"center\"");
+                        $Table->td($this->getBacklogTitle(true, $row[0]),"{$i}-title_container", "backlog-title-container", "width: 30%");
+                        $Table->td(Utility::decode($row[1]), "{$i}-owner", null, "width: 30%");
+                        $Table->td($row[2], "{$i}-priority", null, null);
+                        $Table->td($row[3], "{$i}-status", null, null);
+                        $Table->td($row[4], "{$i}-estimate", null, null);
+                        $Table->td($row[5], "{$i}-project", null, null);
+                        $Table->td($row[6], "{$i}-project", null, "display:none;");
+                        $Table->td(Utility::getQuickActionBtn("{$i}-edit-btn", "Edit", "quick-action-btn backlog-table-btn", "", "", "backlog-table-dropdown"), "{$i}-edit", null, null, "width=\"2%\"");
 
-                       $Table->td('<input type="checkbox" clickhandler="V1.Gadgets.Grid.MultiSelect.ToggleAll(\'_fjvevqi\');" class="checkbox">', "{$i}", null, "width: 4%", "text-align=\"center\"");
-
-                       $Table->td("{$i}", "{$i}", null, null, null);
-
-                       $Table->td($this->getBacklogTitle(true, "6587294"),"{$i}-title_container", "backlog-title-container");
-
-                       $Table->td("s00001", "{$i}-id", null, null);
-
-                       $Table->td("Pooja", "{$i}-owner", null, null);
-
-                       $Table->td("High", "{$i}-priority", null, null);
-
-                       $Table->td("15.0", "{$i}-estimate", null, null);
-
-                       $Table->td("Release 1.0", "{$i}-project", null, null);
-
-                       $Table->td(Utility::getQuickActionBtn("{$i}-edit-btn", "Edit", "quick-action-btn backlog-table-btn", "", "", "backlog-table-dropdown"), "{$i}-edit", null, null, "width=\"2%\"");
-
-               }
-           //}
-
-           //else
-           //{
-            //$Table->tr(null, null, null, "align=\"center\"");
-            //$Table->td(null, null, null, null);
-        //}
+                        ++$i;
+                }
+            }
+            else
+            {
+                $Table->tr(null, null, null, "align=\"center\"");
+                $Table->td(null, null, null, null);
+            }
             return(utf8_encode($Table->toHTML()));
         }
 
