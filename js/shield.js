@@ -848,26 +848,25 @@ var shieldProjectPlanBacklog = {
         inputTag += '</div>';
         shieldDialog.formDiv.add(inputTag);
 
-        inputTag = '<div class="project-backlog-project">';
-        inputTag += '   <a class="project-backlog-project-anchor '+ ((this.member.selObject.innerHTML.toUpperCase() === 'NEW PROJECT') ? 'selected' : '') +'" onclick="shieldProjectPlanBacklog.onSelect(this)">New Project</a>';
-        inputTag += '</div>';
-        shieldDialog.formDiv.add(inputTag);
-
-        inputTag = '<div class="project-backlog-project">';
-        inputTag += '   <a class="project-backlog-project-anchor '+ ((this.member.selObject.innerHTML.toUpperCase() === 'PROJECT 2017') ? 'selected' : '') +'" onclick="shieldProjectPlanBacklog.onSelect(this)">Project 2017</a>';
-        inputTag += '</div>';
-        shieldDialog.formDiv.add(inputTag);
-
-        inputTag = '<div class="project-backlog-project">';
-        inputTag += '   <a class="project-backlog-project-anchor '+ ((this.member.selObject.innerHTML.toUpperCase() === 'PROJECT 2018') ? 'selected' : '') +'" onclick="shieldProjectPlanBacklog.onSelect(this)">Project 2018</a>';
-        inputTag += '</div>';
-        shieldDialog.formDiv.add(inputTag);
+        // get project list and put them into list to display.
+        var projects = utility.getScrumProject();
+        for(var i in projects){
+                if(projects[i] != 'System(All Projects)') {
+                inputTag = '<div class="project-backlog-project">';
+                inputTag += '   <a class="project-backlog-project-anchor '+ ((this.member.selObject.innerHTML === projects[i]) ? 'selected' : '') +'" style="text-transform: uppercase;" onclick="shieldProjectPlanBacklog.onSelect(this)">'+ projects[i] +'</a>';
+                inputTag += '</div>';
+                shieldDialog.formDiv.add(inputTag);
+            }
+        }
     },
 
     onclickApply: function() {
+        var selProject = document.getElementById('selected-project-input').value;
         // change the project and backlog table elements.
-        document.getElementById('project-title').innerHTML = document.getElementById('selected-project-input').value;
-        //alert(document.getElementById('selected-project-input').value);
+        document.getElementById('project-title').innerHTML = selProject;
+
+        // Update backlog table according to project..
+        utility.updateDashboradTable('project-backlog-tbody', 'getTableBodyElement', 'ProductBacklogHTML', 'WHERE project="'+ selProject +'"');
 
         // hide the dialog
         shield.show(false);

@@ -196,13 +196,18 @@
 
             $qry = "SELECT title, owner, begin_date, end_date, sprint_schedule, parent, description, status, target_estimate, test_suit, target_swag, reference, privilage FROM scrum_project, scrum_project_member WHERE scrum_project.parent = 'System(All Projects)' AND scrum_project.title = scrum_project_member.project_title AND scrum_project_member.member_id='". $_SESSION['project-managment-username'] ."'";
 
+            // create table and it's components to display Projects.
+            return(Utility::createGrippyTable('project-table', 'project-thead', $thList,
+                                'project-tbody', $qry, array("ProjectsHTML", "addTableRow")));
+        }
+
+        static function getTableBodyElement()
+        {
+            $qry = "SELECT title, owner, begin_date, end_date, sprint_schedule, parent, description, status, target_estimate, test_suit, target_swag, reference, privilage FROM scrum_project, scrum_project_member WHERE scrum_project.parent = 'System(All Projects)' AND scrum_project.title = scrum_project_member.project_title AND scrum_project_member.member_id='". $_SESSION['project-managment-username'] ."'";
+
             // fill table components to display Projects.
-            $grippyTable = new GrippyTable("project-table", "grippy-table");
-
-            $grippyTable->fillHead("project-thead", $thList);
-            $grippyTable->fillBody("project-tbody", $qry, array("ProjectsHTML", "addTableRow"));
-
-            return(utf8_encode($grippyTable->toHTML()));
+            return(Utility::getGrippyTableBodyElements('project-table', 'project-tbody',
+                                $qry, array("ProjectsHTML", "addTableRow")));
         }
 
         static function addTableRow($table, $row, $inx)
@@ -235,17 +240,6 @@
                             $table->td("&nbsp;", "project-edit", null, null, "width=\"10%\"");
                 }
             }
-        }
-
-        static function getTableBodyElement()
-        {
-            $qry = "SELECT title, owner, begin_date, end_date, sprint_schedule, parent, description, status, target_estimate, test_suit, target_swag, reference, privilage FROM scrum_project, scrum_project_member WHERE scrum_project.parent = 'System(All Projects)' AND scrum_project.title = scrum_project_member.project_title AND scrum_project_member.member_id='". $_SESSION['project-managment-username'] ."'";
-
-            // fill table components to display Projects.
-            $grippyTable = new GrippyTable("project-table", "grippy-table");
-            $grippyTable->fillBody("project-tbody", $qry, array("ProjectsHTML", "addTableRow"));
-
-            return(utf8_encode($grippyTable->getBodyElement()));
         }
     }
 

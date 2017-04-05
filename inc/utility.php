@@ -244,5 +244,44 @@
 
             return($status);
         }
+
+        static function createGrippyTable($tableId, $theadId, $thList, $tbodyId, $qry, $callback)
+        {
+            if((($tableId != null) && ($tableId != '')) &&
+                (($theadId != null) && ($theadId != '')) &&
+                (($tbodyId != null) && ($tbodyId != '')) &&
+                (($qry != null) && ($qry != '')) &&
+                (($callback != null) && ($callback != ''))
+              )
+            {
+                // fill table components to display Projects.
+                $grippyTable = new GrippyTable($tableId, "grippy-table");
+
+                $grippyTable->fillHead($theadId, $thList);
+                $grippyTable->fillBody($tbodyId, $qry, $callback);
+
+                return(utf8_encode($grippyTable->toHTML()));
+            }
+            else
+                return('');
+        }
+
+        static function getGrippyTableBodyElements($tableId, $tbodyId, $qry, $callback)
+        {
+            if((($tableId != null) && ($tableId != '')) &&
+                (($tbodyId != null) && ($tbodyId != '')) &&
+                (($qry != null) && ($qry != '')) &&
+                (($callback != null) && ($callback != ''))
+              )
+            {
+                // fill table components to display Projects.
+                $grippyTable = new GrippyTable($tableId, "grippy-table");
+                $grippyTable->fillBody($tbodyId, $qry, $callback);
+
+                return(utf8_encode($grippyTable->getBodyElement()));
+            }
+            else
+                return('');
+        }
     }
 ?>

@@ -23,6 +23,7 @@ require_once ('../inc/mysql_functions.inc.php');
 require_once ('../inc/utility.php');
 require_once ('../inc/mysqldb.php');
 require_once ('../inc/adminhtml.php');
+require_once ('../inc/scrumhtml.php');
 
 
 // Initialize session data

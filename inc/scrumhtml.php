@@ -50,6 +50,8 @@
 
     class ProductBacklogHTML extends ProductHTML
     {
+        private $project = 'Project 2017';
+
         public function __construct($curNav = null, $curDir = null, $enableNav = false)
         {
             parent::__construct("Scrum-Product-Planning-Backlog", "scrum", true, 'Backlog');
@@ -57,7 +59,7 @@
 
         protected function getWidgetTitlebarContent()
         {
-            $tag = '<span id="project-title" class="project-title" onclick="shieldProjectPlanBacklog.showProject(this)">PROJECT 2017</span>'. $this->EOF_LINE;
+            $tag = '<span id="project-title" class="project-title" onclick="shieldProjectPlanBacklog.showProject(this)">'.$this->project.'</span>'. $this->EOF_LINE;
 
             return($tag);
         }
@@ -80,7 +82,7 @@
 
             $tag .= '                        </div>'.$this->EOF_LINE;
             $tag .= '                        <div class="wtable">'. $this->EOF_LINE;
-            $tag .=                             $this->createDasboardTable();
+            $tag .=                             $this->getProjectTable();
             $tag .= '                        </div>'. $this->EOF_LINE;
             $tag .= '                    </div>'. $this->EOF_LINE;
             $tag .= '                </div>'. $this->EOF_LINE;
@@ -178,10 +180,75 @@
                 $Table->tr(null, null, null, "align=\"center\"");
                 $Table->td(null, null, null, null);
             }
+
             return(utf8_encode($Table->toHTML()));
         }
 
-        private function getBacklogTitle($isBacklog, $val)
+        private function getProjectTable()
+        {
+            $thList = array
+                            (
+                                array("&nbsp;", null, null, null, null),
+                                array('<input type="checkbox" id="select_all">', null, null, null, null),
+                                array("Title", null,  null, null, "data-sort=\"string\""),
+                                array("Owner", null,  null, null, "data-sort=\"string\""),
+                                array("Priority", null,  null, null, "data-sort=\"string\""),
+                                array("Status", null,  null, null, "data-sort=\"string\""),
+                                array("Estimate Pts", null,  null, null, "data-sort=\"int\""),
+                                array("Project", null,  null, null, "data-sort=\"string\""),
+                                array("&nbsp", null,  null, null, null)
+                            );
+
+            $qry = "SELECT title, owner, priority, status, estimated, project, sprint, description, type, risk, etype, source, reference, build, resolution FROM scrum_backlog WHERE project='". $this->project ."'";
+
+            // create table and it's components to display Projects.
+            return(Utility::createGrippyTable('project-backlog-table', 'project-backlog-thead', $thList,
+                                'project-backlog-tbody', $qry, array("ProductBacklogHTML", "addTableRow")));
+        }
+
+        static function getTableBodyElement($clause)
+        {
+            if(($clause != null) && ($clause != ''))
+            {
+                $qry = "SELECT title, owner, priority, status, estimated, project, sprint, description, type, risk, etype, source, reference, build, resolution FROM scrum_backlog " . $clause;
+
+                //echo $qry;
+                // fill table components to display Projects.
+                return(Utility::getGrippyTableBodyElements('project-table', 'project-tbody',
+                                    $qry, array("ProductBacklogHTML", "addTableRow")));
+            }
+            else
+                return('');
+        }
+
+        static function addTableRow($table, $row, $inx)
+        {
+            if(($row != null) && (count($row) > 0))
+            {
+                $table->tr(null, null, null, "align=\"center\"");
+                    $table->td(getGreppyDotTag(), "{$inx}-greppy", "hasGrippy", "text-align: center; width: 2%;");
+                    $table->td('<input type="checkbox" class="checkbox">', "{$inx}", null, "width: 2%", "text-align=\"center\"");
+                    $table->td(self::getBacklogTitle(true, $row[0]),"{$inx}-title_container", "backlog-title-container", "width: 30%");
+                    $table->td(Utility::decode($row[1]), "{$inx}-owner", null, "width: 30%");
+                    $table->td($row[2], "{$inx}-priority", null, null);
+                    $table->td($row[3], "{$inx}-status", null, null);
+                    $table->td($row[4], "{$inx}-estimate", null, null);
+                    $table->td($row[5], "{$inx}-project", null, null);
+
+                    $table->td($row[6], "{$inx}-sprint", null, "display:none;");
+                    $table->td($row[7], "{$inx}-description", null, "display:none;");
+                    $table->td($row[8], "{$inx}-type", null, "display:none;");
+                    $table->td($row[9], "{$inx}-risk", null, "display:none;");
+                    $table->td($row[10], "{$inx}-etype", null, "display:none;");
+                    $table->td($row[11], "{$inx}-source", null, "display:none;");
+                    $table->td($row[12], "{$inx}-reference", null, "display:none;");
+                    $table->td($row[13], "{$inx}-build", null, "display:none;");
+
+                    $table->td(Utility::getQuickActionBtn("{$inx}-edit-btn", "Edit", "quick-action-btn backlog-table-btn", "", "", "backlog-table-dropdown"), "{$inx}-edit", null, null, "width=\"2%\"");
+            }
+        }
+
+        static function getBacklogTitle($isBacklog, $val)
         {
             $tag = '   <span class="backlog-image-container">' . EOF_LINE;
             if($isBacklog == true)
