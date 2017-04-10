@@ -47,6 +47,25 @@
                           scrollTop: 0
                     }, 2000);
                 });
+
+                // username
+                //$('#username').on('blur', editProfile.onBlurUsername);
+                // email
+                $('#email').on('blur', editProfile.onBlurEmail);
+                // first-name
+                $('#first-name').on('blur', editProfile.onBlurFirstname);
+                // first-name
+                $('#last-name').on('blur', editProfile.onBlurLastname);
+                // manager
+                $('#manager').on('blur', editProfile.onBlurManager);
+
+                // changepwd
+                $('#editprofile').submit(function(event) {
+                    editProfile.submit(event);
+
+                    // stop the form from submitting the normal way and refreshing the page
+                    event.preventDefault();
+                });
             });
         </script>
     </body>

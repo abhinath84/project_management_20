@@ -1533,7 +1533,74 @@ var changePwd = {
         utility.appendInputValidateErrorMsg('retype-password', errMsgRetypePwd);
 
         // update database and redirect the page.
-        if((errMsgCurPwd == '') && (errMsgNewPwd == '') && (errMsgRetypePwd != '')) {
+        if((errMsgCurPwd == '') && (errMsgNewPwd == '') && (errMsgRetypePwd == '')) {
+
+        }
+    }
+}
+
+
+var editProfile = {
+    /*onBlurUsername : function(event) {
+        // - field is empty or not
+        // - not a numeric value.
+        // - not start with a numeric value
+        var errMsg = 'Please fill out this field';
+        utility.appendInputValidateErrorMsg('username', errMsg);
+    },*/
+
+    onBlurEmail : function(event) {
+        // - field is empty or not
+        // - check for valid email format
+        var errMsg = 'Please fill out this field';
+        utility.appendInputValidateErrorMsg('email', errMsg);
+    },
+
+    onBlurFirstname : function(event) {
+        // - field is empty or not
+        // - not a numeric value
+        // - not a alpha-numeric input
+        var errMsg = 'Please fill out this field';
+        utility.appendInputValidateErrorMsg('first-name', errMsg);
+    },
+
+    onBlurLastname : function(event) {
+        // - field is empty or not
+        // - not a numeric value
+        // - not a alpha-numeric input
+
+        // check first-name does have any error or not
+        var errMsg = 'Please fill out this field';
+        utility.appendInputValidateErrorMsg('last-name', errMsg);
+    },
+
+    onBlurManager : function(event) {
+        // - field is empty or not
+        // - not a numeric value
+        // - not a alpha-numeric input
+        var errMsg = 'Please fill out this field';
+        utility.appendInputValidateErrorMsg('manager', errMsg);
+    },
+
+    submit: function(event) {
+        // check and display error msgs
+        /*var errMsg = 'Please fill out this field';
+        utility.appendInputValidateErrorMsg('username', errMsg);*/
+
+        var errMsgEmail = 'Please fill out this field';
+        utility.appendInputValidateErrorMsg('email', errMsgEmail);
+
+        var errMsgFirstname = 'Please fill out this field';
+        utility.appendInputValidateErrorMsg('first-name', errMsgFirstname);
+
+        var errMsgLastname = 'Please fill out this field';
+        utility.appendInputValidateErrorMsg('last-name', errMsgLastname);
+
+        var errMsgManager = 'Please fill out this field';
+        utility.appendInputValidateErrorMsg('manager', errMsgManager);
+
+        // update database and redirect the page.
+        if((errMsgEmail == '') && (errMsgFirstname == '') && (errMsgLastname == '') && (errMsgManager == '')) {
 
         }
     }

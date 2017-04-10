@@ -62,16 +62,14 @@
 
                 // Username
                 $tag .= '       <fieldset>' . $this->EOF_LINE;
-                $tag .= '           <label for="user-name" translate="CHANGE_PASSWORD.FIELD_CURRENT_PASSWORD">Username<span class="red-asterisk">*</span></label>' . $this->EOF_LINE;
-                $tag .= '           <input type="text" id="user-name" required="" placeholder="Username" value="'.Utility::decode($user[0][0]).'"></input>' . $this->EOF_LINE;
-                $tag .= '           <div class="retro-style-errmsg" id="user-name-errmsg"></div>';
+                $tag .= '           <label for="username" translate="CHANGE_PASSWORD.FIELD_CURRENT_PASSWORD">Username<span class="red-asterisk">*</span></label>' . $this->EOF_LINE;
+                $tag .= '           <input type="text" id="username" required="" placeholder="Username" value="'.Utility::decode($user[0][0]).'" disabled></input>' . $this->EOF_LINE;
                 $tag .= '       </fieldset>' . $this->EOF_LINE;
 
                 // Email
                 $tag .= '       <fieldset>' . $this->EOF_LINE;
                 $tag .= '           <label for="email">Email<span class="red-asterisk">*</span></label>' . $this->EOF_LINE;
                 $tag .= '           <input type="email" id="email" required="" placeholder="Email" value="'.Utility::decode($user[0][1]).'"></input>' . $this->EOF_LINE;
-                $tag .= '           <div class="retro-style-errmsg" id="email-errmsg"></div>';
                 $tag .= '       </fieldset>' . $this->EOF_LINE;
 
                 // Name
@@ -79,7 +77,6 @@
                 $tag .= '           <label for="user-full-name">Name<span class="red-asterisk">*</span></label>' . $this->EOF_LINE;
                 $tag .= '           <input type="text" id="first-name" required="" placeholder="First name" style="width: 49%;" value="'.Utility::decode($user[0][2]).'"></input>' . $this->EOF_LINE;
                 $tag .= '           <input type="text" id="last-name" required="" placeholder="Last name" style="width: 45%;" value="'.Utility::decode($user[0][3]).'"></input>' . $this->EOF_LINE;
-                $tag .= '           <div class="retro-style-errmsg" id="first-name-errmsg"></div>';
                 $tag .= '       </fieldset>' . $this->EOF_LINE;
 
                 // Title
@@ -116,17 +113,16 @@
                 $tag .= '           </select>' . $this->EOF_LINE;
                 $tag .= '       </fieldset>' . $this->EOF_LINE;
 
-                // Alt email
-                $tag .= '       <fieldset>' . $this->EOF_LINE;
-                $tag .= '           <label for="alt-email">Alternative Email</label>' . $this->EOF_LINE;
-                $tag .= '           <input type="email" id="alt-email" placeholder="Alternative Email" value="'.Utility::decode($user[0][6]).'"></input>' . $this->EOF_LINE;
-                $tag .= '       </fieldset>' . $this->EOF_LINE;
-
                 // Manager
                 $tag .= '       <fieldset>' . $this->EOF_LINE;
                 $tag .= '           <label for="manager">Manager<span class="red-asterisk">*</span></label>' . $this->EOF_LINE;
                 $tag .= '           <input type="text" id="manager" required="" placeholder="Manager" value="'.Utility::decode($user[0][7]).'"></input>' . $this->EOF_LINE;
-                $tag .= '           <div class="retro-style-errmsg" id="manager-errmsg"></div>';
+                $tag .= '       </fieldset>' . $this->EOF_LINE;
+
+                // Alt email
+                $tag .= '       <fieldset>' . $this->EOF_LINE;
+                $tag .= '           <label for="alt-email">Alternative Email</label>' . $this->EOF_LINE;
+                $tag .= '           <input type="email" id="alt-email" placeholder="Alternative Email" value="'.Utility::decode($user[0][6]).'"></input>' . $this->EOF_LINE;
                 $tag .= '       </fieldset>' . $this->EOF_LINE;
 
                 // Save button
@@ -138,7 +134,7 @@
                 // Delete Account link
                 $tag .= '   <div class="delete-account">' . $this->EOF_LINE;
                 $tag .= '       <p>' . $this->EOF_LINE;
-                $tag .= '           <a href="login.php" title="Register">Delete your Account</a>' . $this->EOF_LINE;
+                $tag .= '           <a href="login.php" title="deleteAccount">Delete your Account</a>' . $this->EOF_LINE;
                 $tag .= '       </p>' . $this->EOF_LINE;
                 $tag .= '   </div>' . $this->EOF_LINE;
                 $tag .= '</div>' . $this->EOF_LINE;
@@ -185,7 +181,6 @@
             return($tag);
         }
     }
-
 
 
     abstract class UserAuthenticateHTML
