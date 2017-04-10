@@ -1497,3 +1497,44 @@ var projectRoles = {
         this.close();
     }
 };
+
+var changePwd = {
+    onBlurCurrentPwd : function(event) {
+        // - field is empty or not
+        // - current pwd in matching or not
+        var errMsg = 'Please fill out this field';
+        utility.appendInputValidateErrorMsg('current-password', errMsg);
+    },
+
+    onBlurNewPwd : function(event) {
+        // - field is empty or not
+        // - following the pwd policy or not?
+        var errMsg = 'Please fill out this field';
+        utility.appendInputValidateErrorMsg('new-password', errMsg);
+    },
+
+    onBlurRetypePwd : function(event) {
+        // - field is empty or not
+        // - following the pwd policy or not?
+        // - matching with new pwd or not?
+        var errMsg = 'Please fill out this field';
+        utility.appendInputValidateErrorMsg('retype-password', errMsg);
+    },
+
+    submit: function(event) {
+        // check and display error msgs
+        var errMsgCurPwd = 'Please fill out this field';
+        utility.appendInputValidateErrorMsg('current-password', errMsgCurPwd);
+
+        var errMsgNewPwd = 'Please fill out this field';
+        utility.appendInputValidateErrorMsg('new-password', errMsgNewPwd);
+
+        var errMsgRetypePwd = 'Please fill out this field';
+        utility.appendInputValidateErrorMsg('retype-password', errMsgRetypePwd);
+
+        // update database and redirect the page.
+        if((errMsgCurPwd == '') && (errMsgNewPwd == '') && (errMsgRetypePwd != '')) {
+
+        }
+    }
+}

@@ -47,6 +47,21 @@
                           scrollTop: 0
                     }, 2000);
                 });
+
+                // current-password
+                $('#current-password').on('blur', changePwd.onBlurCurrentPwd);
+                // new-password
+                $('#new-password').on('blur', changePwd.onBlurNewPwd);
+                // retype-password
+                $('#retype-password').on('blur', changePwd.onBlurRetypePwd);
+
+                // changepwd
+                $('#changepwd').submit(function(event) {
+                    changePwd.submit(event);
+
+                    // stop the form from submitting the normal way and refreshing the page
+                    event.preventDefault();
+                });
             });
         </script>
     </body>

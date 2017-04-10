@@ -163,20 +163,17 @@
             $tag .= '   <form id="changepwd" name="changepwd" class="manifest-form" method="post">' . $this->EOF_LINE;
             $tag .= '       <fieldset>' . $this->EOF_LINE;
             $tag .= '           <label for="current-password" translate="CHANGE_PASSWORD.FIELD_CURRENT_PASSWORD">Current password<span class="red-asterisk">*</span></label>' . $this->EOF_LINE;
-            $tag .= '           <input type="password" id="current-password" required=""></input>' . $this->EOF_LINE;
-            $tag .= '           <div class="retro-style-errmsg" id="user-name-errmsg"></div>';
+            $tag .= '           <input type="password" id="current-password"></input>' . $this->EOF_LINE;
             $tag .= '       </fieldset>' . $this->EOF_LINE;
 
             $tag .= '       <fieldset>' . $this->EOF_LINE;
             $tag .= '           <label for="new-password">New password<span class="red-asterisk">*</span></label>' . $this->EOF_LINE;
-            $tag .= '           <input type="password" id="new-password" required=""></input>' . $this->EOF_LINE;
-            $tag .= '           <div class="retro-style-errmsg" id="user-name-errmsg"></div>';
+            $tag .= '           <input type="password" id="new-password"></input>' . $this->EOF_LINE;
             $tag .= '       </fieldset>' . $this->EOF_LINE;
 
             $tag .= '       <fieldset>' . $this->EOF_LINE;
             $tag .= '           <label for="retype-password">Retype new password<span class="red-asterisk">*</span></label>' . $this->EOF_LINE;
-            $tag .= '           <input type="password" id="retype-password" required=""></input>' . $this->EOF_LINE;
-            $tag .= '           <div class="retro-style-errmsg" id="user-name-errmsg"></div>';
+            $tag .= '           <input type="password" id="retype-password"></input>' . $this->EOF_LINE;
             $tag .= '       </fieldset>' . $this->EOF_LINE;
 
             $tag .= '       <fieldset>' . $this->EOF_LINE;
