@@ -638,7 +638,7 @@ function addSPRTrackingDashboard(flag) {
         else
             errMsg ="Please enter SPR number to track.";
     }
-alert("alert");
+    alert("alert");
     if(errMsg != "")
         alert(errMsg);
     else {
@@ -756,8 +756,7 @@ function deleteFromDBTable(id, fillDashboardRow, deleteRowCallback, key, flag) {
     }
 }
 
-function cancelEditTable(id, fillDashboardRow)
-{
+function cancelEditTable(id, fillDashboardRow) {
     $('#session-select').prop('disabled', false);
 
     var editMenuElem = document.getElementById('spr-tracking-dashboard-table-dropdown');
@@ -1334,7 +1333,6 @@ var memberRoles = {
         this.close();
     }
 };
-
 
 var projectAssignment = {
     info : {
