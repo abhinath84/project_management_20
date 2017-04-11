@@ -1499,15 +1499,19 @@ var projectRoles = {
 var changePwd = {
     onBlurCurrentPwd : function(event) {
         // - field is empty or not
-        // - current pwd in matching or not
-        var errMsg = 'Please fill out this field';
+        // - current pwd is matching or not
+        var formData = { 'cur_pwd': $('#current-password').val() };
+        var errMsg = getServerResponseViaAJAX("../ajax/default.php", "currentPwdErrMsgCallback", formData, "");
+
         utility.appendInputValidateErrorMsg('current-password', errMsg);
     },
 
     onBlurNewPwd : function(event) {
         // - field is empty or not
         // - following the pwd policy or not?
-        var errMsg = 'Please fill out this field';
+        var formData = { 'new_pwd': $('#new-password').val() };
+        var errMsg = getServerResponseViaAJAX("../ajax/default.php", "newPwdErrMsgCallback", formData, "");
+
         utility.appendInputValidateErrorMsg('new-password', errMsg);
     },
 
@@ -1515,19 +1519,30 @@ var changePwd = {
         // - field is empty or not
         // - following the pwd policy or not?
         // - matching with new pwd or not?
-        var errMsg = 'Please fill out this field';
+        var formData = {
+                            'new_pwd': $('#new-password').val(),
+                            'retype_pwd': $('#retype-password').val()
+                       };
+        var errMsg = getServerResponseViaAJAX("../ajax/default.php", "retypePwdErrMsgCallback", formData, "");
+
         utility.appendInputValidateErrorMsg('retype-password', errMsg);
     },
 
     submit: function(event) {
         // check and display error msgs
-        var errMsgCurPwd = 'Please fill out this field';
+        var formData = { 'cur_pwd': $('#current-password').val() };
+        var errMsgCurPwd = getServerResponseViaAJAX("../ajax/default.php", "currentPwdErrMsgCallback", formData, "");
         utility.appendInputValidateErrorMsg('current-password', errMsgCurPwd);
 
-        var errMsgNewPwd = 'Please fill out this field';
+        formData = { 'new_pwd': $('#new-password').val() };
+        var errMsgNewPwd = getServerResponseViaAJAX("../ajax/default.php", "newPwdErrMsgCallback", formData, "");
         utility.appendInputValidateErrorMsg('new-password', errMsgNewPwd);
 
-        var errMsgRetypePwd = 'Please fill out this field';
+        formData = {
+                            'new_pwd': $('#new-password').val(),
+                            'retype_pwd': $('#retype-password').val()
+                       };
+        var errMsgRetypePwd = getServerResponseViaAJAX("../ajax/default.php", "retypePwdErrMsgCallback", formData, "");
         utility.appendInputValidateErrorMsg('retype-password', errMsgRetypePwd);
 
         // update database and redirect the page.

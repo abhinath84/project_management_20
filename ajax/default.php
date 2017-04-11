@@ -1371,4 +1371,68 @@ function updateMemberRolesCallback()
     }
 }
 
+function currentPwdErrMsgCallback()
+{
+    $errMsg = '';
+    $curPwd = $_POST['cur_pwd'];
+
+    // - field is empty or not
+    if(($curPwd == null) && ($curPwd == ''))
+        $errMsg = 'Please fill out this field';
+    else {
+        // - current pwd is matching or not
+        $pwd = getTableElements('user', ['password'], 'user_name = "'. $_SESSION['project-managment-username'] .'"');
+        if(Utility::decode($pwd[0][0]) != $curPwd)
+            $errMsg = 'Current Password is mismatching, provide valid Current Password.';
+    }
+
+    echo(json_encode($errMsg));
+}
+
+function newPwdErrMsgCallback()
+{
+    $errMsg = '';
+    $newPwd = $_POST['new_pwd'];
+
+    // - field is empty or not
+    if(($newPwd == null) && ($newPwd == '')) {
+        $errMsg = 'Please fill out this field';
+    }
+    // - following the pwd policy or not?
+    else if((strlen($newPwd) < 8) ||
+                (!(preg_match('/[a-z]/', $newPwd)) ||
+                !(preg_match('/[A-Z]/', $newPwd)) /*|| !(preg_match('/[0-9]/', $tag_val))*/)
+           ) {
+            $errMsg = 'Please enter password having, combination of Capital & Small letters and must be 8 or more letters long.';
+    }
+
+    echo(json_encode($errMsg));
+}
+
+function retypePwdErrMsgCallback()
+{
+    $errMsg = '';
+    $newPwd = $_POST['new_pwd'];
+    $retypePwd = $_POST['retype_pwd'];
+
+    // - field is empty or not
+    if(($retypePwd == null) && ($retypePwd == '')) {
+        $errMsg = 'Please fill out this field';
+    }
+    // - following the pwd policy or not?
+    else if((strlen($retypePwd) < 8) ||
+                (!(preg_match('/[a-z]/', $retypePwd)) ||
+                !(preg_match('/[A-Z]/', $retypePwd)) /*|| !(preg_match('/[0-9]/', $tag_val))*/)
+           ) {
+
+            $errMsg = 'Please enter password having, combination of Capital & Small letters and must be 8 or more letters long.';
+    }
+    // - matching with new pwd or not?
+    else if($newPwd != $retypePwd) {
+        $errMsg = 'Mismatch with New Password.';
+    }
+
+    echo(json_encode($errMsg));
+}
+
 ?>
