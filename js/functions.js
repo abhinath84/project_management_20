@@ -1618,3 +1618,85 @@ var editProfile = {
         }
     }
 }
+
+function getOffset($elem) {
+  var elemClientRect = $($elem).offset(); //elem.getBoundingClientRect();
+
+  return {
+    left: elemClientRect.left + window.scrollX,
+    top: elemClientRect.top + window.scrollY
+  }
+}
+
+// Helper function to get an element's exact position
+function getPosition(el) {
+  var xPos = 0;
+  var yPos = 0;
+
+  while (el) {
+    if (el.tagName == "BODY") {
+      // deal with browser quirks with body/window/document and page scroll
+      var xScroll = el.scrollLeft || document.documentElement.scrollLeft;
+      var yScroll = el.scrollTop || document.documentElement.scrollTop;
+
+      xPos += (el.offsetLeft - xScroll + el.clientLeft);
+      yPos += (el.offsetTop - yScroll + el.clientTop);
+    } else {
+      // for all other non-BODY elements
+      xPos += (el.offsetLeft - el.scrollLeft + el.clientLeft);
+      yPos += (el.offsetTop - el.scrollTop + el.clientTop);
+    }
+
+    el = el.offsetParent;
+  }
+  
+  return {
+    left: xPos,
+    top: yPos
+  };
+}
+
+function showHideEditMenu(display, callingElemTag, editMenuElemId) {
+    if(editMenuElemId != "")
+    {
+        var $editMenuElem = $('#' + editMenuElemId);
+        if(($editMenuElem.css('display') == '') || ($editMenuElem.css('display') == 'none')) {
+            var $callingElem = $('#' + callingElemTag);
+
+            // get location of the current button (x, y)
+            var leftOffset = getOffset($callingElem).left;
+            var topOffset = getOffset($callingElem).top;
+
+            // set id in the first hidden span.
+            var $keySpan = $editMenuElem.children(0).first();
+            if($keySpan != null)
+                $keySpan.html(callingElemTag);
+
+            // Check menu width cross the screen or not.
+            // if so then move menu location bit left.
+            var diff = window.outerWidth - leftOffset;
+            if(diff < $editMenuElem.outerWidth())
+                leftOffset = leftOffset - (diff + 5);
+
+            // Check menu height cross the screen or not.
+            // if so then move menu location bit top.
+            diff = window.outerHeight - topOffset;
+            if(diff < $editMenuElem.outerHeight())
+                topOffset = topOffset - ($editMenuElem.outerHeight() + .5);
+            else
+                topOffset = topOffset + ($callingElem.outerHeight() + .5);
+
+            // show the edit menu div by giving 'display:block'.
+            // put location of the edit menu div bit below to the current button
+            $editMenuElem.css({
+                                'position': 'absolute',
+                                'display': 'block',
+                                'left': leftOffset + 'px',
+                                'top': topOffset + 'px'
+                            });
+        } else {
+            // hide the edit menu div by giving 'display:none'.
+            $editMenuElem.css('display', 'none');
+        }
+    }
+}

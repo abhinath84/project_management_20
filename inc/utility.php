@@ -87,13 +87,9 @@
             $tag = '<div id="'. $id .'" class="quick-action-btn '. $class .'">' . EOF_LINE;
             $tag .= '    <span id="quick-action-btn-key-span" style="display: none;">'. $key .'</span>' . EOF_LINE;
             $tag .= '    <a class="quick-action-text" '. $event .'>' . $val .'</a>' . EOF_LINE;
-            $tag .= '    <a id="quick-action-arrow" class="quick-action-arrow" onclick="showHideEditMenu(\'show\', \''. $id .'\', \''. $dropdownId .'\')" onblur="showHideEditMenu(\'hide\', \''. $id .'\', \''. $dropdownId .'\')">' . EOF_LINE;
+            $tag .= '    <a id="'. $id .'-arrow" class="quick-action-arrow" onclick="showHideEditMenu(\'show\', \''. $id .'\', \''. $dropdownId .'\')">' . EOF_LINE;
             $tag .= '        <span>' . EOF_LINE;
-            $tag .= '            <svg width="10px" height="10px" viewBox="0 0 451.847 451.847" style="enable-background:new 0 0 451.847 451.847;" xml:space="preserve">' . EOF_LINE;
-            $tag .= '                <g>' . EOF_LINE;
-            $tag .= '                    <path d="M225.923,354.706c-8.098,0-16.195-3.092-22.369-9.263L9.27,151.157c-12.359-12.359-12.359-32.397,0-44.751   c12.354-12.354,32.388-12.354,44.748,0l171.905,171.915l171.906-171.909c12.359-12.354,32.391-12.354,44.744,0   c12.365,12.354,12.365,32.392,0,44.751L248.292,345.449C242.115,351.621,234.018,354.706,225.923,354.706z"/>' . EOF_LINE;
-            $tag .= '                </g>' . EOF_LINE;
-            $tag .= '            </svg>' . EOF_LINE;
+            $tag .=             SVG::getDownArrow();
             $tag .= '        </span>' . EOF_LINE;
             $tag .= '    </a>' . EOF_LINE;
             $tag .= '</div>' . EOF_LINE;

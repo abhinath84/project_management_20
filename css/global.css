@@ -302,7 +302,7 @@ fieldset {
     position: absolute;
     background-color: white;
     right: 15px;
-    border: 1px solid black;
+    border: 1px solid #dedddd;
 }
 
  .dropdown-content a {
