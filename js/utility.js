@@ -144,6 +144,26 @@ var utility = {
         return actualWidth;
     },
 
+    appendInputValidateErrorMsg : function(fieldName, errMsg) {
+        if((fieldName != null) && (fieldName != '')) {
+
+            // check any error msg already displayed or not.
+            // if displayed then remove it.
+            var errMsgId = fieldName +'-errmsg';
+            var $errDiv = $('#' + errMsgId);
+            if($errDiv.length)
+                $errDiv.remove();
+
+            // Create the error Div and append the error msg
+            if((errMsg != null) && (errMsg != '')) {
+                $errDiv = $('<div class="retro-style-errmsg" style="display: block" id="'+ errMsgId +'">');
+                $errDiv.html('<span>' + errMsg + '</span>');
+
+                $('#'+ fieldName).parent().append($errDiv);
+            }
+        }
+    },
+
     getRetroSelect: function (selectId, selectOptions, selectedItem, selectEvent, selectClass, containerClass) {
         var tag ='';
 
