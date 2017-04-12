@@ -86,7 +86,7 @@ fieldset {
 }
 
 .dashed-bottom-border {
-    border-bottom: 1px dashed black;
+    border-bottom: 1px dashed #dedddd;
 }
 
 .middle-align {
@@ -281,7 +281,7 @@ fieldset {
 /************ Style for fixed header table **********/
 .fixed{
   top:0;
-  left: 0;
+  //left: 0;
   position:fixed;
   width:auto;
   display:none;
