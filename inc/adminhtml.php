@@ -156,11 +156,11 @@
             parent::__construct("Projects", "admin", true, "Projects");
 
             $this->table = new HTMLTable("project-table", "grippy-table");
-            $this->dropdownList = array
+            /*$this->dropdownList = array
                                   (
                                       array("Edit", 'onclick="shieldProject.openEditDialog(\'\', \'project-tbody\', true)"'),
                                       array("Delete", 'onclick="shieldProject.delete()"')
-                                  );
+                                  );*/
         }
 
         protected function getWidgetboxContent()
@@ -168,7 +168,7 @@
             $tag = '';
 
             $tag .= '<div id="project-add-form-container"></div>' . $this->EOF_LINE;
-            $tag .=  Utility::getQuickActionBtnDropdown('project-table-dropdown', $this->dropdownList);
+            //$tag .=  Utility::getQuickActionBtnDropdown('project-table-dropdown', $this->dropdownList);
             $tag .= '<div style="float: right; margin-bottom: 30px;">' . $this->EOF_LINE;
             $tag .=     Utility::getRetroButton('Add Project', 'add-project-btn', 'green add-padding', 'onclick="shieldProject.openAddDialog(\'\', \'project-tbody\', false)"');
             $tag .= '</div>' . $this->EOF_LINE;
@@ -234,7 +234,10 @@
 
                         if(($row[12] == 'System Admin') || ($row[12] == 'Project Admin'))
                         {
-                            $table->td(Utility::getQuickActionBtn("{$inx}", "Edit", "project-td-btn", "onclick=\"shieldProject.openEditDialog('{$inx}', 'project-tbody', false)\"", "{$inx}", "project-table-dropdown"), "project-edit", null, null, "width=\"5%\"");
+                            //$table->td(Utility::getQuickActionBtn("{$inx}", "Edit", "project-td-btn", "onclick=\"shieldProject.openEditDialog('{$inx}', 'project-tbody', false)\"", "{$inx}", "project-table-dropdown"), "project-edit", null, null, "width=\"5%\"");
+
+                            //getQuickActionBtn_new($id, $val, $class, $event, $parentId, $callback)
+                            $table->td(Utility::getQuickActionBtn_new("{$inx}-edit-btn", "Edit", "project-td-btn", "onclick=\"shieldProject.openEditDialog('{$inx}', 'project-tbody', false)\"", "{$inx}", "shieldProject.projectDropdown"), "project-edit", null, null, "width=\"5%\"");
                         }
                         else
                             $table->td("&nbsp;", "project-edit", null, null, "width=\"10%\"");

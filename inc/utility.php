@@ -283,5 +283,19 @@
             else
                 return('');
         }
+
+        static function getQuickActionBtn_new($id, $val, $class, $event, $parentId, $callback)
+        {
+            $tag = '<div id="'. $id .'-container" class="quick-action-btn '. $class .'">';
+            $tag .= '    <a class="quick-action-text" '. $event .' data-parent-id="'. $parentId .'">' . $val .'</a>';
+            $tag .= '    <a id="'. $id .'-arrow" class="quick-action-arrow" onclick="showHideDropdown(\''.$id.'\', \''.$parentId.'\', '.$callback.')">';
+            $tag .= '        <span>';
+            $tag .=             SVG::getDownArrow();
+            $tag .= '        </span>';
+            $tag .= '    </a>';
+            $tag .= '</div>';
+
+            return($tag);
+        }
     }
 ?>

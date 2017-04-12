@@ -270,5 +270,80 @@ var utility = {
         }
 
         return(status);
+    },
+
+    getOffset: function($elem) {
+          var elemClientRect = $($elem).offset(); //elem.getBoundingClientRect();
+
+          return {
+            left: elemClientRect.left + window.scrollX,
+            top: elemClientRect.top + window.scrollY
+          }
+      },
+
+    getDropdownPosition: function($callingDiv, $dropdownDiv) {
+        // get location of the current button (x, y)
+        var leftOffset = this.getOffset($callingDiv).left;
+        var topOffset = this.getOffset($callingDiv).top;
+
+        // Check menu width cross the screen or not.
+        // if so then move menu location bit left.
+        var diff = window.outerWidth - leftOffset;
+        if(diff < $dropdownDiv.outerWidth())
+            leftOffset = leftOffset - (diff + 5);
+
+        // Check menu height cross the screen or not.
+        // if so then move menu location bit top.
+        diff = window.outerHeight - topOffset;
+        if(diff < $dropdownDiv.outerHeight())
+            topOffset = topOffset - ($dropdownDiv.outerHeight() + .5);
+        else
+            topOffset = topOffset + ($callingDiv.outerHeight() + .5);
+
+
+        return ({
+                left: leftOffset,
+                top: topOffset
+            });
+    },
+
+    /*
+
+    */
+    showHideDropdown: function(callingElemId, parentId, callback) {
+        if((callingElemId != null) && (callingElemId != '')) {
+            // check dropdown menu visible or not.
+            // if visible then hide.
+            var dropdownId = callingElemId +'-dropdown';
+            var $dropdownDiv = $('#' + dropdownId);
+            if($dropdownDiv.length)
+                $dropdownDiv.remove();
+            else {
+                $dropdownDiv = $('<div id="'+ dropdownId +'" class="dropdown-content">');
+
+                // get dropdown element list.
+                var dropdownList = callback();
+                if((dropdownList != null) && (dropdownList.length > 0)) {
+                    for(var inx in dropdownList) {
+                        var listTag = '<a data-parent-id="'+ parentId +'" '+ (dropdownList[inx][1] != '' ? ' class="'+ dropdownList[inx][1] +'"' : '') + dropdownList[inx][2] + '>'+ dropdownList[inx][0] +'</a>'
+
+                        $dropdownDiv.append(listTag);
+                    }
+                }
+
+                // '-container' append this string to get div id of calling container.
+                var $callingDiv = $('#' + callingElemId + '-container');
+                var position = this.getDropdownPosition($callingDiv, $dropdownDiv);
+                $dropdownDiv.css({
+                                    'position': 'absolute',
+                                    'display': 'block',
+                                    'left': position.left + 'px',
+                                    'top': position.top + 'px'
+                                });
+
+                // display dropdown menu.
+                $('body').prepend($dropdownDiv);
+            }
+        }
     }
 };

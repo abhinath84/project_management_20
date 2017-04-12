@@ -309,6 +309,18 @@ var shieldProject = {
         }
     },
 
+    projectDropdown: function() {
+        array("Edit", 'onclick="shieldProject.openEditDialog(\'\', \'project-tbody\', true)"'),
+        array("Delete", 'onclick="shieldProject.delete()"')
+
+        var list = [
+                    ['Edit', '', 'onclick="shieldProject.openEditDialog(this, \'\', \'project-tbody\', true)"'],
+                    ['Delete', '', 'shieldProject.delete(this)']
+                   ];
+
+        return(list);
+    },
+
     clearErrMsgs: function() {
         // reset error msg container.
         utility.clearTag('title-errmsg');
