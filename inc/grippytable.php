@@ -61,14 +61,14 @@ class GrippyTable
                 }
                 else
                 {
-                    /*$this->table->tr(null, null, null, "align=\"center\"");
-                        $this->table->td("<p>No result !!!</p>", "no-result", null, null, null);*/
+                    $this->table->tr(null, null, null, "align=\"center\"");
+                        //$this->table->td("<p>No result !!!</p>", "no-result", null, null, null);
                 }
             }
             else
             {
-                /*$this->table->tr(null, null, null, "align=\"center\"");
-                    $this->table->td("<p>No result !!!</p>", "no-result", null, null, null);*/
+                $this->table->tr(null, null, null, "align=\"center\"");
+                    //$this->table->td("<p>No result !!!</p>", "no-result", null, null, null);
             }
         }
     }
