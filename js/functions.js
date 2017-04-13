@@ -1649,7 +1649,7 @@ function getPosition(el) {
 
     el = el.offsetParent;
   }
-  
+
   return {
     left: xPos,
     top: yPos
@@ -1666,11 +1666,6 @@ function showHideEditMenu(display, callingElemTag, editMenuElemId) {
             // get location of the current button (x, y)
             var leftOffset = getOffset($callingElem).left;
             var topOffset = getOffset($callingElem).top;
-
-            // set id in the first hidden span.
-            var $keySpan = $editMenuElem.children(0).first();
-            if($keySpan != null)
-                $keySpan.html(callingElemTag);
 
             // Check menu width cross the screen or not.
             // if so then move menu location bit left.
@@ -1694,6 +1689,11 @@ function showHideEditMenu(display, callingElemTag, editMenuElemId) {
                                 'left': leftOffset + 'px',
                                 'top': topOffset + 'px'
                             });
+
+            // set id in the first hidden span.
+            var $keySpan = $editMenuElem.children(0).first();
+            if($keySpan != null)
+                $keySpan.html(callingElemTag);
         } else {
             // hide the edit menu div by giving 'display:none'.
             $editMenuElem.css('display', 'none');

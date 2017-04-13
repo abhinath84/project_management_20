@@ -95,9 +95,9 @@
             $dropdownList = array
                                 (
                                     array("Move To Project", ""),
-                                    array("Move To Iteration", ""),
+                                    array("Move To Sprint", 'class="dashed-bottom-border"'),
                                     array("Quick Close", ""),
-                                    array("Close", ""),
+                                    array("Close", 'class="dashed-bottom-border"'),
                                     array("Reopen", ""),
                                     array("Delete", "")
                                 );
@@ -122,11 +122,9 @@
                                 (
                                     array('Edit', 'class="dashed-bottom-border"'),
                                     array('Plan Story', ''),
-                                    array('Add Task', ''),
-                                    array('Copy', 'class="dashed-bottom-border"'),
+                                    array('Add Task', 'class="dashed-bottom-border"'),
                                     array('Quick Close', ''),
                                     array('Close', 'class="dashed-bottom-border"'),
-                                    array('Convert to Defect', ''),
                                     array('Delete', '')
                                 );
             return(Utility::getQuickActionBtnDropdown('backlog-table-dropdown', $dropdownList));
