@@ -73,12 +73,9 @@
             $tag .= '                    <div class="project-backlog-container">'. $this->EOF_LINE;
             $tag .= '                       <div class="session-button">'. $this->EOF_LINE;
 
-            $tag .= $this->getMoveToProjectDropdown();
-            $tag .= $this->getStoryInlineDropdown();
-            $tag .= $this->getEditBacklogDropdown();
+            $tag .= Utility::getQuickActionBtn("move-to-project-btn", "Move to Project", "move-to-project-btn", 'onclick="shieldProductBacklog.moveToProjectDialog(this, false)"', "project-backlog-tbody", "shieldProductBacklog.moveToProjectDropdown");
 
-            $tag .= Utility::getQuickActionBtn("move-to-project-btn", "Move to Project", "move-to-project-btn", "", "", "move-to-project-dropdown");
-            $tag .= Utility::getQuickActionBtn("story-inline-btn", "Add to Story Inline", "story-inline-btn", "", "", "story-inline-dropdown");
+            $tag .= Utility::getQuickActionBtn("story-inline-btn", "Add to Story Inline", "story-inline-btn", 'onclick="shieldProductBacklog.addStoryInline(this, false)"', "project-backlog-tbody", "shieldProductBacklog.storyInlineDropdown");
 
             $tag .= '                        </div>'.$this->EOF_LINE;
             $tag .= '                        <div class="wtable">'. $this->EOF_LINE;
@@ -241,8 +238,7 @@
                     $table->td($row[11], "{$inx}-source", null, "display:none;");
                     $table->td($row[12], "{$inx}-reference", null, "display:none;");
                     $table->td($row[13], "{$inx}-build", null, "display:none;");
-
-                    $table->td(Utility::getQuickActionBtn("{$inx}-edit-btn", "Edit", "quick-action-btn backlog-table-btn", "", "", "backlog-table-dropdown"), "{$inx}-edit", null, null, "width=\"2%\"");
+                    $table->td(Utility::getQuickActionBtn("{$inx}-backlog-edit-btn", "Edit", "backlog-table-btn", 'onclick="shieldProductBacklog.editDialog(this, false)"', "{$inx}", "shieldProductBacklog.editDropdown"), "{$inx}-edit", null, null, "width=\"2%\"");
             }
         }
 

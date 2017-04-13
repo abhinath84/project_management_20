@@ -202,8 +202,8 @@ abstract class HTMLTemplate
             $tag .= '   <ul>';
             foreach($this->sideNavItems as $item)
             {
-                $tag .= '       <li ' .(($item[0] == $this->currentSideNav) ? 'class="selected"' : '') .'>';
-                $tag .= '           <a title="'. $item[0] .'" href="'. $item[1] .'">';
+                $tag .= '       <li ' .(($item[0] == $this->currentSideNav) ? 'class="selected"' : '') .' tooltip="'. $item[0] .'" flow="right">';
+                $tag .= '           <a href="'. $item[1] .'">';
 
                 /* display the svg icon */
                 if($item[2] != null)

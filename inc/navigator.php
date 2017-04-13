@@ -238,7 +238,7 @@
             $tag .= '                <a href="'. $this->getNavURL($currentDir, $this->scrumDir, $this->scrumBacklogImport) .'" target="_top">Import</a>' . EOF_LINE;
             $tag .= '              </div>' . EOF_LINE;
             $tag .= '          </li>' . EOF_LINE;
-            $tag .= '          <li class="' . ($selNav == "Scrum-Release-Planning" ? 'selected' : '') . '">' . EOF_LINE;
+            $tag .= '          <li ' . ($selNav == "Scrum-Release-Planning" ? 'class="selected"' : '') . ' tooltip="Release Planning" flow="down" style="position:relative;">' . EOF_LINE;
             $tag .= '            <a title="Release Planning" href="'. $this->getNavURL($currentDir, $this->scrumDir, $this->scrumReleasePlanURL) .'" target="_top">' . EOF_LINE;
             $tag .= '                <span>' . EOF_LINE;
             $tag .=             SVG::getReleasePlan();

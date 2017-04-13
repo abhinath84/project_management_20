@@ -156,11 +156,6 @@
             parent::__construct("Projects", "admin", true, "Projects");
 
             $this->table = new HTMLTable("project-table", "grippy-table");
-            $this->dropdownList = array
-                                  (
-                                      array("Edit", 'onclick="shieldProject.openEditDialog(\'\', \'project-tbody\', true)"'),
-                                      array("Delete", 'onclick="shieldProject.delete()"')
-                                  );
         }
 
         protected function getWidgetboxContent()
@@ -168,7 +163,6 @@
             $tag = '';
 
             $tag .= '<div id="project-add-form-container"></div>' . $this->EOF_LINE;
-            $tag .=  Utility::getQuickActionBtnDropdown('project-table-dropdown', $this->dropdownList);
             $tag .= '<div style="float: right; margin-bottom: 30px;">' . $this->EOF_LINE;
             $tag .=     Utility::getRetroButton('Add Project', 'add-project-btn', 'green add-padding', 'onclick="shieldProject.openAddDialog(\'\', \'project-tbody\', false)"');
             $tag .= '</div>' . $this->EOF_LINE;
@@ -234,7 +228,7 @@
 
                         if(($row[12] == 'System Admin') || ($row[12] == 'Project Admin'))
                         {
-                            $table->td(Utility::getQuickActionBtn("{$inx}", "Edit", "project-td-btn", "onclick=\"shieldProject.openEditDialog('{$inx}', 'project-tbody', false)\"", "{$inx}", "project-table-dropdown"), "project-edit", null, null, "width=\"5%\"");
+                            $table->td(Utility::getQuickActionBtn("{$inx}-project-edit-btn", "Edit", "project-td-btn", "onclick=\"shieldProject.openEditDialog(this, 'project-tbody', false)\"", "{$inx}", "shieldProject.projectDropdown"), "project-edit", null, null, "width=\"5%\"");
                         }
                         else
                             $table->td("&nbsp;", "project-edit", null, null, "width=\"10%\"");
@@ -250,11 +244,6 @@
             parent::__construct("Projects", "admin", true, "Sprint Schedules");
 
             $this->table = new HTMLTable("sprint-schedule-table", "grippy-table");
-            $this->dropdownList = array
-                                  (
-                                      array('Edit', 'onclick="shieldSprintSchedule.openEditDialog(\'sprint-schedule-table-dropdown\', \'sprint-schedule-tbody\', true)"'),
-                                      array('Delete', 'onclick="shieldSprintSchedule.delete(\'sprint-schedule-table-dropdown\', \'sprint-schedule-tbody\')"')
-                                  );
         }
 
         protected function getWidgetboxContent()
@@ -265,9 +254,6 @@
             $content .= '               <div style="float: right; margin-bottom: 30px;">' . $this->EOF_LINE;
             $content .=                     Utility::getRetroButton('Add Sprint Schedule', 'add-sprintSchedule-btn', 'green add-padding', 'onclick="shieldSprintSchedule.openAddDialog(\'sprint-schedule-tbody\');"');
             $content .= '               </div>' . $this->EOF_LINE;
-
-            $content .=                 Utility::getQuickActionBtnDropdown('sprint-schedule-table-dropdown', $this->dropdownList);
-
             $content .= '               <div id="sprint-schedule-table-container">' . $this->EOF_LINE;
             $content .=                     $this->getSprintScheduleTable();
             $content .= '               </div>' . $this->EOF_LINE;
@@ -307,7 +293,7 @@
                         $table->td("{$row[1]} {$row[2]}", "{$inx}-length", null, null, "width=\"25%\"");
                         $table->td("{$row[3]} {$row[4]}", "{$inx}-gap", null, null, "width=\"25%\"");
                         $table->td("{$row[5]}", "{$inx}-description", null, "display: none;");
-                        $table->td(Utility::getQuickActionBtn("{$inx}-sprint-schedule-edit-btn", "Edit", "project-td-btn", "onclick=\"shieldSprintSchedule.openEditDialog('{$inx}-sprint-schedule-edit-btn', 'sprint-schedule-tbody', false)\"", "{$inx}", "sprint-schedule-table-dropdown"), "sprint-schedule-edit", null, null, "width=\"5%\"");
+                        $table->td(Utility::getQuickActionBtn("{$inx}-sprint-schedule-edit-btn", "Edit", "project-td-btn", "onclick=\"shieldSprintSchedule.openEditDialog(this, 'project-tbody', false)\"", "{$inx}", "shieldSprintSchedule.editDropdown"), "project-edit", null, null, "width=\"5%\"");
                 }
             }
         }
@@ -505,7 +491,6 @@
             $tag = '';
 
             $tag .= '<div id="member-form-container"></div>' . $this->EOF_LINE;
-            $tag .= Utility::getQuickActionBtnDropdown('member-edit-dropdown', $this->dropdownList);
             $tag .= '<div id="add-member-btn-container">' . $this->EOF_LINE;
             $tag .=     Utility::getRetroButton('Add Member', 'add-member-btn', 'green add-padding', 'onclick="shieldMembers.openAddDialog(\'member-tbody\');"');
             $tag .= '</div>' . $this->EOF_LINE;

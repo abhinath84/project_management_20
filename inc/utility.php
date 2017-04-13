@@ -82,7 +82,7 @@
             return($tag);
         }
 
-        public static function getQuickActionBtn($id, $val, $class, $event, $key, $dropdownId)
+        /*public static function getQuickActionBtn($id, $val, $class, $event, $key, $dropdownId)
         {
             $tag = '<div id="'. $id .'" class="quick-action-btn '. $class .'">' . EOF_LINE;
             $tag .= '    <span id="quick-action-btn-key-span" style="display: none;">'. $key .'</span>' . EOF_LINE;
@@ -95,7 +95,7 @@
             $tag .= '</div>' . EOF_LINE;
 
             return($tag);
-        }
+        }*/
 
         public static function getQuickActionBtnDropdown($dropdownId, $lists)
         {
@@ -278,6 +278,20 @@
             }
             else
                 return('');
+        }
+
+        static function getQuickActionBtn($id, $val, $class, $event, $parentId, $callback)
+        {
+            $tag = '<div id="'. $id .'-container" class="quick-action-btn '. $class .'">' . self::$EOF_LINE;
+            $tag .= '    <a class="quick-action-text" '. $event .' data-parent-id="'. $parentId .'">' . $val .'</a>' . self::$EOF_LINE;
+            $tag .= '    <a id="'. $id .'-arrow" class="quick-action-arrow" onclick="utility.showHideDropdown(\''.$id.'\', \''.$parentId.'\', '.$callback.')">' . self::$EOF_LINE;
+            $tag .= '        <span>' . self::$EOF_LINE;
+            $tag .=             SVG::getDownArrow();
+            $tag .= '        </span>' . self::$EOF_LINE;
+            $tag .= '    </a>' . self::$EOF_LINE;
+            $tag .= '</div>' . self::$EOF_LINE;
+
+            return($tag);
         }
     }
 ?>

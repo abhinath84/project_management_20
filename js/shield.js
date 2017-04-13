@@ -28,6 +28,15 @@ var shieldSprintSchedule = {
         }
     },
 
+    editDropdown: function() {
+        var list = [
+                    ['Edit', '', 'onclick="shieldSprintSchedule.openEditDialog(this, \'sprint-schedule-tbody\', true)"'],
+                    ['Delete', '', 'onclick="shieldSprintSchedule.delete(this, \'sprint-schedule-tbody\')"']
+                   ];
+
+        return(list);
+    },
+
     createDialog: function () {
         return(shieldDialog.getTag());
     },
@@ -203,16 +212,12 @@ var shieldSprintSchedule = {
         shield.openDialog(this, false, 'sprint-schedule-add-form-container', this.createDialog);
     },
 
-    openEditDialog: function (Id, tbodyId, isCallingFromDropMenu) {
+    openEditDialog: function (selObj, tbodyId, isCallingFromDropMenu) {
+        var key = $(selObj).data('parent-id');
 
-        var key = '';
-        var divObj = document.getElementById(Id).children[0];
-
+        // hide dropdown menu.
         if(isCallingFromDropMenu) {
-            key = document.getElementById(divObj.innerHTML).children[0].innerHTML;
-            document.getElementById(Id).style.display = "none";
-        } else {
-            key = divObj.innerHTML;
+            $('#' + key + '-sprint-schedule-edit-btn-dropdown').css('display', 'none');
         }
 
         if((key != null) && (key != "")) {
@@ -245,15 +250,12 @@ var shieldSprintSchedule = {
         }
     },
 
-    delete: function(Id, tbodyId) {
+    delete: function(selObj, tbodyId) {
+        var key = $(selObj).data('parent-id');
+        var title = document.getElementById(key + "-title").innerHTML;
 
-        var key = '';
-        var title = '';
-        var divObj = document.getElementById(Id).children[0];
-
-        key = document.getElementById(divObj.innerHTML).children[0].innerHTML;
-        title = document.getElementById(key + "-title").innerHTML;
-        document.getElementById(Id).style.display = "none";
+        // hide dropdown menu.
+        $('#' + key + '-sprint-schedule-edit-btn-dropdown').css('display', 'none');
 
         var r = confirm("Do you want to delete '" + title + "' ?");
         if (r == true) {
@@ -307,6 +309,15 @@ var shieldProject = {
             this.target_swag        = "";
             this.reference          = "";
         }
+    },
+
+    projectDropdown: function() {
+        var list = [
+                    ['Edit', '', 'onclick="shieldProject.openEditDialog(this, \'\', \'project-tbody\', true)"'],
+                    ['Delete', '', 'onclick="shieldProject.delete(this)"']
+                   ];
+
+        return(list);
     },
 
     clearErrMsgs: function() {
@@ -577,23 +588,24 @@ var shieldProject = {
         this.openDialog(Id, tbodyId, isCallingFromDropMenu, true);
     },
 
-    openEditDialog: function(Id, tbodyId, isCallingFromDropMenu) {
-        if(Id == '')
-            Id = document.getElementById('project-table-dropdown').children[0].innerHTML;
+    openEditDialog: function(selObj, tbodyId, isCallingFromDropMenu) {
+        var Id = $(selObj).data('parent-id');
+        //if(Id == '')
+            //Id = document.getElementById('project-table-dropdown').children[0].innerHTML;
 
         this.openDialog(Id, tbodyId, isCallingFromDropMenu, false);
 
         // hide project-table-dropdown' menu if it's open.
         if(isCallingFromDropMenu)
-            document.getElementById('project-table-dropdown').style.display = "none";
+            document.getElementById(Id + '-project-edit-btn-dropdown').style.display = "none";
     },
 
-    delete: function() {
-        var key     = document.getElementById('project-table-dropdown').children[0].innerHTML;
+    delete: function(selObj) {
+        var key     = $(selObj).data('parent-id');
         var title   = document.getElementById(key + "-title").innerHTML;
         var parent  = document.getElementById(key + "-parent").innerHTML;
 
-        document.getElementById('project-table-dropdown').style.display = "none";
+        document.getElementById(key + '-project-edit-btn-dropdown').style.display = "none";
 
         var r = confirm("Do you want to delete '" + title + "' ?");
         if (r == true) {
@@ -820,9 +832,46 @@ var shieldMembers = {
     }
 }
 
-var shieldProjectPlanBacklog = {
+var shieldProductBacklog = {
     member : {
         selObject   : null
+    },
+
+    moveToProjectDropdown: function() {
+        var list = [
+                    ['Move To Project', '', 'onclick="shieldProductBacklog.moveToProjectDialog(this, true)"'],
+                    ['Move To Sprint', 'dashed-bottom-border', 'onclick="shieldProductBacklog.moveToSprint(this)"'],
+                    ['Quick Close', '', 'onclick="shieldProductBacklog.quickClose(this)"'],
+                    ['Close', 'dashed-bottom-border', 'onclick="shieldProductBacklog.close(this)"'],
+                    ['Reopen', '', 'onclick="shieldProductBacklog.reOpen(this)"'],
+                    ['Delete', '', 'onclick="shieldProductBacklog.delete(this)"']
+                   ];
+
+        return(list);
+    },
+
+    storyInlineDropdown: function() {
+        var list = [
+                    ['Add Story Inline', '', 'onclick="shieldProductBacklog.addStoryInline(this, true)"'],
+                    ['Add Story', '', 'onclick="shieldProductBacklog.addStory(this)"'],
+                    ['Add Defect Inline', '', 'onclick="shieldProductBacklog.addDefectInline(this)"'],
+                    ['Add Defect', '', 'onclick="shieldProductBacklog.addDefect(this)"']
+                   ];
+
+        return(list);
+    },
+
+    editDropdown: function() {
+        var list = [
+                    ['Edit', 'dashed-bottom-border', 'onclick="shieldProductBacklog.editDialog(this, false)"'],
+                    ['Plan Story', '', 'onclick="shieldProductBacklog.planStory(this)"'],
+                    ['Add Task', 'dashed-bottom-border', 'onclick="shieldProductBacklog.addTask(this)"'],
+                    ['Quick Close', '', 'onclick="shieldProductBacklog.quickClose(this)"'],
+                    ['Close', 'dashed-bottom-border', 'onclick="shieldProductBacklog.close(this)"'],
+                    ['Delete', '', 'onclick="shieldProductBacklog.delete(this)"']
+                   ];
+
+        return(list);
     },
 
     fillTitle: function () {
@@ -853,7 +902,7 @@ var shieldProjectPlanBacklog = {
         for(var i in projects){
                 if(projects[i] != 'System(All Projects)') {
                 inputTag = '<div class="project-backlog-project">';
-                inputTag += '   <a class="project-backlog-project-anchor '+ ((this.member.selObject.innerHTML === projects[i]) ? 'selected' : '') +'" style="text-transform: uppercase;" onclick="shieldProjectPlanBacklog.onSelect(this)">'+ projects[i] +'</a>';
+                inputTag += '   <a class="project-backlog-project-anchor '+ ((this.member.selObject.innerHTML === projects[i]) ? 'selected' : '') +'" style="text-transform: uppercase;" onclick="shieldProductBacklog.onSelect(this)">'+ projects[i] +'</a>';
                 inputTag += '</div>';
                 shieldDialog.formDiv.add(inputTag);
             }
@@ -899,8 +948,8 @@ var shieldProjectPlanBacklog = {
 
         // reset and add button for dialog
         shieldDialog.toolBar.toolbarBtns.clear();
-        shieldDialog.toolBar.toolbarBtns.add('submit-btns', 'retro-style red add-spr', 'Cancel', 'onclick="shieldProjectPlanBacklog.onclickCancel()"');
-        shieldDialog.toolBar.toolbarBtns.add('submit-btns', 'retro-style green-bg add-spr', 'Apply', 'onclick="shieldProjectPlanBacklog.onclickApply()"');
+        shieldDialog.toolBar.toolbarBtns.add('submit-btns', 'retro-style red add-spr', 'Cancel', 'onclick="shieldProductBacklog.onclickCancel()"');
+        shieldDialog.toolBar.toolbarBtns.add('submit-btns', 'retro-style green-bg add-spr', 'Apply', 'onclick="shieldProductBacklog.onclickApply()"');
 
         // fill all infomation of dialog form.
         this.fillDiv();
