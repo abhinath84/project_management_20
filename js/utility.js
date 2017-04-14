@@ -198,6 +198,20 @@ var utility = {
         document.getElementById(tagBodyId).innerHTML = getServerResponseViaAJAX("../ajax/default.php", "updateDashboradTableCallback", formData, "");
     },
 
+    updateTableCheckbox: function(tbodyId, status) {
+        if(((tbodyId != null) && (tbodyId != '')) &&
+            (typeof(status) === 'boolean')) {
+            // update all checkbox in the table according to the input.
+            var len = document.getElementById(tbodyId).getElementsByTagName("tr").length;
+            for(var i = 1, j = len; i <= j; i++, j--) {
+                //document.getElementById(i + "-checkbox").checked = status;
+                $("#"+ i + "-checkbox").prop("checked", status);
+                $("#"+ j + "-checkbox").prop("checked", status);
+                //document.getElementById(j + "-checkbox").checked = status;
+            }
+        }
+    },
+
     getSprintScheduleSelect: function(selectedSchedule) {
         var formData = {
             'selectedSchedule' : selectedSchedule
@@ -312,37 +326,41 @@ var utility = {
     */
     showHideDropdown: function(callingElemId, parentId, callback) {
         if((callingElemId != null) && (callingElemId != '')) {
-            // check dropdown menu visible or not.
-            // if visible then hide.
-            var dropdownId = callingElemId +'-dropdown';
-            var $dropdownDiv = $('#' + dropdownId);
-            if($dropdownDiv.length)
-                $dropdownDiv.remove();
-            else {
-                $dropdownDiv = $('<div id="'+ dropdownId +'" class="dropdown-content">');
+            var $callingDiv = $('#' + callingElemId + '-container');
 
-                // get dropdown element list.
-                var dropdownList = callback();
-                if((dropdownList != null) && (dropdownList.length > 0)) {
-                    for(var inx in dropdownList) {
-                        var listTag = '<a data-parent-id="'+ parentId +'" '+ (dropdownList[inx][1] != '' ? ' class="'+ dropdownList[inx][1] +'"' : '') + dropdownList[inx][2] + '>'+ dropdownList[inx][0] +'</a>'
+            var disabled = $callingDiv.attr( "disabled");
+            if(disabled != 'disabled') {
+                // check dropdown menu visible or not.
+                // if visible then hide.
+                var dropdownId = callingElemId +'-dropdown';
+                var $dropdownDiv = $('#' + dropdownId);
+                if($dropdownDiv.length)
+                    $dropdownDiv.remove();
+                else {
+                    $dropdownDiv = $('<div id="'+ dropdownId +'" class="dropdown-content">');
 
-                        $dropdownDiv.append(listTag);
+                    // get dropdown element list.
+                    var dropdownList = callback();
+                    if((dropdownList != null) && (dropdownList.length > 0)) {
+                        for(var inx in dropdownList) {
+                            var listTag = '<a data-parent-id="'+ parentId +'" '+ (dropdownList[inx][1] != '' ? ' class="'+ dropdownList[inx][1] +'"' : '') + dropdownList[inx][2] + '>'+ dropdownList[inx][0] +'</a>'
+
+                            $dropdownDiv.append(listTag);
+                        }
                     }
+
+                    // '-container' append this string to get div id of calling container.
+                    var position = this.getDropdownPosition($callingDiv, $dropdownDiv);
+                    $dropdownDiv.css({
+                                        'position': 'absolute',
+                                        'display': 'block',
+                                        'left': position.left + 'px',
+                                        'top': position.top + 'px'
+                                    });
+
+                    // display dropdown menu.
+                    $('body').prepend($dropdownDiv);
                 }
-
-                // '-container' append this string to get div id of calling container.
-                var $callingDiv = $('#' + callingElemId + '-container');
-                var position = this.getDropdownPosition($callingDiv, $dropdownDiv);
-                $dropdownDiv.css({
-                                    'position': 'absolute',
-                                    'display': 'block',
-                                    'left': position.left + 'px',
-                                    'top': position.top + 'px'
-                                });
-
-                // display dropdown menu.
-                $('body').prepend($dropdownDiv);
             }
         }
     }

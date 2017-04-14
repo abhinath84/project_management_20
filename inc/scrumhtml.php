@@ -132,7 +132,7 @@
             $thList = array
                             (
                                 array("&nbsp;", null, null, null, null),
-                                array('<input type="checkbox" id="select_all">', null, null, null, null),
+                                array('<input type="checkbox" id="backlog-th-checkbox" onclick="shieldProductBacklog.selectAllBacklog(this)">', null, null, null, null),
                                 array("Title", null,  null, null, "data-sort=\"string\""),
                                 array("Owner", null,  null, null, "data-sort=\"string\""),
                                 array("Priority", null,  null, null, "data-sort=\"string\""),
@@ -170,7 +170,7 @@
             {
                 $table->tr(null, null, null, "align=\"center\"");
                     $table->td(getGreppyDotTag(), "{$inx}-greppy", "hasGrippy", "text-align: center; width: 2%;");
-                    $table->td('<input type="checkbox" class="checkbox">', "{$inx}", null, "width: 2%", "text-align=\"center\"");
+                    $table->td('<input type="checkbox" id="'.$inx.'-checkbox" onclick="shieldProductBacklog.selectBacklog()">', "{$inx}", null, "width: 2%", "text-align=\"center\"");
                     $table->td(self::getBacklogTitle(true, $row[0]),"{$inx}-title_container", "backlog-title-container", "width: 30%");
                     $table->td(Utility::decode($row[1]), "{$inx}-owner", null, "width: 30%");
                     $table->td($row[2], "{$inx}-priority", null, null);

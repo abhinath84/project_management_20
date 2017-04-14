@@ -244,7 +244,7 @@ fieldset {
 .quick-action-btn .quick-action-text {
     //border-right: 1px solid white;
     padding-left: 10px;
-    padding-right: 5px;
+    //padding-right: 5px;
     padding-top: 3px;
 }
 
@@ -282,6 +282,20 @@ fieldset {
     border-right: 1px solid currentColor;
 }*/
 
+
+.quick-action-btn[disabled] {
+    color: #bfb2b2;
+    border-color: #d9d9d9;
+    background-color: #FFFFFF;
+}
+
+.quick-action-btn[disabled] a,  .quick-action-btn[disabled] a:hover{
+    color: #bfb2b2;
+}
+
+.quick-action-btn[disabled] svg, .quick-action-btn[disabled]:hover svg{
+    fill: #bfb2b2;
+}
 
 .black-border-quick-action-btn {
     border: 1px solid black;

@@ -837,6 +837,10 @@ var shieldProductBacklog = {
         selObject   : null
     },
 
+    info : {
+        tbodyId: 'project-backlog-tbody'
+    },
+
     moveToProjectDropdown: function() {
         var list = [
                     ['Move To Project', '', 'onclick="shieldProductBacklog.moveToProjectDialog(this, true)"'],
@@ -915,7 +919,11 @@ var shieldProductBacklog = {
         document.getElementById('project-title').innerHTML = selProject;
 
         // Update backlog table according to project..
-        utility.updateDashboradTable('project-backlog-tbody', 'getTableBodyElement', 'ProductBacklogHTML', 'WHERE project="'+ selProject +'"');
+        utility.updateDashboradTable(this.info.tbodyId, 'getTableBodyElement', 'ProductBacklogHTML', 'WHERE project="'+ selProject +'"');
+
+        // uncheck table header checkbox.
+        //document.getElementById('select-all-checkbox').checked = false;
+        $("#backlog-th-checkbox").prop("checked", false);
 
         // hide the dialog
         shield.show(false);
@@ -955,6 +963,59 @@ var shieldProductBacklog = {
         this.fillDiv();
 
         shield.openDialog(this.member.selObject, true, 'project-form-container', shieldDialog.getTag);
+    },
+
+    selectAllBacklog: function(selObj) {
+        // check check box is selected or not.
+        var status = selObj.checked;
+        var len = document.getElementById(this.info.tbodyId).getElementsByTagName("tr").length;
+
+        // check all the checkbox in table.
+        utility.updateTableCheckbox(this.info.tbodyId, status);
+
+        // disable 'Move To Project' button as no backlog is selected to move.
+        if(status && (len > 0))
+            $("#move-to-project-btn-container").removeAttr('disabled');
+        else
+            $('#move-to-project-btn-container').attr('disabled', 'disabled');
+    },
+
+    selectBacklog: function() {
+        var check = true;
+        var disable = true;
+
+        // loop over all the checkbox of the table.
+        var len = document.getElementById(this.info.tbodyId).getElementsByTagName("tr").length;
+        // to improve execution time, check from both side.
+        for(var i = 1, j=len; i <= j; i++, j--) {
+            var iCheck = $('#' + i + '-checkbox').prop('checked');
+            var jCheck = $('#' + j + '-checkbox').prop('checked');
+
+            // check all the checkbox are checked or not.
+            if((check) && (iCheck == false)) {
+                check = false;
+            }
+            if((check) && (jCheck == false)) {
+                check = false;
+            }
+
+            // check atleast one checkbox is checked or not.
+            if((disable) && (iCheck == true)) {
+                disable = false;
+            }
+            if((disable) && (jCheck == true)) {
+                disable = false;
+            }
+        }
+
+        // check/uncheck 'member-th-checkbox' checkbox
+        $('#backlog-th-checkbox').prop('checked', check);
+
+        // enable/disable 'assign-project-btn' button.
+        if(!disable)
+            $("#move-to-project-btn-container").removeAttr('disabled');
+        else
+            $('#move-to-project-btn-container').attr('disabled', 'disabled');
     }
 };
 

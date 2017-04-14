@@ -1343,15 +1343,11 @@ var projectAssignment = {
     selectAllMembers: function() {
         // check check box is selected or not.
         var status = document.getElementById("member-th-checkbox").checked;
-
-        // enable/disable 'assign-project-btn' button.
-        $('#assign-project-btn').prop('disabled', ((status) ? false : true));
-
-        // update all checkbox in the table according to the input.
         var len = document.getElementById(this.info.memberTBodyId).getElementsByTagName("tr").length;
-        for(var i = 1; i <= len; i++) {
-            document.getElementById(i + "-checkbox").checked = status;
-        }
+
+        utility.updateTableCheckbox(this.info.memberTBodyId, status);
+        // enable/disable 'assign-project-btn' button.
+        $('#assign-project-btn').prop('disabled', ((status == true) && (len > 0)) ? false : true);
     },
 
     selectMember: function() {

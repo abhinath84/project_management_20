@@ -50,18 +50,10 @@
                     }, 2000);
                 });
 
-                // event for dropdown button
-                /*$('#move-to-project-arrow').on('click', function(event) {
-                    console.log(this);
-                });
-
-                $('#move-to-project-arrow').on('blur', function(event) {
-                    console.log(event);
-                });*/
-
-                $('#move-to-project-dropdown').on('blur', function(event) {
-                    console.log(this);
-                });
+                // disable 'Move To Project' button as no backlog is selected to move.
+                $('#move-to-project-btn-container').attr('disabled', 'disabled');
+                //document.getElementById('move-to-project-btn-container').disabled = true;
+                //document.getElementById("move-to-project-btn-container").disabled = true;
             });
 
         </script>
