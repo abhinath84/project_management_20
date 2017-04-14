@@ -19,9 +19,9 @@
     fill: black;
 }
 
-.project-td-btn .quick-action-text {
+/*.project-td-btn .quick-action-text {
     border-right: 1px solid black;
-}
+}*/
 
 .project-td-btn:hover {
     border-color: #00a9e0;
@@ -36,9 +36,9 @@
     fill: #fff;
 }
 
-.project-td-btn:hover .quick-action-text {
+/*.project-td-btn:hover .quick-action-text {
     border-right: 1px solid currentColor;
-}
+}*/
 
 .project-title-td * {
     display: table-cell;

@@ -127,7 +127,7 @@
             return(Utility::getQuickActionBtnDropdown('backlog-table-dropdown', $dropdownList));
         }
 
-        private function createDasboardTable()
+        /*private function createDasboardTable()
         {
             $Table = new HTMLTable("project-backlog-table", "grippy-table");
 
@@ -148,7 +148,7 @@
                         'estimated','project','sprint','description',
                         'type','risk','etype','source','reference',
                         'build','resolution');
-            $rows = getTableElements('scrum_backlog', $cols, ''/*'project="'.$project.'"'*/);
+            $rows = getTableElements('scrum_backlog', $cols, ''/*'project="'.$project.'"'*//*);
             if(!empty($rows))
             {
                 //loop over the result and fill the rows
@@ -165,7 +165,7 @@
                         $Table->td($row[4], "{$i}-estimate", null, null);
                         $Table->td($row[5], "{$i}-project", null, null);
                         $Table->td($row[6], "{$i}-project", null, "display:none;");
-                        $Table->td(Utility::getQuickActionBtn("{$i}-edit-btn", "Edit", "quick-action-btn backlog-table-btn", "", "", "backlog-table-dropdown"), "{$i}-edit", null, null, "width=\"2%\"");
+                        $Table->td(Utility::getQuickActionBtn("{$i}-edit-btn", "Edit", "quick-action-btn black-border-quick-action-btn", "", "", "backlog-table-dropdown"), "{$i}-edit", null, null, "width=\"2%\"");
 
                         ++$i;
                 }
@@ -177,7 +177,7 @@
             }
 
             return(utf8_encode($Table->toHTML()));
-        }
+        }*/
 
         private function getProjectTable()
         {
@@ -238,7 +238,7 @@
                     $table->td($row[11], "{$inx}-source", null, "display:none;");
                     $table->td($row[12], "{$inx}-reference", null, "display:none;");
                     $table->td($row[13], "{$inx}-build", null, "display:none;");
-                    $table->td(Utility::getQuickActionBtn("{$inx}-backlog-edit-btn", "Edit", "backlog-table-btn", 'onclick="shieldProductBacklog.editDialog(this, false)"', "{$inx}", "shieldProductBacklog.editDropdown"), "{$inx}-edit", null, null, "width=\"2%\"");
+                    $table->td(Utility::getQuickActionBtn("{$inx}-backlog-edit-btn", "Edit", "black-border-quick-action-btn", 'onclick="shieldProductBacklog.editDialog(this, false)"', "{$inx}", "shieldProductBacklog.editDropdown"), "{$inx}-edit", null, null, "width=\"2%\"");
             }
         }
 

@@ -217,7 +217,7 @@ fieldset {
 .quick-action-btn {
     margin-right: 5px;
 
-    height: 24px;
+    height: 30px;
     //border-radius: 6px;
     border: 1px solid transparent;
 
@@ -242,9 +242,10 @@ fieldset {
 }
 
 .quick-action-btn .quick-action-text {
-    border-right: 1px solid white;
+    //border-right: 1px solid white;
     padding-left: 10px;
-    padding-right: 10px;
+    //padding-right: 10px;
+    padding-top: 3px;
 }
 
 .quick-action-arrow {
@@ -274,9 +275,44 @@ fieldset {
     fill: #fff;
 }
 
-.quick-action-btn:hover .quick-action-text {
+/*.quick-action-btn:hover .quick-action-text {
     border-right: 1px solid currentColor;
+}*/
+
+
+.black-border-quick-action-btn {
+    border: 1px solid black;
+    background-color: white;
 }
+
+.black-border-quick-action-btn a {
+    color: black;
+}
+
+.black-border-quick-action-btn svg {
+    fill: black;
+}
+
+/*.black-border-quick-action-btn .quick-action-text {
+    border-right: 1px solid black;
+}*/
+
+.black-border-quick-action-btn:hover {
+    border-color: #00a9e0;
+    background-color: #00a9e0;
+}
+
+.black-border-quick-action-btn:hover a {
+    color: #fff;
+}
+
+.black-border-quick-action-btn:hover svg {
+    fill: #fff;
+}
+
+/*.black-border-quick-action-btn:hover .quick-action-text {
+    border-right: 1px solid currentColor;
+}*/
 
 /************ Style for fixed header table **********/
 .fixed{
