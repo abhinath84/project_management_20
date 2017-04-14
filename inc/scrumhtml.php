@@ -59,7 +59,7 @@
 
         protected function getWidgetTitlebarContent()
         {
-            $tag = '<span id="project-title" class="project-title" onclick="shieldProjectPlanBacklog.showProject(this)">'.$this->project.'</span>'. $this->EOF_LINE;
+            $tag = '<span id="project-title" class="project-title" onclick="shieldProductBacklog.showProject(this)">'.$this->project.'</span>'. $this->EOF_LINE;
 
             return($tag);
         }
@@ -73,7 +73,7 @@
             $tag .= '                    <div class="project-backlog-container">'. $this->EOF_LINE;
             $tag .= '                       <div class="session-button">'. $this->EOF_LINE;
 
-            $tag .= Utility::getQuickActionBtn("move-to-project-btn", "Move to Project", "move-to-project-btn", 'onclick="shieldProductBacklog.moveToProjectDialog(this, false)"', "project-backlog-tbody", "shieldProductBacklog.moveToProjectDropdown");
+            $tag .= Utility::getQuickActionBtn("move-to-project-btn", "Move to Project", "", 'onclick="shieldProductBacklog.moveToProjectDialog(this, false)"', "project-backlog-tbody", "shieldProductBacklog.moveToProjectDropdown");
 
             $tag .= Utility::getQuickActionBtn("story-inline-btn", "Add to Story Inline", "story-inline-btn", 'onclick="shieldProductBacklog.addStoryInline(this, false)"', "project-backlog-tbody", "shieldProductBacklog.storyInlineDropdown");
 
@@ -126,58 +126,6 @@
                                 );
             return(Utility::getQuickActionBtnDropdown('backlog-table-dropdown', $dropdownList));
         }
-
-        /*private function createDasboardTable()
-        {
-            $Table = new HTMLTable("project-backlog-table", "grippy-table");
-
-            $Table->thead("project-backlog-thead");
-                $Table->th("&nbsp;", null, null, null, null);
-                $Table->th('<input type="checkbox" id="select_all" clickhandler="V1.Gadgets.Grid.MultiSelect.ToggleAll(\'_fjvevqi\');">', null, null, null, null);
-                $Table->th("Title", null,  null, null, "data-sort=\"string\"");
-                $Table->th("Owner", null,  null, null, "data-sort=\"string\"");
-                $Table->th("Priority", null,  null, null, "data-sort=\"string\"");
-                $Table->th("Status", null,  null, null, "data-sort=\"string\"");
-                $Table->th("Estimate Pts", null,  null, null, "data-sort=\"int\"");
-                $Table->th("Project", null,  null, null, "data-sort=\"string\"");
-                $Table->th("&nbsp", null,  null, null, null);
-
-            $Table->tbody("project-backlog-tbody");
-
-            $cols = Array('title','owner','priority','status',
-                        'estimated','project','sprint','description',
-                        'type','risk','etype','source','reference',
-                        'build','resolution');
-            $rows = getTableElements('scrum_backlog', $cols, ''/*'project="'.$project.'"'*//*);
-            if(!empty($rows))
-            {
-                //loop over the result and fill the rows
-                $i = 1;
-                foreach($rows as $row)
-                {
-                    $Table->tr(null, null, null, "align=\"center\"");
-                        $Table->td(getGreppyDotTag(), "{$i}-greppy", "hasGrippy", "text-align: center; width: 2%;");
-                        $Table->td('<input type="checkbox" class="checkbox">', "{$i}", null, "width: 2%", "text-align=\"center\"");
-                        $Table->td($this->getBacklogTitle(true, $row[0]),"{$i}-title_container", "backlog-title-container", "width: 30%");
-                        $Table->td(Utility::decode($row[1]), "{$i}-owner", null, "width: 30%");
-                        $Table->td($row[2], "{$i}-priority", null, null);
-                        $Table->td($row[3], "{$i}-status", null, null);
-                        $Table->td($row[4], "{$i}-estimate", null, null);
-                        $Table->td($row[5], "{$i}-project", null, null);
-                        $Table->td($row[6], "{$i}-project", null, "display:none;");
-                        $Table->td(Utility::getQuickActionBtn("{$i}-edit-btn", "Edit", "quick-action-btn black-border-quick-action-btn", "", "", "backlog-table-dropdown"), "{$i}-edit", null, null, "width=\"2%\"");
-
-                        ++$i;
-                }
-            }
-            else
-            {
-                $Table->tr(null, null, null, "align=\"center\"");
-                $Table->td(null, null, null, null);
-            }
-
-            return(utf8_encode($Table->toHTML()));
-        }*/
 
         private function getProjectTable()
         {

@@ -12,22 +12,19 @@
 	margin-right: 0;
 }
 
-.move-to-project-btn {
-    margin-top: 5px;
-    margin-left: 5px;
-}
-
 .project-backlog-table-container {
     margin-top: 10px;
 }
 
 .session-button {
-    margin-top: 5px;
+    //margin-top: 5px;
+    background: #f6f6f6;
 }
 
 .session-button .story-inline-btn{
     float: right;
-    margin-top: 5px;
+    margin:0;
+    //margin-top: 5px;
 }
 
 .project-title {

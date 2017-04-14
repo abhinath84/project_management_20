@@ -244,7 +244,7 @@ fieldset {
 .quick-action-btn .quick-action-text {
     //border-right: 1px solid white;
     padding-left: 10px;
-    //padding-right: 10px;
+    padding-right: 5px;
     padding-top: 3px;
 }
 
@@ -261,6 +261,9 @@ fieldset {
 
 .quick-action-btn svg{
     fill: #fff;
+    vertical-align: middle;
+    width: 25px;
+    height: 25px;
 }
 
 .quick-action-btn:hover {
@@ -313,6 +316,20 @@ fieldset {
 /*.black-border-quick-action-btn:hover .quick-action-text {
     border-right: 1px solid currentColor;
 }*/
+
+.quick-act a{
+    border: 1px solid black;
+    padding: 4px 2px;
+    margin-right: 20px;
+    display: inline-block;
+}
+
+.quick-act a svg {
+    width:25px;
+    height:25px;
+    display: inline-block;
+    vertical-align: middle;
+}
 
 /************ Style for fixed header table **********/
 .fixed{

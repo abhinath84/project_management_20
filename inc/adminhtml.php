@@ -228,7 +228,7 @@
 
                         if(($row[12] == 'System Admin') || ($row[12] == 'Project Admin'))
                         {
-                            $table->td(Utility::getQuickActionBtn("{$inx}-project-edit-btn", "Edit", "project-td-btn", "onclick=\"shieldProject.openEditDialog(this, 'project-tbody', false)\"", "{$inx}", "shieldProject.projectDropdown"), "project-edit", null, null, "width=\"5%\"");
+                            $table->td(Utility::getQuickActionBtn("{$inx}-project-edit-btn", "Edit", "black-border-quick-action-btn", "onclick=\"shieldProject.openEditDialog(this, 'project-tbody', false)\"", "{$inx}", "shieldProject.projectDropdown"), "project-edit", null, null, "width=\"5%\"");
                         }
                         else
                             $table->td("&nbsp;", "project-edit", null, null, "width=\"10%\"");
@@ -293,7 +293,7 @@
                         $table->td("{$row[1]} {$row[2]}", "{$inx}-length", null, null, "width=\"25%\"");
                         $table->td("{$row[3]} {$row[4]}", "{$inx}-gap", null, null, "width=\"25%\"");
                         $table->td("{$row[5]}", "{$inx}-description", null, "display: none;");
-                        $table->td(Utility::getQuickActionBtn("{$inx}-sprint-schedule-edit-btn", "Edit", "project-td-btn", "onclick=\"shieldSprintSchedule.openEditDialog(this, 'project-tbody', false)\"", "{$inx}", "shieldSprintSchedule.editDropdown"), "project-edit", null, null, "width=\"5%\"");
+                        $table->td(Utility::getQuickActionBtn("{$inx}-sprint-schedule-edit-btn", "Edit", "black-border-quick-action-btn", "onclick=\"shieldSprintSchedule.openEditDialog(this, 'project-tbody', false)\"", "{$inx}", "shieldSprintSchedule.editDropdown"), "project-edit", null, null, "width=\"5%\"");
                 }
             }
         }
