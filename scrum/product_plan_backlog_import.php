@@ -14,7 +14,7 @@
 
     // if not log in then redirect to login page.
     if(!isset($_SESSION['project-managment-username']))
-        header("Location: ../user/login.php?redirect=../scrum/product_plan_backlog.php");
+        header("Location: ../user/login.php?redirect=../scrum/product_plan_backlog_import.php");
 ?>
 
 <!DOCTYPE HTML>

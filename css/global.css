@@ -1296,12 +1296,136 @@ all the pages.
 [tooltip][flow^="up"]:hover::after,
 [tooltip][flow^="down"]:hover::before,
 [tooltip][flow^="down"]:hover::after {
-  animation: tooltips-vert 300ms ease-out forwards;
+  animation: tooltips-vert 200ms ease-out forwards;
 }
 
 [tooltip][flow^="left"]:hover::before,
 [tooltip][flow^="left"]:hover::after,
 [tooltip][flow^="right"]:hover::before,
 [tooltip][flow^="right"]:hover::after {
-  animation: tooltips-horz 300ms ease-out forwards;
+  animation: tooltips-horz 200ms ease-out forwards;
+}
+
+/*********************************************************/
+
+
+/********************************************************
+        Style for Product Backlog Import
+********************************************************/
+#product-backlog-import blockquote, #product-backlog-import div, #product-backlog-import fieldset, #product-backlog-import form, #product-backlog-import h1, #product-backlog-import h2, #product-backlog-import h3, #product-backlog-import h4, #product-backlog-import h5, #product-backlog-import h6, #product-backlog-import label, #product-backlog-import li, #product-backlog-import p, #product-backlog-import section, #product-backlog-import span, #product-backlog-import strong, #product-backlog-import table, #product-backlog-import tbody, #product-backlog-import td, #product-backlog-import th, #product-backlog-import thead, #product-backlog-import tr, #product-backlog-import ul {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    vertical-align: baseline;
+}
+
+#product-backlog-import .left-panel {
+    //padding: 15px;
+    width: 90%;
+    max-width: 400px;
+    float: left;
+}
+
+#product-backlog-import .lp-intro {
+    background-color: rgb(238, 241, 244);
+    padding: 10px 0;
+    text-align: center;
+}
+
+#product-backlog-import h1 {
+    font-size: 1.714em;
+    letter-spacing: -.025em;
+    vertical-align: baseline;
+}
+
+#product-backlog-import .lp-intro h1 {
+    font-size: 1.314em;
+    text-transform: uppercase;
+}
+
+#product-backlog-import .lp-templates {
+    background-color: #dde2e9;
+    padding: 15px;
+    border-bottom: 1px solid #dde2e9;
+}
+
+#product-backlog-import .lp-templates .subnote {
+    padding: 6px 0;
+}
+
+#product-backlog-import .left-panel h2 {
+    margin: 2em auto .5em;
+    text-align: center;
+    color: #272c34;
+}
+
+#product-backlog-import .left-panel a {
+    zoom: 1;
+    -moz-border-radius: 6px;
+    -webkit-border-radius: 6px;
+    border-radius: 6px;
+    border: 0;
+    transition: .5s all linear;
+    font-weight: 500;
+    text-transform: capitalize;
+    white-space: nowrap;
+    letter-spacing: .03em;
+    height: 32px;
+    line-height: 32px;
+    cursor: pointer;
+    background-color: #00a9e0;
+    color: #fff;
+    padding: .5em 1em;
+    margin: .5em auto 1em;
+    text-align: center;
+    width: 80%;
+    display: block;
+    text-decoration: none;
+}
+
+#product-backlog-import .left-panel a:hover {
+    background-color: #006e92;
+}
+
+#product-backlog-import .hidden {
+    display: none;
+}
+
+#product-backlog-import a.import-btn {
+    background: #ea6c02;
+}
+
+#product-backlog-import a.import-btn:hover {
+    background: #c75c02;
+}
+
+#product-backlog-import .right-panel {
+    float: left;
+    margin-left: 65px;
+    margin-bottom: 50px;
+    //padding: 15px;
+    min-height: 500px;
+    max-width: 550px;
+}
+
+#product-backlog-import .right-panel h2 {
+    color: #272c34;
+}
+
+#product-backlog-import .right-panel h3 {
+    color: #00a9e0;
+    margin: 2em 0 1em;
+    text-transform: uppercase;
+    font-weight: 900;
+}
+
+#product-backlog-import .right-panel p, #product-backlog-import .right-panel ul li {
+    list-style: disc inside!important;
+    padding: .5em 0;
+    font-size: .857em;
+}
+
+#product-backlog-import .right-panel ul {
+    list-style: disc inside!important;
+    padding: 0 0 0 1em;
 }

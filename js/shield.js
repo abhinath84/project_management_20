@@ -922,8 +922,9 @@ var shieldProductBacklog = {
         utility.updateDashboradTable(this.info.tbodyId, 'getTableBodyElement', 'ProductBacklogHTML', 'WHERE project="'+ selProject +'"');
 
         // uncheck table header checkbox.
-        //document.getElementById('select-all-checkbox').checked = false;
-        $("#backlog-th-checkbox").prop("checked", false);
+        $("#project-backlog-table #backlog-th-checkbox").prop("checked", false);
+        // disabled 'Move To Project' button
+        $("#move-to-project-btn-container").removeAttr('disabled');
 
         // hide the dialog
         shield.show(false);
@@ -1009,7 +1010,7 @@ var shieldProductBacklog = {
         }
 
         // check/uncheck 'member-th-checkbox' checkbox
-        $('#backlog-th-checkbox').prop('checked', check);
+        $("#project-backlog-table #backlog-th-checkbox").prop("checked", check);
 
         // enable/disable 'assign-project-btn' button.
         if(!disable)

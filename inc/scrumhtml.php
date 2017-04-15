@@ -20,6 +20,8 @@
 
     abstract class ProductHTML extends ScrumHTML
     {
+        protected $project = 'Project 2017';
+
         public function __construct($curNav = null, $curDir = null, $enableNav = false, $currentTab = null)
         {
             $tabs = array
@@ -50,8 +52,6 @@
 
     class ProductBacklogHTML extends ProductHTML
     {
-        private $project = 'Project 2017';
-
         public function __construct($curNav = null, $curDir = null, $enableNav = false)
         {
             parent::__construct("Scrum-Product-Planning-Backlog", "scrum", true, 'Backlog');
@@ -209,6 +209,49 @@
         public function __construct($curNav = null, $curDir = null, $enableNav = false)
         {
             parent::__construct("Scrum-Product-Planning-Backlog", "scrum", true, 'Import');
+        }
+
+        /*protected function getWidgetTitlebarContent()
+        {
+            $tag = '<span id="project-title" class="project-title" onclick="shieldProductBacklogImport.showProject(this)">'.$this->project.'</span>'. $this->EOF_LINE;
+
+            return($tag);
+        }*/
+
+        protected function getWidgetboxContent()
+        {
+            $tag = '';
+            $tag .= '<div id="product-backlog-import">'. $this->EOF_LINE;
+            $tag .= '   <div class="left-panel">'. $this->EOF_LINE;
+            $tag .= '       <div class="lp-intro">'. $this->EOF_LINE;
+            $tag .= '           <h1>Import your backlog using Excel</h1>'. $this->EOF_LINE;
+            $tag .= '       </div>'. $this->EOF_LINE;
+            $tag .= '       <div class="lp-templates">'. $this->EOF_LINE;
+            $tag .= '           <p class="subnote">Project Management Excel-based Import Templates can be used to import backlog items in bulk.</p>'. $this->EOF_LINE;
+            $tag .= '           <h2>Select a Template</h2>'. $this->EOF_LINE;
+            $tag .= '           <span>'. $this->EOF_LINE;
+            $tag .= '               <a class="basic-template-link" href="../config/Basic_Backlog_Import_Template.xls">'. $this->EOF_LINE;
+            $tag .= 'Download Basic Excel Template</a>'. $this->EOF_LINE;
+            $tag .= '           </span>'. $this->EOF_LINE;
+            $tag .= '           <div>'. $this->EOF_LINE;
+            $tag .= '               <h2>Import backlog</h2>'. $this->EOF_LINE;
+            $tag .= '               <div class="hidden">Sorry, Import has been disabled during this time period. <br>Import is enabled and available during the following times (in ET):<br>(None)'. $this->EOF_LINE;
+            $tag .= '               </div>'. $this->EOF_LINE;
+            $tag .= '               <a id="excel-import" class="import-btn">'. $this->EOF_LINE;
+            $tag .= '                   <span class="ui-button-text">Upload a completed Excel template file</span>'. $this->EOF_LINE;
+            $tag .= '               </a>'. $this->EOF_LINE;
+            $tag .= '           </div>'. $this->EOF_LINE;
+            $tag .= '       </div>'. $this->EOF_LINE;
+            $tag .= '   </div>'. $this->EOF_LINE;
+
+            $tag .= '<div class="right-panel">
+                        <h2>Helpful hints</h2>
+                        <h3>Creating an Excel import file</h3><p>Our import template contains helpful formatting and comments to speed your import file creation.  Please start with a template if you can.  Here are a few more tips to streamline your import: </p><ul><li>The header of the first column should always be "AssetType".  The column itself should contain the system name for the asset type. System names for basic asset types are included in the comments in the templates.</li><li>The remaining columns should contain the attribute data for the new asset. The column header should be the system name of the attribute.  The column itself should contain the  corresponding attribute value for that asset.</li><li>Worksheets are processed in alphabetical order by worksheet name, so within the same excel file, you can reference a work item that was created in an earlier worksheet. For example, to create a project and stories within the project, add the project in the first worksheet, and then add the stories in the new project in a second worksheet.</li><li>The backlog import template includes system names for default assets and fields.  To include other assets or fields, including custom fields, please contact your system administrator for the corresponding system names. You can remove unnecessary fields by deleting the column.</li><li>To maintain data integrity, each Import is conducted within a single transaction.  For this reason, and to receive quicker feedback, we recommend limiting your import to 500 items per import file.</li></ul><h3>Troubleshooting import errors</h3><p>Items are imported only if all items pass validation.  A descriptive message will be displayed for each validation error.  Some common validation failures include: </p><ul><li>Missing data for a required field. Required fields for a default configuration are indicated in the template.  If your system has been customized, additional fields may be required.</li><li>Duplicate assets are found for an asset reference.  If your import references an existing asset and another asset of the same type has the same name, then the import will fail. If you have a story named "Administration" in both Project A and Project B, you must specify "Project A\Administration" in your Excel file for the reference to be unique.</li><li>Invalid values for select (list value) options.  Values for select options, such as Status and Priority, must exist in the system to be valid for import. Check Administration &gt; List Types for correct values for your system.</li><li>No data to import is found.  If your excel spreadsheet is formatted incorrectly, the import may fail.  Start by downloading a template to ensure correct formatting.  Copy your data into the template.</li></ul>
+                    </div>';
+
+            $tag .= '</div>'.$this->EOF_LINE;
+
+            return($tag);
         }
     }
 
