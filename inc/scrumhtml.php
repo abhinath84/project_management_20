@@ -6,6 +6,7 @@
     {
         protected $table        = null;
         protected $dropdownList = null;
+        protected $project      = 'Project 2017';
 
         public function __construct($curNav = null, $curDir = null, $enableNav = false, $tabItems = null, $currentTab = null)
         {
@@ -20,8 +21,6 @@
 
     abstract class ProductHTML extends ScrumHTML
     {
-        protected $project = 'Project 2017';
-
         public function __construct($curNav = null, $curDir = null, $enableNav = false, $currentTab = null)
         {
             $tabs = array
@@ -255,11 +254,99 @@
         }
     }
 
+    class ReleasePlanHTML extends ScrumHTML
+    {
+        public function __construct($curNav = null, $curDir = null, $enableNav = false)
+        {
+            $tabs = array
+                          (
+                            array('Release Planning', 'release_plan.php', SVG::getReleasePlan())
+                          );
+
+            parent::__construct('Scrum-Release-Planning', "scrum", true, $tabs, 'Release Planning');
+        }
+
+        protected function addDashboard()
+        {
+            return($this->getReleaseWidgetbox());
+        }
+
+        private function getReleaseWidgetbox()
+        {
+            $tag = '';
+
+            $tag .= '<div class="release-widgetbox">'. $this->EOF_LINE;
+            $tag .= '<section class="main">'. $this->EOF_LINE;
+            $tag .= '   <div class="titlebar">'. $this->EOF_LINE;
+            $tag .= '       <h1>'. $this->EOF_LINE;
+            $tag .= '           <span class="title">Release Planning</span>'. $this->EOF_LINE;
+            $tag .='            <span id="project-title" class="project-title" onclick="shieldReleasePlan.showProject(this)">'. $this->project .'</span>'. $this->EOF_LINE;
+            $tag .= '       </h1>'. $this->EOF_LINE;
+            $tag .= '   </div>'. $this->EOF_LINE;
+            $tag .= '</section>'. $this->EOF_LINE;
+
+            $tag .= '<sidebar class="menu-secondary">'. $this->EOF_LINE;
+            $tag .= '   <section>'. $this->EOF_LINE;
+            $tag .= '       <header class="menu-secondary-header">'. $this->EOF_LINE;
+            $tag .= '           <h1><span>Release Project</span></h1>'. $this->EOF_LINE;
+            $tag .= '       </header>'. $this->EOF_LINE;
+            $tag .= '   </section>'. $this->EOF_LINE;
+            $tag .= '</sidebar>'. $this->EOF_LINE;
+            $tag .= '</div>'. $this->EOF_LINE;
+
+            return($tag);
+        }
+    }
+
+    class SprintPlanHTML extends ScrumHTML
+    {
+        public function __construct($curNav = null, $curDir = null, $enableNav = false)
+        {
+            $tabs = array
+                          (
+                            array('Sprint Planning', 'sprint_plan.php', SVG::getSprintPlan())
+                          );
+
+            parent::__construct('Scrum-Sprint-Planning', "scrum", true, $tabs, 'Sprint Planning');
+        }
+
+        protected function addDashboard()
+        {
+            return($this->getReleaseWidgetbox());
+        }
+
+        private function getReleaseWidgetbox()
+        {
+            $tag = '';
+
+            $tag .= '<div class="release-widgetbox">'. $this->EOF_LINE;
+            $tag .= '<section class="main">'. $this->EOF_LINE;
+            $tag .= '   <div class="titlebar">'. $this->EOF_LINE;
+            $tag .= '       <h1>'. $this->EOF_LINE;
+            $tag .= '           <span class="title">Sprint Planning</span>'. $this->EOF_LINE;
+            $tag .='            <span id="project-title" class="project-title" onclick="shieldSprintPlan.showProject(this)">'. $this->project .'</span>'. $this->EOF_LINE;
+            $tag .= '       </h1>'. $this->EOF_LINE;
+            $tag .= '   </div>'. $this->EOF_LINE;
+            $tag .= '</section>'. $this->EOF_LINE;
+
+            $tag .= '<sidebar class="menu-secondary">'. $this->EOF_LINE;
+            $tag .= '   <section>'. $this->EOF_LINE;
+            $tag .= '       <header class="menu-secondary-header">'. $this->EOF_LINE;
+            $tag .= '           <h1><span>Sprints</span></h1>'. $this->EOF_LINE;
+            $tag .= '       </header>'. $this->EOF_LINE;
+            $tag .= '   </section>'. $this->EOF_LINE;
+            $tag .= '</sidebar>'. $this->EOF_LINE;
+            $tag .= '</div>'. $this->EOF_LINE;
+
+            return($tag);
+        }
+    }
+
     class SprintDetailedHTML extends SprintTrackHTML
     {
         public function __construct($curNav = null, $curDir = null, $enableNav = false)
         {
-        parent::__construct("Scrum-Sprint-Tracking-Detail", "scrum", true, 'Detail Tracking');
+            parent::__construct("Scrum-Sprint-Tracking-Detail", "scrum", true, 'Detail Tracking');
         }
 
         protected function getWidgetboxContent()

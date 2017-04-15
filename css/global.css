@@ -1429,3 +1429,77 @@ all the pages.
     list-style: disc inside!important;
     padding: 0 0 0 1em;
 }
+
+
+/***********************************************/
+
+
+
+/***********************************************
+        Style for Release Planning
+************************************************/
+.release-widgetbox {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    height: 100%;
+}
+
+.release-widgetbox .main {
+    -webkit-box-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    min-width: 0;
+    padding: 0 2rem;
+}
+
+.release-widgetbox .titlebar {
+    margin-top: 50px;
+    background-color: #444;
+}
+
+.release-widgetbox .titlebar h1 {
+    margin: 0;
+    font-weight: 300;
+    font-size: 1.714em;
+    letter-spacing: -.025em;
+    padding: 10px .5em;
+    color: white;
+}
+
+.release-widgetbox .titlebar .title {
+    margin-right: 35px;
+    color: #9dce0a;
+    text-transform: uppercase;
+}
+
+.release-widgetbox .menu-secondary {
+    background: #f5f5f5;
+    -webkit-box-flex: 0;
+    -ms-flex: 0 0 auto;
+    flex: 0 0 auto;
+    min-width: 0;
+    padding: 1rem;
+    width: 320px;
+}
+
+.release-widgetbox .menu-secondary .menu-secondary-header {
+    -ms-flex-line-pack: center;
+    align-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    margin-top: 25px;
+}
+
+.release-widgetbox .menu-secondary .menu-secondary-header h1 {
+    font-size: 2rem;
+    text-transform: uppercase;
+    margin: 0;
+}
