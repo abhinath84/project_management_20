@@ -49,6 +49,58 @@
         }
     }
 
+    abstract class SecondaryWidgetboxHTML extends ScrumHTML
+    {
+        private $secondaryContentTitle = null;
+
+        public function __construct($curNav = null, $curDir = null, $enableNav = false, $tabItems = null, $currentTab = null, $secondaryContentTitle)
+        {
+            $this->secondaryContentTitle = $secondaryContentTitle;
+            parent::__construct($curNav, $curDir, $enableNav, $tabItems, $currentTab);
+        }
+
+        protected function addDashboard()
+        {
+            return($this->getSecondaryWidgetbox());
+        }
+
+        protected function getSecondaryWidgetboxTitle()  { return(''); }
+        abstract protected function getSecondaryWidgetboxContent();
+        abstract protected function getSecondaryWidgetboxSecondaryContent();
+
+        private function getSecondaryWidgetbox()
+        {
+            $tag = '';
+
+            $tag .= '<div class="widgetbox-secondary-content release">'. $this->EOF_LINE;
+            $tag .= '   <section class="main">'. $this->EOF_LINE;
+            $tag .= '       <section class="titlebar">'. $this->EOF_LINE;
+            $tag .= '           <h1>'. $this->EOF_LINE;
+            $tag .= '               <span class="title">Release Planning</span>'. $this->EOF_LINE;
+            $tag .=                 $this->getSecondaryWidgetboxTitle();
+            $tag .= '           </h1>'. $this->EOF_LINE;
+            $tag .= '       </section>'. $this->EOF_LINE;
+
+            $tag .=         $this->getSecondaryWidgetboxContent();
+
+            $tag .= '   </section>'. $this->EOF_LINE;
+
+            $tag .= '   <sidebar class="menu-secondary">'. $this->EOF_LINE;
+            $tag .= '       <section>'. $this->EOF_LINE;
+            $tag .= '           <header class="menu-secondary-header">'. $this->EOF_LINE;
+            $tag .= '               <h1><span>'.$this->secondaryContentTitle.'</span></h1>'. $this->EOF_LINE;
+            $tag .= '           </header>'. $this->EOF_LINE;
+            $tag .= '       </section>'. $this->EOF_LINE;
+
+            $tag .=         $this->getSecondaryWidgetboxSecondaryContent();
+
+            $tag .= '   </sidebar>'. $this->EOF_LINE;
+            $tag .= '</div>'. $this->EOF_LINE;
+
+            return($tag);
+        }
+    }
+
     class ProductBacklogHTML extends ProductHTML
     {
         public function __construct($curNav = null, $curDir = null, $enableNav = false)
@@ -210,13 +262,6 @@
             parent::__construct("Scrum-Product-Planning-Backlog", "scrum", true, 'Import');
         }
 
-        /*protected function getWidgetTitlebarContent()
-        {
-            $tag = '<span id="project-title" class="project-title" onclick="shieldProductBacklogImport.showProject(this)">'.$this->project.'</span>'. $this->EOF_LINE;
-
-            return($tag);
-        }*/
-
         protected function getWidgetboxContent()
         {
             $tag = '';
@@ -254,7 +299,7 @@
         }
     }
 
-    class ReleasePlanHTML extends ScrumHTML
+    class ReleasePlanHTML extends SecondaryWidgetboxHTML
     {
         public function __construct($curNav = null, $curDir = null, $enableNav = false)
         {
@@ -263,42 +308,40 @@
                             array('Release Planning', 'release_plan.php', SVG::getReleasePlan())
                           );
 
-            parent::__construct('Scrum-Release-Planning', "scrum", true, $tabs, 'Release Planning');
+            parent::__construct('Scrum-Release-Planning', "scrum", true, $tabs, 'Release Planning', 'Release Project');
         }
 
-        protected function addDashboard()
+        protected function getSecondaryWidgetboxTitle()
         {
-            return($this->getReleaseWidgetbox());
+            $tag = '<span id="project-title" class="project-title" onclick="shieldReleasePlan.showProject(this)">'. $this->project .'</span>';
+
+            return($tag);
         }
 
-        private function getReleaseWidgetbox()
+        protected function getSecondaryWidgetboxContent()
         {
             $tag = '';
 
-            $tag .= '<div class="release-widgetbox">'. $this->EOF_LINE;
-            $tag .= '<section class="main">'. $this->EOF_LINE;
-            $tag .= '   <div class="titlebar">'. $this->EOF_LINE;
-            $tag .= '       <h1>'. $this->EOF_LINE;
-            $tag .= '           <span class="title">Release Planning</span>'. $this->EOF_LINE;
-            $tag .='            <span id="project-title" class="project-title" onclick="shieldReleasePlan.showProject(this)">'. $this->project .'</span>'. $this->EOF_LINE;
-            $tag .= '       </h1>'. $this->EOF_LINE;
-            $tag .= '   </div>'. $this->EOF_LINE;
+            $tag .= '<section class="release-main">'. $this->EOF_LINE;
+            $tag .= '   <p>#Release Main Article</p>'. $this->EOF_LINE;
             $tag .= '</section>'. $this->EOF_LINE;
 
-            $tag .= '<sidebar class="menu-secondary">'. $this->EOF_LINE;
-            $tag .= '   <section>'. $this->EOF_LINE;
-            $tag .= '       <header class="menu-secondary-header">'. $this->EOF_LINE;
-            $tag .= '           <h1><span>Release Project</span></h1>'. $this->EOF_LINE;
-            $tag .= '       </header>'. $this->EOF_LINE;
-            $tag .= '   </section>'. $this->EOF_LINE;
-            $tag .= '</sidebar>'. $this->EOF_LINE;
-            $tag .= '</div>'. $this->EOF_LINE;
+            return($tag);
+        }
+
+        protected function getSecondaryWidgetboxSecondaryContent()
+        {
+            $tag = '';
+
+            $tag .= '<section class="release-secondary">'. $this->EOF_LINE;
+            $tag .= '   <p>#Release Secondary Article</p>'. $this->EOF_LINE;
+            $tag .= '</section>'. $this->EOF_LINE;
 
             return($tag);
         }
     }
 
-    class SprintPlanHTML extends ScrumHTML
+    class SprintPlanHTML extends SecondaryWidgetboxHTML
     {
         public function __construct($curNav = null, $curDir = null, $enableNav = false)
         {
@@ -307,36 +350,89 @@
                             array('Sprint Planning', 'sprint_plan.php', SVG::getSprintPlan())
                           );
 
-            parent::__construct('Scrum-Sprint-Planning', "scrum", true, $tabs, 'Sprint Planning');
+            parent::__construct('Scrum-Sprint-Planning', "scrum", true, $tabs, 'Sprint Planning', 'Sprints');
         }
 
-        protected function addDashboard()
+        protected function getSecondaryWidgetboxTitle()
         {
-            return($this->getReleaseWidgetbox());
+            $tag = '<span id="project-title" class="project-title" onclick="shieldSprintPlan.showProject(this)">'. $this->project .'</span>';
+
+            return($tag);
         }
 
-        private function getReleaseWidgetbox()
+        protected function getSecondaryWidgetboxContent()
         {
             $tag = '';
 
-            $tag .= '<div class="release-widgetbox">'. $this->EOF_LINE;
-            $tag .= '<section class="main">'. $this->EOF_LINE;
-            $tag .= '   <div class="titlebar">'. $this->EOF_LINE;
-            $tag .= '       <h1>'. $this->EOF_LINE;
-            $tag .= '           <span class="title">Sprint Planning</span>'. $this->EOF_LINE;
-            $tag .='            <span id="project-title" class="project-title" onclick="shieldSprintPlan.showProject(this)">'. $this->project .'</span>'. $this->EOF_LINE;
-            $tag .= '       </h1>'. $this->EOF_LINE;
-            $tag .= '   </div>'. $this->EOF_LINE;
+            $tag .= '<section class="sprint-plan-main">'. $this->EOF_LINE;
+            $tag .= '   <p>#Sprint Plan Main Article</p>'. $this->EOF_LINE;
             $tag .= '</section>'. $this->EOF_LINE;
 
-            $tag .= '<sidebar class="menu-secondary">'. $this->EOF_LINE;
-            $tag .= '   <section>'. $this->EOF_LINE;
-            $tag .= '       <header class="menu-secondary-header">'. $this->EOF_LINE;
-            $tag .= '           <h1><span>Sprints</span></h1>'. $this->EOF_LINE;
-            $tag .= '       </header>'. $this->EOF_LINE;
-            $tag .= '   </section>'. $this->EOF_LINE;
-            $tag .= '</sidebar>'. $this->EOF_LINE;
-            $tag .= '</div>'. $this->EOF_LINE;
+            return($tag);
+        }
+
+        protected function getSecondaryWidgetboxSecondaryContent()
+        {
+            $tag = '';
+
+            $tag .= '<section class="sprint-plan-secondary">'. $this->EOF_LINE;
+            $tag .= '   <div id="sprint-list-container">'. $this->EOF_LINE;
+            $tag .= '       <div class="sub-header">'. $this->EOF_LINE;
+            $tag .= '           <div class="actions asset-actions">'. $this->EOF_LINE;
+            $tag .= '               Show Closed: <input id="showClosed" name="showClosed" type="checkbox" value="true"><input name="showClosed" type="hidden" value="false">'. $this->EOF_LINE;
+            $tag .= '           </div>'. $this->EOF_LINE;
+            $tag .= '           <div class="sub-title">Total</div>'. $this->EOF_LINE;
+            $tag .= '           <div class="sub-title">Closed</div>'. $this->EOF_LINE;
+            $tag .= '       </div>'. $this->EOF_LINE;
+            $tag .= '       <div class="sprint-list">'. $this->EOF_LINE;
+            $tag .=         $this->getSprint('Sprint-1', '22-Nov-2016 - 13-Dec-2016', 60, 25, true, false);
+            $tag .=         $this->getSprint('Sprint-2', '10-Jan-2017 - 30-Jan-2017', 100, 10, false, false);
+            $tag .=         $this->getSprint('Sprint-3', '02-Feb-2017 - 27-Feb-2017', 0, 0, false, false);
+            $tag .= '       </div>'. $this->EOF_LINE;
+            $tag .= '   </div>'. $this->EOF_LINE;
+            $tag .=     Utility::getRetroButton('Add Sprint', 'add-sprint-btn', 'green-bg add-sprint-btn', 'onclick="shieldSprintPlan.openAddDialog(this, false)"');
+            $tag .= '</section>'. $this->EOF_LINE;
+
+            return($tag);
+        }
+
+        private function getSprint($title, $range, $total, $closed, $selected, $current)
+        {
+            $tag = '<div class="bucket gadget">
+                    	<div class="current-sprint"></div>
+                    	<div class="timebox-dropzone'.($selected ? ' selected' : '').'">
+                    		<div class="box">
+                    			<div class="timebox-summary">
+                    				<div class="content">
+                    					<div class="summary">
+                    						<div class="summary-title asset-hover">'.$title.'</div>
+                    					  <div class="summary-label">'.$range.($current? ' (Current)' : '').'</div>
+                    					</div>
+                                        <div class="summary summary-right">
+                                            <div class="summary-value">
+                                                <span class="val">'.$total.'</span>
+                                            </div>
+                                            <div class="summary-value">
+                                                <span class="val">'.$closed.'</span>
+                                            </div>
+                                            <div class="summary-value value-1">
+                                                <span class="val">-'.($total - $closed).'</span>
+                                            </div>
+                                        </div>
+                    				</div>
+                    			</div>
+                    		</div>
+                    	</div>
+                    	<div class="details-accordion-container'.($selected ? ' selected' : '').'" style="">
+                    		<div class="details-accordion">
+                    			<div class="asset-actions" _v1_asset="Timebox:1011">
+                                    <div class="title-action-menu actions static inline-btn standard-btn basic-alt-btn">
+                                        <a class="quick-action-text default-action" href="#">Edit</a>
+                                    </div>
+                    			</div>
+                    		</div>
+                    	</div>
+                    </div>';
 
             return($tag);
         }

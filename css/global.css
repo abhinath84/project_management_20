@@ -803,7 +803,7 @@ all the pages.
 }
 
 .widgetbox .titlebar .title {
-    margin-right: 35px;
+    margin-right: 30px;
     color: #9dce0a; //#86f543;
     text-transform: uppercase;
 }
@@ -1438,14 +1438,14 @@ all the pages.
 /***********************************************
         Style for Release Planning
 ************************************************/
-.release-widgetbox {
+.widgetbox-secondary-content {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
     height: 100%;
 }
 
-.release-widgetbox .main {
+.widgetbox-secondary-content .main {
     -webkit-box-flex: 1;
     -ms-flex: 1;
     flex: 1;
@@ -1453,12 +1453,12 @@ all the pages.
     padding: 0 2rem;
 }
 
-.release-widgetbox .titlebar {
+.widgetbox-secondary-content .titlebar {
     margin-top: 50px;
     background-color: #444;
 }
 
-.release-widgetbox .titlebar h1 {
+.widgetbox-secondary-content .titlebar h1 {
     margin: 0;
     font-weight: 300;
     font-size: 1.714em;
@@ -1467,13 +1467,13 @@ all the pages.
     color: white;
 }
 
-.release-widgetbox .titlebar .title {
-    margin-right: 35px;
+.widgetbox-secondary-content .titlebar .title {
+    margin-right: 30px;
     color: #9dce0a;
     text-transform: uppercase;
 }
 
-.release-widgetbox .menu-secondary {
+.widgetbox-secondary-content .menu-secondary {
     background: #f5f5f5;
     -webkit-box-flex: 0;
     -ms-flex: 0 0 auto;
@@ -1483,7 +1483,7 @@ all the pages.
     width: 320px;
 }
 
-.release-widgetbox .menu-secondary .menu-secondary-header {
+.widgetbox-secondary-content .menu-secondary .menu-secondary-header {
     -ms-flex-line-pack: center;
     align-content: center;
     -webkit-box-align: center;
@@ -1498,8 +1498,142 @@ all the pages.
     margin-top: 25px;
 }
 
-.release-widgetbox .menu-secondary .menu-secondary-header h1 {
+.widgetbox-secondary-content .menu-secondary .menu-secondary-header h1 {
     font-size: 2rem;
     text-transform: uppercase;
     margin: 0;
+}
+
+.widgetbox-secondary-content .sprint-plan-secondary {
+    margin-top: 25px;
+}
+
+.sprint-plan-secondary .sub-header {
+    //background-color: #fff;
+    padding: 0 .5em;
+    line-height: 30px;
+    border: 1px solid #C4CBD6;
+}
+
+.sprint-plan-secondary .sub-header .actions.asset-actions {
+    font-size: .957em;
+    width: 68%;
+    display: inline-block;
+    zoom: 1;
+}
+
+.sprint-plan-secondary .sub-header .actions.asset-actions #showClosed {
+    vertical-align: middle;
+}
+
+.sprint-plan-secondary .sub-header .sub-title {
+    display: inline;
+    text-transform: uppercase;
+    font-size: .714em;
+    margin-right: 3px;
+    width: 32%;
+}
+
+.sprint-plan-secondary .sprint-list .gadget.bucket {
+    border: 0;
+    border-left: 1px solid #C4CBD6;
+    border-right: 1px solid #C4CBD6;
+    border-bottom: 1px solid #dde2e9;
+    display: block;
+    position: relative;
+}
+
+.sprint-plan-secondary .sprint-list .gadget.bucket .timebox-dropzone.selected .box,
+.sprint-plan-secondary .sprint-list .gadget.bucket.closed .box:hover {
+    background-color: #d6effc;
+}
+
+.sprint-plan-secondary .sprint-list .gadget.bucket .box .content {
+    border: 1px solid transparent;
+    background-color: transparent;
+    display: table;
+    align-items: center;
+}
+
+.sprint-plan-secondary .sprint-list .gadget.bucket .box .content .summary {
+    display: inline-block;
+    text-align: left;
+    width: 180px;
+    margin: 2px 12px 4px 2px;
+    padding: .2em .2em .2em .6em;
+}
+
+.sprint-plan-secondary .sprint-list .gadget.bucket .summary-title {
+    font-size: 1.143em;
+}
+
+.sprint-plan-secondary .sprint-list .gadget.bucket .box .content .summary .summary-label {
+    text-transform: lowercase;
+    white-space: nowrap;
+    font-size: .857em;
+    color: #838383;
+    padding-top: .2em;
+    height: 12px;
+    text-transform: uppercase;
+}
+
+.sprint-plan-secondary .sprint-list .gadget.bucket .timebox-dropzone.selected .box .content .summary .summary-label {
+    color: #262626;
+}
+
+.sprint-plan-secondary .sprint-list .gadget.bucket .box .content .summary+.summary {
+    border-left: 1px solid #e6e6e6;
+}
+
+.sprint-plan-secondary .sprint-list .gadget.bucket .box .content .summary.summary-right {
+    display: table-cell;
+    vertical-align: middle;
+    padding: 0;
+}
+
+.sprint-plan-secondary .sprint-list .gadget.bucket .summary-value {
+    display: inline-block;
+    font-size: 1.143em;
+    width: 32%;
+    color: #a6a6a6;
+    float: left;
+}
+
+.sprint-plan-secondary .sprint-list .gadget.bucket .box .content .summary .summary-value {
+    padding-top: .2em;
+    width: 35px;
+    text-align: right;
+}
+
+.sprint-plan-secondary .sprint-list .gadget.bucket .timebox-dropzone.selected .box .content .summary .summary-value {
+    color: #838383;
+    font-size: 1.143em;
+}
+
+.sprint-plan-secondary .sprint-list .gadget.bucket .box .content .summary.summary-right .val {
+    display: inline-block;
+    width: 100%;
+}
+
+.sprint-plan-secondary .sprint-list .gadget.bucket .details-accordion-container {
+    border-top: none;
+    padding-left: .8em;
+}
+
+.sprint-plan-secondary .sprint-list .gadget.bucket .details-accordion-container.selected {
+    background-color: #d6effc;
+}
+
+.sprint-plan-secondary .sprint-list .gadget.bucket .details-accordion-container .asset-actions {
+    text-align: right;
+    padding-top: .4em;
+    padding-bottom: .4em;
+    //width: 340px;
+}
+
+.sprint-plan-secondary .green-bg.add-sprint-btn {
+    margin-top: 25px;
+    width:100%;
+    height: 35px;
+    text-transform: uppercase;
 }
