@@ -353,6 +353,75 @@
             parent::__construct('Scrum-Sprint-Planning', "scrum", true, $tabs, 'Sprint Planning', 'Sprints');
         }
 
+        static function getSprintList($project)
+        {
+            $tag = '';
+
+            // get sprint information for the passing project.
+            $rows = getTableElements('scrum_sprint', ['title', 'begin_date', 'end_date'], 'project = "'. $project .'"');
+            // loop over the result and build sprint block for display.
+            $inx = 1;
+            foreach($rows as $row)
+            {
+                // got total backlog estimation and closed backlog estimation.
+                $isCurrent = ($inx == 1) ? true : false;
+                $isSelected = $isCurrent;
+
+                // SELECT SUM(estimated) FROM `scrum_backlog` WHERE project='Project 2017' AND sprint='Sprint - I'
+                $total = 60;
+
+                // SELECT SUM(estimated) FROM `scrum_backlog` WHERE project='Project 2017' AND sprint='Sprint - I' AND (status='Done' OR status='Accepted')
+                $closed = 25;
+                $tag .= self::getSprint($row[0], "{$row[1]} - {$row[2]}", $total, $closed, $isSelected, $isCurrent);
+
+                $inx++;
+            }
+            /*$tag .=         self::getSprint('Sprint-2', '10-Jan-2017 - 30-Jan-2017', 100, 10, false, false);
+            $tag .=         self::getSprint('Sprint-3', '02-Feb-2017 - 27-Feb-2017', 0, 0, false, false);*/
+
+            return($tag);
+        }
+
+        static function getSprint($title, $range, $total, $closed, $selected, $current)
+        {
+            $tag = '';
+
+            $tag .= '<div class="bucket gadget">'. Utility::$EOF_LINE;
+            $tag .= '   <div class="timebox-dropzone'.($selected ? ' selected' : '').'">'. Utility::$EOF_LINE;
+            $tag .= '       <div class="box">'. Utility::$EOF_LINE;
+            $tag .= '           <div class="timebox-summary">'. Utility::$EOF_LINE;
+            $tag .= '               <div class="content">'. Utility::$EOF_LINE;
+            $tag .= '                   <div class="summary">'. Utility::$EOF_LINE;
+            $tag .= '                       <div class="summary-title asset-hover">'.$title.'</div>'. Utility::$EOF_LINE;
+            $tag .= '                       <div class="summary-label">'.$range.($current? ' (Cur)' : '').'</div>'. Utility::$EOF_LINE;
+            $tag .= '                   </div>'. Utility::$EOF_LINE;
+            $tag .= '                   <div class="summary summary-right">'. Utility::$EOF_LINE;
+            $tag .= '                       <div class="summary-value">'. Utility::$EOF_LINE;
+            $tag .= '                           <span class="val">'.$total.'</span>'. Utility::$EOF_LINE;
+            $tag .= '                       </div>'. Utility::$EOF_LINE;
+            $tag .= '                       <div class="summary-value">'. Utility::$EOF_LINE;
+            $tag .= '                           <span class="val">'.$closed.'</span>'. Utility::$EOF_LINE;
+            $tag .= '                       </div>'. Utility::$EOF_LINE;
+            $tag .= '                       <div class="summary-value value-1">'. Utility::$EOF_LINE;
+            $tag .= '                           <span class="val">-'.($total - $closed).'</span>'. Utility::$EOF_LINE;
+            $tag .= '                       </div>'. Utility::$EOF_LINE;
+            $tag .= '                   </div>'. Utility::$EOF_LINE;
+            $tag .= '               </div>'. Utility::$EOF_LINE;
+            $tag .= '           </div>'. Utility::$EOF_LINE;
+            $tag .= '       </div>'. Utility::$EOF_LINE;
+            $tag .= '   </div>'. Utility::$EOF_LINE;
+            $tag .= '   <div class="details-accordion-container'.($selected ? ' selected' : '').'" style="">'. Utility::$EOF_LINE;
+            $tag .= '       <div class="details-accordion">'. Utility::$EOF_LINE;
+            $tag .= '           <div class="asset-actions">'. Utility::$EOF_LINE;
+            $tag .=                 Utility::getQuickActionBtn("{$title}-edit-btn", "Edit", "black-border-quick-action-btn", "onclick=\"shieldSprintPlan.openEditDialog(this, false)\"", "{$title}", "shieldSprintPlan.sprintDropdown");
+            $tag .= '           </div>'. Utility::$EOF_LINE;
+            $tag .= '       </div>'. Utility::$EOF_LINE;
+            $tag .= '   </div>'. Utility::$EOF_LINE;
+            $tag .= '</div>'. Utility::$EOF_LINE;
+
+            return($tag);
+        }
+
         protected function getSecondaryWidgetboxTitle()
         {
             $tag = '<span id="project-title" class="project-title" onclick="shieldSprintPlan.showProject(this)">'. $this->project .'</span>';
@@ -385,54 +454,11 @@
             $tag .= '           <div class="sub-title">Closed</div>'. $this->EOF_LINE;
             $tag .= '       </div>'. $this->EOF_LINE;
             $tag .= '       <div class="sprint-list">'. $this->EOF_LINE;
-            $tag .=         $this->getSprint('Sprint-1', '22-Nov-2016 - 13-Dec-2016', 60, 25, true, false);
-            $tag .=         $this->getSprint('Sprint-2', '10-Jan-2017 - 30-Jan-2017', 100, 10, false, false);
-            $tag .=         $this->getSprint('Sprint-3', '02-Feb-2017 - 27-Feb-2017', 0, 0, false, false);
+            $tag .=             SprintPlanHTML::getSprintList($this->project);
             $tag .= '       </div>'. $this->EOF_LINE;
             $tag .= '   </div>'. $this->EOF_LINE;
             $tag .=     Utility::getRetroButton('Add Sprint', 'add-sprint-btn', 'green-bg add-sprint-btn', 'onclick="shieldSprintPlan.openAddDialog(this, false)"');
             $tag .= '</section>'. $this->EOF_LINE;
-
-            return($tag);
-        }
-
-        private function getSprint($title, $range, $total, $closed, $selected, $current)
-        {
-            $tag = '<div class="bucket gadget">
-                    	<div class="current-sprint"></div>
-                    	<div class="timebox-dropzone'.($selected ? ' selected' : '').'">
-                    		<div class="box">
-                    			<div class="timebox-summary">
-                    				<div class="content">
-                    					<div class="summary">
-                    						<div class="summary-title asset-hover">'.$title.'</div>
-                    					  <div class="summary-label">'.$range.($current? ' (Current)' : '').'</div>
-                    					</div>
-                                        <div class="summary summary-right">
-                                            <div class="summary-value">
-                                                <span class="val">'.$total.'</span>
-                                            </div>
-                                            <div class="summary-value">
-                                                <span class="val">'.$closed.'</span>
-                                            </div>
-                                            <div class="summary-value value-1">
-                                                <span class="val">-'.($total - $closed).'</span>
-                                            </div>
-                                        </div>
-                    				</div>
-                    			</div>
-                    		</div>
-                    	</div>
-                    	<div class="details-accordion-container'.($selected ? ' selected' : '').'" style="">
-                    		<div class="details-accordion">
-                    			<div class="asset-actions" _v1_asset="Timebox:1011">
-                                    <div class="title-action-menu actions static inline-btn standard-btn basic-alt-btn">
-                                        <a class="quick-action-text default-action" href="#">Edit</a>
-                                    </div>
-                    			</div>
-                    		</div>
-                    	</div>
-                    </div>';
 
             return($tag);
         }

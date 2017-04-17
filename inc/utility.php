@@ -9,7 +9,7 @@
 
     class Utility
     {
-        private static $EOF_LINE = "\n";
+        public static $EOF_LINE = "\n";
         private static $cipher; //= new Cipher($key);
 
         public static function getArticleTitle($titleName)
@@ -284,23 +284,12 @@
         {
             $tag = '<div id="'. $id .'-container" class="quick-action-btn '. $class .'">' . self::$EOF_LINE;
             $tag .= '    <a class="quick-action-text" '. $event .' data-parent-id="'. $parentId .'">' . $val .'</a>' . self::$EOF_LINE;
-            //$tag .= '    <a>|</a>' . self::$EOF_LINE;
             $tag .= '    <a id="'. $id .'-arrow" class="quick-action-arrow" onclick="utility.showHideDropdown(\''.$id.'\', \''.$parentId.'\', '.$callback.')">' . self::$EOF_LINE;
             $tag .= '        <span>' . self::$EOF_LINE;
             $tag .=             SVG::getMore();
             $tag .= '        </span>' . self::$EOF_LINE;
             $tag .= '    </a>' . self::$EOF_LINE;
             $tag .= '</div>' . self::$EOF_LINE;
-
-            /*$tag = '<div id="'. $id .'-container" class="quick-act '. $class .'">' . self::$EOF_LINE;
-            $tag .= '    <a '. $event .' data-parent-id="'. $parentId .'">' . self::$EOF_LINE;
-            $tag .= '       <span>' . $val .'</span>' . self::$EOF_LINE;
-            //$tag .= '       <span>|</span>' . self::$EOF_LINE;
-            $tag .= '       <span style="padding-right: 5px;" onclick="utility.showHideDropdown(\''.$id.'\', \''.$parentId.'\', '.$callback.')">' . self::$EOF_LINE;
-            $tag .=             SVG::getMore();
-            $tag .= '       </span>' . self::$EOF_LINE;
-            $tag .= '    </a>' . self::$EOF_LINE;
-            $tag .= '</div>' . self::$EOF_LINE;*/
 
             return($tag);
         }

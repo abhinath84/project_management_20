@@ -1020,6 +1020,17 @@ var shieldProductBacklog = {
     }
 };
 
+var shieldSprintPlan = {
+    sprintDropdown: function() {
+        var list = [
+                    ['Edit', '', 'onclick="shieldSprintPlan.openEditDialog(this, true)"'],
+                    ['Close', '', 'onclick="shieldSprintPlan.delete(this)"']
+                   ];
+
+        return(list);
+    }
+}
+
 /* object to create dialog for shield popup. */
 var shieldDialog = {
     toolBar : {
