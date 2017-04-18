@@ -1011,18 +1011,18 @@
 
         if((isset($_SESSION["project-managment-username"])) && ($_SESSION["project-managment-username"] != ""))
         {
-            $qry = "SELECT spr_submission.spr_no, spr_submission.L03, spr_submission.P10, spr_submission.P20, spr_submission.P30, spr_tracking.type
+            $qry = "SELECT spr_submission.spr_no, spr_submission.p10, spr_submission.p20, spr_submission.p30, spr_submission.p50, spr_tracking.type
                     FROM spr_submission
                     INNER JOIN spr_tracking ON spr_submission.spr_no = spr_tracking.spr_no
                     AND
-                    ((spr_submission.L03 <>  'N/A'
-                    AND spr_submission.L03 <>  'YES')
-                    OR (spr_submission.P10 <>  'N/A'
-                    AND spr_submission.P10 <>  'YES')
-                    OR (spr_submission.P20 <>  'N/A'
-                    AND spr_submission.P20 <>  'YES')
-                    OR (spr_submission.P30 <>  'N/A'
-                    AND spr_submission.P30 <>  'YES'))
+                    ((spr_submission.p10 <>  'N/A'
+                    AND spr_submission.p10 <>  'YES')
+                    OR (spr_submission.p20 <>  'N/A'
+                    AND spr_submission.p20 <>  'YES')
+                    OR (spr_submission.p30 <>  'N/A'
+                    AND spr_submission.p30 <>  'YES')
+                    OR (spr_submission.p50 <>  'N/A'
+                    AND spr_submission.p50 <>  'YES'))
                     AND spr_tracking.user_name =  '".$_SESSION["project-managment-username"]."'";
 
             $rows = $conn->result_fetch_array($qry);
@@ -1032,13 +1032,13 @@
                 {
                     $str = "";
                     if(($row[1] <> "N/A") && ($row[1] <> "YES"))
-                        $str .= "L-03&nbsp;&nbsp;";
-                    if(($row[2] <> "N/A") && ($row[2] <> "YES"))
                         $str .= "P-10&nbsp;&nbsp;";
-                    if(($row[3] <> "N/A") && ($row[3] <> "YES"))
+                    if(($row[2] <> "N/A") && ($row[2] <> "YES"))
                         $str .= "P-20&nbsp;&nbsp;";
-                    if(($row[4] <> "N/A") && ($row[4] <> "YES"))
+                    if(($row[3] <> "N/A") && ($row[3] <> "YES"))
                         $str .= "P-30&nbsp;&nbsp;";
+                    if(($row[4] <> "N/A") && ($row[4] <> "YES"))
+                        $str .= "P-50&nbsp;&nbsp;";
 
                     array_push($ss, [$row[0], $str, $row[5]]);
                 }

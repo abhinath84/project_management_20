@@ -372,7 +372,7 @@
 
                 // SELECT SUM(estimated) FROM `scrum_backlog` WHERE project='Project 2017' AND sprint='Sprint - I' AND (status='Done' OR status='Accepted')
                 $closed = 25;
-                $tag .= self::getSprint($row[0], "{$row[1]} - {$row[2]}", $total, $closed, $isSelected, $isCurrent);
+                $tag .= self::getSprint($row[0], "{$inx}-sprint" , "{$row[1]} - {$row[2]}", $total, $closed, $isSelected, $isCurrent);
 
                 $inx++;
             }
@@ -382,7 +382,7 @@
             return($tag);
         }
 
-        static function getSprint($title, $range, $total, $closed, $selected, $current)
+        static function getSprint($title, $quickActionBtnId, $range, $total, $closed, $selected, $current)
         {
             $tag = '';
 
@@ -413,7 +413,7 @@
             $tag .= '   <div class="details-accordion-container'.($selected ? ' selected' : '').'" style="">'. Utility::$EOF_LINE;
             $tag .= '       <div class="details-accordion">'. Utility::$EOF_LINE;
             $tag .= '           <div class="asset-actions">'. Utility::$EOF_LINE;
-            $tag .=                 Utility::getQuickActionBtn("{$title}-edit-btn", "Edit", "black-border-quick-action-btn", "onclick=\"shieldSprintPlan.openEditDialog(this, false)\"", "{$title}", "shieldSprintPlan.sprintDropdown");
+            $tag .=                 Utility::getQuickActionBtn("{$quickActionBtnId}-edit-btn", "Edit", "black-border-quick-action-btn", "onclick=\"shieldSprintPlan.openEditDialog(this, false)\"", "{$title}", "shieldSprintPlan.sprintDropdown");
             $tag .= '           </div>'. Utility::$EOF_LINE;
             $tag .= '       </div>'. Utility::$EOF_LINE;
             $tag .= '   </div>'. Utility::$EOF_LINE;
