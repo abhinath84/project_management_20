@@ -191,7 +191,7 @@ function serverRespondViaAJAX(url, callback, formData) {
 function getSessionList() {
     var dt          = new Date();
 
-    var curMonth    = dt.getMonth();
+    var curMonth    = dt.getMonth() + 1;
     var curYear     = (curMonth >= 10) ? (dt.getFullYear() + 1) : dt.getFullYear();
     var sessionList = [];
     var stYear      = 2000;
@@ -299,15 +299,13 @@ function getGreppyDotTag() {
     return(tag);
 }
 
-function getQuickActionBtn(Id, Class, dropdownId) {
-    var tag = '<div id="'+ Id +'" class="quick-action-btn '+ Class +'">';
-    tag += '    <a class="quick-action-text" href="popup:Widgets/Details/QuickEditStory">Save</a>';
-    tag += '    <a id="quick-action-arrow" class="quick-action-arrow" onclick="showHideEditMenu(\'show\', \''+ Id +'\', \''+ dropdownId +'\')" onblur="showHideEditMenu(\'hide\', \''+ Id +'\', \''+ dropdownId +'\')">';
+function getQuickActionBtn(id, classes, name, callback, dropdownId) {
+    var tag = '<div id="'+ id +'" class="quick-action-btn '+ classes +'">';
+    tag += '    <a class="quick-action-text" '+ callback +'>'+ name +'</a>';
+    tag += '    <a id="quick-action-arrow" class="quick-action-arrow" onclick="showHideEditMenu(\'show\', \''+ id +'\', \''+ dropdownId +'\')" onblur="showHideEditMenu(\'hide\', \''+ id +'\', \''+ dropdownId +'\')">';
     tag += '        <span>';
-    tag += '            <svg width="10px" height="10px" viewBox="0 0 451.847 451.847" style="enable-background:new 0 0 451.847 451.847;" xml:space="preserve">';
-    tag += '                <g>';
-    tag += '                    <path d="M225.923,354.706c-8.098,0-16.195-3.092-22.369-9.263L9.27,151.157c-12.359-12.359-12.359-32.397,0-44.751   c12.354-12.354,32.388-12.354,44.748,0l171.905,171.915l171.906-171.909c12.359-12.354,32.391-12.354,44.744,0   c12.365,12.354,12.365,32.392,0,44.751L248.292,345.449C242.115,351.621,234.018,354.706,225.923,354.706z"/>';
-    tag += '                </g>';
+    tag += '            <svg x="0px" y="0px" viewBox="0 0 100 100" style="enable-background:new 0 0 100 100;" xml:space="preserve">';
+    tag += '                <path d="M55,50c0,2.8-2.2,5-5,5s-5-2.2-5-5s2.2-5,5-5S55,47.2,55,50z M50,63c-2.8,0-5,2.2-5,5s2.2,5,5,5s5-2.2,5-5S52.8,63,50,63z   M50,37c2.8,0,5-2.2,5-5s-2.2-5-5-5s-5,2.2-5,5S47.2,37,50,37z"></path>';
     tag += '            </svg>';
     tag += '        </span>';
     tag += '    </a>';
@@ -347,10 +345,9 @@ function showSPREditTag(id, type, flag) {
 
             // if it's SPR/Integrity SPR then open prompt for submission
             if((spr_type != "REGRESSION") && (spr_type != "OTHERS")) {
-                var version = prompt("Enter the Submission version", "p10");
+                var version = prompt("Enter the Submission version", "p20");
                 if ((version != null) && (version != "") &&
-                        ((version =="l03") || (version == "p10") || (version == "p20") || (version == "p30")))
-                {
+                        ((version =="p10") || (version == "p20") || (version == "p30") || (version == "p50"))){
                     getServerResponseViaAJAX("../ajax/default.php", "addUpdateSPRSubmissionStatusCallback", {},
                                         "spr_no="+spr_no[0]+"&version="+version);
                 }
@@ -444,117 +441,118 @@ function addDashboardRow(id, inputList) {
      * */
 
     // Add new row to existing dashboard table to put user input.
-    //if($('#add-cancel-button-container').css('display') == "none") {
-        var table_rows = "";
+    var table_rows = "";
 
-        if((typeof inputList != "undefined") && (inputList != null) && (inputList.length > 0)) {
+    if((typeof inputList != "undefined") && (inputList != null) && (inputList.length > 0)) {
 
-            var tableTH = $('#' + id + "-table").find('th');
-            last_col = (tableTH.length - 1);
+        var tableTH = $('#' + id + "-table").find('th');
+        last_col = (tableTH.length - 1);
 
-            // add 'TH' element
-            tableTH.eq(last_col).after('<th>Edit</th>');
+        // add 'TH' element
+        tableTH.eq(last_col).after('<th>Edit</th>');
 
-            // add 'TD' element
-            $('#'+ id + "-table").find('tr').each(function () {
-                //if(typeof(col) === 'undefined')
-                    $(this).find('td').last().after('<td> &nbsp; </td>');
-                /*else
-                    $(this).find('td').eq(col).after('<td> &nbsp; </td>');*/
-            });
+        // add 'TD' element
+        $('#'+ id + "-table").find('tr').each(function () {
+            //if(typeof(col) === 'undefined')
+                $(this).find('td').last().after('<td> &nbsp; </td>');
+            /*else
+                $(this).find('td').eq(col).after('<td> &nbsp; </td>');*/
+        });
 
-            table_rows += '<tr>';
-            table_rows += ' <td id="add-greppy" class="hasGrippy", style="text-align:center;">';
-            table_rows +=       getGreppyDotTag();
-            table_rows += ' </td>';
+        table_rows += '<tr>';
+        table_rows += ' <td id="add-greppy" class="hasGrippy", style="text-align:center;">';
+        table_rows +=       getGreppyDotTag();
+        table_rows += ' </td>';
 
-            for (var i in inputList) {
-                if(inputList[i][0] == "input") {
-                    table_rows += '<td><input type="text" id="'+inputList[i][1]+'-input"';
-                    /* set Properties */
-                    for (var iin in inputList[i][2])
-                        table_rows += ' ' + inputList[i][2][iin][0] + '="' + inputList[i][2][iin][1] + '"';
+        for (var i in inputList) {
+            if(inputList[i][0] == "input") {
+                table_rows += '<td><input type="text" id="'+inputList[i][1]+'-input"';
+                /* set Properties */
+                for (var iin in inputList[i][2])
+                    table_rows += ' ' + inputList[i][2][iin][0] + '="' + inputList[i][2][iin][1] + '"';
 
-                    /* set Values */
-                    if((typeof inputList[i][3] != "undefined") && (inputList[i][3] != null) && (inputList[i][3].length > 0))
-                    {
-                        var values = "";
-                        for (var k in inputList[i][3])
-                            values += ' ' + inputList[i][3][k];
+                /* set Values */
+                if((typeof inputList[i][3] != "undefined") && (inputList[i][3] != null) && (inputList[i][3].length > 0))
+                {
+                    var values = "";
+                    for (var k in inputList[i][3])
+                        values += ' ' + inputList[i][3][k];
 
-                        table_rows += ' value = ' + values;
-                    }
-                    table_rows += '></td>';
-                } else if(inputList[i][0] == "select") {
-                    var current_val = getSelElementVal(inputList[i][2], 'sel');
-                    table_rows += '<td>'+ getSelectTag(inputList[i][1], '', inputList[i][3], current_val) +'</td>';
-                } else if(inputList[i][0] == "textarea") {
-                    table_rows += '<td><textarea id="'+inputList[i][1]+'-textarea"';
-
-                    /* set Properties */
-                    for(var ita in inputList[i][2])
-                        table_rows += ' ' + inputList[i][2][ita][0] + '="' + inputList[i][2][ita][1] + '"';
-
-                    /* set Values */
-
-                    table_rows += '></textarea></td>';
+                    table_rows += ' value = ' + values;
                 }
+                table_rows += '></td>';
+            } else if(inputList[i][0] == "select") {
+                var current_val = getSelElementVal(inputList[i][2], 'sel');
+                table_rows += '<td>'+ getSelectTag(inputList[i][1], '', inputList[i][3], current_val) +'</td>';
+            } else if(inputList[i][0] == "textarea") {
+                table_rows += '<td><textarea id="'+inputList[i][1]+'-textarea"';
+
+                /* set Properties */
+                for(var ita in inputList[i][2])
+                    table_rows += ' ' + inputList[i][2][ita][0] + '="' + inputList[i][2][ita][1] + '"';
+
+                /* set Values */
+
+                table_rows += '></textarea></td>';
             }
-
-            table_rows += ' <td id="add-btn" style="width: 2%">';
-            table_rows +=       getQuickActionBtn("edit-btn", "spr-tracking-tbl-td-btn", "spr-tracking-dashboard-table-dropdown");
-            table_rows += ' </td>';
-
-            table_rows += '</tr>';
-
-            if($('#'+id + '-tbody').find('tr').length > 0)
-                $('#'+id + '-tbody').find('tr:first').before(table_rows);
-            else
-                $('#'+id + '-tbody').html(table_rows);
-
-            // show both the button
-            setAddDeleteContainer(id, 'Add', 'inline-block');
-            $('#session-select').prop('disabled', true);
         }
-    //}
-}
 
-function deleteDashboardRow(id) {
-    if($('#add-cancel-button-container').css('display') == "none") {
-        addTableCol(id + '-table', '<input type="checkbox"></input>');
-        addTableCol('fixed_table', '<input type="checkbox"></input>');
+        table_rows += ' <td id="add-btn" style="width: 2%">';
+        table_rows +=       getQuickActionBtn("edit-btn", "spr-tracking-tbl-td-btn", "save", "onclick=\"saveSPRTrack('spr-tracking-dashboard', 'spr-tracking-dashboard-table-add-dropdown',  'fillSPRTrackingDashboardRow')\"", "spr-tracking-dashboard-table-add-dropdown");
+        table_rows += ' </td>';
 
-        setThWidth(id + '-table', 'fixed_table');
+        table_rows += '</tr>';
 
-        setAddDeleteContainer(id, 'Delete', 'inline-block');
+        if($('#'+id + '-tbody').find('tr').length > 0)
+            $('#'+id + '-tbody').find('tr:first').before(table_rows);
+        else
+            $('#'+id + '-tbody').html(table_rows);
+
+        // show both the button
+        //setAddDeleteContainer(id, 'Add', 'inline-block');
         $('#session-select').prop('disabled', true);
     }
 }
 
+function deleteDashboardRow(id) {
+    addTableCol(id + '-table', '<input type="checkbox"></input>');
+    //addTableCol('fixed_table', '<input type="checkbox"></input>');
+
+    setThWidth(id + '-table', 'fixed_table');
+
+    //setAddDeleteContainer(id, 'Delete', 'inline-block');
+    $('#session-select').prop('disabled', true);
+}
+
 function addSPRTrackingDashboardRow() {
-    var current_session = "";
-    if($('#session-select').val() != "All")
-        current_session = $('#session-select').val();
+    var tableTH = $('#spr-tracking-dashboard-table').find('th');
+    var lastTag = tableTH.eq(tableTH.length - 1)[0].innerHTML;
 
-    /*
-     * Each Tag = [<type>, <id>, <Property Array>, <Value Array>]
-     * Property Array     = [[<field_1>, <value_1>], ..., [<field_n>, <value_n>]]
-     * Value Array        = [<value_1>, ..., <value_n>]
-     * */
+    if(lastTag === "Session") {
 
-    var inputList = [
-                        ["input", "spr_no", [["size", "15"]], null],
-                        ["select", "type", null, spr_tracking_type_list],
-                        ["select", "status", null, spr_tracking_status_list],
-                        ["input", "build_version", [["size", "15"],["placeholder", "Ex: L03,P10,P20"], ["onfocus", "openPopupDialog(this, getBuildVersionDialog);"]], null],
-                        ["input", "commit_build", [["size", "15"], ["placeholder", "X-XX-XX"], ["onfocus", "openPopupDialog(this, getCommitBuildDialog);"]], null],
-                        ["input", "respond_by_date", [["size", "15"], ["placeholder", "YYYY-MM-DD"]], null],
-                        ["textarea", "comment", [["spellcheck", "false"], ["rows", "4"], ["cols","25"], ["maxlength", "500"]], null],
-                        ["select", "session", [['sel', current_session]], getSessionList()]
-                    ];
+        var current_session = "";
+        if($('#session-select').val() != "All")
+            current_session = $('#session-select').val();
 
-    addDashboardRow("spr-tracking-dashboard", inputList);
-    //$("table").fixMe();
+        /*
+         * Each Tag = [<type>, <id>, <Property Array>, <Value Array>]
+         * Property Array     = [[<field_1>, <value_1>], ..., [<field_n>, <value_n>]]
+         * Value Array        = [<value_1>, ..., <value_n>]
+         * */
+
+        var inputList = [
+                            ["input", "spr_no", [["size", "15"]], null],
+                            ["select", "type", null, spr_tracking_type_list],
+                            ["select", "status", null, spr_tracking_status_list],
+                            ["input", "build_version", [["size", "15"],["placeholder", "Ex: L03,P10,P20"], ["onfocus", "openPopupDialog(this, getBuildVersionDialog);"]], null],
+                            ["input", "commit_build", [["size", "15"], ["placeholder", "X-XX-XX"], ["onfocus", "openPopupDialog(this, getCommitBuildDialog);"]], null],
+                            ["input", "respond_by_date", [["size", "15"], ["placeholder", "YYYY-MM-DD"]], null],
+                            ["textarea", "comment", [["spellcheck", "false"], ["rows", "4"], ["cols","25"], ["maxlength", "500"]], null],
+                            ["select", "session", [['sel', current_session]], getSessionList()]
+                        ];
+
+        addDashboardRow("spr-tracking-dashboard", inputList);
+    }
 }
 
 function addSPRTrackingSubmissionStatusRow() {
@@ -595,7 +593,12 @@ function addWorkTrackerDashboardRow() {
 }
 
 function deleteSPRTrackingDashboardRow() {
-    deleteDashboardRow('spr-tracking-dashboard');
+    var tableTH = $('#spr-tracking-dashboard-table').find('th');
+    var lastTag = tableTH.eq(tableTH.length - 1)[0].innerHTML;
+
+    if(lastTag === "Session") {
+        deleteDashboardRow('spr-tracking-dashboard');
+    }
 }
 
 function deleteSPRTrackingSubmissionStatusRow() {
@@ -638,6 +641,7 @@ function addSPRTrackingDashboard(flag) {
         else
             errMsg ="Please enter SPR number to track.";
     }
+
     alert("alert");
     if(errMsg != "")
         alert(errMsg);
@@ -661,7 +665,7 @@ function addDeleteSPRTrackingDashboard(flag) {
             'comment'            : $('#comment-textarea').val(),
             'session'            : $('#session-select').val()
         };
-        addToDBTable('spr-tracking-dashboard', 'addSPRTrackingDashboardCallback', formData, "fillSPRTrackingDashboardRow", flag);
+        addToDBTable('spr-tracking-dashboard', '', 'addSPRTrackingDashboardCallback', formData, "fillSPRTrackingDashboardRow", flag);
     }
     else
         deleteFromDBTable('spr-tracking-dashboard', 'fillSPRTrackingDashboardRow', 'deleteSPRTrackingDashboardCallback', 'spr_no', flag);
@@ -677,13 +681,13 @@ function addDeleteSPRTrackingSubmissionStatus(flag) {
             'P30'        : $('#P30-select').val(),
             'comment'    : $('#comment-textarea').val()
         };
-        addToDBTable('submission-status', 'addSPRSubmissionStatusCallback', formData, "fillSPRTrackingSubmissionStatusRow", flag);
+        addToDBTable('submission-status', '', 'addSPRSubmissionStatusCallback', formData, "fillSPRTrackingSubmissionStatusRow", flag);
     }
     else
         deleteFromDBTable('submission-status', 'fillSPRTrackingSubmissionStatusRow', 'deleteSPRTrackingSubmissionStatusCallback', 'spr_no', flag);
 }
 
-function addToDBTable(id, addRowCallback, formData, fillDashdoardRowFunc, flag) {
+function addToDBTable(id, dropdownId, addRowCallback, formData, fillDashboardRow, flag) {
     var data;
 
     if(flag == true)
@@ -691,10 +695,9 @@ function addToDBTable(id, addRowCallback, formData, fillDashdoardRowFunc, flag) 
 
     if(typeof(data) === 'undefined' || data.success == true) {
         $('#session-select').prop('disabled', false);
-        showDashboardAccdSession(id + "-tbody", fillDashdoardRowFunc);
 
-        // hide button container
-        document.getElementById('add-cancel-button-container').style.display = "none";
+        // Update Table & deleted additional Column from table.
+        deleteNUpdateTable(id, dropdownId, fillDashboardRow);
     } else {
         var errMsg = "";
         for(var inx in data.errors)
@@ -703,6 +706,21 @@ function addToDBTable(id, addRowCallback, formData, fillDashdoardRowFunc, flag) 
         if(errMsg != "")
             alert(errMsg);
     }
+}
+
+function deleteNUpdateTable(id, dropdownId, fillDashboardRow) {
+    $('#session-select').prop('disabled', false);
+
+    var editMenuElem = document.getElementById(dropdownId);
+    editMenuElem.style.display = "none";
+
+    showDashboardAccdSession(id + "-tbody", fillDashboardRow);
+
+    // delete last 'TH' element
+    var tableTH = $('#'+ id+'-table').find('th');
+    tableTH.eq(tableTH.length - 1).remove();
+
+    setThWidth(id+'-table', 'fixed_table');
 }
 
 function deleteFromDBTable(id, fillDashboardRow, deleteRowCallback, key, flag) {
@@ -716,9 +734,8 @@ function deleteFromDBTable(id, fillDashboardRow, deleteRowCallback, key, flag) {
             var count = 0;
 
             // loop over table
-            $('#'+id+'-table').find('tr').each(function () {
-                if($(this).find('td').last().find('input').prop("checked") == true)
-                {
+            $('#'+id+'-table').find('tr').each( function () {
+                if( $(this).find('td').last().find('input').prop("checked") == true ) {
                     if(count > 0)
                         where +=" OR ";
                     where += key + "='" + $(this).find('td:first').attr('id').split("-")[0]  + "'";
@@ -756,19 +773,30 @@ function deleteFromDBTable(id, fillDashboardRow, deleteRowCallback, key, flag) {
     }
 }
 
-function cancelEditTable(id, fillDashboardRow) {
-    $('#session-select').prop('disabled', false);
+function saveSPRTrack(id, dropdownId, fillDashboardRow) {
+    var formData = {
+        'spr_no'            : $('#spr_no-input').val(),
+        'type'                : $('#type-select').val(),
+        'status'            : $('#status-select').val(),
+        'build_version'        : $('#build_version-input').val(),
+        'commit_build'        : $('#commit_build-input').val(),
+        'respond_by_date'    : $('#respond_by_date-input').val(),
+        'comment'            : $('#comment-textarea').val(),
+        'session'            : $('#session-select').val()
+    };
 
-    var editMenuElem = document.getElementById('spr-tracking-dashboard-table-dropdown');
+    var editMenuElem = document.getElementById(dropdownId);
     editMenuElem.style.display = "none";
 
-    showDashboardAccdSession(id + "-tbody", fillDashboardRow);
+    addToDBTable('spr-tracking-dashboard', dropdownId, 'addSPRTrackingDashboardCallback', formData, fillDashboardRow, true);
+}
 
-    // delete 'TH' element
-    var tableTH = $('#'+ id+'-table').find('th');
-    tableTH.eq(tableTH.length - 1).remove();
+function deleteSPRTrack(id, dropdownId, fillDashboardRow) {
+    deleteNUpdateTable(id, dropdownId, fillDashboardRow);
+}
 
-    setThWidth(id+'-table', 'fixed_table');
+function cancelSPRTrack(id, dropdownId, fillDashboardRow) {
+    deleteNUpdateTable(id, dropdownId, fillDashboardRow);
 }
 
 function addDeleteWorkTracker(flag) {
@@ -781,7 +809,7 @@ function addDeleteWorkTracker(flag) {
             'time'        : $('#time-input').val(),
             'comment'    : $('#comment-textarea').val()
         };
-        addToDBTable('work-tracker-dashboard', 'addWorkTrackerCallback', formData, "fillWorkTrackerDashboardRow", flag);
+        addToDBTable('work-tracker-dashboard', '', 'addWorkTrackerCallback', formData, "fillWorkTrackerDashboardRow", flag);
     }
     else
         deleteFromDBTable('work-tracker-dashboard', 'fillWorkTrackerDashboardRow', 'deleteWorkTrackerCallback', 'id', flag);
@@ -1044,7 +1072,11 @@ function addTableCol(tabId, val, col) {
     last_col = (typeof(col) !== 'undefined') ? col : (tableTH.length - 1);
 
     // add 'TH' element
-    tableTH.eq(last_col).after('<th>Delete</th>');
+    var delTh = '<th>';
+    delTh +=       getQuickActionBtn("delete-btn", "spr-tracking-tbl-td-btn", "delete", "onclick=\"deleteSPRTrack('spr-tracking-dashboard', 'spr-tracking-dashboard-table-delete-dropdown',  'fillSPRTrackingDashboardRow')\"", "spr-tracking-dashboard-table-delete-dropdown");
+    delTh += '</th>';
+
+    tableTH.eq(last_col).after(delTh);
 
     // add 'TD' element
     $('#'+tabId).find('tr').each(function () {

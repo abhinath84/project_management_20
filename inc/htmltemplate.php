@@ -260,10 +260,10 @@ abstract class SPRTrackHTML extends HTMLTemplate
     {
         $tabs = array
                       (
-                        array('Dashboard', 'dashboard.php', SVG::getSPRTrack()),
-                        array('Submission Status', 'submit_status.php', SVG::getSPRTrack()),
-                        array('Report', 'report.php', SVG::getSPRTrack()),
-                        array('Import', 'spr_import.php', SVG::getSPRTrack())
+                        array('Dashboard', 'dashboard.php', SVG::getSPRDashboard()),
+                        array('Submission Status', 'submit_status.php', SVG::getSubmissionStatus()),
+                        array('Report', 'report.php', SVG::getReport()),
+                        array('Import', 'spr_import.php', SVG::getImport())
                       );
 
         parent::__construct($curNav, $curDir, $enableNav, $tabs, $currentSideNav);
@@ -701,29 +701,36 @@ class SPRTrackDashboardHTML extends SPRTrackHTML
         $selectOptions = array
                             (
                                 array('All', 'All'),
-                                array('2017', '2017'), array('2016', '2016'), array('2015', '2015'), array('2014', '2014'),
-                                array('2013', '2013'), array('2012', '2012'), array('2011', '2011'), array('2010', '2010'),
-                                array('2009', '2009'), array('2008', '2008'), array('2007', '2007'), array('2006', '2006'),
-                                array('2005', '2005'), array('2004', '2004'), array('2003', '2003'), array('2002', '2002'),
-                                array('2001', '2001'), array('2000', '2000')
+                                array('2018', '2018'), array('2017', '2017'), array('2016', '2016'), array('2015', '2015'),
+                                array('2014', '2014'), array('2013', '2013'), array('2012', '2012'), array('2011', '2011'),
+                                array('2010', '2010'), array('2009', '2009'), array('2008', '2008'), array('2007', '2007'),
+                                array('2006', '2006'), array('2005', '2005'), array('2004', '2004'), array('2003', '2003'),
+                                array('2002', '2002'), array('2001', '2001'), array('2000', '2000')
                             );
 
         $addSPRDropdownList = array
                                 (
-                                    array('Save', 'onclick=""'),
-                                    array('Cancel', 'onclick="cancelEditTable(\'spr-tracking-dashboard\', \'fillSPRTrackingDashboardRow\')"')
+                                    array('Save', 'onclick="saveSPRTrack(\'spr-tracking-dashboard\', \'spr-tracking-dashboard-table-add-dropdown\', \'fillSPRTrackingDashboardRow\')"'),
+                                    array('Cancel', 'onclick="cancelSPRTrack(\'spr-tracking-dashboard\', \'spr-tracking-dashboard-table-add-dropdown\', \'fillSPRTrackingDashboardRow\')"')
+                                );
+
+        $deleteSPRDropdownList = array
+                                (
+                                    array('Delete', 'onclick="deleteSPRTrack(\'spr-tracking-dashboard\', \'spr-tracking-dashboard-table-delete-dropdown\', \'fillSPRTrackingDashboardRow\')"'),
+                                    array('Cancel', 'onclick="cancelSPRTrack(\'spr-tracking-dashboard\', \'spr-tracking-dashboard-table-delete-dropdown\', \'fillSPRTrackingDashboardRow\')"')
                                 );
 
 
         $tag = '<div class="spr-tracking-menu-container">' . $this->EOF_LINE;
-        $tag .=     Utility::getRetroSelect('session-select', $selectOptions, '2017', 'onchange="javascript:showDashboardAccdSession(\'spr-tracking-dashboard-tbody\', \'fillSPRTrackingDashboardRow\')"', 'session-select', 'session-container');
+        $tag .=     Utility::getRetroSelect('session-select', $selectOptions, '2018', 'onchange="javascript:showDashboardAccdSession(\'spr-tracking-dashboard-tbody\', \'fillSPRTrackingDashboardRow\')"', 'session-select', 'session-container');
         $tag .= '   <div style="float: right; margin-right: 10px;">' . $this->EOF_LINE;
-        $tag .=         Utility::getRetroButton('Add SPR to Track', 'add-spr-btn', 'green add-spr', 'onclick="javascript:addSPRTrackingDashboardRow()"');
-        $tag .=         Utility::getRetroButton('Delete SPR(s)', 'delete-spr-btn', 'red', 'onclick=""');
+        $tag .=         Utility::getRetroButton('Add SPR to Track', 'add-spr-btn', 'green add-spr', 'onclick="addSPRTrackingDashboardRow()"');
+        $tag .=         Utility::getRetroButton('Delete SPR(s)', 'delete-spr-btn', 'red', 'onclick="deleteSPRTrackingDashboardRow()"');
         $tag .= '   </div>' . $this->EOF_LINE;
         $tag .= '</div>' . $this->EOF_LINE;
 
-        $tag .= Utility::getQuickActionBtnDropdown('spr-tracking-dashboard-table-dropdown', $addSPRDropdownList);
+        $tag .= Utility::getQuickActionBtnDropdown('spr-tracking-dashboard-table-add-dropdown', $addSPRDropdownList);
+        $tag .= Utility::getQuickActionBtnDropdown('spr-tracking-dashboard-table-delete-dropdown', $deleteSPRDropdownList);
         $tag .= $this->createDasboardTable();
 
         return($tag);
@@ -754,6 +761,8 @@ class SPRTrackDashboardHTML extends SPRTrackHTML
         /// SELECT spr_no, type, status, build_version, commit_build, respond_by_date, comment, session FROM `spr_tracking`
         $qry = "SELECT spr_no, type, status, build_version, commit_build, respond_by_date, comment, session  FROM `spr_tracking` WHERE user_name = '". $_SESSION['project-managment-username'] ."' and session='" . getCurrentSession() . "'";
 
+        //echo $qry;
+
         $rows = $conn->result_fetch_array($qry);
         if(!empty($rows))
         {
@@ -771,7 +780,7 @@ class SPRTrackDashboardHTML extends SPRTrackHTML
                     $Table->td(shortDescription($row[6], 25), "{$row[0]}-comment", null, null, null, "ondblclick=\"javascript:showSPREditTag('" . $row[0] . "-comment', 'textarea', true)\"                                                                               onmouseover=\"javascript:showFullComment('" . $row[0] . "', true)\"                                                                                onblur=\"javascript:showFullComment('" . $row[0] . "', false)\"");
                     $Table->td("{$row[6]}", "{$row[0]}-comment-full", null, "display: none;");
                     $Table->td("{$row[7]}", "{$row[0]}-session", null, null, "width=\"8%\"", "ondblclick=\"javascript:showSPREditTag('" . $row[0] . "-session', 'input', true)\"");
-                    //$Table->td(getQuickActionBtn("{$row[0]}-edit-btn", "spr-tracking-tbl-td-btn", "spr-tracking-dashboard-table-dropdown"), "{$row[0]}-edit", null, null, "width=\"2%\"");
+                    //$Table->td(getQuickActionBtn("{$row[0]}-edit-btn", "spr-tracking-tbl-td-btn", "spr-tracking-dashboard-table-add-dropdown"), "{$row[0]}-edit", null, null, "width=\"2%\"");
             }
         }
         else
@@ -816,11 +825,11 @@ class SPRTrackSubmitStatusHTML extends SPRTrackHTML
         $selectOptions = array
                             (
                                 array('All', 'All'),
-                                array('2017', '2017'), array('2016', '2016'), array('2015', '2015'), array('2014', '2014'),
-                                array('2013', '2013'), array('2012', '2012'), array('2011', '2011'), array('2010', '2010'),
-                                array('2009', '2009'), array('2008', '2008'), array('2007', '2007'), array('2006', '2006'),
-                                array('2005', '2005'), array('2004', '2004'), array('2003', '2003'), array('2002', '2002'),
-                                array('2001', '2001'), array('2000', '2000')
+                                array('2018', '2018'), array('2017', '2017'), array('2016', '2016'), array('2015', '2015'),
+                                array('2014', '2014'), array('2013', '2013'), array('2012', '2012'), array('2011', '2011'),
+                                array('2010', '2010'), array('2009', '2009'), array('2008', '2008'), array('2007', '2007'),
+                                array('2006', '2006'), array('2005', '2005'), array('2004', '2004'), array('2003', '2003'),
+                                array('2002', '2002'), array('2001', '2001'), array('2000', '2000')
                             );
 
         $addSPRDropdownList = array
@@ -832,7 +841,7 @@ class SPRTrackSubmitStatusHTML extends SPRTrackHTML
         $tag = '';
 
         $tag .= '<div class="spr-tracking-menu-container">' . $this->EOF_LINE;
-        $tag .=     Utility::getRetroSelect('session-select', $selectOptions, '2017', 'onchange="showDashboardAccdSession(\'submission-status-tbody\', \'fillSPRTrackingSubmissionStatusRow\')"', 'session-select', 'session-container');
+        $tag .=     Utility::getRetroSelect('session-select', $selectOptions, '2018', 'onchange="showDashboardAccdSession(\'submission-status-tbody\', \'fillSPRTrackingSubmissionStatusRow\')"', 'session-select', 'session-container');
 
         $tag .= '   <div style="float: right; margin-right: 10px;">' . $this->EOF_LINE;
         $tag .=         Utility::getRetroButton('Add SPR to update Submission Status', 'add-spr-btn', 'green add-spr', 'onclick=""');
@@ -875,13 +884,15 @@ class SPRTrackSubmitStatusHTML extends SPRTrackHTML
             // add table header
             $Table->thead("submission-status-thead");
                 $Table->th("&nbsp;", null, null, null, null);
-                $Table->th("SPR Number", null, null, null, "data-sort=\"int\"");
-                $Table->th("l03", null,  null, null, "data-sort=\"string\"");
-                $Table->th("p10", null, null, null, "data-sort=\"string\"");
-                $Table->th("p20", null, null, null, "data-sort=\"string\"");
-                $Table->th("p30", null, null, null, "data-sort=\"string\"");
-                $Table->th("Comment", null, null, null);
-                //$Table->th("&nbsp;", null, null, null, null);
+                foreach($colNames as $colName)
+                {
+                    if($colName == "spr_no")
+                        $Table->th("SPR Number", null, null, null, "data-sort=\"int\"");
+                    else if($colName == "comment")
+                        $Table->th("Comment", null, null, null);
+                    else
+                        $Table->th(strtoupper($colName), null,  null, null, "data-sort=\"string\"");
+                }
 
             // add Table body
             $Table->tbody("submission-status-tbody");
@@ -893,18 +904,18 @@ class SPRTrackSubmitStatusHTML extends SPRTrackHTML
                 foreach($rows as $row)
                 {
                     $Table->tr(null, null, null, "align=\"center\"");
-                        $Table->td(getGreppyDotTag(), "{$row[0]}-greppy", "hasGrippy", null, "width=\"2%\"");
-                        $Table->td(getSPRString($row[1], $row[0]), "{$row[0]}-spr-no", null, null, "width=\"20%\"");
+                        $Table->td(getGreppyDotTag(), "{$row[0]}-greppy", "hasGrippy", null, "");
+                        $Table->td(getSPRString($row[$cnt], $row[0]), "{$row[0]}-spr-no", null, null, "width=\"12%\"");
 
-                        $Table->td("{$row[1]}", "{$row[0]}-L03", null, "background-color:" . getSPRSubmissionColor($row[1]) . ";", "width=\"12%\"", "ondblclick=\"javascript:showSPRTrackingSubmissionEdit('" . $row[0] . "-L03', 'select', true)\"");
+                        $Table->td("{$row[1]}", "{$row[0]}-p10", null, "background-color:" . getSPRSubmissionColor($row[1]) . ";", "width=\"15%\"", "ondblclick=\"javascript:showSPRTrackingSubmissionEdit('" . $row[0] . "-p10', 'select', true)\"");
 
-                        $Table->td("{$row[2]}", "{$row[0]}-P10", null, "background-color:" . getSPRSubmissionColor($row[2]) . ";", "width=\"12%\"", "ondblclick=\"javascript:showSPRTrackingSubmissionEdit('" . $row[0] . "-P10', 'select', true)\"");
+                        $Table->td("{$row[2]}", "{$row[0]}-p20", null, "background-color:" . getSPRSubmissionColor($row[2]) . ";", "width=\"15%\"", "ondblclick=\"javascript:showSPRTrackingSubmissionEdit('" . $row[0] . "-p20', 'select', true)\"");
 
-                        $Table->td("{$row[3]}", "{$row[0]}-P20", null, "background-color:" . getSPRSubmissionColor($row[3]) . ";", "width=\"12%\"", "ondblclick=\"javascript:showSPRTrackingSubmissionEdit('" . $row[0] . "-P20', 'select', true)\"");
+                        $Table->td("{$row[3]}", "{$row[0]}-p30", null, "background-color:" . getSPRSubmissionColor($row[3]) . ";", "width=\"15%\"", "ondblclick=\"javascript:showSPRTrackingSubmissionEdit('" . $row[0] . "-p30', 'select', true)\"");
 
-                        $Table->td("{$row[4]}", "{$row[0]}-P30", null, "background-color:" . getSPRSubmissionColor($row[1]) . ";", "width=\"12%\"", "ondblclick=\"javascript:showSPRTrackingSubmissionEdit('" . $row[0] . "-P30', 'select', true)\"");
+                        $Table->td("{$row[4]}", "{$row[0]}-p50", null, "background-color:" . getSPRSubmissionColor($row[4]) . ";", "width=\"15%\"", "ondblclick=\"javascript:showSPRTrackingSubmissionEdit('" . $row[0] . "-p50', 'select', true)\"");
 
-                        $Table->td("{$row[5]}", "{$row[0]}-comment", null, null, "width=\"38%\""," ondblclick=\"javascript:showSPRTrackingSubmissionEdit('" . $row[0] . "-comment', 'textarea', true)\"");
+                        $Table->td("{$row[5]}", "{$row[0]}-comment", null, null, ""," ondblclick=\"javascript:showSPRTrackingSubmissionEdit('" . $row[0] . "-comment', 'textarea', true)\"");
                 }
             }
             else

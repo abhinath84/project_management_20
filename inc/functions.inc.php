@@ -108,6 +108,71 @@
         return($tagStr);
     }
 
+    /**
+	* Replace character in a string.
+	*
+	* Replace search character by replaced character in a string.
+	*
+	* @param string $str
+	*   string in which character will be replaced.
+	* @param string $searchChar
+	*   character to be replaced.
+	* @param string $replaceChar
+	*   character which replacing.
+	*
+	* @return string $result
+    *   new string with replaced character.
+	*/
+    function replaceChar($str, $searchChar, $replaceChar)
+    {
+        $result = $str;
+        $len = strlen($replaceChar);
+        $pos = -($len);
+
+        // As 'strpos' return 0 for both search element in 0th position and if search character is not found.
+        if(substr($str, 0, 1) == $searchChar)
+        {
+            $result = $replaceChar . substr($str, 1);
+            $str = $result;
+            $pos = 0;
+        }
+
+        while($pos = strpos($result, $searchChar, $pos + $len))
+        {
+            $result = substr($str, 0, $pos) . $replaceChar . substr($str, $pos + 1);
+            $str = $result;
+        }
+
+        return($result);
+    }
+
+    /**
+	* Replace character in a string according to input array.
+	*
+	* Replace search character by replaced character in a string according to input array.
+	*
+	* @param string $str
+	*   string in which character will be replaced.
+	* @param Array $arr
+	*   Its a 2D Array with contain search and replace character in the following format:
+    *   $arr  = array( array(searchChar_1, replaceChar_1), array(searchChar_2, replaceChar_2), ..., array(searchChar_n, replaceChar_n).
+	*
+	* @return string $result
+    *   new string with replaced character.
+	*/
+    function replaceCharArr($str, $arr)
+    {
+        $result = "";
+
+        foreach($arr as $each)
+        {
+            $result = replaceChar($str, $each[0], $each[1]);
+            $str = $result;
+        }
+
+        return($result);
+    }
+
     function getGreppyDotTag()
     {
         $tag = '<i class="grippy">' . EOF_LINE;
@@ -484,22 +549,39 @@
                 // loop over the result and show the element
                 foreach($rows as $row)
                 {
-                    $tag .= '            <tr>'."\n";
+                    $tag .= '			<tr>'."\n";
 
-                    $tag .= '              <td id="'. $row[0]. '-greppy" class="hasGrippy" style="width:2%;">';
-                    $tag .=                     getGreppyDotTag();
+                    // grippy dot td.
+                    $tag .= '              <td id="'. $row[0]. '-greppy" class="hasGrippy", style="text-align:center;">';
+                    $tag .= getGreppyDotTag();
                     $tag .= '              </td>';
 
-                    $tag .= '              <td id="'.$row[0].'-spr-no" width = 20%>';
-                    $tag .= '                   <a href="#">' . getSPRString($row[1], $row[0]) . '</a>';
-                    $tag .= '              </td>'."\n";
+                    // SPR Number
+                    $tag .= '				<td id="'.$row[0].'-spr-no" width = 12%>';
+                    if($row[$cnt] == "SPR")
+                    {
+                        $tag .= '<a href="http://rdweb.ptc.com/WebSiebel/report.php?value='.$row[0].
+                                            '+&spr_no='.$row[0].'+&call_no=&mode=details&form=spr&do_not_check_ver=1" target="_blank">'.$row[0].'</a>';
+                    }
+                    else if($row[$cnt] == "INTEGRITY SPR")
+                    {
+                        $tag .= '<a href="http://integrity.ptc.com:7001/im/viewissue?selection='.$row[0].'" target="_blank">'.$row[0].'</a>';
+                    }
+                    else if($row[$cnt] == "REGRESSION")
+                    {
+                        $tag .= '<a href="http://regdb.ptc.com/regdb/servlet/Index?regbugid='.$row[0].'&mode=basic" target="_blank">'.$row[0].'</a>';
+                    }
+                    $tag .= '				</td>'."\n";
 
-                    $tag .= '              <td id="'.$row[0].'-L03" style="background-color:'.getSPRSubmissionColor($row[1]).'" width = 12% ondblclick="javascript:showSPRTrackingSubmissionEdit(\''.$row[0].'-L03\', \'select\', true)">'.$row[1].'</td>'."\n";
-                    $tag .= '              <td id="'.$row[0].'-P10" style="background-color:'.getSPRSubmissionColor($row[2]).'" width = 12% ondblclick="javascript:showSPRTrackingSubmissionEdit(\''.$row[0].'-P10\', \'select\', true)">'.$row[2].'</td>'."\n";
-                    $tag .= '              <td id="'.$row[0].'-P20" style="background-color:'.getSPRSubmissionColor($row[3]).'" width = 12% ondblclick="javascript:showSPRTrackingSubmissionEdit(\''.$row[0].'-P20\', \'select\', true)">'.$row[3].'</td>'."\n";
-                    $tag .= '              <td id="'.$row[0].'-P30" style="background-color:'.getSPRSubmissionColor($row[4]).'" width = 12% ondblclick="javascript:showSPRTrackingSubmissionEdit(\''.$row[0].'-P30\', \'select\', true)">'.$row[4].'</td>'."\n";
-                    $tag .= '              <td id="'.$row[0].'-comment" style="width:38%;" ondblclick="javascript:showSPRTrackingSubmissionEdit(\''.$row[0].'-comment\', \'textarea\', true)">'.$row[5].'</td>'."\n";
-                    $tag .= '            </tr>'."\n";
+                    // P10, P20, P30 etc
+                    for($i = 1; $i < ($cnt - 1); ++$i)
+                    {
+                        $tag .= '				<td id="'. $row[0] .'-'. $colNames[$i] .'" style="background-color:'.getSPRSubmissionColor($row[$i]).'" width = 15% ondblclick="showSPRTrackingSubmissionEdit(\''. $row[0] .'-'. $colNames[$i] .'\', \'select\', true)">'.$row[$i].'</td>'."\n";
+                    }
+
+                    // Comment
+                    $tag .= '			  	<td id="'.$row[0].'-comment" ondblclick="showSPRTrackingSubmissionEdit(\''.$row[0].'-comment\', \'textarea\', true)">'.$row[$cnt - 1].'</td>'."\n";
+                    $tag .= '			</tr>'."\n";
                 }
             }
         }

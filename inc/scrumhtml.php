@@ -52,10 +52,12 @@
     abstract class SecondaryWidgetboxHTML extends ScrumHTML
     {
         private $secondaryContentTitle = null;
+        private $primaryContentTitle = null;
 
         public function __construct($curNav = null, $curDir = null, $enableNav = false, $tabItems = null, $currentTab = null, $secondaryContentTitle)
         {
             $this->secondaryContentTitle = $secondaryContentTitle;
+            $this->primaryContentTitle = $currentTab;
             parent::__construct($curNav, $curDir, $enableNav, $tabItems, $currentTab);
         }
 
@@ -76,7 +78,7 @@
             $tag .= '   <section class="main">'. $this->EOF_LINE;
             $tag .= '       <section class="titlebar">'. $this->EOF_LINE;
             $tag .= '           <h1>'. $this->EOF_LINE;
-            $tag .= '               <span class="title">Release Planning</span>'. $this->EOF_LINE;
+            $tag .= '               <span class="title">'. $this->primaryContentTitle .'</span>'. $this->EOF_LINE;
             $tag .=                 $this->getSecondaryWidgetboxTitle();
             $tag .= '           </h1>'. $this->EOF_LINE;
             $tag .= '       </section>'. $this->EOF_LINE;

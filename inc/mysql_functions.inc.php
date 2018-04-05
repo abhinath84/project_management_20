@@ -327,38 +327,38 @@
         return($colNameList);
     }
 
-    function addSPRSubmissionStatus($spr_no, $l03, $p10, $p20, $p30, $comment)
-    {
-        global $conn;
+    function addSPRSubmissionStatus($spr_no, $p10, $p20, $p30, $p50, $comment)
+	{
+		global $conn;
         $msg = "";
 
         try
         {
             $checkCharArr = array(array("'", "\'"), array("\"", "\\\""));
 
-            // Check whether SPR no already exist or not with current user.
-            $qry = "SELECT spr_no FROM spr_tracking
-                        WHERE spr_no = ". replaceCharArr($spr_no, $checkCharArr) ."
-                                and user_name = '".replaceCharArr($_SESSION['project-managment-username'], $checkCharArr)."'
-                                and type <> 'REGRESSION'";
-            $row = $conn->result_fetch_row($qry);
-            if(!empty($row))
-            {
-                $qry = "INSERT INTO spr_submission (spr_no , L03 , P10, P20, P30, comment)
-                        VALUES ('".replaceCharArr($spr_no, $checkCharArr)."',
-                            '".replaceCharArr($l03, $checkCharArr)."',
-                            '".replaceCharArr($p10, $checkCharArr)."',
-                            '".replaceCharArr($p20, $checkCharArr)."',
-                            '".replaceCharArr($p30, $checkCharArr)."',
-                            '".replaceCharArr($comment, $checkCharArr)."')";
+			// Check whether SPR no already exist or not with current user.
+			$qry = "SELECT spr_no FROM spr_tracking
+						WHERE spr_no = ". replaceCharArr($spr_no, $checkCharArr) ."
+								and user_name = '".replaceCharArr($_SESSION['project-managment-username'], $checkCharArr)."'
+								and type <> 'REGRESSION'";
+			$row = $conn->result_fetch_row($qry);
+			if(!empty($row))
+			{
+				$qry = "INSERT INTO spr_submission (spr_no , p10 , p20, p30, p50, comment)
+						VALUES ('".replaceCharArr($spr_no, $checkCharArr)."',
+							'".replaceCharArr($p10, $checkCharArr)."',
+							'".replaceCharArr($p20, $checkCharArr)."',
+							'".replaceCharArr($p30, $checkCharArr)."',
+							'".replaceCharArr($p50, $checkCharArr)."',
+							'".replaceCharArr($comment, $checkCharArr)."')";
 
-                //echo $qry;
-                $conn->execute_query($qry);
-            }
-            else
-            {
-                $msg = "SPR<".$spr_no."> is not present in SPR Tracking list, Please add in SPR Tracking list and then update submission status.";
-            }
+				//echo $qry;
+				$conn->execute_query($qry);
+			}
+			else
+			{
+				$msg = "SPR<".$spr_no."> is not present in SPR Tracking list, Please add in SPR Tracking list and then update submission status.";
+			}
         }
         catch(Exception $e)
         {
@@ -366,15 +366,15 @@
         }
 
         return($msg);
-    }
+	}
 
     function addUpdateSPRSubmissionStatus($spr_no, $version)
     {
         global $conn;
-        $l03 = "";
         $p10 = "";
         $p20 = "";
         $p30 = "";
+        $p50 = "";
 
         // check whethet spr_no already exists or not?
         $qry = "SELECT spr_no FROM spr_submission WHERE spr_no='".$spr_no."'";
@@ -387,11 +387,6 @@
         else
         {
             // if not exists then add it.
-            if($version == "l03")
-                $l03 = "YES";
-            else
-                $l03 = "NO";
-
             if($version == "p10")
                 $p10 = "YES";
             else
@@ -407,7 +402,12 @@
             else
                 $p30 = "NO";
 
-            addSPRSubmissionStatus($spr_no, $l03, $p10, $p20, $p30, "");
+            if($version == "p50")
+                $p50 = "YES";
+            else
+                $p50 = "NO";
+
+            addSPRSubmissionStatus($spr_no, $p10, $p20, $p30, $p50, "");
         }
     }
 
